@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#315ee8">
+  <meta name="description" content="LearnLoop is an educational community for sharing knowledge and learning together.">
+  <title>LearnLoop — Educational Community</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#"><span class="logo">L</span> LearnLoop</a>
+    <label class="search"><span>⌕</span><input id="searchInput" placeholder="Search learning resources..." aria-label="Search posts"></label>
+    <div class="top-actions"><button id="newPostTop" class="primary">＋ Create post</button><button id="accountButton" class="avatar" aria-label="Account">?</button></div>
+  </header>
+  <main class="layout">
+    <aside class="side">
+      <button class="navitem active" data-view="feed">⌂ <span>Home feed</span></button>
+      <button class="navitem" data-view="following">♧ <span>Following</span></button>
+      <button class="navitem" data-view="saved">▣ <span>Saved resources</span></button>
+      <div class="side-label">EXPLORE SUBJECTS</div>
+      <button class="subject" data-subject="Science">🔬 Science</button>
+      <button class="subject" data-subject="Technology">💻 Technology</button>
+      <button class="subject" data-subject="Languages">🌐 Languages</button>
+      <button class="subject" data-subject="Business">📈 Business</button>
+      <button class="subject" data-subject="Research">📚 Research</button>
+      <div class="side-note">Share knowledge. Respect others. Learn together.</div>
+    </aside>
+    <section class="main">
+      <section class="hero">
+        <p class="eyebrow">LEARN TOGETHER · GROW TOGETHER</p>
+        <h1>Knowledge is better when it's shared.</h1>
+        <p>Discover resources, share what you know, and learn from a community that grows together.</p>
+        <button id="heroCreate" class="primary">Share something useful ＋</button>
+      </section>
+
+      <section id="composer" class="panel composer hidden">
+        <h2>Create an educational post</h2>
+        <form id="postForm">
+          <label>What would you like to share?
+            <textarea id="postText" maxlength="10000" placeholder="Share a lesson, idea, story, or resource..." required></textarea>
+          </label>
+          <div class="form-grid">
+            <label>Post type
+              <select id="postType">
+                <option>Discussion</option><option>Document</option><option>Photo</option><option>Video</option><option>Story</option><option>Link</option>
+              </select>
+            </label>
+            <label>Subject
+              <select id="postSubject">
+                <option>General</option><option>Science</option><option>Technology</option><option>Languages</option><option>Business</option><option>Research</option><option>Mathematics</option><option>Health education</option>
+              </select>
+            </label>
+          </div>
+          <label>Attach a document, photo, or video (optional)
+            <input id="postFile" type="file" accept=".pdf,.doc,.docx,.ppt,.pptx,.txt,.csv,.xls,.xlsx,image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,video/quicktime">
+            <small>Maximum 50 MB per file. Uploads are stored in your connected Supabase Storage bucket.</small>
+          </label>
+          <div class="row-actions"><button type="button" id="cancelPost" class="secondary">Cancel</button><button class="primary" type="submit">Publish post</button></div>
+        </form>
+      </section>
+
+      <div class="feed-heading"><h2 id="feedTitle">Your learning feed</h2><select id="sortSelect" aria-label="Sort posts"><option value="latest">Latest</option><option value="popular">Popular</option></select></div>
+      <div id="status" class="status">Connect Supabase to load community posts.</div>
+      <div id="feed"></div>
+    </section>
+    <aside class="right">
+      <section class="panel">
+        <h3>Community guidelines</h3>
+        <ul class="guidelines">
+          <li>Share accurate, helpful educational information.</li>
+          <li>Respect other members in comments.</li>
+          <li>Only upload content you have permission to share.</li>
+          <li>Report harmful, misleading, or abusive posts.</li>
+        </ul>
+      </section>
+      <section class="panel">
+        <h3>Your profile</h3>
+        <div id="profileSummary" class="muted">Sign in to see your profile.</div>
+        <button id="profileButton" class="secondary full">Sign in / Create account</button>
+      </section>
+      <section class="panel revenue-note">
+        <h3>LearnLoop is free</h3>
+        <p class="muted">Registration, educational posts, and standard learning features are free. LearnLoop may use limited, clearly labelled advertising, educational sponsorships, disclosed referral links, and voluntary support to help cover operating costs. We do not sell personal information.</p>
+      </section>
+      <button id="hostDashboardButton" class="secondary full hidden" type="button">⚙ Host revenue settings</button>
+      <p class="fineprint">LearnLoop is a community for learning. Reported content may be reviewed by moderators. Do not post private or sensitive personal information.</p>
+    </aside>
+  </main>
+
+  <dialog id="authDialog">
+    <form method="dialog" class="dialog-close"><button aria-label="Close">×</button></form>
+    <div class="auth-head"><span class="logo">L</span><h2 id="authTitle">Welcome to LearnLoop</h2><p id="authIntro">Sign in or create an account to join the community.</p></div>
+    <div class="auth-tabs"><button id="loginTab" class="active" type="button">Sign in</button><button id="signupTab" type="button">Create account</button></div>
+    <form id="authForm" class="auth-form">
+      <label id="nameWrap" class="hidden">Display name<input id="displayName" maxlength="60" autocomplete="name" placeholder="Your name"></label>
+      <label>Email address<input id="email" type="email" required autocomplete="email" placeholder="you@example.com"></label>
+      <label>Password<input id="password" type="password" required minlength="8" autocomplete="current-password" placeholder="At least 8 characters"></label>
+      <p id="authMessage" class="form-message" role="status"></p>
+      <button id="authSubmit" class="primary full" type="submit">Sign in</button>
+    </form>
+    <p class="fineprint">Use a valid email. Depending on project settings, new accounts may need email confirmation.</p>
+  </dialog>
+
+  <dialog id="profileDialog">
+    <form method="dialog" class="dialog-close"><button aria-label="Close">×</button></form>
+    <h2>Your profile</h2>
+    <form id="profileForm" class="auth-form">
+      <label>Display name<input id="profileName" maxlength="60" required></label>
+      <label>About you<textarea id="profileBio" maxlength="300" placeholder="What do you study or teach?"></textarea></label>
+      <button class="primary full" type="submit">Save profile</button>
+    </form>
+    <button id="signOut" class="secondary full">Sign out</button>
+  </dialog>
+  <dialog id="hostDashboardDialog">
+    <form method="dialog" class="dialog-close"><button aria-label="Close">×</button></form>
+    <h2>Private host settings</h2>
+    <p class="muted">These controls are available only to the account you designate as the platform owner. Changes configure your preferred revenue methods; they do not activate ad networks or create sponsorship/referral agreements automatically.</p>
+    <form id="revenueSettingsForm" class="auth-form">
+      <label class="setting-check"><input type="checkbox" id="revAds"> Limited advertising</label>
+      <label class="setting-check"><input type="checkbox" id="revSponsors"> Educational sponsorships (clearly disclosed)</label>
+      <label class="setting-check"><input type="checkbox" id="revReferrals"> Referral commissions (disclose affiliate links)</label>
+      <label class="setting-check"><input type="checkbox" id="revSupport"> Voluntary support (never required)</label>
+      <label>Ad placement<select id="adPlacement"><option value="limited">Limited ads; keep learning feed clean</option><option value="logged_out">Prefer ads for logged-out visitors</option><option value="none">No ads</option></select></label>
+      <p id="revenueSettingsMessage" class="form-message" role="status"></p>
+      <button class="primary full" type="submit">Save private settings</button>
+    </form>
+  </dialog>
+  <div id="toast" class="toast" role="status"></div>
+  <script type="module" src="/src.js"></script>
+</body>
+</html>
