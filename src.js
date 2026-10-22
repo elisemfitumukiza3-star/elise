@@ -337,7 +337,43 @@ $("signOut").onclick=async()=>{await supabase.auth.signOut();session=null;profil
 $("searchInput").addEventListener("input",renderPosts);
 $("sortSelect").addEventListener("change",renderPosts);
 document.querySelectorAll("[data-subject]").forEach(b=>b.onclick=()=>{activeSubject=activeSubject===b.dataset.subject?null:b.dataset.subject;document.querySelectorAll("[data-subject]").forEach(x=>x.classList.toggle("selected",x.dataset.subject===activeSubject));$("feedTitle").textContent=activeSubject?`${activeSubject} resources`:"Your learning feed";loadPosts();});
-document.querySelectorAll("[data-view]").forEach(b=>b.onclick=()=>{document.querySelectorAll("[data-view]").forEach(x=>x.classList.toggle("active",x===b));if(b.dataset.view==="saved")notify("Saved resources can be added as a future feature.");else if(b.dataset.view==="following")notify("Following feed can be added as a future feature.");else{activeSubject=null;loadPosts();}});
+
+document.querySelectorAll("[data-view]").forEach(b => {
+  b.onclick = () => {
+    document.querySelectorAll("[data-view]").forEach(x =>
+      x.classList.toggle("active", x === b)
+    );
+
+    const view = b.dataset.view;
+    activeSubject = null;
+
+    $("feedTitle").textContent = ({
+      feed: "Your learning feed",
+      following: "Following",
+      saved: "Saved resources",
+      library: "Learning Library",
+      discussions: "Discussions",
+      community: "Community",
+      notifications: "Notifications",
+      dashboard: "Learning Dashboard"
+    })[view] || "Your learning feed";
+
+    if (view === "saved" || view === "following") {
+      notify(view === "saved"
+        ? "Saved resources are not implemented yet."
+        : "Following feed is not implemented yet.");
+      return;
+    }
+
+    if (view !== "feed") {
+      notify("This section is not implemented yet. Your learning feed is still available.");
+      return;
+    }
+
+    loadPosts();
+  };
+});
+
 $("feed").addEventListener("click",async event=>{
   const button=event.target.closest("[data-action]"); if(!button)return;
   const id=button.dataset.id, action=button.dataset.action;
