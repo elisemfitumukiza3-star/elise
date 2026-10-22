@@ -338,6 +338,7 @@ $("searchInput").addEventListener("input",renderPosts);
 $("sortSelect").addEventListener("change",renderPosts);
 document.querySelectorAll("[data-subject]").forEach(b=>b.onclick=()=>{activeSubject=activeSubject===b.dataset.subject?null:b.dataset.subject;document.querySelectorAll("[data-subject]").forEach(x=>x.classList.toggle("selected",x.dataset.subject===activeSubject));$("feedTitle").textContent=activeSubject?`${activeSubject} resources`:"Your learning feed";loadPosts();});
 
+
 document.querySelectorAll("[data-view]").forEach(b => {
   b.onclick = () => {
     document.querySelectorAll("[data-view]").forEach(x =>
@@ -347,7 +348,7 @@ document.querySelectorAll("[data-view]").forEach(b => {
     const view = b.dataset.view;
     activeSubject = null;
 
-    $("feedTitle").textContent = ({
+    const titles = {
       feed: "Your learning feed",
       following: "Following",
       saved: "Saved resources",
@@ -356,7 +357,9 @@ document.querySelectorAll("[data-view]").forEach(b => {
       community: "Community",
       notifications: "Notifications",
       dashboard: "Learning Dashboard"
-    })[view] || "Your learning feed";
+    };
+
+    $("feedTitle").textContent = titles[view] || "Your learning feed";
 
     if (view === "saved" || view === "following") {
       notify(view === "saved"
@@ -365,14 +368,15 @@ document.querySelectorAll("[data-view]").forEach(b => {
       return;
     }
 
-    if (view !== "feed") {
-      notify("This section is not implemented yet. Your learning feed is still available.");
+    if (view === "library" || view === "feed") {
+      loadPosts();
       return;
     }
 
-    loadPosts();
+    notify("This section is not implemented yet. Your learning feed is still available.");
   };
 });
+
 
 $("feed").addEventListener("click",async event=>{
   const button=event.target.closest("[data-action]"); if(!button)return;
