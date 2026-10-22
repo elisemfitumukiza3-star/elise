@@ -164,3 +164,57 @@ body {
     display: block;
   }
 }
+
+/* LearnLoop: style the existing sidebar */
+.side {
+  background: #ffffff;
+  border-right: 1px solid #e3eaf5;
+  padding: 24px 16px;
+}
+
+.side .navitem,
+.side .subject {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 13px;
+  margin-bottom: 7px;
+  border: none;
+  border-radius: 11px;
+  background: transparent;
+  color: #52627b;
+  text-align: left;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.side .navitem:hover,
+.side .subject:hover {
+  background: #edf4ff;
+  color: #155eef;
+}
+
+.side .navitem.active {
+  background: #155eef;
+  color: #ffffff;
+}
+
+.side .side-label {
+  margin: 22px 12px 12px;
+  color: #71809a;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+}
+
+.side .side-note {
+  margin-top: 24px;
+  padding: 15px;
+  border: 1px solid #e3eaf5;
+  border-radius: 14px;
+  background: #f5f8ff;
+  color: #52627b;
+  line-height: 1.5;
+}
