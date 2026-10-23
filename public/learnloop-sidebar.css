@@ -625,3 +625,116 @@ body.library-mode #libraryView .library-book-grid {
   outline: 3px solid #f0c419;
   outline-offset: 3px;
 }
+
+/* LearnLoop Home: colorful, youthful welcome banner */
+.main .hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 42px 38px;
+  margin: 0 0 28px;
+  border: 0;
+  border-radius: 26px;
+  background: linear-gradient(120deg, #087a38 0%, #0ca678 52%, #168aad 100%);
+  color: #ffffff;
+  box-shadow: 0 14px 34px rgba(8, 122, 56, 0.18);
+}
+
+.main .hero::before,
+.main .hero::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.main .hero::before {
+  width: 230px;
+  height: 230px;
+  top: -105px;
+  right: -45px;
+  background: rgba(255, 255, 255, 0.13);
+}
+
+.main .hero::after {
+  width: 150px;
+  height: 150px;
+  right: 125px;
+  bottom: -100px;
+  background: rgba(255, 220, 90, 0.22);
+}
+
+.main .hero .eyebrow {
+  display: inline-block;
+  margin: 0 0 16px;
+  padding: 8px 13px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.main .hero h1 {
+  max-width: 680px;
+  margin: 0 0 16px;
+  color: #ffffff;
+  font-size: clamp(30px, 4vw, 48px);
+  font-weight: 850;
+  line-height: 1.12;
+  letter-spacing: -1.2px;
+}
+
+.main .hero > p:not(.eyebrow) {
+  max-width: 590px;
+  margin: 0 0 26px;
+  color: rgba(255, 255, 255, 0.94);
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.main .hero #heroCreate {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 13px 22px;
+  border: 0;
+  border-radius: 14px;
+  background: #ffffff;
+  color: #087a38;
+  font-size: 15px;
+  font-weight: 800;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.main .hero #heroCreate:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 9px 20px rgba(0, 0, 0, 0.18);
+}
+
+.main .hero #heroCreate:focus-visible {
+  outline: 3px solid #ffdc5a;
+  outline-offset: 4px;
+}
+
+@media (max-width: 640px) {
+  .main .hero {
+    padding: 30px 23px;
+    border-radius: 20px;
+  }
+
+  .main .hero h1 {
+    font-size: 32px;
+    letter-spacing: -0.6px;
+  }
+
+  .main .hero > p:not(.eyebrow) {
+    font-size: 15px;
+  }
+}
