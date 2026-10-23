@@ -249,41 +249,7 @@
   <div id="toast" class="toast" role="status"></div>
   <script type="module" src="/src.js"></script>
   
-<!-- LearnLoop AI Assistant -->
-<div id="learnloopAI" class="ll-ai">
-  <button id="llAiToggle" class="ll-ai-toggle" type="button"
-          aria-label="Open LearnLoop AI Assistant"
-          aria-expanded="false">
-    <span class="ll-ai-icon">✦</span>
-    <span>LearnLoop AI Assistant</span>
-  </button>
 
-  <section id="llAiPanel" class="ll-ai-panel" hidden>
-    <header class="ll-ai-header">
-      <div>
-        <strong>✦ LearnLoop AI Assistant</strong>
-        <small>Your partner in learning</small>
-      </div>
-      <button id="llAiClose" type="button" aria-label="Close assistant">×</button>
-    </header>
-
-    <div id="llAiMessages" class="ll-ai-messages" aria-live="polite">
-      <div class="ll-ai-message">
-        Hello! 👋 I'm your LearnLoop AI Assistant. I can help you understand
-        lessons, explain concepts, and plan your studies. What are you learning today?
-      </div>
-    </div>
-
-    <form id="llAiForm" class="ll-ai-form">
-      <label class="ll-ai-sr" for="llAiInput">Your learning question</label>
-      <textarea id="llAiInput" rows="2" maxlength="2000"
-        placeholder="Ask a learning question..." required></textarea>
-      <button type="submit" aria-label="Send question">➤</button>
-    </form>
-    <p class="ll-ai-note">Check important answers against trusted learning resources.</p>
-  </section>
-</div>
-  
 
 <script>
 (() => {
