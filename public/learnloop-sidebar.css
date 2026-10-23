@@ -1176,3 +1176,49 @@ body {
 .layout > .side .navitem.active span {
   color: #ffffff !important;
 }
+
+/* LearnLoop: align sidebar icons and labels horizontally */
+.layout > .side .navitem {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 12px !important;
+
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 46px !important;
+  height: auto !important;
+  padding: 10px 12px !important;
+  margin: 0 0 5px !important;
+
+  box-sizing: border-box !important;
+  text-align: left !important;
+  line-height: 1.4 !important;
+}
+
+.layout > .side .navitem > span:first-child {
+  flex: 0 0 auto !important;
+  display: inline-block !important;
+  white-space: nowrap !important;
+}
+
+.layout > .side .navitem span {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  display: inline-block !important;
+  text-align: left !important;
+  white-space: nowrap !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  color: inherit !important;
+}
+
+.layout > .side .navitem.active {
+  color: #ffffff !important;
+}
+
+.layout > .side .navitem.active span {
+  color: #ffffff !important;
+}
