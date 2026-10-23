@@ -401,3 +401,23 @@ body.ll-sidebar-enabled {
 .side .subject:focus-visible > span {
   display: block;
 }
+
+/* Final fix: hide every sidebar label by default */
+.side .navitem > span,
+.side .subject > span {
+  display: none !important;
+  position: fixed !important;
+  left: 63px !important;
+  width: max-content;
+  max-width: 220px;
+  white-space: normal;
+  z-index: 9999;
+}
+
+/* Show labels only for the icon being hovered or focused */
+.side .navitem:hover > span,
+.side .navitem:focus-visible > span,
+.side .subject:hover > span,
+.side .subject:focus-visible > span {
+  display: block !important;
+}
