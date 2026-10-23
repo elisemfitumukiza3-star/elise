@@ -1223,3 +1223,69 @@ body {
   color: #ffffff !important;
 }
 
+/* Fix LearnLoop sidebar: icon and name on the same row */
+.layout > .side {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  gap: 6px !important;
+}
+
+.layout > .side > button.navitem {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 10px !important;
+
+  width: 100% !important;
+  min-width: 0 !important;
+  height: auto !important;
+  min-height: 44px !important;
+  flex: 0 0 auto !important;
+
+  margin: 0 !important;
+  padding: 10px 12px !important;
+  box-sizing: border-box !important;
+  overflow: visible !important;
+  white-space: nowrap !important;
+  text-align: left !important;
+  line-height: 1.4 !important;
+}
+
+.layout > .side > button.navitem > span {
+  display: inline !important;
+  flex: 0 1 auto !important;
+  width: auto !important;
+  min-width: 0 !important;
+  height: auto !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+  position: static !important;
+  transform: none !important;
+
+  color: inherit !important;
+  background: transparent !important;
+  white-space: nowrap !important;
+  overflow: visible !important;
+  text-align: left !important;
+  line-height: 1.4 !important;
+}
+
+.layout > .side > button.navitem.active {
+  color: #ffffff !important;
+  background: linear-gradient(100deg, #087a38, #0ca678) !important;
+}
+
+.layout > .side > button.navitem:not(.active) {
+  color: #315442 !important;
+  background: transparent !important;
+}
+
+.layout > .side > button.navitem:not(.active):hover {
+  background: #dff5e7 !important;
+  color: #087a38 !important;
+}
+
