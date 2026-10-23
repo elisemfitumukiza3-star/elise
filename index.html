@@ -224,19 +224,3 @@
 </body>
 </html>
 
-/* LearnLoop: Back to Home button */
-(() => {
-  const backButton = document.getElementById("libraryBackHome");
-
-  if (!backButton) return;
-
-  backButton.addEventListener("click", () => {
-    const homeButton = document.querySelector(
-      '.navitem[data-view="feed"]'
-    );
-
-    if (homeButton) {
-      homeButton.click();
-    }
-  });
-})();
