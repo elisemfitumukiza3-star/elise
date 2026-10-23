@@ -181,124 +181,52 @@
   </div>
 </section>
   
-<!-- LearnLoop Following Window -->
-<section id="followingView" class="following-window hidden">
-  <header class="following-header">
-    <h2>💜 Your LearnLoop Community</h2>
-    <p>Discover learners, connect, and grow together.</p>
-  </header>
+
+<section id="followingView" class="following-page hidden">
+  <div class="following-header">
+    <span class="following-eyebrow">LEARNLOOP COMMUNITY</span>
+    <h1>Find your learning people</h1>
+    <p>Follow learners and share knowledge together.</p>
+  </div>
 
   <div class="following-tabs">
-    <button type="button" class="following-tab active" data-follow-tab="discover">
-      People to Follow
+    <button class="following-tab active" type="button">
+      Discover people
     </button>
-    <button type="button" class="following-tab" data-follow-tab="following">
-      People You Follow
+    <button class="following-tab" type="button">
+      People I follow
     </button>
   </div>
 
-  <div id="peopleToFollow" class="people-grid">
-    <p>Discovering LearnLoop members…</p>
-  </div>
+  <h2>People you may like</h2>
+  <p class="following-intro">
+    Discover classmates, educators, and people who share your interests.
+  </p>
 
-  <div id="peopleYouFollow" class="people-grid hidden">
-    <p>Loading people you follow…</p>
+  <div class="following-grid">
+    <article class="following-card">
+      <div class="following-avatar">📚</div>
+      <h3>Science Learner</h3>
+      <p>Exploring science and new ideas.</p>
+      <button class="follow-button" type="button">+ Follow</button>
+    </article>
+
+    <article class="following-card">
+      <div class="following-avatar">✍️</div>
+      <h3>Study & Writing</h3>
+      <p>Sharing notes and study tips.</p>
+      <button class="follow-button" type="button">+ Follow</button>
+    </article>
+
+    <article class="following-card">
+      <div class="following-avatar">🌍</div>
+      <h3>Knowledge Explorer</h3>
+      <p>Learning about our world together.</p>
+      <button class="follow-button" type="button">+ Follow</button>
+    </article>
   </div>
 </section>
 
-
-</section>
-
-    </section>
-    <aside class="right">
-      <section class="panel">
-        <h3>Community guidelines</h3>
-        <ul class="guidelines">
-          <li>Share accurate, helpful educational information.</li>
-          <li>Respect other members in comments.</li>
-          <li>Only upload content you have permission to share.</li>
-          <li>Report harmful, misleading, or abusive posts.</li>
-        </ul>
-      </section>
-      <section class="panel">
-        <h3>Your profile</h3>
-        <div id="profileSummary" class="muted">Sign in to see your profile.</div>
-        <button id="profileButton" class="secondary full">Sign in / Create account</button>
-      </section>
-      <section class="panel revenue-note">
-        <h3>LearnLoop is free</h3>
-        <p class="muted">Registration, educational posts, and standard learning features are free. LearnLoop may use limited, clearly labelled advertising, educational sponsorships, disclosed referral links, and voluntary support to help cover operating costs. We do not sell personal information.</p>
-      </section>
-      <button id="hostDashboardButton" class="secondary full hidden" type="button">⚙ Host revenue settings</button>
-      <p class="fineprint">LearnLoop is a community for learning. Reported content may be reviewed by moderators. Do not post private or sensitive personal information.</p>
-    </aside>
-  </main>
-
-  <dialog id="authDialog">
-    <form method="dialog" class="dialog-close"><button aria-label="Close">×</button></form>
-    <div class="auth-head"><span class="logo">L</span><h2 id="authTitle">Welcome to LearnLoop</h2><p id="authIntro">Sign in or create an account to join the community.</p></div>
-    <div class="auth-tabs"><button id="loginTab" class="active" type="button">Sign in</button><button id="signupTab" type="button">Create account</button></div>
-    <form id="authForm" class="auth-form">
-      <label id="nameWrap" class="hidden">Display name<input id="displayName" maxlength="60" autocomplete="name" placeholder="Your name"></label>
-      <label>Email address<input id="email" type="email" required autocomplete="email" placeholder="you@example.com"></label>
-      <label>Password<input id="password" type="password" required minlength="8" autocomplete="current-password" placeholder="At least 8 characters"></label>
-      <p id="authMessage" class="form-message" role="status"></p>
-      <button id="authSubmit" class="primary full" type="submit">Sign in</button>
-    </form>
-    <p class="fineprint">Use a valid email. Depending on project settings, new accounts may need email confirmation.</p>
-  </dialog>
-
-  <dialog id="profileDialog">
-    <form method="dialog" class="dialog-close"><button aria-label="Close">×</button></form>
-    <h2>Your profile</h2>
-    <form id="profileForm" class="auth-form">
-      <label>Display name<input id="profileName" maxlength="60" required></label>
-      <label>About you<textarea id="profileBio" maxlength="300" placeholder="What do you study or teach?"></textarea></label>
-      <button class="primary full" type="submit">Save profile</button>
-    </form>
-    <button id="signOut" class="secondary full">Sign out</button>
-  </dialog>
-  <dialog id="hostDashboardDialog">
-    <form method="dialog" class="dialog-close"><button aria-label="Close">×</button></form>
-    <h2>Private host settings</h2>
-    <p class="muted">These controls are available only to the account you designate as the platform owner. Changes configure your preferred revenue methods; they do not activate ad networks or create sponsorship/referral agreements automatically.</p>
-    <form id="revenueSettingsForm" class="auth-form">
-      <label class="setting-check"><input type="checkbox" id="revAds"> Limited advertising</label>
-      <label class="setting-check"><input type="checkbox" id="revSponsors"> Educational sponsorships (clearly disclosed)</label>
-      <label class="setting-check"><input type="checkbox" id="revReferrals"> Referral commissions (disclose affiliate links)</label>
-      <label class="setting-check"><input type="checkbox" id="revSupport"> Voluntary support (never required)</label>
-      <label>Ad placement<select id="adPlacement"><option value="limited">Limited ads; keep learning feed clean</option><option value="logged_out">Prefer ads for logged-out visitors</option><option value="none">No ads</option></select></label>
-      <p id="revenueSettingsMessage" class="form-message" role="status"></p>
-      <button class="primary full" type="submit">Save private settings</button>
-    </form>
-  </dialog>
-  <div id="toast" class="toast" role="status"></div>
-  <script type="module" src="/src.js"></script>
-  
-
-
-<script>
-(() => {
-  const toggle = document.getElementById("llAiToggle");
-  const panel = document.getElementById("llAiPanel");
-  const close = document.getElementById("llAiClose");
-  const form = document.getElementById("llAiForm");
-  const input = document.getElementById("llAiInput");
-  const messages = document.getElementById("llAiMessages");
-
-  if (!toggle || !panel || !close || !form) return;
-
-  function setOpen(open) {
-    panel.hidden = !open;
-    toggle.setAttribute("aria-expanded", String(open));
-    if (open) input.focus();
-  }
-
-  toggle.addEventListener("click", () => setOpen(panel.hidden));
-  close.addEventListener("click", () => {
-    setOpen(false);
-    toggle.focus();
-  });
 
  
 
