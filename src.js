@@ -707,3 +707,30 @@ document.addEventListener("click", function (event) {
     homeButton.click();
   }
 });
+
+/* LearnLoop: Make Library Back to Home work */
+document.addEventListener("click", function (event) {
+  const button = event.target.closest("#libraryBackHome");
+  if (!button) return;
+
+  event.preventDefault();
+
+  const homeButton = document.querySelector(
+    '.navitem[data-view="feed"]'
+  );
+
+  if (homeButton) {
+    homeButton.click();
+  } else {
+    const library = document.getElementById("libraryView");
+    const feed = document.getElementById("feed");
+
+    if (library) library.classList.add("hidden");
+    if (feed) feed.classList.remove("hidden");
+
+    document.body.classList.remove("library-mode");
+
+    const feedTitle = document.getElementById("feedTitle");
+    if (feedTitle) feedTitle.textContent = "Your learning feed";
+  }
+});
