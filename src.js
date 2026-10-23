@@ -397,12 +397,27 @@ document.querySelectorAll("[data-view]").forEach(b => {
     // Library is displayed on its own
     if (view === "library") return;
 
-    if (view === "saved" || view === "following") {
-      notify(view === "saved"
-        ? "Saved resources are not implemented yet."
-        : "Following feed is not implemented yet.");
-      return;
-    }
+  if (view === "following") {
+  document.body.classList.add("following-mode");
+
+  const followingView = $("followingView");
+  if (followingView) followingView.classList.remove("hidden");
+
+  if (feed) feed.classList.add("hidden");
+  if (library) library.classList.add("hidden");
+
+  return;
+}
+
+document.body.classList.remove("following-mode");
+
+const followingView = $("followingView");
+if (followingView) followingView.classList.add("hidden");
+
+if (view === "saved") {
+  notify("Saved resources are not implemented yet.");
+  return;
+}
 
     if (view === "feed") {
       loadPosts();
