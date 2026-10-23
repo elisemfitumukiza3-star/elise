@@ -1289,3 +1289,25 @@ body {
   color: #087a38 !important;
 }
 
+/* LearnLoop: let the sidebar scroll naturally with the page */
+.layout > .side {
+  position: static !important;
+  top: auto !important;
+  align-self: start !important;
+
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+  overflow-y: visible !important;
+}
+
+/* Keep icon and label aligned horizontally */
+.layout > .side > button.navitem {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 10px !important;
+}
+
