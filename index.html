@@ -85,51 +85,54 @@
   >
 
  
+
 <div id="libraryResults">
   <div class="library-welcome">
     <h3>📚 Welcome to the Learning Library</h3>
-    <p>Explore subjects, discover knowledge, and grow your skills with LearnLoop.</p>
+    <p>Choose a subject to explore books, lessons, notes, and related topics.</p>
   </div>
 
-  <div class="library-book-grid">
-    <div class="library-book">
+  <div class="library-book-grid" id="librarySubjects">
+    <button type="button" class="library-book" data-library-subject="Science">
       <div class="book-cover">🔬</div>
       <h4>Science</h4>
-      <p>Discover scientific ideas and knowledge.</p>
-    </div>
+      <p>Biology, Chemistry, Physics</p>
+    </button>
 
-    <div class="library-book">
+    <button type="button" class="library-book" data-library-subject="Technology">
       <div class="book-cover">💻</div>
       <h4>Technology</h4>
-      <p>Explore computers and digital skills.</p>
-    </div>
+      <p>Computers, Coding, Digital Skills</p>
+    </button>
 
-    <div class="library-book">
+    <button type="button" class="library-book" data-library-subject="Languages">
       <div class="book-cover">🌐</div>
       <h4>Languages</h4>
-      <p>Improve language and communication skills.</p>
-    </div>
+      <p>English, French, Kinyarwanda</p>
+    </button>
 
-    <div class="library-book">
+    <button type="button" class="library-book" data-library-subject="Mathematics">
       <div class="book-cover">📐</div>
       <h4>Mathematics</h4>
-      <p>Explore numbers, formulas, and problem-solving.</p>
-    </div>
+      <p>Algebra, Geometry, Statistics</p>
+    </button>
 
-    <div class="library-book">
+    <button type="button" class="library-book" data-library-subject="Business">
       <div class="book-cover">📈</div>
       <h4>Business</h4>
-      <p>Learn about business and entrepreneurship.</p>
-    </div>
+      <p>Entrepreneurship, Management, Accounting</p>
+    </button>
 
-    <div class="library-book">
+    <button type="button" class="library-book" data-library-subject="General Studies">
       <div class="book-cover">📖</div>
       <h4>General Studies</h4>
-      <p>Explore more learning topics.</p>
-    </div>
+      <p>Health, Citizenship, Research</p>
+    </button>
   </div>
+
+  <div id="librarySubjectDetails" class="hidden"></div>
 </div>
- 
+
 </section>
 
     </section>
