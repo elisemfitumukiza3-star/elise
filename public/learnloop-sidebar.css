@@ -426,3 +426,9 @@ body.ll-sidebar-enabled {
 .side .subject {
   display: none !important;
 }
+
+/* Completely remove subject buttons from the sidebar */
+.side button.subject,
+.side .subject {
+  display: none !important;
+}
