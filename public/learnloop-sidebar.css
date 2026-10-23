@@ -421,3 +421,8 @@ body.ll-sidebar-enabled {
 .side .subject:focus-visible > span {
   display: block !important;
 }
+
+/* Hide subject names in the sidebar completely */
+.side .subject {
+  display: none !important;
+}
