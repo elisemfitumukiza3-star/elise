@@ -243,16 +243,37 @@ async function publishPost(event) {
   } catch (error) { notify(error.message || "Could not publish post."); }
   finally { button.disabled = false; button.textContent = "Publish post"; }
 }
+
 async function toggleLike(id) {
   if (!session) return showAuth();
-  const post = posts.find(p=>p.id===id); if (!post) return;
-  const liked = (post.my_reaction||[]).length > 0;
+
+  const post = posts.find(p => p.id === id);
+  if (!post) return;
+
+  const liked = (post.my_reaction || []).length > 0;
+
   const result = liked
-    ? await supabase.from("reactions").delete().eq("post_id",id).eq("user_id",session.user.id)
-    : await supabase.from("reactions").insert({post_id:id,user_id:session.user.id,kind:"like"});
-  if (result.error) return notify(result.error.message);
- 
-async function saveProfile(event) {
+    ? await supabase
+        .from("reactions")
+        .delete()
+        .eq("post_id", id)
+        .eq("user_id", session.user.id)
+    : await supabase
+        .from("reactions")
+        .insert({
+          post_id: id,
+          user_id: session.user.id,
+          kind: "like"
+        });
+
+  if (result.error) {
+    notify(result.error.message);
+    return;
+  }
+
+  await loadPosts();
+}
+
   event.preventDefault();
 
   if (!session) return showAuth();
