@@ -251,80 +251,45 @@ async function toggleLike(id) {
     ? await supabase.from("reactions").delete().eq("post_id",id).eq("user_id",session.user.id)
     : await supabase.from("reactions").insert({post_id:id,user_id:session.user.id,kind:"like"});
   if (result.error) return notify(result.error.message);
+ 
+async function saveProfile(event) {
+  event.preventDefault();
+
+  if (!session) return showAuth();
+
+  const display_name = $("profileName").value.trim();
+  const bio = $("profileBio").value.trim();
+  const full_name = $("profileFullName").value.trim();
+  const phone_number = $("profilePhone").value.trim();
+  const institution = $("profileInstitution").value.trim();
+  const study_level = $("profileStudyLevel").value.trim();
+  const interests = $("profileInterests").value.trim();
+
+  const { error } = await supabase.from("profiles").upsert({
+    id: session.user.id,
+    display_name,
+    bio,
+    full_name,
+    phone_number,
+    phone_is_public: false,
+    institution,
+    study_level,
+    interests,
+    updated_at: new Date().toISOString()
+  });
+
+  if (error) {
+    notify("Could not save profile: " + error.message);
+    return;
+  }
+
+  await loadProfile();
+  updateAccountUI();
+  $("profileDialog").close();
+  notify("Profile updated successfully.");
   await loadPosts();
 }
-async function openComments(id) {
-  const section = $(`comments-${id}`);
-  section.classList.toggle("show");
-  if (!section.classList.contains("show")) return;
-  const {data,error} = await supabase.from("comments").select("id,body,created_at,user_id,profiles:user_id(display_name)").eq("post_id",id).eq("status","published").order("created_at",{ascending:true}).limit(100);
-  if (error) return notify(error.message);
-  $(`comment-list-${id}`).innerHTML = (data||[]).map(c=>`<p><strong>${esc(c.profiles?.display_name||"Member")}:</strong> ${esc(c.body)}</p>`).join("") || `<p class="muted">No comments yet. Start a helpful discussion.</p>`;
-}
-async function sharePost(id) {
-  const url = `${location.origin}${location.pathname}#post-${encodeURIComponent(id)}`;
-  try {
-    if (navigator.share) await navigator.share({title:"LearnLoop educational resource",url});
-    else { await navigator.clipboard.writeText(url); notify("Post link copied."); }
-  } catch (e) { if (e.name !== "AbortError") notify("Unable to share from this browser."); }
-}
-async function repost(id) {
-  if (!session) return showAuth();
-  const post = posts.find(p=>p.id===id); if (!post) return;
-  const {error} = await supabase.from("posts").insert({
-    user_id:session.user.id, body:post.body, post_type:post.post_type, subject:post.subject,
-    repost_of:post.repost_of || post.id, status:"published"
-  });
-  if (error) return notify(error.message);
-  notify("Reposted with a link to the original post."); await loadPosts();
-}
-async function reportPost(id) {
-  if (!session) return showAuth();
-  const reason = prompt("Why are you reporting this post? Choose or type a reason (e.g. spam, harassment, misinformation, copyright).");
-  if (!reason?.trim()) return;
-  const details = prompt("Optional details for the moderators (or leave blank).") || "";
-  const {error} = await supabase.from("reports").insert({reporter_id:session.user.id,post_id:id,reason:reason.trim().slice(0,100),details:details.trim().slice(0,1000)});
-  notify(error ? error.message : "Report sent to moderators. Thank you for helping keep the community safe.");
-}
-async function deletePost(id) {
-  if (!session || !confirm("Delete your post? This cannot be undone.")) return;
-  const {error} = await supabase.from("posts").delete().eq("id",id).eq("user_id",session.user.id);
-  if (error) return notify(error.message);
-  notify("Post deleted."); await loadPosts();
-}
-async function authSubmit(event) {
-  event.preventDefault();
-  if (!requireConfig()) return;
-  const email=$("email").value.trim(), password=$("password").value;
-  $("authSubmit").disabled=true; $("authMessage").textContent="";
-  try {
-    if (authMode==="signup") {
-      const display_name=$("displayName").value.trim();
-      const {data,error}=await supabase.auth.signUp({email,password,options:{data:{display_name}}});
-      if (error) throw error;
-      if (data.session) {
-        await supabase.from("profiles").upsert({id:data.user.id,display_name});
-        notify("Account created. Welcome to LearnLoop!"); $("authDialog").close(); await refreshSession();
-      } else {
-        $("authMessage").textContent="Account created. Check your email to confirm your address, then sign in.";
-      }
-    } else {
-      const {error}=await supabase.auth.signInWithPassword({email,password});
-      if (error) throw error;
-      $("authDialog").close(); notify("Signed in successfully."); await refreshSession();
-    }
-  } catch(error) { $("authMessage").textContent=error.message || "Authentication failed."; }
-  finally { $("authSubmit").disabled=false; }
-}
-async function saveProfile(event) {
-  event.preventDefault(); if (!session) return showAuth();
-  const display_name=$("profileName").value.trim(), bio=$("profileBio").value.trim();
-  const {error}=await supabase.from("profiles").upsert({id:session.user.id,display_name,bio,updated_at:new Date().toISOString()});
-  if (error) return notify(error.message);
-  await loadProfile(); updateAccountUI(); $("profileDialog").close(); notify("Profile updated."); await loadPosts();
-}
 
-$("loginTab").onclick=()=>{authMode="login";updateAuthMode();};
 $("signupTab").onclick=()=>{authMode="signup";updateAuthMode();};
 $("authForm").addEventListener("submit",authSubmit);
 $("postForm").addEventListener("submit",publishPost);
