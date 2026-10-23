@@ -200,21 +200,12 @@ async function openHostDashboard() {
   $("hostDashboardDialog").showModal();
 }
 async function saveRevenueSettings(event) {
-  event.preventDefault();
-  if (!session || !isPlatformOwner) return notify("Not authorized to change host settings.");
-  const enabled_methods = [];
-  if ($("revAds").checked) enabled_methods.push("ads");
-  if ($("revSponsors").checked) enabled_methods.push("sponsorships");
-  if ($("revReferrals").checked) enabled_methods.push("referrals");
-  if ($("revSupport").checked) enabled_methods.push("support");
-  if (!enabled_methods.length) { $("revenueSettingsMessage").textContent = "Select at least one host revenue method."; return; }
-  const { error } = await supabase.from("platform_revenue_settings").upsert({id:true,enabled_methods,ad_placement:$("adPlacement").value,updated_at:new Date().toISOString()});
-  if (error) { $("revenueSettingsMessage").textContent = "Could not save settings: " + error.message; return; }
-  $("hostDashboardDialog").close(); notify("Private host revenue preferences saved.");
-}
+ }
 
-async function publishPost(event) {
+async function saveProfile(event) {
   event.preventDefault();
+
+  if (!session) return showAuth();
   if (!requireConfig()) return;
   if (!session) { showAuth("login"); notify("Please sign in before publishing."); return; }
   const body = $("postText").value.trim(), file = $("postFile").files[0];
