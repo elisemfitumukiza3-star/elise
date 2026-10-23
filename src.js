@@ -731,3 +731,127 @@ function openPreview(bookId) {
     });
   }
 })();
+
+/* LearnLoop: Open Library book search */
+(() => {
+  const search = document.getElementById("librarySearch");
+  const results = document.getElementById("googleBooksResults");
+  const status = document.getElementById("googleBooksStatus");
+
+  if (!search || !results || !status) return;
+
+  let timer;
+  let requestNumber = 0;
+
+  function make(tag, text, className) {
+    const el = document.createElement(tag);
+    if (text !== undefined) el.textContent = text;
+    if (className) el.className = className;
+    return el;
+  }
+
+  async function searchOpenLibrary(query) {
+    const current = ++requestNumber;
+    results.replaceChildren();
+
+    if (!query.trim()) {
+      status.textContent = "Search for a book, author, or subject above.";
+      return;
+    }
+
+    status.textContent = "Searching Open Library...";
+
+    try {
+      const url = new URL("https://openlibrary.org/search.json");
+      url.searchParams.set("q", query.trim());
+      url.searchParams.set("limit", "12");
+      url.searchParams.set("fields",
+        "key,title,author_name,first_publish_year,cover_i,ebook_access,has_fulltext"
+      );
+
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Book search failed (${response.status}).`);
+      }
+
+      const data = await response.json();
+      if (current !== requestNumber) return;
+
+      const books = data.docs || [];
+
+      if (!books.length) {
+        status.textContent = "No books found. Try another search.";
+        return;
+      }
+
+      status.textContent =
+        `Found ${data.numFound.toLocaleString()} matching records. Showing ${books.length}.`;
+
+      books.forEach(book => {
+        const card = make("article", undefined, "library-book");
+
+        const cover = make("div", undefined, "book-cover");
+
+        if (book.cover_i) {
+          const img = document.createElement("img");
+          img.src = `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`;
+          img.alt = `Cover of ${book.title || "book"}`;
+          img.loading = "lazy";
+          img.style.cssText =
+            "max-width:100%;max-height:150px;object-fit:contain";
+          img.onerror = () => {
+            img.remove();
+            cover.textContent = "📘";
+          };
+          cover.appendChild(img);
+        } else {
+          cover.textContent = "📘";
+        }
+
+        card.appendChild(cover);
+        card.appendChild(make("h4", book.title || "Untitled book"));
+        card.appendChild(make(
+          "p",
+          (book.author_name || ["Author not listed"]).slice(0, 3).join(", ")
+        ));
+
+        if (book.first_publish_year) {
+          card.appendChild(make("p", `First published: ${book.first_publish_year}`));
+        }
+
+        const access = book.ebook_access || "unknown";
+        const accessText = {
+          borrowable: "Online borrowing may be available",
+          public: "Online reading may be available",
+          printdisabled: "Access may be restricted",
+          no_ebook: "No online edition listed"
+        };
+
+        card.appendChild(make(
+          "p",
+          accessText[access] || "Check the book's available access options."
+        ));
+
+        const link = document.createElement("a");
+        link.href = `https://openlibrary.org${book.key}`;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = "View book details ↗";
+        link.style.cssText =
+          "display:inline-block;margin-top:10px;color:#16834a;font-weight:600";
+        card.appendChild(link);
+
+        results.appendChild(card);
+      });
+    } catch (error) {
+      if (current !== requestNumber) return;
+      status.textContent =
+        error.message || "Unable to load books. Please try again.";
+    }
+  }
+
+  search.addEventListener("input", () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => searchOpenLibrary(search.value), 600);
+  });
+})();
