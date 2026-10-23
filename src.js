@@ -209,7 +209,12 @@ function linkifyText(value = "") {
     }
   );
 }
-  );
+
+function requireLogin() {
+  if (state.session) return true;
+  openDialog("authDialog");
+  toast("Please log in to use this feature.", "error");
+  return false;
 }
 
 function requireLogin() {
