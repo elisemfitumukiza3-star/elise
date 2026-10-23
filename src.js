@@ -765,3 +765,23 @@ document.addEventListener("click", function (event) {
     }
   });
 })();
+
+/* LearnLoop: compact navigation on scroll */
+(() => {
+  const compactBar = document.getElementById("compactSidebar");
+  if (!compactBar) return;
+
+  window.addEventListener("scroll", () => {
+    compactBar.classList.toggle("visible", window.scrollY > 180);
+  }, { passive: true });
+
+  compactBar.querySelectorAll("button[data-view]").forEach(button => {
+    button.addEventListener("click", () => {
+      const originalButton = document.querySelector(
+        `.side .navitem[data-view="${button.dataset.view}"]`
+      );
+
+      if (originalButton) originalButton.click();
+    });
+  });
+})();
