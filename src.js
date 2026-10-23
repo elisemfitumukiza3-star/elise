@@ -330,7 +330,21 @@ $("postForm").addEventListener("submit",publishPost);
 $("profileForm").addEventListener("submit",saveProfile);
 $("revenueSettingsForm").addEventListener("submit",saveRevenueSettings);
 $("hostDashboardButton").addEventListener("click",openHostDashboard);
-$("newPostTop").onclick=$("heroCreate").onclick=()=>{if(!session)return showAuth();$("composer").classList.remove("hidden");$("composer").scrollIntoView({behavior:"smooth",block:"center"});$("postText").focus();};
+
+$("newPostTop").onclick = () => {
+  if (!session) return showAuth();
+
+  $("composer").classList.remove("hidden");
+  $("composer").scrollIntoView({ behavior: "smooth", block: "center" });
+  $("postText").focus();
+};
+
+$("heroCreate").onclick = () => {
+  if (!session) return showAuth();
+
+  window.open("create-post.html", "_blank");
+};
+
 $("cancelPost").onclick=()=>$("composer").classList.add("hidden");
 $("profileButton").onclick=$("accountButton").onclick=()=>{if(!session)return showAuth();$("profileName").value=profile?.display_name||"";$("profileBio").value=profile?.bio||"";$("profileDialog").showModal();};
 $("signOut").onclick=async()=>{await supabase.auth.signOut();session=null;profile=null;$("profileDialog").close();updateAccountUI();await loadPosts();notify("Signed out.");};
