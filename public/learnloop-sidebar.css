@@ -1122,3 +1122,57 @@ body {
     overflow: visible !important;
   }
 }
+
+/* LearnLoop: keep each sidebar icon and label on one bar */
+.layout > .side .navitem {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 10px !important;
+
+  width: 100% !important;
+  min-height: 44px !important;
+  height: auto !important;
+  margin: 0 0 5px !important;
+  padding: 11px 12px !important;
+
+  border: 0 !important;
+  border-radius: 12px !important;
+  box-sizing: border-box !important;
+
+  color: #315442 !important;
+  background: transparent !important;
+  text-align: left !important;
+  white-space: normal !important;
+  line-height: 1.35 !important;
+}
+
+.layout > .side .navitem span {
+  display: inline !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  width: auto !important;
+  height: auto !important;
+
+  color: inherit !important;
+  background: transparent !important;
+  text-align: left !important;
+  white-space: normal !important;
+  overflow-wrap: break-word !important;
+  line-height: 1.35 !important;
+}
+
+.layout > .side .navitem.active {
+  color: #ffffff !important;
+  background: linear-gradient(100deg, #087a38, #0ca678) !important;
+}
+
+.layout > .side .navitem:hover:not(.active) {
+  color: #087a38 !important;
+  background: #dff5e7 !important;
+}
+
+.layout > .side .navitem.active span {
+  color: #ffffff !important;
+}
