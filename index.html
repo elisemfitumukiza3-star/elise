@@ -63,7 +63,7 @@
           </div>
           <label>Attach a document, photo, or video (optional)
             <input id="postFile" type="file" accept=".pdf,.doc,.docx,.ppt,.pptx,.txt,.csv,.xls,.xlsx,image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,video/quicktime">
-            <small>Maximum 50 MB per file. Uploads are stored in your connected Supabase Storage bucket.</small>
+            <small>Maximum 500 MB per file. Uploads are stored in your connected Supabase Storage bucket.</small>
           </label>
           <div class="row-actions"><button type="button" id="cancelPost" class="secondary">Cancel</button><button class="primary" type="submit">Publish post</button></div>
         </form>
@@ -72,6 +72,23 @@
       <div class="feed-heading"><h2 id="feedTitle">Your learning feed</h2><select id="sortSelect" aria-label="Sort posts"><option value="latest">Latest</option><option value="popular">Popular</option></select></div>
       <div id="status" class="status">Connect Supabase to load community posts.</div>
       <div id="feed"></div>
+      
+<section id="libraryView" class="panel hidden">
+  <h2>📚 Learning Library</h2>
+  <p class="muted">Discover educational documents and resources shared by the LearnLoop community.</p>
+
+  <input
+    id="librarySearch"
+    type="search"
+    placeholder="Search learning resources..."
+    aria-label="Search learning resources"
+  >
+
+  <div id="libraryResults">
+    <p class="muted">Your learning resources will appear here.</p>
+  </div>
+</section>
+
     </section>
     <aside class="right">
       <section class="panel">
