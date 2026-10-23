@@ -970,3 +970,30 @@ body {
     padding: 10px 8px;
   }
 }
+
+/* Restore the LearnLoop brand and logo */
+.topbar .brand {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  color: #087a38 !important;
+  text-decoration: none !important;
+  font-size: 23px !important;
+  font-weight: 800 !important;
+  white-space: nowrap !important;
+}
+
+.topbar .brand .logo {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 42px !important;
+  height: 42px !important;
+  flex-shrink: 0 !important;
+  border-radius: 13px !important;
+  background: linear-gradient(135deg, #087a38, #0ca678) !important;
+  color: #ffffff !important;
+  font-size: 25px !important;
+  font-weight: 900 !important;
+  box-shadow: 0 4px 12px rgba(8, 122, 56, 0.2) !important;
+}
