@@ -372,3 +372,32 @@ body.ll-sidebar-enabled {
     width: 58px;
   }
 }
+
+/* Keep sidebar labels visible, including near the bottom */
+.side {
+  overflow-x: visible !important;
+  overflow-y: auto;
+}
+
+.side .navitem,
+.side .subject {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.side .navitem > span,
+.side .subject > span {
+  position: fixed;
+  left: 63px;
+  top: auto;
+  transform: translateY(-50%);
+  z-index: 9999;
+}
+
+/* Keep the hover label visible when the pointer is on it */
+.side .navitem:hover > span,
+.side .navitem:focus-visible > span,
+.side .subject:hover > span,
+.side .subject:focus-visible > span {
+  display: block;
+}
