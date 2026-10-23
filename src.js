@@ -634,15 +634,16 @@ async function loadPosts() {
     state.posts = data || [];
     renderAllFeeds();
     await updateDashboard();
-  } catch (error) {
+    } catch (error) {
     console.error("Post loading error:", error);
     const feed = $("#feed");
+
     if (feed) {
-      feed.innerHTML = `
-        <div class="empty-state">
-          <h3>We couldn't load the feed</h3>
-          <p>${escapeHTML(error.message)}</p>
-        </div>`;
+      feed.innerHTML =
+        '<div class="empty-state">' +
+        '<h3>We couldn\'t load the feed</h3>' +
+        '<p>' + escapeHTML(error.message || "Please try again.") + '</p>' +
+        '</div>';
     }
   } finally {
     state.loadingPosts = false;
