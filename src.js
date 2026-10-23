@@ -199,74 +199,49 @@ async function openHostDashboard() {
   $("revenueSettingsMessage").textContent = "";
   $("hostDashboardDialog").showModal();
 }
+
 async function saveRevenueSettings(event) {
- }
+  event.preventDefault();
+
+  if (!session || !isPlatformOwner) {
+    return notify("Not authorized to change host settings.");
+  }
+
+  const enabled_methods = [];
+  if ($("revAds").checked) enabled_methods.push("ads");
+  if ($("revSponsors").checked) enabled_methods.push("sponsorships");
+  if ($("revReferrals").checked) enabled_methods.push("referrals");
+  if ($("revSupport").checked) enabled_methods.push("support");
+
+  if (!enabled_methods.length) {
+    $("revenueSettingsMessage").textContent =
+      "Select at least one host revenue method.";
+    return;
+  }
+
+  const { error } = await supabase
+    .from("platform_revenue_settings")
+    .upsert({
+      id: true,
+      enabled_methods,
+      ad_placement: $("adPlacement").value,
+      updated_at: new Date().toISOString()
+    });
+
+  if (error) {
+    $("revenueSettingsMessage").textContent =
+      "Could not save settings: " + error.message;
+    return;
+  }
+
+  $("hostDashboardDialog").close();
+  notify("Private host revenue preferences saved.");
+}
 
 async function saveProfile(event) {
   event.preventDefault();
 
-  if (!session) return showAuth();
   if (!requireConfig()) return;
-  if (!session) { showAuth("login"); notify("Please sign in before publishing."); return; }
-  const body = $("postText").value.trim(), file = $("postFile").files[0];
-  if (!body) { notify("Please write something educational before publishing."); return; }
-  if (file && file.size > MAX_FILE_BYTES) { notify("That file is over the 50 MB limit."); return; }
-  if (file && !ALLOWED_MIME.has(file.type)) { notify("This file type is not supported. Use PDF, Office documents, images, or common video formats."); return; }
-  const button = $("postForm").querySelector('[type="submit"]');
-  button.disabled = true; button.textContent = "Publishing…";
-  try {
-    let filePath = null;
-    if (file) {
-      filePath = `${session.user.id}/${crypto.randomUUID()}-${safeFileName(file.name)}`;
-      const {error: uploadError} = await supabase.storage.from("learning-files").upload(filePath, file, {contentType:file.type || "application/octet-stream", upsert:false});
-      if (uploadError) throw uploadError;
-    }
-    const {error} = await supabase.from("posts").insert({
-      user_id:session.user.id, body, post_type:$("postType").value, subject:$("postSubject").value,
-      file_path:filePath, file_name:file?.name || null, file_mime:file?.type || null, status:"published"
-    });
-    if (error) {
-      if (filePath) await supabase.storage.from("learning-files").remove([filePath]);
-      throw error;
-    }
-    $("postForm").reset(); $("composer").classList.add("hidden"); notify("Your educational post was published.");
-    await loadPosts();
-  } catch (error) { notify(error.message || "Could not publish post."); }
-  finally { button.disabled = false; button.textContent = "Publish post"; }
-}
-
-async function toggleLike(id) {
-  if (!session) return showAuth();
-
-  const post = posts.find(p => p.id === id);
-  if (!post) return;
-
-  const liked = (post.my_reaction || []).length > 0;
-
-  const result = liked
-    ? await supabase
-        .from("reactions")
-        .delete()
-        .eq("post_id", id)
-        .eq("user_id", session.user.id)
-    : await supabase
-        .from("reactions")
-        .insert({
-          post_id: id,
-          user_id: session.user.id,
-          kind: "like"
-        });
-
-  if (result.error) {
-    notify(result.error.message);
-    return;
-  }
-
-  await loadPosts();
-}
-
-  event.preventDefault();
-
   if (!session) return showAuth();
 
   const display_name = $("profileName").value.trim();
@@ -301,6 +276,7 @@ async function toggleLike(id) {
   notify("Profile updated successfully.");
   await loadPosts();
 }
+
 
 $("signupTab").onclick=()=>{authMode="signup";updateAuthMode();};
 $("authForm").addEventListener("submit",authSubmit);
