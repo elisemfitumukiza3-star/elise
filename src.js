@@ -10,6 +10,7 @@ const supabase = configured ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
   realtime: { params: { eventsPerSecond: 5 } }
 }) : null;
+window.learnLoopSupabase = supabase;
 
 const $ = (id) => document.getElementById(id);
 let session = null, profile = null, posts = [], authMode = "login", activeSubject = null, isPlatformOwner = false;
