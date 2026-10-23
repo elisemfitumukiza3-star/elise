@@ -308,27 +308,60 @@
     toggle.focus();
   });
 
-  form.addEventListener("submit", event => {
-    event.preventDefault();
-    const question = input.value.trim();
-    if (!question) return;
+ 
+form.addEventListener("submit", async (event) => {
+  event.preventDefault();
 
-    const bubble = document.createElement("div");
-    bubble.className = "ll-ai-message user";
-    bubble.textContent = question;
-    messages.appendChild(bubble);
+  const question = input.value.trim();
+  if (!question) return;
 
-    const notice = document.createElement("div");
-    notice.className = "ll-ai-message";
-    notice.textContent =
-      "Your question has been added. The AI answer service still needs to be connected.";
-    messages.appendChild(notice);
+  const userBubble = document.createElement("div");
+  userBubble.className = "ll-ai-message user";
+  userBubble.textContent = question;
+  messages.appendChild(userBubble);
 
-    input.value = "";
+  input.value = "";
+  input.disabled = true;
+  form.querySelector('button[type="submit"]').disabled = true;
+
+  const answerBubble = document.createElement("div");
+  answerBubble.className = "ll-ai-message";
+  answerBubble.textContent = "Thinking…";
+  messages.appendChild(answerBubble);
+  messages.scrollTop = messages.scrollHeight;
+
+  try {
+    const response = await fetch(
+      "https://qjzbphvpgphavokufiha.supabase.co/functions/v1/learnloop-ai",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "apikey": "YOUR_SUPABASE_PUBLISHABLE_KEY",
+          "Authorization": "Bearer YOUR_SUPABASE_PUBLISHABLE_KEY"
+        },
+        body: JSON.stringify({ question })
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "The AI service could not answer.");
+    }
+
+    answerBubble.textContent = data.answer || "No answer was returned.";
+  } catch (error) {
+    answerBubble.textContent =
+      "Sorry, I couldn't get an answer. Please check the connection and try again.";
+    console.error("LearnLoop AI error:", error);
+  } finally {
+    input.disabled = false;
+    form.querySelector('button[type="submit"]').disabled = false;
+    input.focus();
     messages.scrollTop = messages.scrollHeight;
-  });
-})();
-</script>
+  }
+});
 
 </body>
 </html>
