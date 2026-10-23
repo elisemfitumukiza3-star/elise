@@ -1845,3 +1845,17 @@ body.following-mode #followingView:not(.hidden) {
   }
 }
 
+body.following-mode .following-main {
+  display: block !important;
+  width: 100%;
+  max-width: 100%;
+}
+
+body.following-mode #followingView.hidden {
+  display: none !important;
+}
+
+body.following-mode #followingView:not(.hidden) {
+  display: block !important;
+}
+
