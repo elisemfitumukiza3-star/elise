@@ -748,3 +748,20 @@ document.addEventListener("click", function (event) {
     if (feedTitle) feedTitle.textContent = "Your learning feed";
   }
 });
+
+/* LearnLoop: Back to Home button */
+(() => {
+  const backButton = document.getElementById("libraryBackHome");
+
+  if (!backButton) return;
+
+  backButton.addEventListener("click", () => {
+    const homeButton = document.querySelector(
+      '.navitem[data-view="feed"]'
+    );
+
+    if (homeButton) {
+      homeButton.click();
+    }
+  });
+})();
