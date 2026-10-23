@@ -592,38 +592,43 @@ refreshSession();
     return viewerPromise;
   }
 
-  async function openPreview(bookId) {
-    viewerBox.hidden = false;
-    previewBox.replaceChildren(
-      makeElement("p", "muted", "Loading book preview...")
-    );
-    viewerBox.scrollIntoView({ behavior: "smooth", block: "start" });
+ 
+function openPreview(bookId) {
+  viewerBox.hidden = false;
+  previewBox.replaceChildren();
 
-    try {
-      await loadViewerApi();
+  const loading = document.createElement("p");
+  loading.className = "muted";
+  loading.textContent = "Opening book preview...";
+  previewBox.appendChild(loading);
 
-      window.google.books.load();
+  viewerBox.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
 
-      window.google.books.setOnLoadCallback(() => {
-        previewBox.replaceChildren();
+  const frame = document.createElement("iframe");
+  const params = new URLSearchParams({
+    id: bookId,
+    printsec: "frontcover",
+    output: "embed"
+  });
 
-        const viewer = new window.google.books.DefaultViewer(previewBox);
-        viewer.load(bookId, () => {
-          previewBox.replaceChildren(
-            makeElement(
-              "p",
-              "muted",
-              "A preview is unavailable for this book. Try another result."
-            )
-          );
-        });
-      });
-    } catch (error) {
-      previewBox.replaceChildren(
-        makeElement("p", "muted", error.message)
-      );
-    }
-  }
+  frame.src = "https://books.google.com/books?" + params.toString();
+  frame.title = "Google Books preview inside LearnLoop";
+  frame.style.cssText =
+    "width:100%;height:650px;border:1px solid #d1ead9;border-radius:12px";
+  frame.setAttribute("loading", "lazy");
+  frame.setAttribute("allowfullscreen", "");
+
+  frame.addEventListener("load", () => {
+    loading.textContent =
+      "If the book preview does not appear, this title may not support embedded viewing.";
+  });
+
+  previewBox.replaceChildren(frame);
+}
+
 
   async function searchBooks(query) {
     const currentSearch = ++searchNumber;
