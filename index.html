@@ -358,8 +358,8 @@ if (sessionError || !session?.access_token) {
 
     answerBubble.textContent = data.answer || "No answer was returned.";
   } catch (error) {
-    answerBubble.textContent =
-      "Sorry, I couldn't get an answer. Please check the connection and try again.";
+  answerBubble.textContent =
+  error instanceof Error ? error.message : String(error);
     console.error("LearnLoop AI error:", error);
   } finally {
     input.disabled = false;
