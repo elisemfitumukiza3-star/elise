@@ -1,446 +1,480 @@
-import { createClient } from "@supabase/supabase-js";
+```javascript
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from "./src/config.js";
 
 /* =========================================================
-   LEARNLOOP — COMPLETE APPLICATION
-   Existing Supabase project and database are preserved.
+   LEARNLOOP — Main application
+   Uses the existing Supabase project and database.
    ========================================================= */
 
-const configured =
-  typeof SUPABASE_URL === "string" &&
-  SUPABASE_URL.startsWith("https://") &&
-  typeof SUPABASE_ANON_KEY === "string" &&
-  SUPABASE_ANON_KEY.length > 30 &&
-  !SUPABASE_ANON_KEY.includes("YOUR_SUPABASE");
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-const supabase = configured
-  ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-      auth: {
-        persistSession: true,
-        autoRefreshToken: true,
-        detectSessionInUrl: true
-      },
-      realtime: { params: { eventsPerSecond: 5 } }
-    })
-  : null;
-
-window.learnLoopSupabase = supabase;
-
-const $ = id => document.getElementById(id);
-
-let session = null;
-let profile = null;
-let posts = [];
-let activeView = "feed";
-let activeSubject = null;
-let authMode = "login";
-let isPlatformOwner = false;
-let feedChannel = null;
-let loadingPosts = false;
-let pageHistory = ["feed"];
-
+const OWNER_EMAIL = "elisemfitumukiza3@gmail.com";
 const MAX_FILE_BYTES = 50 * 1024 * 1024;
+const STORAGE_BUCKET = "learning-files";
 
-const ALLOWED_MIME = new Set([
-  "application/pdf",
-  "application/msword",
-  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-  "application/vnd.ms-powerpoint",
-  "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-  "text/plain",
-  "text/csv",
-  "application/vnd.ms-excel",
-  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-  "image/jpeg",
-  "image/png",
-  "image/webp",
-  "image/gif",
-  "video/mp4",
-  "video/webm",
-  "video/quicktime"
-]);
+const $ = (selector, root = document) => root.querySelector(selector);
+const $$ = (selector, root = document) =>
+  [...root.querySelectorAll(selector)];
 
-const VIEW_INFO = {
-  feed: {
-    title: "Home",
-    subtitle: "Discover and share learning resources.",
-    icon: "⌂"
-  },
-  following: {
-    title: "Following",
-    subtitle: "Resources from people you follow."
-  },
-  library: {
-    title: "Learning Library",
-    subtitle: "Explore subjects, lessons, and books."
-  },
-  discussions: {
-    title: "Discussions",
-    subtitle: "Questions, answers, and educational conversations."
-  },
-  community: {
-    title: "Community",
-    subtitle: "Connect through shared learning."
-  },
-  saved: {
-    title: "Saved Resources",
-    subtitle: "Keep useful learning materials close at hand."
-  },
-  profile: {
-    title: "My Profile",
-    subtitle: "Manage your LearnLoop account."
-  },
-  notifications: {
-    title: "Notifications",
-    subtitle: "Updates about your learning activity."
-  },
-  dashboard: {
-    title: "Learning Dashboard",
-    subtitle: "Review your contributions and activity."
-  },
-  uploads: {
-    title: "My Uploads",
-    subtitle: "Find the resources you have published."
-  },
-  host: {
-    title: "Host Dashboard",
-    subtitle: "Private platform management."
-  }
+const state = {
+  session: null,
+  profile: null,
+  posts: [],
+  currentView: "feed",
+  authMode: "login",
+  loadingPosts: false,
+  selectedSubject: "All subjects",
+  searchTerm: "",
+  commentsByPost: {},
+  commentsOpen: new Set(),
+  savedIds: new Set(),
+  likedIds: new Set(),
+  myProfile: null,
+  hostSettings: null,
+  toastTimer: null
 };
 
-function esc(value = "") {
-  return String(value).replace(/[&<>"']/g, c => ({
+const VIEW_INFO = {
+  feed: ["Home feed", "Discover what the community is learning."],
+  library: ["Learning library", "Explore subjects, books, and learning resources."],
+  discussions: ["Discussions", "Ask questions and share ideas."],
+  community: ["Community", "Learn together and help other learners."],
+  following: ["Following", "Posts from people you follow."],
+  saved: ["Saved resources", "Your bookmarked learning resources."],
+  myuploads: ["My uploads", "Content you have shared with the community."],
+  notifications: ["Notifications", "Updates and activity from LearnLoop."],
+  dashboard: ["My dashboard", "An overview of your learning activity."]
+};
+
+/* ---------- Safe HTML and small utilities ---------- */
+
+function escapeHTML(value = "") {
+  return String(value).replace(/[&<>"']/g, char => ({
     "&": "&amp;",
     "<": "&lt;",
     ">": "&gt;",
     '"': "&quot;",
     "'": "&#39;"
-  })[c]);
+  })[char]);
 }
 
-function notify(message) {
-  const toast = $("toast");
-  if (!toast) {
-    console.info(message);
-    return;
+function initials(value = "Learner") {
+  return String(value)
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map(part => part[0].toUpperCase())
+    .join("") || "L";
+}
+
+function displayName(profile, email = "") {
+  return profile?.display_name?.trim() ||
+    email.split("@")[0] ||
+    "Learner";
+}
+
+function isOwner() {
+  return state.session?.user?.email?.toLowerCase() === OWNER_EMAIL;
+}
+
+function currentUserId() {
+  return state.session?.user?.id || null;
+}
+
+function relativeTime(dateValue) {
+  if (!dateValue) return "Recently";
+
+  const date = new Date(dateValue);
+  if (Number.isNaN(date.getTime())) return "Recently";
+
+  const seconds = Math.max(0, (Date.now() - date.getTime()) / 1000);
+  if (seconds < 60) return "Just now";
+  if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
+  if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`;
+  if (seconds < 604800) return `${Math.floor(seconds / 86400)}d ago`;
+
+  return date.toLocaleDateString();
+}
+
+function toast(message, type = "success") {
+  let element = $("#learnloopToast");
+
+  if (!element) {
+    element = document.createElement("div");
+    element.id = "learnloopToast";
+    element.className = "toast";
+    element.setAttribute("role", "status");
+    element.setAttribute("aria-live", "polite");
+    document.body.append(element);
   }
 
-  toast.textContent = message;
-  toast.classList.add("visible");
-  clearTimeout(window.__toastTimer);
+  element.textContent = message;
+  element.classList.toggle("error", type === "error");
+  element.classList.remove("hidden");
 
-  window.__toastTimer = setTimeout(
-    () => toast.classList.remove("visible"),
-    3200
-  );
+  clearTimeout(state.toastTimer);
+  state.toastTimer = setTimeout(() => {
+    element.classList.add("hidden");
+  }, 4000);
 }
 
-function setStatus(message, error = false) {
-  const el = $("status");
-  if (!el) return;
+function setStatus(message = "", type = "success") {
+  const banner = $("#statusBanner");
+  if (!banner) return;
 
-  el.textContent = message;
-  el.classList.toggle("error", error);
+  banner.textContent = message;
+  banner.classList.toggle("hidden", !message);
+  banner.classList.toggle("error", type === "error");
 }
 
-function requireConfig() {
-  if (supabase) return true;
-  notify("The Supabase configuration could not be loaded.");
-  return false;
-}
-
-function requireSession() {
-  if (!requireConfig()) return false;
-
-  if (!session) {
-    showAuth("login");
-    return false;
-  }
-
-  return true;
-}
-
-function closeDialog(id) {
-  const el = $(id);
-  if (el?.open) el.close();
-}
-
-function showDialog(id) {
-  const el = $(id);
-  if (!el) return;
-
-  if (typeof el.showModal === "function") {
-    if (!el.open) el.showModal();
-  } else {
-    el.classList.remove("hidden");
-  }
-}
-
-function setBusy(button, busy, label = "Please wait…") {
+function setButtonBusy(button, busy, busyText = "Please wait…") {
   if (!button) return;
 
   if (busy) {
-    button.dataset.oldText = button.textContent;
+    button.dataset.originalText = button.textContent;
     button.disabled = true;
-    button.textContent = label;
+    button.textContent = busyText;
   } else {
     button.disabled = false;
-    if (button.dataset.oldText) {
-      button.textContent = button.dataset.oldText;
-      delete button.dataset.oldText;
+    if (button.dataset.originalText) {
+      button.textContent = button.dataset.originalText;
+      delete button.dataset.originalText;
     }
   }
 }
 
-function timeAgo(date) {
-  const value = new Date(date).getTime();
-  if (!Number.isFinite(value)) return "";
-
-  const seconds = Math.max(0, Math.floor((Date.now() - value) / 1000));
-
-  if (seconds < 60) return "just now";
-  if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
-  if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`;
-  return `${Math.floor(seconds / 86400)}d ago`;
+function safeFileName(name) {
+  return String(name || "file")
+    .normalize("NFKD")
+    .replace(/[^\w.-]+/g, "_")
+    .replace(/^[_\.]+/, "")
+    .slice(-120) || "file";
 }
 
-/* =========================================================
-   PAGE SYSTEM
-   Creates independent views without losing the existing
-   application shell or reloading the whole website.
-   ========================================================= */
-
-function ensurePageHost() {
-  let host = $("learnLoopPage");
-
-  if (!host) {
-    const main = document.querySelector(".main") ||
-      document.querySelector("main") ||
-      document.body;
-
-    host = document.createElement("section");
-    host.id = "learnLoopPage";
-    host.className = "learnloop-page";
-    host.style.cssText = "width:100%;min-width:0";
-    main.appendChild(host);
-  }
-
-  return host;
+function formatBytes(bytes = 0) {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
-function ensurePageStyles() {
-  if ($("learnLoopPageStyles")) return;
-
-  const style = document.createElement("style");
-  style.id = "learnLoopPageStyles";
-  style.textContent = `
-    .learnloop-page { padding:20px 0; }
-    .ll-page-heading { margin:0 0 8px; font-size:clamp(24px,3vw,34px); }
-    .ll-page-subtitle { margin:0 0 22px; color:var(--muted,#697386); }
-    .ll-page-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; }
-    .ll-card { padding:18px; border:1px solid var(--border,#e3e7eb); border-radius:16px; background:var(--card,#fff); margin-bottom:14px; }
-    .ll-card h3 { margin-top:0; }
-    .ll-card button,.ll-card a { margin-top:10px; }
-    .ll-empty { padding:26px; text-align:center; border:1px dashed var(--border,#d9dfe5); border-radius:14px; }
-    .ll-back { margin:0 0 18px; }
-    .ll-action-row { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:18px; }
-    .ll-action-row button { cursor:pointer; }
-    .ll-resource-link { display:inline-block; margin-top:10px; }
-    .ll-page-form { display:grid; gap:12px; }
-    .ll-page-form input,.ll-page-form textarea,.ll-page-form select { width:100%; box-sizing:border-box; padding:12px; border:1px solid var(--border,#d9dfe5); border-radius:10px; }
-    .ll-muted { color:var(--muted,#697386); }
-    .ll-subject-list { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:18px; }
-    .ll-subject-list button { padding:10px 14px; border-radius:10px; cursor:pointer; }
-    @media(max-width:640px) { .learnloop-page { padding:12px 0; } .ll-card { padding:14px; } }
-  `;
-  document.head.appendChild(style);
+function isImage(mime = "") {
+  return mime.startsWith("image/");
 }
 
-function hideOriginalContent() {
-  [
-    "feed",
-    "libraryView",
-    "followingView"
-  ].forEach(id => {
-    const el = $(id);
-    if (el) el.classList.add("hidden");
-  });
-
-  $("composer")?.classList.add("hidden");
+function isVideo(mime = "") {
+  return mime.startsWith("video/");
 }
 
-function navigate(view, options = {}) {
-  if (!VIEW_INFO[view]) view = "feed";
+function fileIcon(mime = "") {
+  if (isImage(mime)) return "🖼️";
+  if (isVideo(mime)) return "🎬";
+  if (mime.includes("pdf")) return "📕";
+  if (mime.includes("word")) return "📝";
+  if (mime.includes("presentation")) return "📊";
+  if (mime.includes("spreadsheet") || mime.includes("excel")) return "📈";
+  return "📄";
+}
 
-  if (view === "host" && !isPlatformOwner) {
-    if (!requireSession()) return;
-    notify("Host settings are restricted to the platform owner.");
-    return;
+function safeUrl(value) {
+  try {
+    const url = new URL(value, window.location.origin);
+    if (["https:", "http:"].includes(url.protocol)) return url.href;
+  } catch {
+    // Ignore invalid URLs.
   }
+  return null;
+}
 
-  if (view === "profile" && !session) {
-    showAuth("login");
-    return;
+function linkifyText(value = "") {
+  const escaped = escapeHTML(value);
+  return escaped.replace(
+    /(https?:\/\/[^\s<]+)/g,
+    raw => {
+      const clean = safeUrl(raw);
+      return clean
+        ? `<a href="${escapeHTML(clean)}" target="_blank" rel="noopener noreferrer">${raw}</a>`
+        : raw;
+    }
+  );
+}
+
+function requireLogin() {
+  if (state.session) return true;
+  openDialog("authDialog");
+  toast("Please log in to use this feature.", "error");
+  return false;
+}
+
+function openDialog(id) {
+  const dialog = document.getElementById(id);
+  if (!dialog) return;
+
+  if (typeof dialog.showModal === "function") {
+    if (!dialog.open) dialog.showModal();
+  } else {
+    dialog.setAttribute("open", "");
   }
+}
 
-  if (!options.replaceHistory && pageHistory.at(-1) !== view) {
-    pageHistory.push(view);
+function closeDialog(dialog) {
+  if (typeof dialog.close === "function") {
+    dialog.close();
+  } else {
+    dialog.removeAttribute("open");
   }
+}
 
-  activeView = view;
-  activeSubject = null;
+/* ---------- Local saved resources ---------- */
 
-  document.body.dataset.learnloopView = view;
-  document.body.classList.toggle("library-mode", view === "library");
-  document.body.classList.toggle("following-mode", view === "following");
-
-  document.querySelectorAll("[data-view]").forEach(button => {
-    button.classList.toggle("active", button.dataset.view === view);
-    button.setAttribute(
-      "aria-current",
-      button.dataset.view === view ? "page" : "false"
+function loadSavedIds() {
+  try {
+    const ids = JSON.parse(
+      localStorage.getItem("learnloop_saved_posts") || "[]"
     );
-  });
-
-  if ($("feedTitle")) $("feedTitle").textContent = VIEW_INFO[view].title;
-
-  hideOriginalContent();
-  ensurePageStyles();
-
-  const host = ensurePageHost();
-  host.classList.remove("hidden");
-  host.innerHTML = pageShell(view);
-
-  if (view === "feed") renderHomePage();
-  else if (view === "following") renderFollowingPage();
-  else if (view === "library") renderLibraryPage();
-  else if (view === "discussions") renderDiscussionPage();
-  else if (view === "community") renderCommunityPage();
-  else if (view === "saved") renderSavedPage();
-  else if (view === "profile") renderProfilePage();
-  else if (view === "notifications") renderNotificationsPage();
-  else if (view === "dashboard") renderDashboardPage();
-  else if (view === "uploads") renderUploadsPage();
-  else if (view === "host") renderHostPage();
-
-  if (options.scroll !== false) {
-    window.scrollTo({ top: 0, behavior: "auto" });
+    state.savedIds = new Set(ids);
+  } catch {
+    state.savedIds = new Set();
   }
 }
 
-function pageShell(view) {
-  const info = VIEW_INFO[view];
-
-  return `
-    <header class="ll-page-header">
-      <h1 class="ll-page-heading">${esc(info.title)}</h1>
-      <p class="ll-page-subtitle">${esc(info.subtitle)}</p>
-    </header>
-    <div id="llPageContent"></div>
-  `;
+function persistSavedIds() {
+  try {
+    localStorage.setItem(
+      "learnloop_saved_posts",
+      JSON.stringify([...state.savedIds])
+    );
+  } catch {
+    toast("Your browser could not save this list.", "error");
+  }
 }
 
-function pageContent() {
-  return $("llPageContent");
+function loadLikedIds() {
+  try {
+    state.likedIds = new Set(
+      JSON.parse(localStorage.getItem("learnloop_liked_posts") || "[]")
+    );
+  } catch {
+    state.likedIds = new Set();
+  }
 }
 
-function showEmpty(title, description, buttonText = "", action = "") {
-  const content = pageContent();
-  if (!content) return;
-
-  content.innerHTML = `
-    <section class="ll-empty">
-      <h3>${esc(title)}</h3>
-      <p>${esc(description)}</p>
-      ${buttonText
-        ? `<button type="button" class="primary" data-page-action="${esc(action)}">${esc(buttonText)}</button>`
-        : ""}
-    </section>
-  `;
+function persistLikedIds() {
+  try {
+    localStorage.setItem(
+      "learnloop_liked_posts",
+      JSON.stringify([...state.likedIds])
+    );
+  } catch {
+    // The server remains the source of shared post data.
+  }
 }
 
-/* =========================================================
-   AUTHENTICATION
-   ========================================================= */
+/* ---------- Authentication and profiles ---------- */
 
-function showAuth(mode = "login") {
-  if (!requireConfig()) return;
-
-  authMode = mode;
-  updateAuthMode();
-
-  if ($("authMessage")) $("authMessage").textContent = "";
-  showDialog("authDialog");
-}
-
-function updateAuthMode() {
-  const signup = authMode === "signup";
-
-  if ($("authTitle")) {
-    $("authTitle").textContent = signup ? "Join LearnLoop" : "Welcome back";
+async function fetchProfile() {
+  if (!currentUserId()) {
+    state.profile = null;
+    return;
   }
 
-  if ($("authIntro")) {
-    $("authIntro").textContent = signup
-      ? "Create an account to share and discover learning resources."
-      : "Sign in to join the educational community.";
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("user_id", currentUserId())
+    .maybeSingle();
+
+  if (error) {
+    console.error("Profile load error:", error);
+    state.profile = null;
+    return;
   }
 
-  $("nameWrap")?.classList.toggle("hidden", !signup);
+  state.profile = data;
 
-  if ($("displayName")) $("displayName").required = signup;
-  if ($("password")) {
-    $("password").autocomplete = signup ? "new-password" : "current-password";
+  if (!data) {
+    const email = state.session?.user?.email || "";
+    const metadataName =
+      state.session?.user?.user_metadata?.display_name ||
+      state.session?.user?.user_metadata?.full_name ||
+      email.split("@")[0] ||
+      "Learner";
+
+    const result = await supabase
+      .from("profiles")
+      .upsert(
+        {
+          user_id: currentUserId(),
+          display_name: metadataName,
+          bio: ""
+        },
+        { onConflict: "user_id" }
+      )
+      .select("*")
+      .maybeSingle();
+
+    if (!result.error && result.data) {
+      state.profile = result.data;
+    } else if (result.error) {
+      console.warn("Profile initialization:", result.error.message);
+    }
   }
-
-  if ($("authSubmit")) {
-    $("authSubmit").textContent = signup ? "Create account" : "Sign in";
-  }
-
-  $("loginTab")?.classList.toggle("active", !signup);
-  $("signupTab")?.classList.toggle("active", signup);
 }
 
-async function authSubmit(event) {
+async function saveProfile(event) {
   event.preventDefault();
-  if (!requireConfig()) return;
+  if (!requireLogin()) return;
 
-  const email = $("email")?.value.trim();
-  const password = $("password")?.value;
-  const displayName = $("displayName")?.value.trim();
-  const button = $("authSubmit");
-  const message = $("authMessage");
+  const name = $("#profileDisplayName")?.value.trim();
+  const bio = $("#profileBio")?.value.trim();
 
-  if (!email || !password) {
-    if (message) message.textContent = "Enter your email and password.";
+  if (!name) {
+    toast("Please enter your display name.", "error");
     return;
   }
 
-  if (authMode === "signup" && !displayName) {
-    if (message) message.textContent = "Enter your display name.";
-    return;
-  }
-
-  setBusy(button, true);
+  const button = $("#profileForm button[type='submit']");
+  setButtonBusy(button, true, "Saving…");
 
   try {
-    if (authMode === "signup") {
+    const { data, error } = await supabase
+      .from("profiles")
+      .upsert(
+        {
+          user_id: currentUserId(),
+          display_name: name,
+          bio: bio || ""
+        },
+        { onConflict: "user_id" }
+      )
+      .select("*")
+      .single();
+
+    if (error) throw error;
+
+    state.profile = data;
+    closeDialog($("#profileDialog"));
+    updateAccountUI();
+    toast("Your profile has been updated.");
+    await loadPosts();
+  } catch (error) {
+    console.error(error);
+    toast(`Could not save profile: ${error.message}`, "error");
+  } finally {
+    setButtonBusy(button, false);
+  }
+}
+
+function updateAccountUI() {
+  const user = state.session?.user;
+  const name = displayName(state.profile, user?.email || "");
+  const bio = state.profile?.bio || "Share what you are learning.";
+
+  const nameIds = ["sidebarName", "profileCardName"];
+  for (const id of nameIds) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = name;
+  }
+
+  const emailEl = $("#sidebarEmail");
+  if (emailEl) emailEl.textContent = user?.email || "Not signed in";
+
+  const bioEl = $("#profileCardBio");
+  if (bioEl) bioEl.textContent = bio;
+
+  for (const id of ["sidebarAvatar", "composerAvatar", "profileCardAvatar"]) {
+    const el = document.getElementById(id);
+    if (el && !el.querySelector("img")) el.textContent = initials(name);
+  }
+
+  const accountButton = $("#accountButton");
+  if (accountButton) {
+    accountButton.textContent = user ? "My account" : "Log in";
+  }
+
+  const hostButton = $("#hostDashboardButton");
+  if (hostButton) hostButton.classList.toggle("hidden", !isOwner());
+
+  const profileButton = $("#profileButton");
+  if (profileButton) profileButton.textContent = user ? "Edit profile" : "Sign in";
+
+  const form = $("#postForm");
+  if (form) {
+    const disabled = !user;
+    for (const element of $$("textarea, select, input, button", form)) {
+      if (element.type === "file") continue;
+      element.disabled = disabled;
+    }
+  }
+
+  renderHostSettings();
+}
+
+function setAuthMode(mode) {
+  state.authMode = mode === "signup" ? "signup" : "login";
+
+  const signup = state.authMode === "signup";
+  if ($("#authTitle")) {
+    $("#authTitle").textContent = signup ? "Create your account" : "Welcome back";
+  }
+
+  if ($("#authSubmit")) {
+    $("#authSubmit").textContent = signup ? "Create account" : "Log in";
+  }
+
+  if ($("#authNameWrap")) {
+    $("#authNameWrap").classList.toggle("hidden", !signup);
+  }
+
+  if ($("#toggleAuthMode")) {
+    $("#toggleAuthMode").textContent = signup
+      ? "Already have an account? Log in"
+      : "New to LearnLoop? Create an account";
+  }
+
+  if ($("#authMessage")) $("#authMessage").textContent = "";
+}
+
+async function handleAuth(event) {
+  event.preventDefault();
+
+  const email = $("#authEmail")?.value.trim();
+  const password = $("#authPassword")?.value;
+  const name = $("#authName")?.value.trim();
+
+  if (!email || !password) {
+    toast("Enter your email and password.", "error");
+    return;
+  }
+
+  const button = $("#authSubmit");
+  setButtonBusy(button, true, "Please wait…");
+
+  try {
+    if (state.authMode === "signup") {
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
-        options: { data: { display_name: displayName } }
+        options: {
+          data: { display_name: name || email.split("@")[0] }
+        }
       });
 
       if (error) throw error;
 
       if (data.session) {
-        session = data.session;
-        closeDialog("authDialog");
-        await refreshSession();
-        notify("Welcome to LearnLoop!");
-      } else if (message) {
-        message.textContent =
-          "Account created. Check your email for verification, then sign in.";
+        state.session = data.session;
+        await fetchProfile();
+        closeDialog($("#authDialog"));
+        await afterLogin();
+        toast("Welcome to LearnLoop!");
+      } else {
+        if ($("#authMessage")) {
+          $("#authMessage").textContent =
+            "Account created. Check your email for a verification link, then log in.";
+        }
+        toast("Check your email to verify your account.");
       }
     } else {
       const { data, error } = await supabase.auth.signInWithPassword({
@@ -450,357 +484,128 @@ async function authSubmit(event) {
 
       if (error) throw error;
 
-      session = data.session;
-      closeDialog("authDialog");
-      await refreshSession();
-      notify("You are signed in.");
+      state.session = data.session;
+      await fetchProfile();
+      closeDialog($("#authDialog"));
+      await afterLogin();
+      toast("You are now logged in.");
     }
   } catch (error) {
-    if (message) message.textContent = error.message;
-    else notify(error.message);
+    console.error("Authentication error:", error);
+    if ($("#authMessage")) $("#authMessage").textContent = error.message;
+    toast(error.message || "Authentication failed.", "error");
   } finally {
-    setBusy(button, false);
-  }
-}
-
-/* =========================================================
-   PROFILE AND SESSION
-   ========================================================= */
-
-async function refreshSession() {
-  if (!supabase) {
-    updateAccountUI();
-    navigate("feed", { replaceHistory: true });
-    return;
-  }
-
-  try {
-    const { data, error } = await supabase.auth.getSession();
-    if (error) throw error;
-
-    session = data.session;
-    await loadProfile();
-    await loadOwnerAccess();
-    updateAccountUI();
-    await loadPosts();
-
-    if (activeView === "profile") renderProfilePage();
-    if (activeView === "dashboard") renderDashboardPage();
-  } catch (error) {
-    console.error("Session refresh failed:", error);
-    notify("Could not refresh your session. Reload the page and try again.");
-  }
-}
-
-async function loadProfile() {
-  profile = null;
-  if (!session || !supabase) return;
-
-  const { data, error } = await supabase
-    .from("profiles")
-    .select("*")
-    .eq("id", session.user.id)
-    .maybeSingle();
-
-  if (error) {
-    console.error("Profile load failed:", error.message);
-    return;
-  }
-
-  profile = data;
-}
-
-function updateAccountUI() {
-  $("hostDashboardButton")?.classList.toggle("hidden", !isPlatformOwner);
-
-  const name = profile?.display_name || session?.user?.email || "";
-
-  if ($("accountButton")) {
-    $("accountButton").textContent = session
-      ? name.split(/\s+/).slice(0, 2)
-          .map(part => part[0] || "")
-          .join("").toUpperCase() || "ME"
-      : "?";
-  }
-
-  if ($("profileSummary")) {
-    $("profileSummary").textContent = session
-      ? `${name}${profile?.bio ? " — " + profile.bio : ""}`
-      : "Sign in to see your profile.";
-  }
-
-  if ($("profileButton")) {
-    $("profileButton").textContent = session
-      ? "Edit profile"
-      : "Sign in / Create account";
-  }
-
-  $("signOut")?.classList.toggle("hidden", !session);
-}
-
-function openProfile() {
-  if (!requireSession()) return;
-
-  const fields = {
-    profileName: profile?.display_name || "",
-    profileBio: profile?.bio || "",
-    profileFullName: profile?.full_name || "",
-    profilePhone: profile?.phone_number || "",
-    profileInstitution: profile?.institution || "",
-    profileStudyLevel: profile?.study_level || "",
-    profileInterests: profile?.interests || "",
-    profileEmail: session?.user?.email || ""
-  };
-
-  Object.entries(fields).forEach(([id, value]) => {
-    if ($(id)) $(id).value = value;
-  });
-
-  showDialog("profileDialog");
-}
-
-async function saveProfile(event) {
-  event.preventDefault();
-  if (!requireSession()) return;
-
-  const payload = {
-    id: session.user.id,
-    display_name: $("profileName")?.value.trim() || "",
-    bio: $("profileBio")?.value.trim() || "",
-    full_name: $("profileFullName")?.value.trim() || "",
-    phone_number: $("profilePhone")?.value.trim() || "",
-    phone_is_public: false,
-    institution: $("profileInstitution")?.value.trim() || "",
-    study_level: $("profileStudyLevel")?.value.trim() || "",
-    interests: $("profileInterests")?.value.trim() || "",
-    updated_at: new Date().toISOString()
-  };
-
-  const button = $("profileForm")?.querySelector('[type="submit"]');
-  setBusy(button, true, "Saving…");
-
-  try {
-    const { error } = await supabase.from("profiles").upsert(payload);
-    if (error) throw error;
-
-    await loadProfile();
-    updateAccountUI();
-    closeDialog("profileDialog");
-
-    if (activeView === "profile") renderProfilePage();
-    notify("Profile updated successfully.");
-  } catch (error) {
-    notify("Could not save profile: " + error.message);
-  } finally {
-    setBusy(button, false);
+    setButtonBusy(button, false);
   }
 }
 
 async function signOut() {
-  if (!supabase) return;
-
   const { error } = await supabase.auth.signOut();
+
   if (error) {
-    notify("Could not sign out: " + error.message);
+    toast(error.message, "error");
     return;
   }
 
-  session = null;
-  profile = null;
-  isPlatformOwner = false;
-
-  closeDialog("profileDialog");
+  state.session = null;
+  state.profile = null;
+  state.posts = [];
+  state.commentsByPost = {};
   updateAccountUI();
-  posts = [];
-  navigate("feed");
-  notify("Signed out.");
+  await loadPosts();
+  closeDialog($("#profileDialog"));
+  closeDialog($("#hostDashboardDialog"));
+  toast("You have logged out.");
 }
 
-async function loadOwnerAccess() {
-  isPlatformOwner = false;
+async function afterLogin() {
+  await fetchProfile();
+  updateAccountUI();
+  await loadPosts();
+  await updateDashboard();
+}
 
-  if (!supabase || !session) {
-    $("hostDashboardButton")?.classList.add("hidden");
+supabase.auth.onAuthStateChange((event, session) => {
+  state.session = session;
+
+  // Defer Supabase requests until the auth callback finishes.
+  setTimeout(async () => {
+    if (session) {
+      await fetchProfile();
+    } else {
+      state.profile = null;
+    }
+
+    updateAccountUI();
+    await loadPosts();
+    await updateDashboard();
+  }, 0);
+});
+
+/* ---------- Navigation ---------- */
+
+function navigate(view) {
+  const allowed = Object.keys(VIEW_INFO);
+  if (!allowed.includes(view)) return;
+
+  if (["following", "saved", "myuploads", "notifications", "dashboard"].includes(view)
+      && !state.session) {
+    openDialog("authDialog");
     return;
   }
 
-  const { data, error } = await supabase.rpc("is_platform_owner");
-  isPlatformOwner = !error && data === true;
+  state.currentView = view;
 
-  $("hostDashboardButton")?.classList.toggle("hidden", !isPlatformOwner);
+  $$("[data-view]").forEach(button => {
+    button.classList.toggle("active", button.dataset.view === view);
+    button.setAttribute(
+      "aria-current",
+      button.dataset.view === view ? "page" : "false"
+    );
+  });
+
+  const info = VIEW_INFO[view];
+  if ($("#topbarTitle")) $("#topbarTitle").textContent = info[0];
+  if ($("#topbarSubtitle")) $("#topbarSubtitle").textContent = info[1];
+
+  const pageIds = {
+    feed: "feedView",
+    library: "libraryView",
+    discussions: "discussionsView",
+    community: "communityView",
+    following: "followingView",
+    saved: "savedView",
+    myuploads: "myuploadsView",
+    notifications: "notificationsView",
+    dashboard: "dashboardView"
+  };
+
+  for (const [key, id] of Object.entries(pageIds)) {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle("hidden", key !== view);
+  }
+
+  closeMobileMenu();
+  renderAllFeeds();
+
+  if (view === "dashboard") updateDashboard();
+  if (view === "library") searchBooks();
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-/* =========================================================
-   HOST DASHBOARD
-   ========================================================= */
-
-async function loadHostSettings() {
-  if (!requireSession()) return;
-  await loadOwnerAccess();
-
-  if (!isPlatformOwner) {
-    notify("Host settings are restricted to the platform owner.");
-    return;
-  }
-
-  const { data, error } = await supabase
-    .from("platform_revenue_settings")
-    .select("enabled_methods,ad_placement")
-    .eq("id", true)
-    .maybeSingle();
-
-  if (error || !data) {
-    notify("Could not load private host settings.");
-    return;
-  }
-
-  const methods = Array.isArray(data.enabled_methods)
-    ? data.enabled_methods
-    : [];
-
-  if ($("revAds")) $("revAds").checked = methods.includes("ads");
-  if ($("revSponsors")) $("revSponsors").checked = methods.includes("sponsorships");
-  if ($("revReferrals")) $("revReferrals").checked = methods.includes("referrals");
-  if ($("revSupport")) $("revSupport").checked = methods.includes("support");
-  if ($("adPlacement")) $("adPlacement").value = data.ad_placement || "limited";
-
-  showDialog("hostDashboardDialog");
+function openMobileMenu() {
+  $("#sidebar")?.classList.add("open");
 }
 
-async function saveRevenueSettings(event) {
-  event.preventDefault();
-
-  if (!session || !isPlatformOwner) {
-    notify("Not authorized to change host settings.");
-    return;
-  }
-
-  const enabled_methods = [];
-  if ($("revAds")?.checked) enabled_methods.push("ads");
-  if ($("revSponsors")?.checked) enabled_methods.push("sponsorships");
-  if ($("revReferrals")?.checked) enabled_methods.push("referrals");
-  if ($("revSupport")?.checked) enabled_methods.push("support");
-
-  const message = $("revenueSettingsMessage");
-
-  if (!enabled_methods.length) {
-    if (message) message.textContent = "Select at least one revenue method.";
-    return;
-  }
-
-  try {
-    const { error } = await supabase
-      .from("platform_revenue_settings")
-      .upsert({
-        id: true,
-        enabled_methods,
-        ad_placement: $("adPlacement")?.value || "limited",
-        updated_at: new Date().toISOString()
-      });
-
-    if (error) throw error;
-    closeDialog("hostDashboardDialog");
-    notify("Host preferences saved.");
-  } catch (error) {
-    if (message) message.textContent = "Could not save settings: " + error.message;
-  }
+function closeMobileMenu() {
+  $("#sidebar")?.classList.remove("open");
 }
 
-/* =========================================================
-   POSTS, MEDIA, FEED
-   ========================================================= */
-
-async function hydratePostFiles(items) {
-  if (!supabase) return items;
-
-  return Promise.all(items.map(async post => {
-    if (!post.file_path) return post;
-
-    const { data, error } = await supabase.storage
-      .from("learning-files")
-      .createSignedUrl(post.file_path, 1800);
-
-    if (error) console.warn("Attachment URL error:", error.message);
-
-    return { ...post, signedUrl: data?.signedUrl || null };
-  }));
-}
-
-function mediaHtml(post) {
-  if (!post.file_path) return "";
-
-  const filename = esc(post.file_name || "Learning resource");
-
-  if (!post.signedUrl) {
-    return `<div class="attachment"><strong>${filename}</strong><small>Attachment unavailable</small></div>`;
-  }
-
-  const url = esc(post.signedUrl);
-  const mime = post.file_mime || "";
-
-  if (mime.startsWith("image/")) {
-    return `<a href="${url}" target="_blank" rel="noopener noreferrer">
-      <img class="post-media" src="${url}" alt="${filename}" loading="lazy">
-    </a>`;
-  }
-
-  if (mime.startsWith("video/")) {
-    return `<video class="post-media" controls preload="metadata" src="${url}"></video>`;
-  }
-
-  return `<a class="attachment" href="${url}" target="_blank" rel="noopener noreferrer">
-    <strong>${filename}</strong><small>Open or download resource</small>
-  </a>`;
-}
-
-function postHtml(post) {
-  const liked = (post.my_reaction || []).length > 0;
-  const reposted = !!post.reposted_by_me;
-  const name = post.profiles?.display_name || "LearnLoop member";
-  const initials = name.split(/\s+/).slice(0, 2)
-    .map(part => part[0] || "").join("").toUpperCase() || "LL";
-  const isOwner = session?.user?.id === post.user_id;
-
-  return `
-    <article class="post" data-post-id="${esc(post.id)}">
-      ${post.repost_of ? '<div class="repost-label">⟳ Reposted resource</div>' : ""}
-      <div class="post-header">
-        <div class="avatar">${esc(initials)}</div>
-        <div class="author-block">
-          <strong>${esc(name)}</strong>
-          <small>${esc(post.profiles?.bio || post.subject || "Community member")} · ${esc(timeAgo(post.created_at))}</small>
-        </div>
-        <span class="tag">${esc(post.post_type || "Discussion")}</span>
-      </div>
-      <div class="post-text">${esc(post.body || "").replace(/\n/g, "<br>")}</div>
-      ${post.subject ? `<span class="subject-tag">${esc(post.subject)}</span>` : ""}
-      ${mediaHtml(post)}
-      <div class="post-stats">
-        ${post.like_count || 0} likes · ${post.comment_count || 0} comments · ${post.repost_count || 0} reposts
-      </div>
-      <div class="post-actions">
-        <button type="button" class="action ${liked ? "liked" : ""}" data-action="like" data-id="${esc(post.id)}">${liked ? "♥ Liked" : "♡ Like"}</button>
-        <button type="button" class="action" data-action="comment" data-id="${esc(post.id)}">Comment</button>
-        <button type="button" class="action" data-action="share" data-id="${esc(post.id)}">Share</button>
-        <button type="button" class="action" data-action="repost" data-id="${esc(post.id)}">${reposted ? "✓ Reposted" : "⟳ Repost"}</button>
-        <button type="button" class="action" data-action="report" data-id="${esc(post.id)}">Report</button>
-        ${isOwner ? `<button type="button" class="action" data-action="delete" data-id="${esc(post.id)}">Delete</button>` : ""}
-      </div>
-      <section class="comments" id="comments-${esc(post.id)}">
-        <div class="comment-list" id="comment-list-${esc(post.id)}"></div>
-        <form class="comment-form" data-post-id="${esc(post.id)}">
-          <input name="body" maxlength="2000" required placeholder="Write a helpful comment..." aria-label="Comment">
-          <button type="submit" class="primary">Send</button>
-        </form>
-      </section>
-    </article>
-  `;
-}
+/* ---------- Post loading and publishing ---------- */
 
 async function loadPosts() {
-  if (!supabase || loadingPosts) return;
-
-  loadingPosts = true;
+  if (state.loadingPosts) return;
+  state.loadingPosts = true;
 
   try {
     let query = supabase
@@ -810,895 +615,1062 @@ async function loadPosts() {
       .order("created_at", { ascending: false })
       .limit(100);
 
-    if (activeSubject) query = query.eq("subject", activeSubject);
-
     const { data, error } = await query;
+
     if (error) throw error;
 
-    let loaded = data || [];
-
-    if (session && loaded.length) {
-      const ids = loaded.map(post => post.id);
-
-      const [likes, reposts, comments] = await Promise.all([
-        supabase.from("reactions").select("post_id")
-          .eq("user_id", session.user.id).in("post_id", ids),
-        supabase.from("posts").select("repost_of")
-          .eq("user_id", session.user.id).in("repost_of", ids),
-        supabase.from("comments").select("post_id")
-          .in("post_id", ids).eq("status", "published")
-      ]);
-
-      const likeSet = new Set((likes.data || []).map(x => x.post_id));
-      const repostSet = new Set((reposts.data || []).map(x => x.repost_of));
-      const counts = {};
-
-      (comments.data || []).forEach(c => {
-        counts[c.post_id] = (counts[c.post_id] || 0) + 1;
-      });
-
-      loaded = loaded.map(post => ({
-        ...post,
-        my_reaction: likeSet.has(post.id) ? [true] : [],
-        reposted_by_me: repostSet.has(post.id),
-        comment_count: counts[post.id] || 0
-      }));
-    } else {
-      loaded = loaded.map(post => ({
-        ...post,
-        my_reaction: [],
-        reposted_by_me: false
-      }));
-    }
-
-    posts = await hydratePostFiles(loaded);
-
-    if (activeView === "feed") renderHomePage();
-    if (activeView === "following") renderFollowingPage();
-    if (activeView === "discussions") renderDiscussionPage();
-    if (activeView === "community") renderCommunityPage();
-    if (activeView === "uploads") renderUploadsPage();
-    if (activeView === "dashboard") renderDashboardPage();
-
-    if (!feedChannel) {
-      feedChannel = supabase
-        .channel("learnloop-post-feed")
-        .on("postgres_changes", {
-          event: "*",
-          schema: "public",
-          table: "posts"
-        }, () => {
-          if (!loadingPosts) loadPosts();
-        })
-        .subscribe();
-    }
+    state.posts = data || [];
+    renderAllFeeds();
+    await updateDashboard();
   } catch (error) {
-    console.error("Could not load posts:", error);
-    setStatus("Could not load posts: " + error.message, true);
+    console.error("Post loading error:", error);
+    const feed = $("#feed");
+    if (feed) {
+      feed.innerHTML = `
+        <div class="empty-state">
+          <h3>We couldn't load the feed</h3>
+          <p>${escapeHTML(error.message)}</p>
+        </div>`;
+    }
   } finally {
-    loadingPosts = false;
+    state.loadingPosts = false;
   }
 }
 
-function filteredPosts() {
-  const term = $("searchInput")?.value.trim().toLowerCase() || "";
-  const sort = $("sortSelect")?.value || "latest";
+function validFile(file) {
+  if (!file) return true;
 
-  let list = [...posts].filter(post => {
-    const text = [
-      post.body, post.subject, post.post_type,
-      post.profiles?.display_name, post.file_name
-    ].join(" ").toLowerCase();
-
-    return !term || text.includes(term);
-  });
-
-  if (sort === "popular") {
-    list.sort((a, b) =>
-      ((b.like_count || 0) + (b.repost_count || 0)) -
-      ((a.like_count || 0) + (a.repost_count || 0))
-    );
+  if (file.size > MAX_FILE_BYTES) {
+    toast("Files must be 50 MB or smaller.", "error");
+    return false;
   }
 
-  return list;
-}
+  const allowed = [
+    "application/pdf",
+    "application/msword",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "application/vnd.ms-powerpoint",
+    "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+    "application/vnd.ms-excel",
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    "text/plain",
+    "text/csv"
+  ];
 
-function renderPostList(list, container = pageContent()) {
-  if (!container) return;
+  const accepted = isImage(file.type) ||
+    isVideo(file.type) ||
+    allowed.includes(file.type);
 
-  container.innerHTML = list.length
-    ? list.map(postHtml).join("")
-    : `<div class="ll-empty"><h3>No posts to show yet</h3><p>Share a learning resource or try another section.</p></div>`;
-}
-
-function renderHomePage() {
-  const content = pageContent();
-  if (!content) return;
-
-  content.innerHTML = `
-    <div class="ll-action-row">
-      <button type="button" class="primary" data-page-action="new-post">＋ Create a post</button>
-      <button type="button" data-page-action="library">Browse Library</button>
-    </div>
-    <div id="llHomeComposer" class="ll-card hidden">
-      <form id="llPostForm" class="ll-page-form">
-        <textarea id="llPostText" rows="4" maxlength="10000" placeholder="Share a question, learning tip, or resource..."></textarea>
-        <select id="llPostType">
-          <option>Discussion</option><option>Question</option><option>Learning tip</option>
-          <option>Document</option><option>Photo</option><option>Video</option><option>Story</option>
-        </select>
-        <input id="llPostSubject" placeholder="Subject (optional)">
-        <input id="llPostFile" type="file" accept=".pdf,.doc,.docx,.ppt,.pptx,.txt,.csv,.xls,.xlsx,image/*,video/mp4,video/webm,video/quicktime">
-        <div class="ll-action-row">
-          <button type="submit" class="primary">Publish post</button>
-          <button type="button" data-page-action="cancel-post">Cancel</button>
-        </div>
-      </form>
-    </div>
-    <div id="llPostFeed"></div>
-  `;
-
-  renderPostList(filteredPosts(), $("llPostFeed"));
-}
-
-function renderFollowingPage() {
-  const list = session
-    ? posts.filter(post => post.user_id === session.user.id)
-    : [];
-
-  const content = pageContent();
-  if (!content) return;
-
-  content.innerHTML = `
-    <div class="ll-card">
-      <p>Your own posts are shown here for now. A true following feed requires a following/follower relationship table.</p>
-    </div>
-    <div id="llFollowingPosts"></div>
-  `;
-
-  renderPostList(list, $("llFollowingPosts"));
-}
-
-function renderDiscussionPage() {
-  const list = posts.filter(post =>
-    ["discussion", "question", "learning tip"].includes(
-      String(post.post_type || "").toLowerCase()
-    )
-  );
-  renderPostList(list);
-}
-
-function renderCommunityPage() {
-  const content = pageContent();
-  if (!content) return;
-
-  content.innerHTML = `
-    <div class="ll-card">
-      <h3>Learn together</h3>
-      <p>Browse published learning posts and join the discussion through comments.</p>
-      <button type="button" class="primary" data-page-action="new-post">Share with the community</button>
-    </div>
-    <div id="llCommunityPosts"></div>
-  `;
-
-  renderPostList(filteredPosts(), $("llCommunityPosts"));
-}
-
-function renderUploadsPage() {
-  if (!session) {
-    showEmpty("Sign in required", "Sign in to view your uploaded posts.", "Sign in", "login");
-    return;
+  if (!accepted) {
+    toast("That file type is not supported.", "error");
+    return false;
   }
 
-  renderPostList(posts.filter(post => post.user_id === session.user.id));
+  return true;
 }
 
-function renderDashboardPage() {
-  const content = pageContent();
-  if (!content) return;
+async function uploadFile(file) {
+  if (!file) return { path: null, name: null, mime: null };
 
-  if (!session) {
-    showEmpty("Your learning dashboard", "Sign in to review your activity.", "Sign in", "login");
-    return;
-  }
+  if (!validFile(file)) throw new Error("Please choose a supported file.");
 
-  const mine = posts.filter(post => post.user_id === session.user.id);
-  const resources = mine.filter(post => post.file_path).length;
-  const comments = mine.reduce((total, post) => total + (post.comment_count || 0), 0);
+  const path = `${currentUserId()}/${crypto.randomUUID()}-${safeFileName(file.name)}`;
 
-  content.innerHTML = `
-    <div class="ll-page-grid">
-      <article class="ll-card"><h3>${mine.length}</h3><p>Published posts</p></article>
-      <article class="ll-card"><h3>${resources}</h3><p>Posts with files</p></article>
-      <article class="ll-card"><h3>${comments}</h3><p>Comments on your posts</p></article>
-    </div>
-    <div class="ll-action-row">
-      <button type="button" class="primary" data-page-action="uploads">My Uploads</button>
-      <button type="button" data-page-action="profile">My Profile</button>
-    </div>
-    <h3>Your recent posts</h3>
-    <div id="llDashboardPosts"></div>
-  `;
-
-  renderPostList(mine, $("llDashboardPosts"));
-}
-
-function renderProfilePage() {
-  const content = pageContent();
-  if (!content) return;
-
-  if (!session) {
-    showEmpty("My Profile", "Sign in to view and edit your profile.", "Sign in", "login");
-    return;
-  }
-
-  const name = profile?.display_name || "LearnLoop member";
-  const mine = posts.filter(post => post.user_id === session.user.id);
-
-  content.innerHTML = `
-    <article class="ll-card">
-      <h2>${esc(name)}</h2>
-      <p>${esc(profile?.bio || "Add a short introduction about yourself.")}</p>
-      <p class="ll-muted">${esc(profile?.institution || "")}</p>
-      <p class="ll-muted">${esc(profile?.study_level || "")}</p>
-      <button type="button" class="primary" data-page-action="edit-profile">Edit profile</button>
-    </article>
-    <h3>Your posts (${mine.length})</h3>
-    <div id="llProfilePosts"></div>
-  `;
-
-  renderPostList(mine, $("llProfilePosts"));
-}
-
-function renderSavedPage() {
-  const content = pageContent();
-  if (!content) return;
-
-  content.innerHTML = `
-    <div class="ll-card">
-      <h3>Save resources for later</h3>
-      <p>Saved resources need a dedicated saved-items table in your Supabase database. This page is ready for that integration, but it will not pretend that posts are saved yet.</p>
-      <button type="button" class="primary" data-page-action="feed">Browse learning feed</button>
-    </div>
-  `;
-}
-
-function renderNotificationsPage() {
-  showEmpty(
-    "Notifications",
-    "This page is separate and ready for notification integration. Persistent alerts require a notifications table and appropriate database permissions.",
-    "Return to Home",
-    "feed"
-  );
-}
-
-/* =========================================================
-   LEARNING LIBRARY
-   ========================================================= */
-
-const LIBRARY = {
-  Science: {
-    Biology: ["Cells and their functions", "Human body systems", "Plants and photosynthesis"],
-    Chemistry: ["Atoms and elements", "Acids and bases", "Chemical reactions"],
-    Physics: ["Force and motion", "Energy", "Electricity"]
-  },
-  Technology: {
-    "Computer Basics": ["Computer components", "Operating systems", "Internet safety"],
-    Coding: ["Introduction to programming", "Variables and data", "Web development"],
-    "Digital Skills": ["Using email", "Online research", "Digital citizenship"]
-  },
-  Languages: {
-    English: ["Grammar basics", "Reading comprehension", "Writing skills"],
-    French: ["Les salutations", "La grammaire", "La compréhension écrite"],
-    Kinyarwanda: ["Gusoma no kwandika", "Ikibonezamvugo", "Gusobanura amagambo"]
-  },
-  Mathematics: {
-    Algebra: ["Expressions", "Equations", "Linear functions"],
-    Geometry: ["Angles and lines", "Triangles", "Area and volume"],
-    Statistics: ["Collecting data", "Averages", "Charts and graphs"]
-  },
-  Business: {
-    Entrepreneurship: ["Business ideas", "Business planning", "Marketing basics"],
-    Management: ["Planning and organizing", "Leadership", "Teamwork"],
-    Accounting: ["Introduction to accounting", "Income and expenses", "Budgets"]
-  },
-  "General Studies": {
-    "Health Education": ["Personal hygiene", "Nutrition", "Disease prevention"],
-    Citizenship: ["Rights and responsibilities", "Community participation", "Respect and tolerance"],
-    "Research Skills": ["Finding information", "Evaluating sources", "Writing a report"]
-  }
-};
-
-function renderLibraryPage() {
-  const content = pageContent();
-  if (!content) return;
-
-  content.innerHTML = `
-    <div class="ll-card">
-      <h3>Find a book</h3>
-      <form id="llBookSearch" class="ll-page-form">
-        <input id="llBookQuery" placeholder="Search books, authors, or subjects">
-        <button type="submit" class="primary">Search books</button>
-      </form>
-      <p id="llBookStatus" class="ll-muted">Search public book records from Open Library.</p>
-      <div id="llBookResults" class="ll-page-grid"></div>
-    </div>
-    <h3>Explore subjects</h3>
-    <div class="ll-subject-list">
-      ${Object.keys(LIBRARY).map(subject =>
-        `<button type="button" data-library-subject="${esc(subject)}">${esc(subject)}</button>`
-      ).join("")}
-    </div>
-    <div id="llLibraryTopics" class="ll-page-grid"></div>
-    <div class="ll-card">
-      <h3>Community resources</h3>
-      <p>Explore documents, photos, videos, and learning tips shared by members.</p>
-      <button type="button" class="primary" data-page-action="feed">Open learning feed</button>
-    </div>
-  `;
-}
-
-async function searchLibraryBooks(query) {
-  const status = $("llBookStatus");
-  const results = $("llBookResults");
-  if (!status || !results) return;
-
-  results.replaceChildren();
-
-  if (!query.trim()) {
-    status.textContent = "Enter a book, author, or subject.";
-    return;
-  }
-
-  status.textContent = "Searching books…";
-
-  try {
-    const url = new URL("https://openlibrary.org/search.json");
-    url.searchParams.set("q", query.trim());
-    url.searchParams.set("limit", "12");
-    url.searchParams.set("fields", "key,title,author_name,first_publish_year,cover_i");
-
-    const response = await fetch(url);
-    if (!response.ok) throw new Error("Book search failed.");
-
-    const data = await response.json();
-    const books = data.docs || [];
-
-    status.textContent = books.length
-      ? `Found ${Number(data.numFound || books.length).toLocaleString()} records.`
-      : "No books found. Try another search.";
-
-    books.forEach(book => {
-      const card = document.createElement("article");
-      card.className = "ll-card";
-
-      if (book.cover_i) {
-        const img = document.createElement("img");
-        img.src = `https://covers.openlibrary.org/b/id/${encodeURIComponent(book.cover_i)}-M.jpg`;
-        img.alt = `Cover of ${book.title || "book"}`;
-        img.loading = "lazy";
-        img.style.cssText = "max-width:100%;max-height:150px;object-fit:contain";
-        card.appendChild(img);
-      }
-
-      const title = document.createElement("h3");
-      title.textContent = book.title || "Untitled book";
-
-      const author = document.createElement("p");
-      author.textContent = (book.author_name || ["Author not listed"]).slice(0, 3).join(", ");
-
-      card.append(title, author);
-
-      if (book.first_publish_year) {
-        const year = document.createElement("p");
-        year.textContent = `First published: ${book.first_publish_year}`;
-        card.appendChild(year);
-      }
-
-      if (book.key) {
-        const link = document.createElement("a");
-        link.href = `https://openlibrary.org${book.key}`;
-        link.target = "_blank";
-        link.rel = "noopener noreferrer";
-        link.textContent = "View book details ↗";
-        card.appendChild(link);
-      }
-
-      results.appendChild(card);
+  const { error } = await supabase.storage
+    .from(STORAGE_BUCKET)
+    .upload(path, file, {
+      cacheControl: "3600",
+      upsert: false,
+      contentType: file.type || "application/octet-stream"
     });
-  } catch (error) {
-    status.textContent = error.message;
-  }
+
+  if (error) throw error;
+
+  return {
+    path,
+    name: file.name,
+    mime: file.type || "application/octet-stream"
+  };
 }
-
-function renderHostPage() {
-  const content = pageContent();
-  if (!content) return;
-
-  if (!session || !isPlatformOwner) {
-    showEmpty("Restricted area", "Only the verified platform owner can access host settings.");
-    return;
-  }
-
-  content.innerHTML = `
-    <article class="ll-card">
-      <h3>Private host settings</h3>
-      <p>Manage the existing revenue settings using the configured host dashboard.</p>
-      <button type="button" class="primary" data-page-action="host-settings">Open host settings</button>
-    </article>
-    <article class="ll-card">
-      <h3>Platform status</h3>
-      <p>Use the existing Supabase and Vercel dashboards to review backend and deployment status.</p>
-      <a href="https://vercel.com/" target="_blank" rel="noopener noreferrer">Open Vercel ↗</a>
-    </article>
-  `;
-}
-
-/* =========================================================
-   POST CREATION AND ACTIONS
-   ========================================================= */
 
 async function publishPost(event) {
   event.preventDefault();
-  if (!requireSession()) return;
+  if (!requireLogin()) return;
 
-  const body = $("llPostText")?.value.trim() || "";
-  const postType = $("llPostType")?.value || "Discussion";
-  const subject = $("llPostSubject")?.value.trim() || null;
-  const file = $("llPostFile")?.files?.[0] || null;
-  const button = event.target.querySelector('[type="submit"]');
+  const body = $("#postText")?.value.trim() || "";
+  const type = $("#postType")?.value || "Discussion";
+  const subject = $("#postSubject")?.value || "General";
+  const file = $("#postFile")?.files?.[0] || null;
 
   if (!body && !file) {
-    notify("Write a post or choose a file.");
+    toast("Write something or attach a file before publishing.", "error");
     return;
   }
 
-  if (file && file.size > MAX_FILE_BYTES) {
-    notify("Files must be 50 MB or smaller.");
-    return;
-  }
+  if (file && !validFile(file)) return;
 
-  if (file && file.type && !ALLOWED_MIME.has(file.type)) {
-    notify("That file type is not supported.");
-    return;
-  }
-
-  setBusy(button, true, "Publishing…");
-
-  let uploadedPath = null;
+  const button = $("#publishButton");
+  setButtonBusy(button, true, "Publishing…");
 
   try {
-    if (file) {
-      uploadedPath =
-        `${session.user.id}/${crypto.randomUUID()}-${file.name.normalize("NFKD").replace(/[^a-zA-Z0-9._-]/g, "_").slice(-100)}`;
-
-      const { error } = await supabase.storage
-        .from("learning-files")
-        .upload(uploadedPath, file, {
-          cacheControl: "3600",
-          upsert: false,
-          contentType: file.type || undefined
-        });
-
-      if (error) throw error;
-    }
+    const uploaded = await uploadFile(file);
 
     const { error } = await supabase.from("posts").insert({
-      user_id: session.user.id,
+      user_id: currentUserId(),
       body,
-      post_type: postType,
+      post_type: type,
       subject,
-      file_path: uploadedPath,
-      file_name: file?.name || null,
-      file_mime: file?.type || null,
+      file_path: uploaded.path,
+      file_name: uploaded.name,
+      file_mime: uploaded.mime,
       status: "published"
     });
 
     if (error) {
-      if (uploadedPath) {
-        await supabase.storage.from("learning-files").remove([uploadedPath]);
+      if (uploaded.path) {
+        await supabase.storage.from(STORAGE_BUCKET).remove([uploaded.path]);
       }
       throw error;
     }
 
+    $("#postText").value = "";
+    $("#postFile").value = "";
+    if ($("#selectedFileName")) $("#selectedFileName").textContent = "";
+
     await loadPosts();
-    notify("Your learning post was published.");
+    navigate("feed");
+    toast("Your post has been published!");
   } catch (error) {
-    notify("Could not publish post: " + error.message);
+    console.error("Publish error:", error);
+    toast(`Could not publish: ${error.message}`, "error");
   } finally {
-    setBusy(button, false);
+    setButtonBusy(button, false);
   }
 }
 
-async function toggleLike(postId) {
-  if (!requireSession()) return;
+/* ---------- File access ---------- */
 
-  const post = posts.find(p => String(p.id) === String(postId));
-  if (!post) return;
+async function getFileUrl(path) {
+  if (!path) return null;
 
-  const liked = (post.my_reaction || []).length > 0;
+  const { data, error } = await supabase.storage
+    .from(STORAGE_BUCKET)
+    .createSignedUrl(path, 3600);
+
+  if (error) {
+    console.warn("File URL error:", error.message);
+    return null;
+  }
+
+  return data?.signedUrl || null;
+}
+
+/* ---------- Rendering posts ---------- */
+
+function postMatchesSearch(post) {
+  if (!state.searchTerm) return true;
+
+  const query = state.searchTerm.toLowerCase();
+  const author = post.profiles?.display_name || "";
+
+  return [
+    post.body,
+    post.subject,
+    post.post_type,
+    post.file_name,
+    author
+  ].some(value => String(value || "").toLowerCase().includes(query));
+}
+
+function postCard(post) {
+  const userId = currentUserId();
+  const ownPost = !!userId && post.user_id === userId;
+  const liked = state.likedIds.has(post.id);
+  const saved = state.savedIds.has(post.id);
+  const commentCount = post.comment_count || 0;
+  const name = post.profiles?.display_name || "LearnLoop learner";
+  const bio = post.profiles?.bio || "";
+  const body = post.body || "";
+  const subject = post.subject || "General";
+  const type = post.post_type || "Discussion";
+
+  return `
+    <article class="post-card" data-post-id="${escapeHTML(post.id)}">
+      <div class="post-header">
+        <div class="mini-avatar">${escapeHTML(initials(name))}</div>
+        <div class="post-author">
+          <strong>${escapeHTML(name)}</strong>
+          <small>${escapeHTML(relativeTime(post.created_at))}${bio ? ` · ${escapeHTML(bio.slice(0, 65))}` : ""}</small>
+        </div>
+        <span class="post-badge">${escapeHTML(type)}</span>
+      </div>
+
+      <div class="post-meta small muted" style="margin-top:10px">
+        ${escapeHTML(subject)}
+      </div>
+
+      ${body ? `<div class="post-body">${linkifyText(body)}</div>` : ""}
+
+      ${post.file_path ? `
+        <div class="post-attachment" data-file-path="${escapeHTML(post.file_path)}">
+          <div class="post-attachment-icon">${fileIcon(post.file_mime || "")}</div>
+          <div class="post-attachment-info">
+            <strong>${escapeHTML(post.file_name || "Learning resource")}</strong>
+            <small>Attached learning resource</small>
+          </div>
+          <button class="button button-secondary" data-action="open-file" type="button">
+            Open
+          </button>
+        </div>` : ""}
+
+      <div class="post-actions">
+        <button type="button" class="post-action ${liked ? "active" : ""}"
+          data-action="like" aria-pressed="${liked}">
+          ${liked ? "♥ Liked" : "♡ Like"}
+        </button>
+        <button type="button" class="post-action"
+          data-action="comments">💬 Comment</button>
+        <button type="button" class="post-action ${saved ? "active" : ""}"
+          data-action="save" aria-pressed="${saved}">
+          ${saved ? "★ Saved" : "☆ Save"}
+        </button>
+        <button type="button" class="post-action"
+          data-action="share">↗ Share</button>
+        ${ownPost ? "" : `<button type="button" class="post-action" data-action="report">⚑ Report</button>`}
+      </div>
+
+      <div class="post-comments ${state.commentsOpen.has(post.id) ? "" : "hidden"}"
+        data-comments-for="${escapeHTML(post.id)}">
+        <div class="comments-list">
+          ${state.commentsByPost[post.id] === undefined
+            ? `<p class="muted small">Open comments to load replies.</p>`
+            : renderComments(state.commentsByPost[post.id])}
+        </div>
+
+        ${userId ? `
+          <form class="comment-form" data-comment-form="${escapeHTML(post.id)}">
+            <input name="comment" type="text" maxlength="2000"
+              placeholder="Write a helpful comment…" required>
+            <button class="button button-primary" type="submit">Send</button>
+          </form>` : `<p class="muted small">Log in to comment.</p>`}
+      </div>
+    </article>`;
+}
+
+function renderComments(comments) {
+  if (!comments?.length) {
+    return `<p class="muted small">No comments yet. Start a helpful conversation.</p>`;
+  }
+
+  return comments.map(comment => `
+    <div class="comment-item">
+      <strong>${escapeHTML(comment.profiles?.display_name || "Learner")}</strong>
+      <span class="muted small">${escapeHTML(relativeTime(comment.created_at))}</span>
+      <p>${escapeHTML(comment.body || "")}</p>
+    </div>`).join("");
+}
+
+function renderEmpty(title, message) {
+  return `
+    <div class="empty-state">
+      <div class="empty-icon">📚</div>
+      <h3>${escapeHTML(title)}</h3>
+      <p>${escapeHTML(message)}</p>
+    </div>`;
+}
+
+function filteredPosts(mode = "all") {
+  let posts = [...state.posts];
+
+  if (state.selectedSubject !== "All subjects" &&
+      mode !== "saved" && mode !== "mine") {
+    posts = posts.filter(post => post.subject === state.selectedSubject);
+  }
+
+  if (mode === "discussions") {
+    posts = posts.filter(post =>
+      ["Discussion", "Question", "Learning tip", "Story"].includes(post.post_type)
+    );
+  }
+
+  if (mode === "saved") {
+    posts = posts.filter(post => state.savedIds.has(post.id));
+  }
+
+  if (mode === "mine") {
+    posts = posts.filter(post => post.user_id === currentUserId());
+  }
+
+  if (mode === "following") {
+    // No follow-relationship table is assumed to exist yet.
+    posts = [];
+  }
+
+  posts = posts.filter(postMatchesSearch);
+
+  const sort = $("#sortSelect")?.value || "latest";
+  if (sort === "popular") {
+    posts.sort((a, b) => (b.reaction_count || 0) - (a.reaction_count || 0));
+  }
+
+  return posts;
+}
+
+function renderPostList(element, posts, emptyTitle, emptyMessage) {
+  if (!element) return;
+
+  if (!posts.length) {
+    element.innerHTML = renderEmpty(emptyTitle, emptyMessage);
+    return;
+  }
+
+  element.innerHTML = posts.map(postCard).join("");
+}
+
+function renderAllFeeds() {
+  const feedPosts = filteredPosts("all");
+  renderPostList($("#feed"), feedPosts, "No posts yet", "Be the first to share a useful learning resource.");
+
+  renderPostList(
+    $("#discussionsFeed"),
+    filteredPosts("discussions"),
+    "No discussions yet",
+    "Questions, stories, and learning tips will appear here."
+  );
+
+  renderPostList(
+    $("#communityFeed"),
+    filteredPosts("all"),
+    "Your community is getting started",
+    "Published learning posts will appear here."
+  );
+
+  renderPostList(
+    $("#followingFeed"),
+    filteredPosts("following"),
+    "Following is not connected yet",
+    "A follow system needs a follow-relationships table and its access policies before this view can show posts."
+  );
+
+  renderPostList(
+    $("#savedList"),
+    filteredPosts("saved"),
+    "No saved resources yet",
+    "Choose Save on a post to keep it in this browser."
+  );
+
+  renderPostList(
+    $("#myUploadsList"),
+    filteredPosts("mine"),
+    "You haven't shared anything yet",
+    "Your published posts and resources will appear here."
+  );
+}
+
+/* ---------- Likes and comments ---------- */
+
+async function toggleLike(post) {
+  if (!requireLogin()) return;
+
+  const wasLiked = state.likedIds.has(post.id);
+
+  if (wasLiked) {
+    state.likedIds.delete(post.id);
+  } else {
+    state.likedIds.add(post.id);
+  }
+
+  persistLikedIds();
+  renderAllFeeds();
 
   try {
-    if (liked) {
-      const { error } = await supabase.from("reactions")
-        .delete().eq("post_id", postId).eq("user_id", session.user.id);
-      if (error) throw error;
+    if (wasLiked) {
+      const { error } = await supabase
+        .from("reactions")
+        .delete()
+        .eq("post_id", post.id)
+        .eq("user_id", currentUserId());
 
-      post.my_reaction = [];
-      post.like_count = Math.max(0, (post.like_count || 0) - 1);
+      if (error) throw error;
     } else {
-      const { error } = await supabase.from("reactions").insert({
-        post_id: postId,
-        user_id: session.user.id
-      });
+      const { error } = await supabase
+        .from("reactions")
+        .upsert(
+          { post_id: post.id, user_id: currentUserId() },
+          { onConflict: "post_id,user_id" }
+        );
+
       if (error) throw error;
-
-      post.my_reaction = [true];
-      post.like_count = (post.like_count || 0) + 1;
     }
-
-    rerenderCurrentPosts();
   } catch (error) {
-    notify("Could not update like: " + error.message);
+    console.warn("Reaction update error:", error);
+    toast("The reaction could not be saved. Check your database policies.", "error");
+    await loadPosts();
   }
 }
 
-async function openComments(postId) {
-  const section = $(`comments-${postId}`);
-  if (!section) return;
+async function loadComments(postId) {
+  const { data, error } = await supabase
+    .from("comments")
+    .select("*, profiles:user_id(display_name,bio)")
+    .eq("post_id", postId)
+    .eq("status", "published")
+    .order("created_at", { ascending: true })
+    .limit(100);
 
-  section.classList.toggle("show");
-  if (!section.classList.contains("show")) return;
-
-  const list = $(`comment-list-${postId}`);
-  if (!list) return;
-
-  list.textContent = "Loading comments…";
-
-  try {
-    const { data, error } = await supabase
-      .from("comments")
-      .select("id,post_id,user_id,body,created_at,profiles:user_id(display_name)")
-      .eq("post_id", postId)
-      .eq("status", "published")
-      .order("created_at", { ascending: true })
-      .limit(100);
-
-    if (error) throw error;
-
-    list.innerHTML = (data || []).length
-      ? data.map(c => `<div class="comment">
-          <strong>${esc(c.profiles?.display_name || "Member")}</strong>
-          <p>${esc(c.body || "").replace(/\n/g, "<br>")}</p>
-          <small>${esc(timeAgo(c.created_at))}</small>
-        </div>`).join("")
-      : "<p>No comments yet. Start the discussion.</p>";
-  } catch (error) {
-    list.textContent = "Could not load comments: " + error.message;
+  if (error) {
+    console.error("Comment load error:", error);
+    toast("Comments could not be loaded.", "error");
+    return;
   }
+
+  state.commentsByPost[postId] = data || [];
+  renderAllFeeds();
 }
 
-async function submitComment(event, form) {
+async function submitComment(event, postId) {
   event.preventDefault();
-  if (!requireSession()) return;
+  if (!requireLogin()) return;
 
-  const postId = form.dataset.postId;
-  const body = new FormData(form).get("body")?.toString().trim();
+  const form = event.target;
+  const input = $('input[name="comment"]', form);
+  const body = input?.value.trim();
+
   if (!body) return;
+
+  const button = $("button[type='submit']", form);
+  setButtonBusy(button, true, "Sending…");
 
   try {
     const { error } = await supabase.from("comments").insert({
       post_id: postId,
-      user_id: session.user.id,
+      user_id: currentUserId(),
       body,
       status: "published"
     });
 
     if (error) throw error;
 
-    form.reset();
-    await loadPosts();
-    const section = $(`comments-${postId}`);
-    section?.classList.add("show");
-    await openComments(postId);
+    state.commentsOpen.add(postId);
+    await loadComments(postId);
+    toast("Comment added.");
+    await updateDashboard();
   } catch (error) {
-    notify("Could not send comment: " + error.message);
+    console.error("Comment submit error:", error);
+    toast(`Could not add comment: ${error.message}`, "error");
+  } finally {
+    setButtonBusy(button, false);
   }
 }
 
-async function sharePost(postId) {
-  const url = new URL(window.location.href);
-  url.hash = `post-${postId}`;
+/* ---------- Post actions ---------- */
 
-  try {
-    if (navigator.share) {
-      await navigator.share({ title: "LearnLoop learning resource", url: url.href });
-    } else if (navigator.clipboard?.writeText) {
-      await navigator.clipboard.writeText(url.href);
-      notify("Post link copied.");
+async function reportPost(post) {
+  if (!requireLogin()) return;
+
+  const reason = window.prompt(
+    "Why are you reporting this post? Please give a short explanation."
+  );
+
+  if (!reason?.trim()) return;
+
+  // The reports table must be created with suitable RLS policies
+  // before reports can be stored safely.
+  const { error } = await supabase.from("reports").insert({
+    post_id: post.id,
+    reporter_id: currentUserId(),
+    reason: reason.trim(),
+    status: "pending"
+  });
+
+  if (error) {
+    console.error("Report submission error:", error);
+    toast(
+      "Reporting is not configured yet. The reports table and its security policies must be added first.",
+      "error"
+    );
+    return;
+  }
+
+  toast("Thank you. Your report has been submitted.");
+}
+
+async function handlePostAction(event) {
+  const button = event.target.closest("[data-action]");
+  if (!button) return;
+
+  const card = button.closest("[data-post-id]");
+  if (!card) return;
+
+  const post = state.posts.find(item => String(item.id) === card.dataset.postId);
+  if (!post) return;
+
+  const action = button.dataset.action;
+
+  if (action === "like") {
+    await toggleLike(post);
+  } else if (action === "save") {
+    if (!requireLogin()) return;
+
+    if (state.savedIds.has(post.id)) {
+      state.savedIds.delete(post.id);
+      toast("Removed from saved resources.");
     } else {
-      window.prompt("Copy this post link:", url.href);
+      state.savedIds.add(post.id);
+      toast("Saved in this browser.");
     }
-  } catch (error) {
-    if (error.name !== "AbortError") notify("Could not share this post.");
+
+    persistSavedIds();
+    renderAllFeeds();
+  } else if (action === "comments") {
+    if (state.commentsOpen.has(post.id)) {
+      state.commentsOpen.delete(post.id);
+      renderAllFeeds();
+    } else {
+      state.commentsOpen.add(post.id);
+      state.commentsByPost[post.id] = undefined;
+      renderAllFeeds();
+      await loadComments(post.id);
+    }
+  } else if (action === "share") {
+    const url = `${window.location.origin}${window.location.pathname}#post-${encodeURIComponent(post.id)}`;
+
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: "LearnLoop learning resource",
+          text: post.body || post.file_name || "Discover this learning resource",
+          url
+        });
+      } else if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(url);
+        toast("Link copied.");
+      } else {
+        window.prompt("Copy this link:", url);
+      }
+    } catch (error) {
+      if (error.name !== "AbortError") {
+        toast("Could not share this post.", "error");
+      }
+    }
+  } else if (action === "report") {
+    await reportPost(post);
+  } else if (action === "open-file") {
+    const path = card.querySelector("[data-file-path]")?.dataset.filePath;
+    if (!path) return;
+
+    const url = await getFileUrl(path);
+    if (url) {
+      window.open(url, "_blank", "noopener,noreferrer");
+    } else {
+      toast("The file could not be opened. Check its storage access policies.", "error");
+    }
   }
 }
 
-async function repost(postId) {
-  if (!requireSession()) return;
+/* ---------- Learning library: Google Books ---------- */
 
-  const original = posts.find(p => String(p.id) === String(postId));
-  if (!original) return;
+async function searchBooks() {
+  const results = $("#googleBooksResults");
+  if (!results) return;
 
-  if (original.user_id === session.user.id) {
-    notify("You cannot repost your own post.");
+  const input = $("#librarySearch");
+  const query = input?.value.trim() || state.searchTerm;
+
+  if (!query) {
+    results.innerHTML = renderEmpty(
+      "Find your next learning resource",
+      "Search by book title, author, subject, or keyword."
+    );
     return;
   }
 
-  if (original.reposted_by_me) {
-    notify("You have already reposted this resource.");
-    return;
+  if ($("#googleBooksStatus")) {
+    $("#googleBooksStatus").textContent = "Searching books…";
   }
+
+  results.innerHTML = `<p class="muted small">Searching…</p>`;
 
   try {
-    const { error } = await supabase.from("posts").insert({
-      user_id: session.user.id,
-      body: original.body || "",
-      post_type: original.post_type || "Discussion",
-      subject: original.subject || null,
-      file_path: original.file_path || null,
-      file_name: original.file_name || null,
-      file_mime: original.file_mime || null,
-      repost_of: original.id,
-      status: "published"
+    const endpoint = new URL("https://www.googleapis.com/books/v1/volumes");
+    endpoint.searchParams.set("q", query);
+    endpoint.searchParams.set("maxResults", "12");
+    endpoint.searchParams.set("printType", "books");
+
+    const response = await fetch(endpoint);
+    if (!response.ok) throw new Error("Book search is temporarily unavailable.");
+
+    const data = await response.json();
+    const books = data.items || [];
+
+    if ($("#googleBooksStatus")) {
+      $("#googleBooksStatus").textContent =
+        `${data.totalItems || 0} book results`;
+    }
+
+    if (!books.length) {
+      results.innerHTML = renderEmpty(
+        "No books found",
+        "Try a shorter title, another author, or a different subject."
+      );
+      return;
+    }
+
+    results.innerHTML = `
+      <div class="book-grid">
+        ${books.map(book => {
+          const info = book.volumeInfo || {};
+          const title = info.title || "Untitled book";
+          const authors = (info.authors || []).join(", ") || "Author unavailable";
+          const image = info.imageLinks?.thumbnail || "";
+          const description = (info.description || "No description available.")
+            .replace(/<[^>]*>/g, "")
+            .slice(0, 180);
+          const url = safeUrl(info.infoLink || "");
+
+          return `
+            <article class="book-card">
+              ${image
+                ? `<img src="${escapeHTML(image)}" alt="${escapeHTML(title)}" loading="lazy">`
+                : `<div class="book-placeholder">📘</div>`}
+              <h3>${escapeHTML(title)}</h3>
+              <p>${escapeHTML(authors)}</p>
+              <p>${escapeHTML(description)}</p>
+              ${url
+                ? `<a class="button button-secondary" href="${escapeHTML(url)}" target="_blank" rel="noopener noreferrer">Book details</a>`
+                : ""}
+            </article>`;
+        }).join("")}
+      </div>`;
+  } catch (error) {
+    console.error("Book search error:", error);
+
+    if ($("#googleBooksStatus")) {
+      $("#googleBooksStatus").textContent = "Search unavailable";
+    }
+
+    results.innerHTML = renderEmpty(
+      "Book search is unavailable",
+      "Check your internet connection and try again."
+    );
+  }
+}
+
+/* ---------- Dashboard ---------- */
+
+async function updateDashboard() {
+  if (!state.session) {
+    ["statPosts", "statComments", "statReactions"].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = "0";
+    });
+    return;
+  }
+
+  const userId = currentUserId();
+
+  const [postsResult, commentsResult, reactionsResult] = await Promise.all([
+    supabase.from("posts")
+      .select("id", { count: "exact", head: true })
+      .eq("user_id", userId)
+      .eq("status", "published"),
+
+    supabase.from("comments")
+      .select("id", { count: "exact", head: true })
+      .eq("user_id", userId)
+      .eq("status", "published"),
+
+    supabase.from("reactions")
+      .select("id", { count: "exact", head: true })
+      .eq("user_id", userId)
+  ]);
+
+  const values = {
+    statPosts: postsResult.count ?? 0,
+    statComments: commentsResult.count ?? 0,
+    statReactions: reactionsResult.count ?? 0
+  };
+
+  for (const [id, value] of Object.entries(values)) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = String(value);
+  }
+}
+
+/* ---------- Host controls ---------- */
+
+async function loadHostDashboard() {
+  if (!isOwner()) {
+    toast("This dashboard is restricted to the platform owner.", "error");
+    return;
+  }
+
+  openDialog("hostDashboardDialog");
+
+  const [posts, profiles] = await Promise.all([
+    supabase.from("posts").select("id", { count: "exact", head: true }),
+    supabase.from("profiles").select("user_id", { count: "exact", head: true })
+  ]);
+
+  if ($("#hostPostsCount")) {
+    $("#hostPostsCount").textContent = String(posts.count ?? "—");
+  }
+
+  if ($("#hostProfilesCount")) {
+    $("#hostProfilesCount").textContent = String(profiles.count ?? "—");
+  }
+
+  const { data, error } = await supabase
+    .from("platform_revenue_settings")
+    .select("*")
+    .limit(1)
+    .maybeSingle();
+
+  if (error) {
+    console.warn("Host settings load error:", error);
+    state.hostSettings = null;
+    if ($("#revenueNotice")) {
+      $("#revenueNotice").textContent =
+        "Host settings could not be loaded. Check table access policies.";
+    }
+  } else {
+    state.hostSettings = data;
+  }
+
+  renderHostSettings();
+  await renderHostModeration();
+}
+
+function renderHostSettings() {
+  const hostForm = $("#revenueSettingsForm");
+  if (!hostForm) return;
+
+  const restricted = !isOwner();
+  for (const control of $$("input, select, textarea, button", hostForm)) {
+    control.disabled = restricted;
+  }
+
+  const adsToggle = $("#limitedAdsEnabled");
+  if (adsToggle) {
+    adsToggle.checked = !!state.hostSettings?.limited_ads_enabled;
+  }
+}
+
+async function saveHostSettings(event) {
+  event.preventDefault();
+
+  if (!isOwner()) {
+    toast("Only the platform owner can change these settings.", "error");
+    return;
+  }
+
+  const limitedAdsEnabled = !!$("#limitedAdsEnabled")?.checked;
+
+  const button = $("#revenueSettingsForm button[type='submit']");
+  setButtonBusy(button, true, "Saving…");
+
+  try {
+    const existing = state.hostSettings || {};
+    const payload = {
+      ...existing,
+      limited_ads_enabled: limitedAdsEnabled
+    };
+
+    delete payload.id;
+    delete payload.created_at;
+    delete payload.updated_at;
+
+    const { data, error } = await supabase
+      .from("platform_revenue_settings")
+      .upsert(payload)
+      .select("*")
+      .maybeSingle();
+
+    if (error) throw error;
+
+    state.hostSettings = data || payload;
+    renderHostSettings();
+    toast("Host settings saved.");
+  } catch (error) {
+    console.error("Host settings save error:", error);
+    toast(
+      `Could not save host settings: ${error.message}. Verify the table schema and owner-only RLS policies.`,
+      "error"
+    );
+  } finally {
+    setButtonBusy(button, false);
+  }
+}
+
+async function renderHostModeration() {
+  const container = $("#hostModerationList");
+  if (!container) return;
+
+  if (!isOwner()) {
+    container.innerHTML = renderEmpty(
+      "Restricted",
+      "Only the platform owner can access moderation tools."
+    );
+    return;
+  }
+
+  const { data, error } = await supabase
+    .from("posts")
+    .select("id,body,post_type,user_id,created_at,status")
+    .order("created_at", { ascending: false })
+    .limit(30);
+
+  if (error) {
+    container.innerHTML = renderEmpty(
+      "Moderation list unavailable",
+      "Check the posts table's owner access policies."
+    );
+    return;
+  }
+
+  if (!data?.length) {
+    container.innerHTML = renderEmpty(
+      "No posts found",
+      "Published content will appear here."
+    );
+    return;
+  }
+
+  container.innerHTML = data.map(post => `
+    <div class="compact-list-item">
+      <div style="flex:1;min-width:0">
+        <strong>${escapeHTML(post.post_type || "Post")}</strong>
+        <p>${escapeHTML((post.body || "Attachment post").slice(0, 180))}</p>
+        <small class="muted">${escapeHTML(relativeTime(post.created_at))}</small>
+      </div>
+      ${post.status === "published"
+        ? `<button class="button button-danger" type="button" data-moderate-post="${escapeHTML(post.id)}">Remove</button>`
+        : `<span class="muted small">Not published</span>`}
+    </div>`).join("");
+}
+
+async function moderatePost(event) {
+  if (!isOwner()) {
+    toast("Owner access required.", "error");
+    return;
+  }
+
+  const button = event.target.closest("[data-moderate-post]");
+  if (!button) return;
+
+  const postId = button.dataset.moderatePost;
+  const confirmed = window.confirm(
+    "Remove this post from the published feed? This changes its status and does not delete its stored file."
+  );
+
+  if (!confirmed) return;
+
+  const { error } = await supabase
+    .from("posts")
+    .update({ status: "removed" })
+    .eq("id", postId);
+
+  if (error) {
+    toast(`Could not remove post: ${error.message}`, "error");
+    return;
+  }
+
+  await loadPosts();
+  await renderHostModeration();
+  toast("Post removed from the published feed.");
+}
+
+/* ---------- Profile dialog ---------- */
+
+function openProfile() {
+  if (!requireLogin()) return;
+
+  if ($("#profileDisplayName")) {
+    $("#profileDisplayName").value =
+      state.profile?.display_name ||
+      state.session?.user?.user_metadata?.display_name ||
+      "";
+  }
+
+  if ($("#profileBio")) {
+    $("#profileBio").value = state.profile?.bio || "";
+  }
+
+  openDialog("profileDialog");
+}
+
+/* ---------- Event wiring ---------- */
+
+function bindEvents() {
+  $$("[data-view]").forEach(button => {
+    button.addEventListener("click", () => navigate(button.dataset.view));
+  });
+
+  $("#menuButton")?.addEventListener("click", openMobileMenu);
+
+  $("#sidebar")?.addEventListener("click", event => {
+    const clickedNav = event.target.closest("[data-view]");
+    if (clickedNav) closeMobileMenu();
+  });
+
+  $("#accountButton")?.addEventListener("click", () => {
+    if (state.session) openProfile();
+    else {
+      setAuthMode("login");
+      openDialog("authDialog");
+    }
+  });
+
+  $("#profileButton")?.addEventListener("click", () => {
+    if (state.session) openProfile();
+    else {
+      setAuthMode("login");
+      openDialog("authDialog");
+    }
+  });
+
+  $("#rightProfileButton")?.addEventListener("click", openProfile);
+  $("#profileForm")?.addEventListener("submit", saveProfile);
+  $("#authForm")?.addEventListener("submit", handleAuth);
+
+  $("#toggleAuthMode")?.addEventListener("click", () => {
+    setAuthMode(state.authMode === "login" ? "signup" : "login");
+  });
+
+  $("#signOutButton")?.addEventListener("click", signOut);
+  $("#postForm")?.addEventListener("submit", publishPost);
+
+  $("#postFile")?.addEventListener("change", event => {
+    const file = event.target.files?.[0];
+    if (file && !validFile(file)) {
+      event.target.value = "";
+      if ($("#selectedFileName")) $("#selectedFileName").textContent = "";
+      return;
+    }
+
+    if ($("#selectedFileName")) {
+      $("#selectedFileName").textContent = file
+        ? `${file.name} · ${formatBytes(file.size)}`
+        : "";
+    }
+  });
+
+  $("#sortSelect")?.addEventListener("change", renderAllFeeds);
+
+  $("#searchInput")?.addEventListener("input", event => {
+    state.searchTerm = event.target.value.trim();
+    renderAllFeeds();
+
+    if (state.currentView === "library") {
+      if ($("#librarySearch")) $("#librarySearch").value = event.target.value;
+    }
+  });
+
+  $("#librarySearchButton")?.addEventListener("click", searchBooks);
+
+  $("#librarySearch")?.addEventListener("keydown", event => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      searchBooks();
+    }
+  });
+
+  $("#librarySearch")?.addEventListener("input", event => {
+    state.searchTerm = event.target.value.trim();
+  });
+
+  $("#librarySubjects")?.addEventListener("click", event => {
+    const button = event.target.closest("[data-subject]");
+    if (!button) return;
+
+    state.selectedSubject = button.dataset.subject;
+    $$("#librarySubjects [data-subject]").forEach(subjectButton => {
+      subjectButton.classList.toggle("active", subjectButton === button);
     });
 
-    if (error) throw error;
-    notify("Resource reposted.");
-    await loadPosts();
-  } catch (error) {
-    notify("Could not repost: " + error.message);
-  }
-}
-
-async function reportPost(postId) {
-  if (!requireSession()) return;
-
-  const reason = window.prompt("Why are you reporting this post?");
-  if (reason === null) return;
-
-  if (!reason.trim()) {
-    notify("Enter a report reason.");
-    return;
-  }
-
-  notify("Report recorded for follow-up: post " + postId + ". A report database table is not configured by this code.");
-}
-
-async function deletePost(postId) {
-  if (!requireSession()) return;
-
-  const post = posts.find(p => String(p.id) === String(postId));
-  if (!post || post.user_id !== session.user.id) {
-    notify("You can only delete your own posts.");
-    return;
-  }
-
-  if (!window.confirm("Delete this post? This cannot be undone.")) return;
-
-  try {
-    const { error } = await supabase.from("posts")
-      .delete().eq("id", postId).eq("user_id", session.user.id);
-
-    if (error) throw error;
-    notify("Post deleted.");
-    await loadPosts();
-  } catch (error) {
-    notify("Could not delete post: " + error.message);
-  }
-}
-
-function rerenderCurrentPosts() {
-  if (activeView === "feed") renderHomePage();
-  else if (activeView === "following") renderFollowingPage();
-  else if (activeView === "discussions") renderDiscussionPage();
-  else if (activeView === "community") renderCommunityPage();
-  else if (activeView === "uploads") renderUploadsPage();
-  else if (activeView === "dashboard") renderDashboardPage();
-}
-
-/* =========================================================
-   CENTRAL EVENT HANDLING
-   ========================================================= */
-
-document.addEventListener("click", async event => {
-  const viewButton = event.target.closest("[data-view]");
-  if (viewButton) {
-    event.preventDefault();
-    navigate(viewButton.dataset.view);
-    return;
-  }
-
-  const pageAction = event.target.closest("[data-page-action]");
-  if (pageAction) {
-    event.preventDefault();
-
-    const action = pageAction.dataset.pageAction;
-
-    if (action === "feed") navigate("feed");
-    else if (action === "library") navigate("library");
-    else if (action === "uploads") navigate("uploads");
-    else if (action === "profile") navigate("profile");
-    else if (action === "login") showAuth("login");
-    else if (action === "edit-profile") openProfile();
-    else if (action === "host-settings") await loadHostSettings();
-    else if (action === "cancel-post") {
-      $("llHomeComposer")?.classList.add("hidden");
-    } else if (action === "new-post") {
-      if (!requireSession()) return;
-      const composer = $("llHomeComposer");
-      composer?.classList.remove("hidden");
-      composer?.scrollIntoView({ behavior: "smooth", block: "center" });
-      $("llPostText")?.focus();
+    if ($("#postSubject")) {
+      const options = [...$("#postSubject").options];
+      const match = options.find(option => option.value === state.selectedSubject);
+      if (match) $("#postSubject").value = match.value;
     }
 
-    return;
-  }
-
-  const subjectButton = event.target.closest("[data-library-subject]");
-  if (subjectButton) {
-    const subject = subjectButton.dataset.librarySubject;
-    const target = $("llLibraryTopics");
-    if (!target) return;
-
-    const topics = LIBRARY[subject] || {};
-
-    target.innerHTML = `
-      <article class="ll-card">
-        <button type="button" class="ll-back" data-page-action="library">← All subjects</button>
-        <h2>${esc(subject)}</h2>
-      </article>
-      ${Object.entries(topics).map(([topic, lessons]) => `
-        <article class="ll-card">
-          <h3>${esc(topic)}</h3>
-          <ol>${lessons.map(lesson => `<li>${esc(lesson)}</li>`).join("")}</ol>
-          <p class="ll-muted">Lesson outline. Full notes can be added separately.</p>
-        </article>
-      `).join("")}
-    `;
-
-    return;
-  }
-
-  const postAction = event.target.closest("[data-action]");
-  if (postAction) {
-    const id = postAction.dataset.id;
-    const action = postAction.dataset.action;
-
-    if (action === "like") await toggleLike(id);
-    else if (action === "comment") await openComments(id);
-    else if (action === "share") await sharePost(id);
-    else if (action === "repost") await repost(id);
-    else if (action === "report") await reportPost(id);
-    else if (action === "delete") await deletePost(id);
-  }
-});
-
-document.addEventListener("submit", async event => {
-  if (event.target.id === "llPostForm") {
-    await publishPost(event);
-    return;
-  }
-
-  if (event.target.id === "llBookSearch") {
-    event.preventDefault();
-    await searchLibraryBooks($("llBookQuery")?.value || "");
-    return;
-  }
-
-  const commentForm = event.target.closest(".comment-form");
-  if (commentForm) {
-    await submitComment(event, commentForm);
-  }
-});
-
-$("loginTab")?.addEventListener("click", () => {
-  authMode = "login";
-  updateAuthMode();
-});
-
-$("signupTab")?.addEventListener("click", () => {
-  authMode = "signup";
-  updateAuthMode();
-});
-
-$("authForm")?.addEventListener("submit", authSubmit);
-$("profileForm")?.addEventListener("submit", saveProfile);
-$("revenueSettingsForm")?.addEventListener("submit", saveRevenueSettings);
-
-$("hostDashboardButton")?.addEventListener("click", () => navigate("host"));
-
-$("newPostTop")?.addEventListener("click", () => {
-  if (!requireSession()) return;
-  navigate("feed");
-  setTimeout(() => {
-    $("llHomeComposer")?.classList.remove("hidden");
-    $("llPostText")?.focus();
-  }, 0);
-});
-
-$("heroCreate")?.addEventListener("click", () => {
-  if (!requireSession()) return;
-  navigate("feed");
-  setTimeout(() => {
-    $("llHomeComposer")?.classList.remove("hidden");
-    $("llPostText")?.focus();
-  }, 0);
-});
-
-$("profileButton")?.addEventListener("click", () => {
-  if (!session) showAuth("login");
-  else navigate("profile");
-});
-
-$("accountButton")?.addEventListener("click", () => {
-  if (!session) showAuth("login");
-  else navigate("profile");
-});
-
-$("signOut")?.addEventListener("click", signOut);
-
-$("searchInput")?.addEventListener("input", () => {
-  if (activeView === "feed") renderHomePage();
-  if (activeView === "community") renderCommunityPage();
-});
-
-$("sortSelect")?.addEventListener("change", () => {
-  if (activeView === "feed") renderHomePage();
-  if (activeView === "community") renderCommunityPage();
-});
-
-document.querySelectorAll("[data-subject]").forEach(button => {
-  button.addEventListener("click", () => {
-    activeSubject = button.dataset.subject;
-    navigate("feed");
-    loadPosts();
+    renderAllFeeds();
   });
-});
 
-window.addEventListener("popstate", event => {
-  const view = event.state?.learnLoopView;
-  if (view && VIEW_INFO[view]) {
-    navigate(view, { replaceHistory: true, scroll: false });
-  }
-});
+  document.addEventListener("click", event => {
+    const closeButton = event.target.closest("[data-close]");
+    if (closeButton) {
+      const dialog = document.getElementById(closeButton.dataset.close);
+      if (dialog) closeDialog(dialog);
+    }
+  });
 
-/* =========================================================
-   AUTH STATE AND STARTUP
-   ========================================================= */
+  document.addEventListener("click", event => {
+    const card = event.target.closest(".post-card");
+    if (card) handlePostAction(event);
+  });
 
-if (supabase) {
-  supabase.auth.onAuthStateChange((_event, newSession) => {
-    session = newSession;
+  document.addEventListener("submit", event => {
+    const form = event.target.closest("[data-comment-form]");
+    if (form) {
+      event.preventDefault();
+      submitComment(event, form.dataset.commentForm);
+    }
+  });
 
-    setTimeout(async () => {
-      await refreshSession();
-      if (activeView === "profile") renderProfilePage();
-    }, 0);
+  $("#hostDashboardButton")?.addEventListener("click", loadHostDashboard);
+  $("#revenueSettingsForm")?.addEventListener("submit", saveHostSettings);
+  $("#hostModerationList")?.addEventListener("click", moderatePost);
+
+  // Close dialogs by clicking their backdrop.
+  $$("dialog").forEach(dialog => {
+    dialog.addEventListener("click", event => {
+      if (event.target === dialog) closeDialog(dialog);
+    });
   });
 }
 
-updateAuthMode();
-updateAccountUI();
+/* ---------- Start application ---------- */
 
-ensurePageStyles();
-navigate("feed", { replaceHistory: true });
+async function init() {
+  loadSavedIds();
+  loadLikedIds();
+  bindEvents();
+  setAuthMode("login");
 
-if (supabase) {
-  refreshSession();
-} else {
-  showEmpty(
-    "Connect LearnLoop",
-    "The existing Supabase connection could not be loaded. Check src/config.js."
+  const { data, error } = await supabase.auth.getSession();
+
+  if (error) {
+    console.error("Session load error:", error);
+    setStatus("We could not restore your session. Please log in again.", "error");
+  }
+
+  state.session = data?.session || null;
+
+  if (state.session) {
+    await fetchProfile();
+  }
+
+  updateAccountUI();
+  await loadPosts();
+  await updateDashboard();
+  navigate("feed");
+
+  // Default library results remain helpful even before a search.
+  const books = $("#googleBooksResults");
+  if (books && !books.innerHTML.trim()) {
+    books.innerHTML = renderEmpty(
+      "Find your next learning resource",
+      "Search by book title, author, subject, or keyword."
+    );
+  }
+}
+
+init().catch(error => {
+  console.error("LearnLoop initialization failed:", error);
+  setStatus(
+    "LearnLoop could not start correctly. Check the browser console and Supabase settings.",
+    "error"
   );
-}
+});
+```
