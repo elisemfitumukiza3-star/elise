@@ -1560,3 +1560,52 @@ box-sizing: border-box;
   }
 }
 
+.topbar .brand {
+  position: relative !important;
+}
+
+.topbar .brand::before,
+.topbar .brand::after {
+  content: none !important;
+}
+
+.topbar .brand .brand-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+  min-width: 0;
+}
+
+.topbar .brand .brand-copy strong {
+  color: #087a38;
+  font-size: 20px;
+  font-weight: 850;
+  line-height: 1.1;
+}
+
+.topbar .brand .brand-divider {
+  display: block;
+  width: 100%;
+  max-width: 175px;
+  height: 2px;
+  background: linear-gradient(90deg, #087a38, #0ca678);
+}
+
+.topbar .brand .brand-copy small {
+  color: #315442;
+  font-size: 10px;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+@media (max-width: 650px) {
+  .topbar .brand .brand-copy strong {
+    font-size: 16px;
+  }
+
+  .topbar .brand .brand-copy small {
+    font-size: 8px;
+  }
+}
+
