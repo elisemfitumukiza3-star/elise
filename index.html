@@ -283,6 +283,52 @@
     <p class="ll-ai-note">Check important answers against trusted learning resources.</p>
   </section>
 </div>
+  
+
+<script>
+(() => {
+  const toggle = document.getElementById("llAiToggle");
+  const panel = document.getElementById("llAiPanel");
+  const close = document.getElementById("llAiClose");
+  const form = document.getElementById("llAiForm");
+  const input = document.getElementById("llAiInput");
+  const messages = document.getElementById("llAiMessages");
+
+  if (!toggle || !panel || !close || !form) return;
+
+  function setOpen(open) {
+    panel.hidden = !open;
+    toggle.setAttribute("aria-expanded", String(open));
+    if (open) input.focus();
+  }
+
+  toggle.addEventListener("click", () => setOpen(panel.hidden));
+  close.addEventListener("click", () => {
+    setOpen(false);
+    toggle.focus();
+  });
+
+  form.addEventListener("submit", event => {
+    event.preventDefault();
+    const question = input.value.trim();
+    if (!question) return;
+
+    const bubble = document.createElement("div");
+    bubble.className = "ll-ai-message user";
+    bubble.textContent = question;
+    messages.appendChild(bubble);
+
+    const notice = document.createElement("div");
+    notice.className = "ll-ai-message";
+    notice.textContent =
+      "Your question has been added. The AI answer service still needs to be connected.";
+    messages.appendChild(notice);
+
+    input.value = "";
+    messages.scrollTop = messages.scrollHeight;
+  });
+})();
+</script>
 
 </body>
 </html>
