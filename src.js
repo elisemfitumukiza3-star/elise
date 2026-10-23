@@ -397,14 +397,21 @@ document.querySelectorAll("[data-view]").forEach(b => {
     // Library is displayed on its own
     if (view === "library") return;
 
-  if (view === "following") {
+ 
+if (view === "following") {
   document.body.classList.add("following-mode");
 
   const followingView = $("followingView");
-  if (followingView) followingView.classList.remove("hidden");
+  const main = document.querySelector(".main");
+
+  if (followingView) {
+    followingView.classList.remove("hidden");
+  }
 
   if (feed) feed.classList.add("hidden");
   if (library) library.classList.add("hidden");
+
+  if (main) main.classList.add("following-main");
 
   return;
 }
@@ -414,19 +421,13 @@ document.body.classList.remove("following-mode");
 const followingView = $("followingView");
 if (followingView) followingView.classList.add("hidden");
 
+document.querySelector(".main")?.classList.remove("following-main");
+
 if (view === "saved") {
   notify("Saved resources are not implemented yet.");
   return;
 }
 
-    if (view === "feed") {
-      loadPosts();
-      return;
-    }
-
-    notify("This section is not implemented yet. Your learning feed is still available.");
-  };
-});
 
 
 
