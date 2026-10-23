@@ -598,3 +598,30 @@ body.library-mode #libraryView .library-book-grid {
     padding: 18px;
   }
 }
+
+/* LearnLoop: visible Back to Home button */
+#libraryBackHome {
+  display: block;
+  width: 100%;
+  margin: 0 0 22px 0;
+  padding: 14px 18px;
+  background: #087a38;
+  color: #ffffff;
+  border: 2px solid #087a38;
+  border-radius: 10px;
+  font-size: 17px;
+  font-weight: 800;
+  text-align: left;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+#libraryBackHome:hover {
+  background: #05652e;
+  border-color: #05652e;
+}
+
+#libraryBackHome:focus-visible {
+  outline: 3px solid #f0c419;
+  outline-offset: 3px;
+}
