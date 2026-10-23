@@ -526,3 +526,203 @@ refreshSession();
     });
   });
 })();
+
+/* LearnLoop: Google Books search and embedded previews */
+(() => {
+  const search = document.getElementById("librarySearch");
+  const results = document.getElementById("googleBooksResults");
+  const status = document.getElementById("googleBooksStatus");
+  const viewerBox = document.getElementById("googleBooksViewer");
+  const previewBox = document.getElementById("googleBooksPreview");
+  const closeButton = document.getElementById("closeGoogleBook");
+
+  if (!search || !results || !status || !viewerBox || !previewBox) return;
+
+  let timer;
+  let searchNumber = 0;
+  let viewerPromise;
+
+  function makeElement(tag, className, text) {
+    const el = document.createElement(tag);
+    if (className) el.className = className;
+    if (text !== undefined) el.textContent = text;
+    return el;
+  }
+
+  function loadViewerApi() {
+    if (window.google?.books) return Promise.resolve();
+
+    if (!viewerPromise) {
+      viewerPromise = new Promise((resolve, reject) => {
+        let script = document.querySelector(
+          'script[data-learnloop-books-viewer]'
+        );
+
+        if (!script) {
+          script = document.createElement("script");
+          script.src = "https://www.google.com/books/jsapi.js";
+          script.dataset.learnloopBooksViewer = "true";
+          document.head.appendChild(script);
+        }
+
+        const timeout = setTimeout(
+          () => reject(new Error("Book preview loading timed out.")),
+          15000
+        );
+
+        script.addEventListener("error", () => {
+          clearTimeout(timeout);
+          reject(new Error("Could not load the book preview service."));
+        }, { once: true });
+
+        const checkApi = () => {
+          if (window.google?.books) {
+            clearTimeout(timeout);
+            resolve();
+          } else {
+            setTimeout(checkApi, 100);
+          }
+        };
+
+        script.addEventListener("load", checkApi, { once: true });
+        checkApi();
+      });
+    }
+
+    return viewerPromise;
+  }
+
+  async function openPreview(bookId) {
+    viewerBox.hidden = false;
+    previewBox.replaceChildren(
+      makeElement("p", "muted", "Loading book preview...")
+    );
+    viewerBox.scrollIntoView({ behavior: "smooth", block: "start" });
+
+    try {
+      await loadViewerApi();
+
+      window.google.books.load();
+
+      window.google.books.setOnLoadCallback(() => {
+        previewBox.replaceChildren();
+
+        const viewer = new window.google.books.DefaultViewer(previewBox);
+        viewer.load(bookId, () => {
+          previewBox.replaceChildren(
+            makeElement(
+              "p",
+              "muted",
+              "A preview is unavailable for this book. Try another result."
+            )
+          );
+        });
+      });
+    } catch (error) {
+      previewBox.replaceChildren(
+        makeElement("p", "muted", error.message)
+      );
+    }
+  }
+
+  async function searchBooks(query) {
+    const currentSearch = ++searchNumber;
+    results.replaceChildren();
+    viewerBox.hidden = true;
+    previewBox.replaceChildren();
+
+    if (!query.trim()) {
+      status.textContent = "Enter a book title, author, or subject above.";
+      return;
+    }
+
+    status.textContent = "Searching Google Books...";
+
+    try {
+      const url = new URL("https://www.googleapis.com/books/v1/volumes");
+      url.searchParams.set("q", query.trim());
+      url.searchParams.set("maxResults", "12");
+      url.searchParams.set("printType", "books");
+
+      const response = await fetch(url);
+      if (!response.ok) throw new Error("Book search is temporarily unavailable.");
+
+      const data = await response.json();
+      if (currentSearch !== searchNumber) return;
+
+      const books = data.items || [];
+      if (!books.length) {
+        status.textContent = "No books found. Try another search.";
+        return;
+      }
+
+      status.textContent = `Found ${data.totalItems || books.length} matching books.`;
+
+      books.forEach(book => {
+        const info = book.volumeInfo || {};
+        const card = makeElement("article", "library-book");
+
+        const cover = makeElement("div", "book-cover");
+        const imageUrl = info.imageLinks?.thumbnail;
+
+        if (imageUrl) {
+          const image = document.createElement("img");
+          image.src = imageUrl.replace(/^http:/, "https:");
+          image.alt = `Cover of ${info.title || "book"}`;
+          image.loading = "lazy";
+          image.style.cssText =
+            "max-width:100%;max-height:150px;object-fit:contain";
+          cover.appendChild(image);
+        } else {
+          cover.textContent = "📘";
+        }
+
+        card.appendChild(cover);
+        card.appendChild(makeElement("h4", "", info.title || "Untitled book"));
+        card.appendChild(makeElement(
+          "p",
+          "",
+          (info.authors || ["Author not listed"]).join(", ")
+        ));
+
+        if (info.description) {
+          card.appendChild(makeElement(
+            "p",
+            "",
+            info.description.slice(0, 180) +
+              (info.description.length > 180 ? "…" : "")
+          ));
+        }
+
+        const previewButton = makeElement(
+          "button",
+          "library-green-button",
+          "Read preview in LearnLoop"
+        );
+        previewButton.type = "button";
+        previewButton.addEventListener("click", () => {
+          openPreview(book.id);
+        });
+        card.appendChild(previewButton);
+
+        results.appendChild(card);
+      });
+    } catch (error) {
+      if (currentSearch !== searchNumber) return;
+      status.textContent = error.message ||
+        "Could not load books. Please try again.";
+    }
+  }
+
+  search.addEventListener("input", () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => searchBooks(search.value), 500);
+  });
+
+  if (closeButton) {
+    closeButton.addEventListener("click", () => {
+      viewerBox.hidden = true;
+      previewBox.replaceChildren();
+    });
+  }
+})();
