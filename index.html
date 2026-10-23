@@ -253,21 +253,58 @@
     </form>
   </dialog>
 
-  <dialog id="profileDialog">
-    <form id="profileForm">
-      <h2>Edit your profile</h2>
-      <label>Display name
-        <input id="profileName" maxlength="80" required>
-      </label>
-      <label>About me
-        <textarea id="profileBio" maxlength="500" placeholder="Tell the community about your learning interests"></textarea>
-      </label>
-      <div class="row-actions">
-        <button type="button" class="secondary" id="closeProfile">Cancel</button>
-        <button class="primary" type="submit">Save profile</button>
-      </div>
-    </form>
-  </dialog>
+ 
+<dialog id="profileDialog">
+  <form id="profileForm">
+    <h2>Edit your profile</h2>
+
+    <label>Profile photo
+      <input id="profilePhoto" type="file" accept="image/*">
+    </label>
+    <small>Choose a photo from your device.</small>
+
+    <label>Full name
+      <input id="profileFullName" maxlength="120" placeholder="Enter your full name">
+    </label>
+
+    <label>Display name
+      <input id="profileName" maxlength="80" required>
+    </label>
+
+    <label>Email address
+      <input id="profileEmail" type="email" readonly>
+    </label>
+    <small>Your email comes from your signed-in account.</small>
+
+    <label>Phone number
+      <input id="profilePhone" type="tel" maxlength="30" placeholder="Enter your phone number">
+    </label>
+    <small>Your phone number stays private by default.</small>
+
+    <label>School or institution
+      <input id="profileInstitution" maxlength="150" placeholder="School, college or university">
+    </label>
+
+    <label>Level of study
+      <input id="profileStudyLevel" maxlength="100" placeholder="e.g. Secondary school, Year 2">
+    </label>
+
+    <label>Learning interests
+      <input id="profileInterests" maxlength="300" placeholder="e.g. Science, English, Technology">
+    </label>
+
+    <label>About me
+      <textarea id="profileBio" maxlength="500"
+        placeholder="Tell the community about your learning interests"></textarea>
+    </label>
+
+    <div class="row-actions">
+      <button type="button" class="secondary" id="closeProfile">Cancel</button>
+      <button class="primary" type="submit">Save profile</button>
+    </div>
+  </form>
+</dialog>
+
 
   <dialog id="hostDashboardDialog">
     <form id="revenueSettingsForm">
