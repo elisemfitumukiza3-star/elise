@@ -217,12 +217,7 @@ function requireLogin() {
   return false;
 }
 
-function requireLogin() {
-  if (state.session) return true;
-  openDialog("authDialog");
-  toast("Please log in to use this feature.", "error");
-  return false;
-}
+
 
 function openDialog(id) {
   const dialog = document.getElementById(id);
