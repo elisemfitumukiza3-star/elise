@@ -219,31 +219,37 @@ body {
   line-height: 1.5;
 }
 
-/* Compact icon-only sidebar */
-.sidebar {
+
+/* LearnLoop: compact icon-only sidebar */
+.side {
   width: 76px;
   min-width: 76px;
-  flex-shrink: 0;
-  overflow: visible;
-  z-index: 20;
+  padding: 20px 10px;
+  gap: 20px;
+  overflow-x: visible;
+  overflow-y: auto;
 }
 
-.navitem {
+.side .navitem,
+.side .subject {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 48px;
+  min-width: 48px;
+  height: 48px;
   min-height: 48px;
-  margin: 6px auto;
-  padding: 10px;
+  margin: 0 auto 7px;
+  padding: 0;
   box-sizing: border-box;
-  white-space: nowrap;
   overflow: visible;
   font-size: 20px;
 }
 
-.navitem > span {
+/* Hide navigation words until hover */
+.side .navitem > span,
+.side .subject > span {
   display: none;
   position: absolute;
   left: 58px;
@@ -256,40 +262,62 @@ body {
   background: #202938;
   color: #ffffff;
   font-size: 14px;
+  font-weight: 500;
   line-height: 1.4;
   white-space: normal;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
-  z-index: 1000;
+  box-shadow: 0 4px 14px #00000026;
+  z-index: 2000;
 }
 
-.navitem:hover > span,
-.navitem:focus-visible > span {
+.side .navitem:hover > span,
+.side .navitem:focus-visible > span,
+.side .subject:hover > span,
+.side .subject:focus-visible > span {
   display: block;
 }
 
-/* Let the main home window use available screen width */
-.main,
-.main-content,
-.content-area {
-  min-width: 0;
-  max-width: none;
+/* Hide sidebar headings and text panels */
+.side .side-label,
+.side .side-note,
+.side .ll-menu-label,
+.side .ll-sidebar-footer {
+  display: none;
 }
 
-.page,
-.app-layout,
-.layout {
-  width: 100%;
-  max-width: none;
-  box-sizing: border-box;
+/* Keep the brand mark; hide the brand name if present */
+.side .ll-brand {
+  justify-content: center;
+  padding: 0;
 }
 
-@media (max-width: 600px) {
-  .sidebar {
-    width: 60px;
-    min-width: 60px;
+.side .ll-brand > span:not(.ll-brand-mark) {
+  display: none;
+}
+
+/* Give the main content the space beside the sidebar */
+body.ll-sidebar-enabled {
+  padding-left: 76px;
+}
+
+@media (min-width: 900px) {
+  body.ll-sidebar-enabled {
+    padding-left: 76px;
+  }
+}
+
+/* Mobile: retain the slide-out sidebar behavior */
+@media (max-width: 899px) {
+  #ll-sidebar {
+    width: 76px;
+    min-width: 76px;
+    padding: 20px 10px;
   }
 
-  .navitem > span {
-    left: 52px;
+  body.ll-sidebar-enabled {
+    padding-left: 0;
+  }
+
+  body.ll-sidebar-open #ll-sidebar {
+    width: 76px;
   }
 }
