@@ -189,14 +189,26 @@ function safeUrl(value) {
 
 function linkifyText(value = "") {
   const escaped = escapeHTML(value);
+
   return escaped.replace(
     /(https?:\/\/[^\s<]+)/g,
-    raw => {
+    function (raw) {
       const clean = safeUrl(raw);
-      return clean
-        ? `<a href="${escapeHTML(clean)}" target="_blank" rel="noopener noreferrer">${raw}</a>`
-        : raw;
+
+      if (!clean) {
+        return raw;
+      }
+
+      return (
+        '<a href="' +
+        escapeHTML(clean) +
+        '" target="_blank" rel="noopener noreferrer">' +
+        raw +
+        "</a>"
+      );
     }
+  );
+}
   );
 }
 
