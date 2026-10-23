@@ -432,3 +432,121 @@ body.ll-sidebar-enabled {
 .side .subject {
   display: none !important;
 }
+
+/* LearnLoop Library — green theme */
+#libraryView {
+  --library-green: #16834a;
+  --library-dark: #105c36;
+  --library-light: #eaf7ef;
+  --library-text: #183b2a;
+
+  border: 1px solid #d1ead9;
+  border-radius: 18px;
+  padding: 26px;
+  background: linear-gradient(180deg, #f5fcf7 0%, #ffffff 100%);
+  color: var(--library-text);
+}
+
+#libraryView h2 {
+  color: var(--library-dark);
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+#libraryView > p {
+  line-height: 1.6;
+}
+
+#libraryView input[type="search"] {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 13px 16px;
+  margin: 18px 0 24px;
+  border: 1px solid #b8ddc5;
+  border-radius: 12px;
+  background: #fff;
+  color: var(--library-text);
+  outline-color: var(--library-green);
+}
+
+#libraryView .library-welcome {
+  background: var(--library-light);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+#libraryView .library-welcome h3 {
+  color: var(--library-dark);
+  margin-top: 0;
+}
+
+#libraryView .library-book-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+  gap: 18px;
+  margin-top: 20px;
+}
+
+#libraryView .library-book {
+  min-height: 175px;
+  padding: 18px 12px;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid #d7eadc;
+  box-shadow: 0 4px 12px #164b2810;
+  text-align: center;
+  transition: transform .2s, box-shadow .2s;
+}
+
+#libraryView .library-book:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px #164b2820;
+}
+
+#libraryView .library-book .book-cover {
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  background: linear-gradient(145deg, #16834a, #105c36);
+  color: white;
+  font-size: 38px;
+}
+
+#libraryView .library-book h4 {
+  color: var(--library-dark);
+  margin: 8px 0 4px;
+}
+
+#libraryView .library-book p {
+  font-size: 13px;
+  color: #567261;
+  margin: 0;
+}
+
+#libraryView .library-green-button {
+  background: var(--library-green);
+  color: white;
+  border: 0;
+  border-radius: 9px;
+  padding: 10px 14px;
+  cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  #libraryView {
+    padding: 16px;
+  }
+
+  #libraryView h2 {
+    font-size: 23px;
+  }
+
+  #libraryView .library-book-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+}
