@@ -422,3 +422,107 @@ $("feed").addEventListener("submit",async event=>{
 supabase?.auth.onAuthStateChange((_event,newSession)=>{session=newSession;setTimeout(()=>refreshSession(),0);});
 updateAuthMode();
 refreshSession();
+
+/* LearnLoop Library: open subjects and browse lessons */
+(() => {
+  const libraryResults = document.getElementById("libraryResults");
+  if (!libraryResults) return;
+
+  const libraryContent = {
+    "Science": {
+      "Biology": ["Cells and their functions", "Human body systems", "Plants and photosynthesis"],
+      "Chemistry": ["Atoms and elements", "Acids and bases", "Chemical reactions"],
+      "Physics": ["Force and motion", "Energy", "Electricity"]
+    },
+    "Technology": {
+      "Computer Basics": ["Computer components", "Operating systems", "Internet safety"],
+      "Coding": ["Introduction to programming", "Variables and data", "Web development"],
+      "Digital Skills": ["Using email", "Online research", "Digital citizenship"]
+    },
+    "Languages": {
+      "English": ["Grammar basics", "Reading comprehension", "Writing skills"],
+      "French": ["Les salutations", "La grammaire", "La compréhension écrite"],
+      "Kinyarwanda": ["Gusoma no kwandika", "Ikibonezamvugo", "Gusobanura amagambo"]
+    },
+    "Mathematics": {
+      "Algebra": ["Expressions", "Equations", "Linear functions"],
+      "Geometry": ["Angles and lines", "Triangles", "Area and volume"],
+      "Statistics": ["Collecting data", "Averages", "Charts and graphs"]
+    },
+    "Business": {
+      "Entrepreneurship": ["Business ideas", "Business planning", "Marketing basics"],
+      "Management": ["Planning and organizing", "Leadership", "Teamwork"],
+      "Accounting": ["Introduction to accounting", "Income and expenses", "Budgets"]
+    },
+    "General Studies": {
+      "Health Education": ["Personal hygiene", "Nutrition", "Disease prevention"],
+      "Citizenship": ["Rights and responsibilities", "Community participation", "Respect and tolerance"],
+      "Research Skills": ["Finding information", "Evaluating sources", "Writing a report"]
+    }
+  };
+
+  const subjects = document.getElementById("librarySubjects");
+  const details = document.getElementById("librarySubjectDetails");
+  if (!subjects || !details) return;
+
+  function showSubjects() {
+    subjects.classList.remove("hidden");
+    details.classList.add("hidden");
+    details.innerHTML = "";
+  }
+
+  function showSubject(subject) {
+    const topics = libraryContent[subject];
+    if (!topics) return;
+
+    subjects.classList.add("hidden");
+    details.classList.remove("hidden");
+
+    details.innerHTML = `
+      <button type="button" class="library-green-button" id="libraryBack">
+        ← All subjects
+      </button>
+      <h2 style="color:#105c36;margin-top:24px">${subject}</h2>
+      <p>Choose a topic to explore its lesson outline.</p>
+      <div class="library-book-grid">
+        ${Object.entries(topics).map(([name, lessons]) => `
+          <button type="button" class="library-book" data-library-topic="${name}">
+            <div class="book-cover">📘</div>
+            <h4>${name}</h4>
+            <p>${lessons.length} lesson topics</p>
+          </button>
+        `).join("")}
+      </div>
+      <div id="libraryLessonDetails"></div>
+    `;
+
+    details.querySelector("#libraryBack").addEventListener("click", showSubjects);
+
+    details.querySelectorAll("[data-library-topic]").forEach(button => {
+      button.addEventListener("click", () => {
+        const topic = button.dataset.libraryTopic;
+        const lessons = topics[topic];
+        const lessonDetails = details.querySelector("#libraryLessonDetails");
+
+        lessonDetails.innerHTML = `
+          <h3 style="color:#105c36;margin-top:28px">${topic}</h3>
+          <p>Lesson topics to study:</p>
+          <ol>
+            ${lessons.map(lesson => `<li style="margin:12px 0">${lesson}</li>`).join("")}
+          </ol>
+          <p class="muted">
+            These are lesson outlines. Full notes and downloadable books can be added next.
+          </p>
+        `;
+
+        lessonDetails.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
+  }
+
+  subjects.querySelectorAll("[data-library-subject]").forEach(button => {
+    button.addEventListener("click", () => {
+      showSubject(button.dataset.librarySubject);
+    });
+  });
+})();
