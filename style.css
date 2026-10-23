@@ -4,3 +4,74 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-se
 @media(max-width:700px){.topbar{height:62px;padding:0 12px;gap:9px}.brand{font-size:17px;gap:6px}.logo{width:32px;height:32px}.search{max-width:none}.search input{padding:10px 7px 10px 30px;font-size:11px}.search span{left:9px;top:7px;font-size:20px}.top-actions{gap:5px}.top-actions .primary{display:none}.avatar{width:34px;height:34px}.layout{display:block;margin:14px auto;padding:0 11px}.side{display:none}.hero{padding:20px}.hero h1{font-size:24px}.post,.panel{padding:14px}.form-grid{grid-template-columns:1fr}.post-actions .action{font-size:10px;min-width:48px}.feed-heading h2{font-size:16px}.tag{display:none}.auth-form label{font-size:12px}}
 
 .revenue-note p{margin-bottom:0}.setting-check{display:flex!important;flex-direction:row!important;align-items:center;gap:10px!important;font-weight:600!important}.setting-check input{width:auto!important;accent-color:var(--blue)}#hostDashboardDialog h2{margin-top:0}
+
+/* LearnLoop: solid, filled icon style */
+:root {
+  --ll-icon-color: #3157d5;
+  --ll-icon-active: #2443ad;
+}
+
+/* Navigation and account controls */
+.sidebar button,
+.sidebar a,
+nav button,
+nav a,
+#accountButton,
+#profileButton,
+#hostDashboardButton {
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Make navigation icons visually stronger */
+.sidebar svg,
+nav svg,
+#accountButton svg,
+#profileButton svg,
+#hostDashboardButton svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  stroke-width: 2.5;
+  fill: currentColor;
+}
+
+/* Keep icon outlines visible where SVG icons use strokes */
+.sidebar svg *,
+nav svg *,
+#accountButton svg *,
+#profileButton svg *,
+#hostDashboardButton svg * {
+  stroke: currentColor;
+}
+
+/* Clear active navigation state */
+.sidebar button[aria-current="page"],
+nav button[aria-current="page"],
+.sidebar a[aria-current="page"],
+nav a[aria-current="page"] {
+  color: var(--ll-icon-active);
+  background-color: #eef2ff;
+  font-weight: 700;
+}
+
+/* Consistent account button appearance */
+#accountButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 12px;
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .sidebar button,
+  .sidebar a,
+  nav button,
+  nav a,
+  #accountButton,
+  #profileButton,
+  #hostDashboardButton {
+    transition: none;
+  }
+}
