@@ -1367,11 +1367,13 @@ body {
 /* Compact horizontal navigation shown while scrolling */
 .compact-sidebar {
   display: none;
-  position: fixed;
-  top: 48px;
-  left: 0;
-  right: 0;
-  z-index: 1000;
+  position: sticky;
+top: 0;
+left: auto;
+right: auto;
+z-index: 1000;
+width: 100%;
+box-sizing: border-box;
   align-items: center;
   justify-content: center;
   gap: 12px;
