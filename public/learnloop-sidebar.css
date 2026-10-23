@@ -218,3 +218,78 @@ body {
   color: #52627b;
   line-height: 1.5;
 }
+
+/* Compact icon-only sidebar */
+.sidebar {
+  width: 76px;
+  min-width: 76px;
+  flex-shrink: 0;
+  overflow: visible;
+  z-index: 20;
+}
+
+.navitem {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  min-height: 48px;
+  margin: 6px auto;
+  padding: 10px;
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: visible;
+  font-size: 20px;
+}
+
+.navitem > span {
+  display: none;
+  position: absolute;
+  left: 58px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: max-content;
+  max-width: 220px;
+  padding: 9px 12px;
+  border-radius: 8px;
+  background: #202938;
+  color: #ffffff;
+  font-size: 14px;
+  line-height: 1.4;
+  white-space: normal;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  z-index: 1000;
+}
+
+.navitem:hover > span,
+.navitem:focus-visible > span {
+  display: block;
+}
+
+/* Let the main home window use available screen width */
+.main,
+.main-content,
+.content-area {
+  min-width: 0;
+  max-width: none;
+}
+
+.page,
+.app-layout,
+.layout {
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+}
+
+@media (max-width: 600px) {
+  .sidebar {
+    width: 60px;
+    min-width: 60px;
+  }
+
+  .navitem > span {
+    left: 52px;
+  }
+}
