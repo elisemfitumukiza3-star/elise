@@ -1311,3 +1311,56 @@ body {
   gap: 10px !important;
 }
 
+/* LearnLoop: align sidebar with the page while scrolling */
+.layout {
+  display: grid !important;
+  grid-template-columns: 250px minmax(0, 1fr) !important;
+  align-items: start !important;
+  gap: 24px !important;
+}
+
+.layout > .side {
+  position: sticky !important;
+  top: 60px !important;
+  align-self: start !important;
+  height: auto !important;
+  max-height: calc(100vh - 76px) !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+.layout > .side > button.navitem {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 10px !important;
+  width: 100% !important;
+  min-height: 44px !important;
+  height: auto !important;
+  margin: 0 0 5px !important;
+  padding: 10px 12px !important;
+  box-sizing: border-box !important;
+}
+
+.layout > .side > button.navitem > span {
+  display: inline !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  white-space: nowrap !important;
+  color: inherit !important;
+}
+
+@media (max-width: 650px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .layout > .side {
+    position: static !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+}
+
