@@ -361,6 +361,14 @@ document.querySelectorAll("[data-view]").forEach(b => {
 
     $("feedTitle").textContent = titles[view] || "Your learning feed";
 
+    const library = $("libraryView");
+    const feed = $("feed");
+
+    if (library) library.classList.toggle("hidden", view !== "library");
+    if (feed) feed.classList.toggle("hidden", view === "library");
+
+    if (view === "library") return;
+
     if (view === "saved" || view === "following") {
       notify(view === "saved"
         ? "Saved resources are not implemented yet."
@@ -368,7 +376,7 @@ document.querySelectorAll("[data-view]").forEach(b => {
       return;
     }
 
-    if (view === "library" || view === "feed") {
+    if (view === "feed") {
       loadPosts();
       return;
     }
@@ -376,6 +384,8 @@ document.querySelectorAll("[data-view]").forEach(b => {
     notify("This section is not implemented yet. Your learning feed is still available.");
   };
 });
+
+
 
 
 $("feed").addEventListener("click",async event=>{
