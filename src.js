@@ -339,6 +339,7 @@ $("sortSelect").addEventListener("change",renderPosts);
 document.querySelectorAll("[data-subject]").forEach(b=>b.onclick=()=>{activeSubject=activeSubject===b.dataset.subject?null:b.dataset.subject;document.querySelectorAll("[data-subject]").forEach(x=>x.classList.toggle("selected",x.dataset.subject===activeSubject));$("feedTitle").textContent=activeSubject?`${activeSubject} resources`:"Your learning feed";loadPosts();});
 
 
+
 document.querySelectorAll("[data-view]").forEach(b => {
   b.onclick = () => {
     document.querySelectorAll("[data-view]").forEach(x =>
@@ -347,6 +348,9 @@ document.querySelectorAll("[data-view]").forEach(b => {
 
     const view = b.dataset.view;
     activeSubject = null;
+
+    // Give the Library its own full-window layout
+    document.body.classList.toggle("library-mode", view === "library");
 
     const titles = {
       feed: "Your learning feed",
@@ -359,14 +363,23 @@ document.querySelectorAll("[data-view]").forEach(b => {
       dashboard: "Learning Dashboard"
     };
 
-    $("feedTitle").textContent = titles[view] || "Your learning feed";
+    const feedTitle = $("feedTitle");
+    if (feedTitle) {
+      feedTitle.textContent = titles[view] || "Your learning feed";
+    }
 
     const library = $("libraryView");
     const feed = $("feed");
 
-    if (library) library.classList.toggle("hidden", view !== "library");
-    if (feed) feed.classList.toggle("hidden", view === "library");
+    if (library) {
+      library.classList.toggle("hidden", view !== "library");
+    }
 
+    if (feed) {
+      feed.classList.toggle("hidden", view === "library");
+    }
+
+    // Library is displayed on its own
     if (view === "library") return;
 
     if (view === "saved" || view === "following") {
