@@ -1423,3 +1423,51 @@ box-sizing: border-box;
   }
 }
 
+/* Fix sidebar overlapping profile and lower cards */
+.layout > .side {
+  position: static !important;
+  top: auto !important;
+  align-self: start !important;
+
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+  overflow-y: visible !important;
+
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+  box-sizing: border-box !important;
+}
+
+/* Keep each navigation item in its own row */
+.layout > .side > button.navitem {
+  position: static !important;
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+
+  width: 100% !important;
+  height: auto !important;
+  min-height: 44px !important;
+  flex: 0 0 auto !important;
+
+  margin: 0 !important;
+  overflow: visible !important;
+}
+
+/* Ensure the compact bar doesn't cover page content */
+.compact-sidebar {
+  position: static !important;
+  display: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.compact-sidebar.visible {
+  display: flex !important;
+  position: static !important;
+}
+
