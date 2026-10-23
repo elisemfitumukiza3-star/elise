@@ -550,3 +550,51 @@ body.ll-sidebar-enabled {
     gap: 12px;
   }
 }
+
+/* Full-window Learning Library */
+body.library-mode .layout {
+  display: block !important;
+}
+
+body.library-mode .layout > .side,
+body.library-mode .layout > .right {
+  display: none !important;
+}
+
+body.library-mode .layout > .main {
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+}
+
+body.library-mode .layout > .main > .hero,
+body.library-mode .layout > .main > #composer,
+body.library-mode .layout > .main > #feed {
+  display: none !important;
+}
+
+body.library-mode #libraryView {
+  display: block !important;
+  width: 100% !important;
+  max-width: none !important;
+  min-height: 80vh;
+  box-sizing: border-box;
+  margin: 0 !important;
+  border-radius: 0;
+  padding: 32px;
+}
+
+body.library-mode #libraryView.hidden {
+  display: block !important;
+}
+
+body.library-mode #libraryView .library-book-grid {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+@media (max-width: 600px) {
+  body.library-mode #libraryView {
+    padding: 18px;
+  }
+}
