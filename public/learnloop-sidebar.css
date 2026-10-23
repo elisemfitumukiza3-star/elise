@@ -1495,3 +1495,68 @@ box-sizing: border-box;
   }
 }
 
+/* LearnLoop: compact horizontal brand header */
+.topbar .brand {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 12px !important;
+
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: 340px !important;
+  height: 58px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  text-decoration: none !important;
+}
+
+.topbar .brand .logo-image {
+  display: block !important;
+  width: 58px !important;
+  height: 58px !important;
+  flex: 0 0 58px !important;
+  object-fit: contain !important;
+  object-position: center !important;
+}
+
+.topbar .brand::after {
+  content: "LearnLoop\A Knowledge is better when it's shared";
+  display: block;
+  white-space: pre-line;
+  color: #315442;
+  font-size: 11px;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+.topbar .brand::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #0ca678;
+}
+
+/* Keep the header compact on smaller screens */
+@media (max-width: 650px) {
+  .topbar .brand {
+    gap: 7px !important;
+    max-width: 200px !important;
+    height: 46px !important;
+  }
+
+  .topbar .brand .logo-image {
+    width: 44px !important;
+    height: 44px !important;
+    flex-basis: 44px !important;
+  }
+
+  .topbar .brand::after {
+    font-size: 9px;
+  }
+}
+
