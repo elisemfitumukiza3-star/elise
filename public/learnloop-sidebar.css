@@ -1471,3 +1471,27 @@ box-sizing: border-box;
   position: static !important;
 }
 
+/* LearnLoop full logo in the website header */
+.topbar .brand {
+  display: flex !important;
+  align-items: center !important;
+  flex: 0 0 auto !important;
+  text-decoration: none !important;
+  min-width: 0;
+}
+
+.topbar .brand .logo-image {
+  display: block !important;
+  width: 190px !important;
+  max-width: 100% !important;
+  height: auto !important;
+  object-fit: contain;
+  object-position: left center;
+}
+
+@media (max-width: 650px) {
+  .topbar .brand .logo-image {
+    width: 125px !important;
+  }
+}
+
