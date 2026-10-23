@@ -1,409 +1,321 @@
-
+```html
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#315ee8">
-  <meta name="description" content="LearnLoop is a free educational community to discover learning resources, share knowledge, and learn together.">
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://elise-neon.vercel.app/">
-  <title>LearnLoop — Free Educational Community</title>
+  <meta name="theme-color" content="#5548e8">
+  <title>LearnLoop — Learn Together</title>
   <link rel="stylesheet" href="/style.css">
-  <link rel="stylesheet" href="/learnloop-sidebar.css">
+  <script type="module" src="/src.js"></script>
 </head>
 <body>
-  <header class="topbar">
-    <a class="brand" href="/" aria-label="LearnLoop home" data-view="feed">
-      <span class="logo-image" aria-hidden="true">📚</span>
-      <span class="brand-copy">
-        <strong>LearnLoop</strong>
-        <small>Knowledge is better when it's shared</small>
-      </span>
-    </a>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#" data-view="feed">
+        <span class="brand-mark">L</span> LearnLoop
+      </a>
 
-    <label class="search">
-      <span aria-hidden="true">⌕</span>
-      <input id="searchInput" type="search" placeholder="Search learning resources..." aria-label="Search posts">
-    </label>
+      <p class="side-label">LEARN</p>
+      <nav class="nav-list">
+        <button class="nav-item active" data-view="feed">⌂ Home feed</button>
+        <button class="nav-item" data-view="library">▤ Learning library</button>
+        <button class="nav-item" data-view="discussions">☷ Discussions</button>
+        <button class="nav-item" data-view="community">◎ Community</button>
+        <button class="nav-item" data-view="following">♡ Following</button>
+        <button class="nav-item" data-view="saved">☆ Saved resources</button>
+        <button class="nav-item" data-view="myuploads">⇧ My uploads</button>
+        <button class="nav-item" data-view="notifications">♧ Notifications</button>
+        <button class="nav-item" data-view="dashboard">▦ My dashboard</button>
+      </nav>
 
-    <div class="top-actions">
-      <button id="newPostTop" class="primary" type="button">＋ Create post</button>
-      <button id="accountButton" class="avatar" type="button" aria-label="Account">?</button>
-    </div>
-  </header>
+      <p class="side-label">YOUR ACCOUNT</p>
+      <nav class="nav-list">
+        <button class="nav-item" id="profileButton">◉ Profile</button>
+        <button class="nav-item" id="hostDashboardButton">⚙ Host dashboard</button>
+      </nav>
 
-  <nav id="compactSidebar" class="compact-sidebar" aria-label="Quick navigation">
-    <button type="button" data-view="feed" aria-label="Home feed" title="Home">⌂</button>
-    <button type="button" data-view="following" aria-label="Following" title="Following">♧</button>
-    <button type="button" data-view="saved" aria-label="Saved resources" title="Saved">▣</button>
-    <button type="button" data-view="library" aria-label="Learning library" title="Learning Library">📚</button>
-    <button type="button" data-view="discussions" aria-label="Discussions" title="Discussions">💬</button>
-    <button type="button" data-view="community" aria-label="Community" title="Community">👥</button>
-    <button type="button" data-view="notifications" aria-label="Notifications" title="Notifications">🔔</button>
-    <button type="button" data-view="dashboard" aria-label="Dashboard" title="Dashboard">📊</button>
-  </nav>
-
-  <main class="layout">
-    <aside class="side" aria-label="Main navigation">
-      <button class="navitem active" type="button" data-view="feed">⌂ <span>Home feed</span></button>
-      <button class="navitem" type="button" data-view="following">♧ <span>Following</span></button>
-      <button class="navitem" type="button" data-view="saved">▣ <span>Saved resources</span></button>
-      <button class="navitem" type="button" data-view="library">📚 <span>Learning Library</span></button>
-      <button class="navitem" type="button" data-view="discussions">💬 <span>Discussions</span></button>
-      <button class="navitem" type="button" data-view="community">👥 <span>Community</span></button>
-      <button class="navitem" type="button" data-view="notifications">🔔 <span>Notifications</span></button>
-      <button class="navitem" type="button" data-view="dashboard">📊 <span>Learning Dashboard</span></button>
-
-      <div class="side-label">EXPLORE SUBJECTS</div>
-      <button class="subject" type="button" data-subject="Science">🔬 Science</button>
-      <button class="subject" type="button" data-subject="Technology">💻 Technology</button>
-      <button class="subject" type="button" data-subject="Languages">🌐 Languages</button>
-      <button class="subject" type="button" data-subject="Business">📈 Business</button>
-      <button class="subject" type="button" data-subject="Research">📚 Research</button>
-
-      <div class="side-note">Share knowledge. Respect others. Learn together.</div>
+      <div class="sidebar-bottom">
+        <div class="mini-avatar" id="sidebarAvatar">L</div>
+        <div class="account-mini">
+          <strong id="sidebarName">Welcome learner</strong>
+          <small id="sidebarEmail">Sign in to get started</small>
+        </div>
+        <button class="icon-button" id="accountButton" aria-label="Account options">⋯</button>
+      </div>
     </aside>
 
-    <section class="main" id="mainContent">
-      <section class="hero" id="homeHero">
-        <p class="eyebrow">LEARN TOGETHER · GROW TOGETHER</p>
-        <h1>Knowledge is better when it's shared.</h1>
-        <p>Discover resources, share what you know, and learn from a community that grows together.</p>
-        <button id="heroCreate" class="primary" type="button">Share something useful ＋</button>
-      </section>
-
-      <section id="composer" class="panel composer hidden">
-        <h2>Create an educational post</h2>
-        <form id="postForm">
-          <label for="postText">What would you like to share?
-            <textarea id="postText" maxlength="10000" placeholder="Share a lesson, idea, story, or resource..." required></textarea>
-          </label>
-
-          <div class="form-grid">
-            <label for="postType">Post type
-              <select id="postType">
-                <option>Discussion</option>
-                <option>Document</option>
-                <option>Photo</option>
-                <option>Video</option>
-                <option>Story</option>
-                <option>Link</option>
-              </select>
-            </label>
-
-            <label for="postSubject">Subject
-              <select id="postSubject">
-                <option>General</option>
-                <option>Science</option>
-                <option>Technology</option>
-                <option>Languages</option>
-                <option>Business</option>
-                <option>Research</option>
-                <option>Mathematics</option>
-                <option>Health education</option>
-              </select>
-            </label>
-          </div>
-
-          <label for="postFile">Attach a document, photo, or video
-            <input id="postFile" type="file" accept=".pdf,.doc,.docx,.ppt,.pptx,.txt,.csv,.xls,.xlsx,image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,video/quicktime">
-            <small>Maximum file size: 50 MB.</small>
-          </label>
-
-          <div class="row-actions">
-            <button type="button" id="cancelPost" class="secondary">Cancel</button>
-            <button class="primary" type="submit">Publish post</button>
-          </div>
-        </form>
-      </section>
-
-      <section id="feedSection" aria-labelledby="feedTitle">
-        <div class="feed-heading">
-          <h2 id="feedTitle">Your learning feed</h2>
-          <label>
-            <span class="hidden">Sort posts</span>
-            <select id="sortSelect" aria-label="Sort posts">
-              <option value="latest">Latest</option>
-              <option value="popular">Popular</option>
-            </select>
-          </label>
+    <main class="main-area">
+      <header class="topbar">
+        <button class="mobile-menu icon-button" id="menuButton">☰</button>
+        <div class="topbar-title">
+          <strong id="topbarTitle">Home feed</strong>
+          <span id="topbarSubtitle">Ideas grow when we share them.</span>
         </div>
-
-        <div id="status" class="status" role="status" aria-live="polite">Connecting to LearnLoop...</div>
-        <div id="feed"></div>
-      </section>
-
-      <section id="libraryView" class="panel hidden" aria-labelledby="libraryTitle">
-        <button type="button" id="libraryBackHome" class="library-back-home">← Back to Home</button>
-        <h2 id="libraryTitle">📚 Learning Library</h2>
-        <p class="muted">Explore educational subjects and learning resources.</p>
-
-        <label for="librarySearch">Search books, authors, or subjects
-          <input id="librarySearch" type="search" placeholder="Enter a title, author, or subject...">
+        <label class="search-wrap">
+          <span>⌕</span>
+          <input id="searchInput" type="search" placeholder="Search learning posts…">
         </label>
+        <button class="button button-primary" id="newPostTop">＋ Create post</button>
+      </header>
 
-        <div id="libraryResults">
-          <div class="library-welcome">
-            <h3>Welcome to the Learning Library</h3>
-            <p>Choose a subject to explore lesson topics.</p>
-          </div>
+      <div id="statusBanner" class="status-banner hidden"></div>
 
-          <div class="library-book-grid" id="librarySubjects">
-            <button type="button" class="library-book" data-library-subject="Science">
-              <div class="book-cover">🔬</div>
-              <h4>Science</h4>
-              <p>Biology, Chemistry, Physics</p>
-            </button>
-            <button type="button" class="library-book" data-library-subject="Technology">
-              <div class="book-cover">💻</div>
-              <h4>Technology</h4>
-              <p>Computers and coding</p>
-            </button>
-            <button type="button" class="library-book" data-library-subject="Languages">
-              <div class="book-cover">🌐</div>
-              <h4>Languages</h4>
-              <p>English, French, Kinyarwanda</p>
-            </button>
-            <button type="button" class="library-book" data-library-subject="Mathematics">
-              <div class="book-cover">📐</div>
-              <h4>Mathematics</h4>
-              <p>Algebra and geometry</p>
-            </button>
-            <button type="button" class="library-book" data-library-subject="Business">
-              <div class="book-cover">📈</div>
-              <h4>Business</h4>
-              <p>Business and accounting</p>
-            </button>
-            <button type="button" class="library-book" data-library-subject="General Studies">
-              <div class="book-cover">📖</div>
-              <h4>General Studies</h4>
-              <p>Health, citizenship, research</p>
-            </button>
-          </div>
+      <div class="content-layout">
+        <section class="content-column">
 
-          <div id="librarySubjectDetails" class="hidden"></div>
-        </div>
+          <section class="view-panel" id="feedView">
+            <div class="welcome-card">
+              <div>
+                <span class="eyebrow">YOUR LEARNING COMMUNITY</span>
+                <h1>Knowledge is better when it's shared.</h1>
+                <p>Ask questions, share resources, and learn from one another.</p>
+              </div>
+              <div class="welcome-orbit">✦</div>
+            </div>
 
-        <section class="library-online-books">
-          <h3>🌐 Discover Online Books</h3>
-          <p>Search for books and available previews.</p>
-          <p id="googleBooksStatus" class="muted" aria-live="polite">Enter a book title, author, or subject above.</p>
-          <div id="googleBooksResults" class="library-book-grid"></div>
+            <form class="composer card" id="postForm">
+              <div class="composer-head">
+                <div class="mini-avatar" id="composerAvatar">L</div>
+                <label class="composer-input">
+                  <span class="sr-only">Write a post</span>
+                  <textarea id="postText" rows="2" placeholder="What are you learning today?" required></textarea>
+                </label>
+              </div>
+              <div class="composer-options">
+                <select id="postType" aria-label="Post type">
+                  <option value="Discussion">Discussion</option>
+                  <option value="Question">Question</option>
+                  <option value="Learning tip">Learning tip</option>
+                  <option value="Document">Document</option>
+                  <option value="Photo">Photo</option>
+                  <option value="Video">Video</option>
+                  <option value="Story">Story</option>
+                  <option value="Link">Link</option>
+                </select>
+                <select id="postSubject" aria-label="Subject">
+                  <option value="General">General</option>
+                  <option>Science</option>
+                  <option>Mathematics</option>
+                  <option>Languages</option>
+                  <option>Technology</option>
+                  <option>Health</option>
+                  <option>Social Development</option>
+                  <option>Business</option>
+                  <option>Other</option>
+                </select>
+                <label class="file-pick">
+                  ＋ Attach file
+                  <input id="postFile" type="file" accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt,.csv,.jpg,.jpeg,.png,.gif,.webp,.mp4,.webm,.mov" hidden>
+                </label>
+                <span id="selectedFileName" class="muted small"></span>
+                <button class="button button-primary" id="publishButton" type="submit">Publish</button>
+              </div>
+              <p class="small muted">Be respectful. Maximum upload size: 50 MB.</p>
+            </form>
 
-          <div id="googleBooksViewer" hidden>
-            <button type="button" id="closeGoogleBook" class="library-green-button">← Back to results</button>
-            <div id="googleBooksPreview" style="width:100%;height:600px;margin-top:16px"></div>
-          </div>
+            <div class="section-heading">
+              <div>
+                <h2 id="feedHeading">Latest learning posts</h2>
+                <p id="feedDescription">Fresh ideas from the community.</p>
+              </div>
+              <select id="sortSelect" aria-label="Sort posts">
+                <option value="latest">Latest</option>
+                <option value="popular">Popular</option>
+              </select>
+            </div>
+            <div id="feed" class="post-list">
+              <div class="empty-state">Loading posts…</div>
+            </div>
+          </section>
+
+          <section class="view-panel hidden" id="libraryView">
+            <div class="page-heading">
+              <span class="eyebrow">EXPLORE AND STUDY</span>
+              <h1>Learning library</h1>
+              <p>Find useful books and resources to support your studies.</p>
+            </div>
+            <div class="card library-search">
+              <label class="search-wrap wide">
+                <span>⌕</span>
+                <input id="librarySearch" type="search" placeholder="Search books, authors, or subjects…">
+              </label>
+              <button class="button button-primary" id="librarySearchButton">Search books</button>
+            </div>
+            <div class="subject-grid" id="librarySubjects">
+              <button class="subject-card" data-subject="Science"><span>⚗</span><strong>Science</strong><small>Discover how the world works</small></button>
+              <button class="subject-card" data-subject="Mathematics"><span>∑</span><strong>Mathematics</strong><small>Build problem-solving skills</small></button>
+              <button class="subject-card" data-subject="Languages"><span>文</span><strong>Languages</strong><small>Read, write, and communicate</small></button>
+              <button class="subject-card" data-subject="Technology"><span>⌘</span><strong>Technology</strong><small>Digital skills and computing</small></button>
+              <button class="subject-card" data-subject="Health"><span>＋</span><strong>Health</strong><small>Health and wellbeing education</small></button>
+              <button class="subject-card" data-subject="Social Development"><span>♧</span><strong>Social development</strong><small>Communities and development</small></button>
+            </div>
+            <div class="section-heading">
+              <div><h2>Book search</h2><p>Discover books and available previews.</p></div>
+            </div>
+            <div id="googleBooksStatus" class="muted small">Search for a title, author, or subject.</div>
+            <div id="googleBooksResults" class="book-grid"></div>
+          </section>
+
+          <section class="view-panel hidden" id="discussionsView">
+            <div class="page-heading">
+              <span class="eyebrow">LEARN OUT LOUD</span>
+              <h1>Discussions</h1>
+              <p>Questions, thoughtful conversations, and helpful explanations.</p>
+            </div>
+            <div class="card inline-notice">Start a discussion or ask a question using the Home feed composer.</div>
+            <div id="discussionsFeed" class="post-list"></div>
+          </section>
+
+          <section class="view-panel hidden" id="communityView">
+            <div class="page-heading">
+              <span class="eyebrow">BETTER TOGETHER</span>
+              <h1>Community</h1>
+              <p>A respectful place to share knowledge and support each other.</p>
+            </div>
+            <div class="community-grid">
+              <article class="card info-card"><span class="info-icon">🤝</span><h2>Be respectful</h2><p>Discuss ideas kindly. Criticize ideas, not people.</p></article>
+              <article class="card info-card"><span class="info-icon">📚</span><h2>Share resources</h2><p>Give context for documents and links.</p></article>
+              <article class="card info-card"><span class="info-icon">🛡️</span><h2>Keep it safe</h2><p>Report harmful content and protect privacy.</p></article>
+            </div>
+            <div class="section-heading"><div><h2>Community posts</h2><p>Recent posts from learners.</p></div></div>
+            <div id="communityFeed" class="post-list"></div>
+          </section>
+
+          <section class="view-panel hidden" id="followingView">
+            <div class="page-heading">
+              <span class="eyebrow">YOUR LEARNING CIRCLE</span>
+              <h1>Following</h1>
+              <p>Posts from people you follow.</p>
+            </div>
+            <div class="card inline-notice">Following feeds require the social database feature to be enabled.</div>
+            <div id="followingFeed" class="post-list"></div>
+          </section>
+
+          <section class="view-panel hidden" id="savedView">
+            <div class="page-heading">
+              <span class="eyebrow">KEEP IT CLOSE</span>
+              <h1>Saved resources</h1>
+              <p>Posts you save for later study.</p>
+            </div>
+            <div id="savedList" class="post-list"></div>
+          </section>
+
+          <section class="view-panel hidden" id="myuploadsView">
+            <div class="page-heading">
+              <span class="eyebrow">YOUR CONTRIBUTIONS</span>
+              <h1>My uploads</h1>
+              <p>Posts and resources you have shared.</p>
+            </div>
+            <div id="myUploadsList" class="post-list"></div>
+          </section>
+
+          <section class="view-panel hidden" id="notificationsView">
+            <div class="page-heading">
+              <span class="eyebrow">STAY IN THE LOOP</span>
+              <h1>Notifications</h1>
+              <p>Updates about your LearnLoop activity.</p>
+            </div>
+            <div class="card inline-notice">Notification delivery requires the optional notifications database feature.</div>
+            <div id="notificationsList" class="post-list"><div class="empty-state">No notifications yet.</div></div>
+          </section>
+
+          <section class="view-panel hidden" id="dashboardView">
+            <div class="page-heading">
+              <span class="eyebrow">YOUR PROGRESS</span>
+              <h1>My dashboard</h1>
+              <p>A quick look at your contributions.</p>
+            </div>
+            <div class="stats-grid">
+              <article class="card stat-card"><span>Posts shared</span><strong id="statPosts">—</strong></article>
+              <article class="card stat-card"><span>Comments written</span><strong id="statComments">—</strong></article>
+              <article class="card stat-card"><span>Reactions received</span><strong id="statReactions">—</strong></article>
+            </div>
+            <div class="card dashboard-tip">
+              <h2>Keep learning consistently</h2>
+              <p>Ask a question, share a resource, or explain something you learned today.</p>
+              <button class="button button-primary" data-view="feed">Create a post</button>
+            </div>
+          </section>
         </section>
-      </section>
 
-      <section id="followingView" class="following-page hidden" aria-labelledby="followingTitle">
-        <div class="following-header">
-          <span class="following-eyebrow">LEARNLOOP COMMUNITY</span>
-          <h1 id="followingTitle">Find your learning people</h1>
-          <p>Discover learners and educators who share your interests.</p>
-        </div>
-
-        <div class="following-tabs">
-          <button class="following-tab active" type="button" data-following-tab="discover">Discover people</button>
-          <button class="following-tab" type="button" data-following-tab="following">People I follow</button>
-        </div>
-
-        <h2>People you may like</h2>
-        <p class="following-intro">Explore study topics and connect with the learning community.</p>
-
-        <div class="following-grid">
-          <article class="following-card">
-            <div class="following-avatar">📚</div>
-            <h3>Science Learner</h3>
-            <p>Exploring science and new ideas.</p>
-            <button class="follow-button" type="button" disabled title="Following is not connected to a user directory yet">Follow feature coming soon</button>
-          </article>
-          <article class="following-card">
-            <div class="following-avatar">✍️</div>
-            <h3>Study &amp; Writing</h3>
-            <p>Sharing notes and study tips.</p>
-            <button class="follow-button" type="button" disabled title="Following is not connected to a user directory yet">Follow feature coming soon</button>
-          </article>
-          <article class="following-card">
-            <div class="following-avatar">🌍</div>
-            <h3>Knowledge Explorer</h3>
-            <p>Learning about our world together.</p>
-            <button class="follow-button" type="button" disabled title="Following is not connected to a user directory yet">Follow feature coming soon</button>
-          </article>
-        </div>
-      </section>
-
-      <section id="savedView" class="panel hidden" aria-labelledby="savedTitle">
-        <button type="button" class="secondary" data-view="feed">← Back to Home</button>
-        <h2 id="savedTitle">Saved resources</h2>
-        <p>Your saved learning resources will appear here when saving is connected.</p>
-      </section>
-
-      <section id="discussionsView" class="panel hidden" aria-labelledby="discussionsTitle">
-        <button type="button" class="secondary" data-view="feed">← Back to Home</button>
-        <h2 id="discussionsTitle">Discussions</h2>
-        <p>Explore educational conversations in the community feed.</p>
-        <button type="button" class="primary" data-view="feed">Browse learning feed</button>
-      </section>
-
-      <section id="communityView" class="panel hidden" aria-labelledby="communityTitle">
-        <button type="button" class="secondary" data-view="feed">← Back to Home</button>
-        <h2 id="communityTitle">Community</h2>
-        <p>Learn and share knowledge respectfully with other members.</p>
-        <p>Keep posts educational, protect personal information, and respect other learners.</p>
-      </section>
-
-      <section id="notificationsView" class="panel hidden" aria-labelledby="notificationsTitle">
-        <button type="button" class="secondary" data-view="feed">← Back to Home</button>
-        <h2 id="notificationsTitle">Notifications</h2>
-        <p>Your notifications will appear here when notification support is connected.</p>
-      </section>
-
-      <section id="dashboardView" class="panel hidden" aria-labelledby="dashboardTitle">
-        <button type="button" class="secondary" data-view="feed">← Back to Home</button>
-        <h2 id="dashboardTitle">Learning Dashboard</h2>
-        <p>Track your learning activity as dashboard features are connected.</p>
-        <div class="dashboard-links">
-          <button type="button" class="secondary" data-view="library">Explore learning library</button>
-          <button type="button" class="secondary" data-view="discussions">Browse discussions</button>
-        </div>
-      </section>
-    </section>
-
-    <aside class="right" aria-label="Account and community information">
-      <section class="panel">
-        <h3>Your account</h3>
-        <p id="profileSummary">Sign in to see your profile.</p>
-        <button id="profileButton" class="secondary" type="button">Sign in / Create account</button>
-        <button id="signOut" class="secondary hidden" type="button">Sign out</button>
-        <button id="hostDashboardButton" class="secondary hidden" type="button">Host dashboard</button>
-      </section>
-
-      <section class="panel">
-        <h3>Community guidelines</h3>
-        <p>Share useful learning materials, respect others, protect privacy, and report harmful content.</p>
-      </section>
-    </aside>
-  </main>
-
-  <dialog id="authDialog" aria-labelledby="authTitle">
-    <form id="authForm">
-      <h2 id="authTitle">Welcome back</h2>
-      <p id="authIntro">Sign in to join the educational community.</p>
-
-      <div class="auth-tabs">
-        <button id="loginTab" type="button" class="active">Sign in</button>
-        <button id="signupTab" type="button">Create account</button>
+        <aside class="right-column">
+          <div class="card profile-card">
+            <div class="profile-cover"></div>
+            <div class="profile-card-body">
+              <div class="large-avatar" id="profileCardAvatar">L</div>
+              <h2 id="profileCardName">Welcome to LearnLoop</h2>
+              <p id="profileCardBio">A place to learn and share knowledge.</p>
+              <button class="button button-secondary full-width" id="rightProfileButton">View profile</button>
+            </div>
+          </div>
+          <div class="card side-card">
+            <h3>Community guidelines</h3>
+            <ul class="guidelines">
+              <li>Be kind and constructive.</li>
+              <li>Credit sources and creators.</li>
+              <li>Keep personal information private.</li>
+              <li>Report unsafe content.</li>
+            </ul>
+          </div>
+          <div class="card side-card">
+            <h3>LearnLoop promise</h3>
+            <p class="muted small">Core learning features are free. We do not sell personal information. Sponsorships should be clearly disclosed.</p>
+          </div>
+        </aside>
       </div>
+      <footer class="footer">LearnLoop · Learn together, grow together.</footer>
+    </main>
+  </div>
 
-      <p id="authMessage" class="status" aria-live="polite"></p>
-
-      <label id="nameWrap" class="hidden" for="displayName">Display name
-        <input id="displayName" autocomplete="name" maxlength="80" placeholder="Your name">
-      </label>
-
-      <label for="email">Email address
-        <input id="email" type="email" autocomplete="email" required>
-      </label>
-
-      <label for="password">Password
-        <input id="password" type="password" minlength="6" autocomplete="current-password" required>
-      </label>
-
-      <div class="row-actions">
-        <button type="button" class="secondary" id="closeAuth">Cancel</button>
-        <button id="authSubmit" class="primary" type="submit">Sign in</button>
-      </div>
+  <dialog id="authDialog" class="dialog-card">
+    <form id="authForm" method="dialog">
+      <button class="dialog-close" type="button" data-close="authDialog">×</button>
+      <span class="eyebrow">WELCOME TO LEARNLOOP</span>
+      <h2 id="authTitle">Sign in</h2>
+      <p class="muted">Sign in to post, save resources, and manage your profile.</p>
+      <label>Email<input type="email" id="authEmail" required autocomplete="email"></label>
+      <label>Password<input type="password" id="authPassword" required minlength="6" autocomplete="current-password"></label>
+      <label id="authNameWrap" class="hidden">Display name<input id="authName" autocomplete="name"></label>
+      <button class="button button-primary full-width" id="authSubmit" type="submit">Sign in</button>
+      <button class="text-button" id="toggleAuthMode" type="button">Need an account? Sign up</button>
+      <p class="small muted" id="authMessage"></p>
     </form>
   </dialog>
 
-  <dialog id="profileDialog" aria-labelledby="profileDialogTitle">
-    <form id="profileForm">
-      <h2 id="profileDialogTitle">Edit your profile</h2>
-
-      <label for="profilePhoto">Profile photo
-        <input id="profilePhoto" type="file" accept="image/jpeg,image/png,image/webp,image/gif">
-      </label>
-      <small>Choose an image from your device.</small>
-
-      <label for="profileFullName">Full name
-        <input id="profileFullName" maxlength="120" placeholder="Enter your full name">
-      </label>
-
-      <label for="profileName">Display name
-        <input id="profileName" maxlength="80" required>
-      </label>
-
-      <label for="profileEmail">Email address
-        <input id="profileEmail" type="email" readonly>
-      </label>
-      <small>Your email comes from your signed-in account.</small>
-
-      <label for="profilePhone">Phone number
-        <input id="profilePhone" type="tel" maxlength="30" placeholder="Enter your phone number">
-      </label>
-      <small>Your phone number stays private by default.</small>
-
-      <label for="profileInstitution">School or institution
-        <input id="profileInstitution" maxlength="150" placeholder="School, college or university">
-      </label>
-
-      <label for="profileStudyLevel">Level of study
-        <input id="profileStudyLevel" maxlength="100" placeholder="e.g. Secondary school, Year 2">
-      </label>
-
-      <label for="profileInterests">Learning interests
-        <input id="profileInterests" maxlength="300" placeholder="e.g. Science, English, Technology">
-      </label>
-
-      <label for="profileBio">About me
-        <textarea id="profileBio" maxlength="500" placeholder="Tell the community about your learning interests"></textarea>
-      </label>
-
-      <div class="row-actions">
-        <button type="button" class="secondary" id="closeProfile">Cancel</button>
-        <button class="primary" type="submit">Save profile</button>
-      </div>
+  <dialog id="profileDialog" class="dialog-card">
+    <form id="profileForm" method="dialog">
+      <button class="dialog-close" type="button" data-close="profileDialog">×</button>
+      <span class="eyebrow">YOUR SPACE</span>
+      <h2>Edit profile</h2>
+      <label>Display name<input id="profileDisplayName" required maxlength="80"></label>
+      <label>About me<textarea id="profileBio" rows="4" maxlength="500"></textarea></label>
+      <button class="button button-primary full-width" type="submit">Save profile</button>
+      <button class="button button-secondary full-width" id="signOutButton" type="button">Sign out</button>
     </form>
   </dialog>
 
-  <dialog id="hostDashboardDialog" aria-labelledby="hostDashboardTitle">
-    <form id="revenueSettingsForm">
-      <h2 id="hostDashboardTitle">Private host settings</h2>
-      <p>These settings are available to the authorized platform owner.</p>
-
-      <label for="revAds"><input id="revAds" type="checkbox"> Limited advertisements</label>
-      <label for="revSponsors"><input id="revSponsors" type="checkbox"> Educational sponsorships</label>
-      <label for="revReferrals"><input id="revReferrals" type="checkbox"> Disclosed referral links</label>
-      <label for="revSupport"><input id="revSupport" type="checkbox"> Voluntary support</label>
-
-      <label for="adPlacement">Ad placement
-        <select id="adPlacement">
-          <option value="limited">Limited</option>
-          <option value="feed">Learning feed</option>
-          <option value="sidebar">Sidebar</option>
-        </select>
-      </label>
-
-      <p id="revenueSettingsMessage" class="status" aria-live="polite"></p>
-
-      <div class="row-actions">
-        <button type="button" class="secondary" id="closeHostDashboard">Cancel</button>
-        <button class="primary" type="submit">Save settings</button>
+  <dialog id="hostDashboardDialog" class="dialog-card wide-dialog">
+    <form id="revenueSettingsForm" method="dialog">
+      <button class="dialog-close" type="button" data-close="hostDashboardDialog">×</button>
+      <span class="eyebrow">PRIVATE ADMIN AREA</span>
+      <h2>Host dashboard</h2>
+      <p class="muted">Private host settings and platform overview.</p>
+      <div class="stats-grid">
+        <article class="card stat-card"><span>Published posts</span><strong id="hostPostsCount">—</strong></article>
+        <article class="card stat-card"><span>Registered profiles</span><strong id="hostProfilesCount">—</strong></article>
       </div>
+      <label>Revenue / support notice<textarea id="revenueNotice" rows="3" placeholder="Optional sponsorship or voluntary support information"></textarea></label>
+      <label class="check-row"><input type="checkbox" id="limitedAdsEnabled"> Enable clearly labelled, limited sponsor notices</label>
+      <button class="button button-primary full-width" type="submit">Save host settings</button>
+      <div class="divider"></div>
+      <h3>Moderation</h3>
+      <p class="muted small">Secure platform-wide moderation requires owner-authorized Supabase policies.</p>
+      <div id="hostModerationList" class="post-list compact-list"></div>
     </form>
   </dialog>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
-
-  <footer class="site-footer">
-    <p>LearnLoop — a free learning community.</p>
-    <p>We respect your privacy and do not sell personal information.</p>
-    <a href="/" data-view="feed">Home</a>
-  </footer>
-
-  <script type="module" src="/src.js"></script>
 </body>
 </html>
+```
