@@ -692,3 +692,18 @@ function openPreview(bookId) {
     timer = setTimeout(() => searchOpenLibrary(search.value), 600);
   });
 })();
+/* LearnLoop: Back to Home button */
+document.addEventListener("click", function (event) {
+  const backButton = event.target.closest("#libraryBackHome");
+  if (!backButton) return;
+
+  event.preventDefault();
+
+  const homeButton = document.querySelector(
+    '.navitem[data-view="feed"]'
+  );
+
+  if (homeButton) {
+    homeButton.click();
+  }
+});
