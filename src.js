@@ -427,6 +427,16 @@ if (view === "saved") {
   notify("Saved resources are not implemented yet.");
   return;
 }
+    
+    if (view === "feed") {
+      loadPosts();
+      return;
+    }
+
+    notify("This section is not implemented yet. Your learning feed is still available.");
+  };
+});
+
 
 
 
