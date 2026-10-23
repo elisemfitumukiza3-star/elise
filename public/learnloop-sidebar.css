@@ -321,3 +321,54 @@ body.ll-sidebar-enabled {
     width: 76px;
   }
 }
+
+/* Make the LearnLoop sidebar smaller */
+.side {
+  width: 58px;
+  min-width: 58px;
+  padding: 16px 5px;
+  gap: 14px;
+}
+
+.side .navitem,
+.side .subject {
+  width: 42px;
+  min-width: 42px;
+  height: 42px;
+  min-height: 42px;
+  margin: 0 auto 6px;
+  font-size: 18px;
+}
+
+/* Keep hover labels outside the narrow sidebar */
+.side .navitem > span,
+.side .subject > span {
+  left: 49px;
+}
+
+/* Match the page offset to the new sidebar width */
+body.ll-sidebar-enabled {
+  padding-left: 58px;
+}
+
+@media (min-width: 900px) {
+  body.ll-sidebar-enabled {
+    padding-left: 58px;
+  }
+}
+
+@media (max-width: 899px) {
+  #ll-sidebar {
+    width: 58px;
+    min-width: 58px;
+    padding: 16px 5px;
+  }
+
+  body.ll-sidebar-enabled {
+    padding-left: 0;
+  }
+
+  body.ll-sidebar-open #ll-sidebar {
+    width: 58px;
+  }
+}
