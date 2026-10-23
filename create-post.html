@@ -1,0 +1,133 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create a Post | LearnLoop</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f1f8f4;
+      color: #183b2b;
+    }
+
+    header {
+      padding: 18px 7%;
+      background: #087a38;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header a { color: white; text-decoration: none; }
+
+    main {
+      max-width: 760px;
+      margin: 45px auto;
+      padding: 0 18px;
+    }
+
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 22px;
+      box-shadow: 0 8px 30px #12332212;
+    }
+
+    h1 { margin-top: 0; }
+    p { color: #587064; line-height: 1.6; }
+
+    label {
+      display: block;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+    textarea, select {
+      width: 100%;
+      margin-top: 8px;
+      padding: 13px;
+      border: 1px solid #cbded1;
+      border-radius: 10px;
+      font: inherit;
+    }
+
+    textarea { min-height: 180px; resize: vertical; }
+
+    button {
+      margin-top: 22px;
+      padding: 13px 20px;
+      border: 0;
+      border-radius: 10px;
+      background: #087a38;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .note { font-size: 13px; }
+
+    @media (max-width: 600px) {
+      .card { padding: 21px; }
+      main { margin-top: 25px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <strong>LearnLoop</strong>
+    <a href="/">← Back to Home</a>
+  </header>
+
+  <main>
+    <section class="card">
+      <h1>Share something useful ✨</h1>
+      <p>Share a lesson, question, learning tip, story, or educational resource with the community.</p>
+
+      <form id="createPostForm">
+        <label for="postText">What would you like to share?</label>
+        <textarea id="postText" maxlength="10000"
+          placeholder="Write something helpful for other learners..."
+          required></textarea>
+
+        <label for="postType">Post type</label>
+        <select id="postType">
+          <option>Discussion</option>
+          <option>Document</option>
+          <option>Photo</option>
+          <option>Video</option>
+          <option>Story</option>
+          <option>Link</option>
+        </select>
+
+        <label for="postSubject">Subject</label>
+        <select id="postSubject">
+          <option>General</option>
+          <option>Science</option>
+          <option>Technology</option>
+          <option>Languages</option>
+          <option>Business</option>
+          <option>Research</option>
+          <option>Mathematics</option>
+          <option>Health education</option>
+        </select>
+
+        <button type="submit">Publish post</button>
+        <p class="note">Your post will be published to the LearnLoop community once connected.</p>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    document.getElementById("createPostForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+      alert("The separate page is ready, but publishing still needs to be connected to LearnLoop.");
+    });
+  </script>
+</body>
+</html>
