@@ -2,13 +2,14 @@ import { createClient } from "@supabase/supabase-js";
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from "./src/config.js";
 
 /* =========================================================
-   LEARNLOOP — MAIN APPLICATION
-   Keeps the existing Supabase project and database.
+   LEARNLOOP — COMPLETE APPLICATION
+   Existing Supabase project and database are preserved.
    ========================================================= */
 
 const configured =
+  typeof SUPABASE_URL === "string" &&
   SUPABASE_URL.startsWith("https://") &&
-  !SUPABASE_URL.includes("YOUR-PROJECT") &&
+  typeof SUPABASE_ANON_KEY === "string" &&
   SUPABASE_ANON_KEY.length > 30 &&
   !SUPABASE_ANON_KEY.includes("YOUR_SUPABASE");
 
@@ -19,9 +20,7 @@ const supabase = configured
         autoRefreshToken: true,
         detectSessionInUrl: true
       },
-      realtime: {
-        params: { eventsPerSecond: 5 }
-      }
+      realtime: { params: { eventsPerSecond: 5 } }
     })
   : null;
 
@@ -32,12 +31,13 @@ const $ = id => document.getElementById(id);
 let session = null;
 let profile = null;
 let posts = [];
-let authMode = "login";
-let activeSubject = null;
 let activeView = "feed";
+let activeSubject = null;
+let authMode = "login";
 let isPlatformOwner = false;
 let feedChannel = null;
 let loadingPosts = false;
+let pageHistory = ["feed"];
 
 const MAX_FILE_BYTES = 50 * 1024 * 1024;
 
@@ -60,29 +60,62 @@ const ALLOWED_MIME = new Set([
   "video/quicktime"
 ]);
 
-const VIEW_TITLES = {
-  feed: "Your learning feed",
-  following: "Following",
-  saved: "Saved resources",
-  library: "Learning Library",
-  discussions: "Discussions",
-  community: "Community",
-  notifications: "Notifications",
-  dashboard: "Learning Dashboard"
+const VIEW_INFO = {
+  feed: {
+    title: "Home",
+    subtitle: "Discover and share learning resources.",
+    icon: "⌂"
+  },
+  following: {
+    title: "Following",
+    subtitle: "Resources from people you follow."
+  },
+  library: {
+    title: "Learning Library",
+    subtitle: "Explore subjects, lessons, and books."
+  },
+  discussions: {
+    title: "Discussions",
+    subtitle: "Questions, answers, and educational conversations."
+  },
+  community: {
+    title: "Community",
+    subtitle: "Connect through shared learning."
+  },
+  saved: {
+    title: "Saved Resources",
+    subtitle: "Keep useful learning materials close at hand."
+  },
+  profile: {
+    title: "My Profile",
+    subtitle: "Manage your LearnLoop account."
+  },
+  notifications: {
+    title: "Notifications",
+    subtitle: "Updates about your learning activity."
+  },
+  dashboard: {
+    title: "Learning Dashboard",
+    subtitle: "Review your contributions and activity."
+  },
+  uploads: {
+    title: "My Uploads",
+    subtitle: "Find the resources you have published."
+  },
+  host: {
+    title: "Host Dashboard",
+    subtitle: "Private platform management."
+  }
 };
 
-/* =========================================================
-   HELPERS
-   ========================================================= */
-
 function esc(value = "") {
-  return String(value).replace(/[&<>"']/g, character => ({
+  return String(value).replace(/[&<>"']/g, c => ({
     "&": "&amp;",
     "<": "&lt;",
     ">": "&gt;",
     '"': "&quot;",
     "'": "&#39;"
-  })[character]);
+  })[c]);
 }
 
 function notify(message) {
@@ -94,28 +127,26 @@ function notify(message) {
 
   toast.textContent = message;
   toast.classList.add("visible");
-
   clearTimeout(window.__toastTimer);
+
   window.__toastTimer = setTimeout(
     () => toast.classList.remove("visible"),
     3200
   );
 }
 
-function setStatus(message, isError = false) {
-  const status = $("status");
-  if (!status) return;
+function setStatus(message, error = false) {
+  const el = $("status");
+  if (!el) return;
 
-  status.textContent = message;
-  status.classList.toggle("error", isError);
+  el.textContent = message;
+  el.classList.toggle("error", error);
 }
 
 function requireConfig() {
-  if (!supabase) {
-    notify("Please configure the existing Supabase connection.");
-    return false;
-  }
-  return true;
+  if (supabase) return true;
+  notify("The Supabase configuration could not be loaded.");
+  return false;
 }
 
 function requireSession() {
@@ -129,60 +160,203 @@ function requireSession() {
   return true;
 }
 
-function safeFileName(name) {
-  return String(name || "upload")
-    .normalize("NFKD")
-    .replace(/[^a-zA-Z0-9._-]/g, "_")
-    .slice(-100) || "upload";
+function closeDialog(id) {
+  const el = $(id);
+  if (el?.open) el.close();
+}
+
+function showDialog(id) {
+  const el = $(id);
+  if (!el) return;
+
+  if (typeof el.showModal === "function") {
+    if (!el.open) el.showModal();
+  } else {
+    el.classList.remove("hidden");
+  }
+}
+
+function setBusy(button, busy, label = "Please wait…") {
+  if (!button) return;
+
+  if (busy) {
+    button.dataset.oldText = button.textContent;
+    button.disabled = true;
+    button.textContent = label;
+  } else {
+    button.disabled = false;
+    if (button.dataset.oldText) {
+      button.textContent = button.dataset.oldText;
+      delete button.dataset.oldText;
+    }
+  }
 }
 
 function timeAgo(date) {
-  const timestamp = new Date(date).getTime();
-  if (!Number.isFinite(timestamp)) return "";
+  const value = new Date(date).getTime();
+  if (!Number.isFinite(value)) return "";
 
-  const seconds = Math.max(
-    0,
-    Math.floor((Date.now() - timestamp) / 1000)
-  );
+  const seconds = Math.max(0, Math.floor((Date.now() - value) / 1000));
 
   if (seconds < 60) return "just now";
   if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
   if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`;
-
   return `${Math.floor(seconds / 86400)}d ago`;
 }
 
-function closeDialog(id) {
-  const dialog = $(id);
-  if (dialog?.open) dialog.close();
+/* =========================================================
+   PAGE SYSTEM
+   Creates independent views without losing the existing
+   application shell or reloading the whole website.
+   ========================================================= */
+
+function ensurePageHost() {
+  let host = $("learnLoopPage");
+
+  if (!host) {
+    const main = document.querySelector(".main") ||
+      document.querySelector("main") ||
+      document.body;
+
+    host = document.createElement("section");
+    host.id = "learnLoopPage";
+    host.className = "learnloop-page";
+    host.style.cssText = "width:100%;min-width:0";
+    main.appendChild(host);
+  }
+
+  return host;
 }
 
-function showDialog(id) {
-  const dialog = $(id);
-  if (!dialog) return;
+function ensurePageStyles() {
+  if ($("learnLoopPageStyles")) return;
 
-  if (typeof dialog.showModal === "function") {
-    if (!dialog.open) dialog.showModal();
-  } else {
-    dialog.classList.remove("hidden");
+  const style = document.createElement("style");
+  style.id = "learnLoopPageStyles";
+  style.textContent = `
+    .learnloop-page { padding:20px 0; }
+    .ll-page-heading { margin:0 0 8px; font-size:clamp(24px,3vw,34px); }
+    .ll-page-subtitle { margin:0 0 22px; color:var(--muted,#697386); }
+    .ll-page-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; }
+    .ll-card { padding:18px; border:1px solid var(--border,#e3e7eb); border-radius:16px; background:var(--card,#fff); margin-bottom:14px; }
+    .ll-card h3 { margin-top:0; }
+    .ll-card button,.ll-card a { margin-top:10px; }
+    .ll-empty { padding:26px; text-align:center; border:1px dashed var(--border,#d9dfe5); border-radius:14px; }
+    .ll-back { margin:0 0 18px; }
+    .ll-action-row { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:18px; }
+    .ll-action-row button { cursor:pointer; }
+    .ll-resource-link { display:inline-block; margin-top:10px; }
+    .ll-page-form { display:grid; gap:12px; }
+    .ll-page-form input,.ll-page-form textarea,.ll-page-form select { width:100%; box-sizing:border-box; padding:12px; border:1px solid var(--border,#d9dfe5); border-radius:10px; }
+    .ll-muted { color:var(--muted,#697386); }
+    .ll-subject-list { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:18px; }
+    .ll-subject-list button { padding:10px 14px; border-radius:10px; cursor:pointer; }
+    @media(max-width:640px) { .learnloop-page { padding:12px 0; } .ll-card { padding:14px; } }
+  `;
+  document.head.appendChild(style);
+}
+
+function hideOriginalContent() {
+  [
+    "feed",
+    "libraryView",
+    "followingView"
+  ].forEach(id => {
+    const el = $(id);
+    if (el) el.classList.add("hidden");
+  });
+
+  $("composer")?.classList.add("hidden");
+}
+
+function navigate(view, options = {}) {
+  if (!VIEW_INFO[view]) view = "feed";
+
+  if (view === "host" && !isPlatformOwner) {
+    if (!requireSession()) return;
+    notify("Host settings are restricted to the platform owner.");
+    return;
+  }
+
+  if (view === "profile" && !session) {
+    showAuth("login");
+    return;
+  }
+
+  if (!options.replaceHistory && pageHistory.at(-1) !== view) {
+    pageHistory.push(view);
+  }
+
+  activeView = view;
+  activeSubject = null;
+
+  document.body.dataset.learnloopView = view;
+  document.body.classList.toggle("library-mode", view === "library");
+  document.body.classList.toggle("following-mode", view === "following");
+
+  document.querySelectorAll("[data-view]").forEach(button => {
+    button.classList.toggle("active", button.dataset.view === view);
+    button.setAttribute(
+      "aria-current",
+      button.dataset.view === view ? "page" : "false"
+    );
+  });
+
+  if ($("feedTitle")) $("feedTitle").textContent = VIEW_INFO[view].title;
+
+  hideOriginalContent();
+  ensurePageStyles();
+
+  const host = ensurePageHost();
+  host.classList.remove("hidden");
+  host.innerHTML = pageShell(view);
+
+  if (view === "feed") renderHomePage();
+  else if (view === "following") renderFollowingPage();
+  else if (view === "library") renderLibraryPage();
+  else if (view === "discussions") renderDiscussionPage();
+  else if (view === "community") renderCommunityPage();
+  else if (view === "saved") renderSavedPage();
+  else if (view === "profile") renderProfilePage();
+  else if (view === "notifications") renderNotificationsPage();
+  else if (view === "dashboard") renderDashboardPage();
+  else if (view === "uploads") renderUploadsPage();
+  else if (view === "host") renderHostPage();
+
+  if (options.scroll !== false) {
+    window.scrollTo({ top: 0, behavior: "auto" });
   }
 }
 
-function setButtonBusy(button, busy, busyText = "Please wait…") {
-  if (!button) return;
+function pageShell(view) {
+  const info = VIEW_INFO[view];
 
-  if (busy) {
-    button.dataset.originalText = button.textContent;
-    button.disabled = true;
-    button.textContent = busyText;
-  } else {
-    button.disabled = false;
+  return `
+    <header class="ll-page-header">
+      <h1 class="ll-page-heading">${esc(info.title)}</h1>
+      <p class="ll-page-subtitle">${esc(info.subtitle)}</p>
+    </header>
+    <div id="llPageContent"></div>
+  `;
+}
 
-    if (button.dataset.originalText) {
-      button.textContent = button.dataset.originalText;
-      delete button.dataset.originalText;
-    }
-  }
+function pageContent() {
+  return $("llPageContent");
+}
+
+function showEmpty(title, description, buttonText = "", action = "") {
+  const content = pageContent();
+  if (!content) return;
+
+  content.innerHTML = `
+    <section class="ll-empty">
+      <h3>${esc(title)}</h3>
+      <p>${esc(description)}</p>
+      ${buttonText
+        ? `<button type="button" class="primary" data-page-action="${esc(action)}">${esc(buttonText)}</button>`
+        : ""}
+    </section>
+  `;
 }
 
 /* =========================================================
@@ -196,7 +370,6 @@ function showAuth(mode = "login") {
   updateAuthMode();
 
   if ($("authMessage")) $("authMessage").textContent = "";
-
   showDialog("authDialog");
 }
 
@@ -204,9 +377,7 @@ function updateAuthMode() {
   const signup = authMode === "signup";
 
   if ($("authTitle")) {
-    $("authTitle").textContent = signup
-      ? "Join LearnLoop"
-      : "Welcome back";
+    $("authTitle").textContent = signup ? "Join LearnLoop" : "Welcome back";
   }
 
   if ($("authIntro")) {
@@ -218,17 +389,12 @@ function updateAuthMode() {
   $("nameWrap")?.classList.toggle("hidden", !signup);
 
   if ($("displayName")) $("displayName").required = signup;
-
   if ($("password")) {
-    $("password").autocomplete = signup
-      ? "new-password"
-      : "current-password";
+    $("password").autocomplete = signup ? "new-password" : "current-password";
   }
 
   if ($("authSubmit")) {
-    $("authSubmit").textContent = signup
-      ? "Create account"
-      : "Sign in";
+    $("authSubmit").textContent = signup ? "Create account" : "Sign in";
   }
 
   $("loginTab")?.classList.toggle("active", !signup);
@@ -237,13 +403,12 @@ function updateAuthMode() {
 
 async function authSubmit(event) {
   event.preventDefault();
-
   if (!requireConfig()) return;
 
   const email = $("email")?.value.trim();
   const password = $("password")?.value;
   const displayName = $("displayName")?.value.trim();
-  const submitButton = $("authSubmit");
+  const button = $("authSubmit");
   const message = $("authMessage");
 
   if (!email || !password) {
@@ -256,17 +421,14 @@ async function authSubmit(event) {
     return;
   }
 
-  setButtonBusy(submitButton, true, "Please wait…");
-  if (message) message.textContent = "";
+  setBusy(button, true);
 
   try {
     if (authMode === "signup") {
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
-        options: {
-          data: { display_name: displayName }
-        }
+        options: { data: { display_name: displayName } }
       });
 
       if (error) throw error;
@@ -276,11 +438,9 @@ async function authSubmit(event) {
         closeDialog("authDialog");
         await refreshSession();
         notify("Welcome to LearnLoop!");
-      } else {
-        if (message) {
-          message.textContent =
-            "Account created. Check your email for the verification link, then sign in.";
-        }
+      } else if (message) {
+        message.textContent =
+          "Account created. Check your email for verification, then sign in.";
       }
     } else {
       const { data, error } = await supabase.auth.signInWithPassword({
@@ -299,18 +459,18 @@ async function authSubmit(event) {
     if (message) message.textContent = error.message;
     else notify(error.message);
   } finally {
-    setButtonBusy(submitButton, false);
+    setBusy(button, false);
   }
 }
 
 /* =========================================================
-   ACCOUNT AND PROFILE
+   PROFILE AND SESSION
    ========================================================= */
 
 async function refreshSession() {
   if (!supabase) {
     updateAccountUI();
-    await loadPosts();
+    navigate("feed", { replaceHistory: true });
     return;
   }
 
@@ -319,14 +479,16 @@ async function refreshSession() {
     if (error) throw error;
 
     session = data.session;
-
     await loadProfile();
     await loadOwnerAccess();
     updateAccountUI();
     await loadPosts();
+
+    if (activeView === "profile") renderProfilePage();
+    if (activeView === "dashboard") renderDashboardPage();
   } catch (error) {
     console.error("Session refresh failed:", error);
-    notify("Could not refresh your session. Please reload the page.");
+    notify("Could not refresh your session. Reload the page and try again.");
   }
 }
 
@@ -349,25 +511,15 @@ async function loadProfile() {
 }
 
 function updateAccountUI() {
-  $("hostDashboardButton")?.classList.toggle(
-    "hidden",
-    !isPlatformOwner
-  );
+  $("hostDashboardButton")?.classList.toggle("hidden", !isPlatformOwner);
 
-  const name =
-    profile?.display_name ||
-    session?.user?.email ||
-    "";
+  const name = profile?.display_name || session?.user?.email || "";
 
   if ($("accountButton")) {
     $("accountButton").textContent = session
-      ? (
-          name.split(/\s+/)
-            .slice(0, 2)
-            .map(part => part[0] || "")
-            .join("")
-            .toUpperCase() || "ME"
-        )
+      ? name.split(/\s+/).slice(0, 2)
+          .map(part => part[0] || "")
+          .join("").toUpperCase() || "ME"
       : "?";
   }
 
@@ -400,16 +552,15 @@ function openProfile() {
     profileEmail: session?.user?.email || ""
   };
 
-  for (const [id, value] of Object.entries(fields)) {
+  Object.entries(fields).forEach(([id, value]) => {
     if ($(id)) $(id).value = value;
-  }
+  });
 
   showDialog("profileDialog");
 }
 
 async function saveProfile(event) {
   event.preventDefault();
-
   if (!requireSession()) return;
 
   const payload = {
@@ -426,23 +577,22 @@ async function saveProfile(event) {
   };
 
   const button = $("profileForm")?.querySelector('[type="submit"]');
-  setButtonBusy(button, true, "Saving…");
+  setBusy(button, true, "Saving…");
 
   try {
-    const { error } = await supabase
-      .from("profiles")
-      .upsert(payload);
-
+    const { error } = await supabase.from("profiles").upsert(payload);
     if (error) throw error;
 
     await loadProfile();
     updateAccountUI();
     closeDialog("profileDialog");
+
+    if (activeView === "profile") renderProfilePage();
     notify("Profile updated successfully.");
   } catch (error) {
     notify("Could not save profile: " + error.message);
   } finally {
-    setButtonBusy(button, false);
+    setBusy(button, false);
   }
 }
 
@@ -450,7 +600,6 @@ async function signOut() {
   if (!supabase) return;
 
   const { error } = await supabase.auth.signOut();
-
   if (error) {
     notify("Could not sign out: " + error.message);
     return;
@@ -462,14 +611,10 @@ async function signOut() {
 
   closeDialog("profileDialog");
   updateAccountUI();
-  await loadPosts();
-
+  posts = [];
+  navigate("feed");
   notify("Signed out.");
 }
-
-/* =========================================================
-   HOST ACCESS AND HOST SETTINGS
-   ========================================================= */
 
 async function loadOwnerAccess() {
   isPlatformOwner = false;
@@ -480,18 +625,17 @@ async function loadOwnerAccess() {
   }
 
   const { data, error } = await supabase.rpc("is_platform_owner");
-
   isPlatformOwner = !error && data === true;
 
-  $("hostDashboardButton")?.classList.toggle(
-    "hidden",
-    !isPlatformOwner
-  );
+  $("hostDashboardButton")?.classList.toggle("hidden", !isPlatformOwner);
 }
 
-async function openHostDashboard() {
-  if (!requireSession()) return;
+/* =========================================================
+   HOST DASHBOARD
+   ========================================================= */
 
+async function loadHostSettings() {
+  if (!requireSession()) return;
   await loadOwnerAccess();
 
   if (!isPlatformOwner) {
@@ -512,26 +656,13 @@ async function openHostDashboard() {
 
   const methods = Array.isArray(data.enabled_methods)
     ? data.enabled_methods
-    : ["ads", "sponsorships"];
+    : [];
 
   if ($("revAds")) $("revAds").checked = methods.includes("ads");
-  if ($("revSponsors")) {
-    $("revSponsors").checked = methods.includes("sponsorships");
-  }
-  if ($("revReferrals")) {
-    $("revReferrals").checked = methods.includes("referrals");
-  }
-  if ($("revSupport")) {
-    $("revSupport").checked = methods.includes("support");
-  }
-
-  if ($("adPlacement")) {
-    $("adPlacement").value = data.ad_placement || "limited";
-  }
-
-  if ($("revenueSettingsMessage")) {
-    $("revenueSettingsMessage").textContent = "";
-  }
+  if ($("revSponsors")) $("revSponsors").checked = methods.includes("sponsorships");
+  if ($("revReferrals")) $("revReferrals").checked = methods.includes("referrals");
+  if ($("revSupport")) $("revSupport").checked = methods.includes("support");
+  if ($("adPlacement")) $("adPlacement").value = data.ad_placement || "limited";
 
   showDialog("hostDashboardDialog");
 }
@@ -545,20 +676,15 @@ async function saveRevenueSettings(event) {
   }
 
   const enabled_methods = [];
-
   if ($("revAds")?.checked) enabled_methods.push("ads");
-  if ($("revSponsors")?.checked) {
-    enabled_methods.push("sponsorships");
-  }
+  if ($("revSponsors")?.checked) enabled_methods.push("sponsorships");
   if ($("revReferrals")?.checked) enabled_methods.push("referrals");
   if ($("revSupport")?.checked) enabled_methods.push("support");
 
   const message = $("revenueSettingsMessage");
 
   if (!enabled_methods.length) {
-    if (message) {
-      message.textContent = "Select at least one revenue method.";
-    }
+    if (message) message.textContent = "Select at least one revenue method.";
     return;
   }
 
@@ -573,18 +699,15 @@ async function saveRevenueSettings(event) {
       });
 
     if (error) throw error;
-
     closeDialog("hostDashboardDialog");
     notify("Host preferences saved.");
   } catch (error) {
-    if (message) {
-      message.textContent = "Could not save settings: " + error.message;
-    }
+    if (message) message.textContent = "Could not save settings: " + error.message;
   }
 }
 
 /* =========================================================
-   POSTS AND ATTACHMENTS
+   POSTS, MEDIA, FEED
    ========================================================= */
 
 async function hydratePostFiles(items) {
@@ -597,14 +720,9 @@ async function hydratePostFiles(items) {
       .from("learning-files")
       .createSignedUrl(post.file_path, 1800);
 
-    if (error) {
-      console.warn("Could not create attachment URL:", error.message);
-    }
+    if (error) console.warn("Attachment URL error:", error.message);
 
-    return {
-      ...post,
-      signedUrl: data?.signedUrl || null
-    };
+    return { ...post, signedUrl: data?.signedUrl || null };
   }));
 }
 
@@ -614,141 +732,64 @@ function mediaHtml(post) {
   const filename = esc(post.file_name || "Learning resource");
 
   if (!post.signedUrl) {
-    return `
-      <div class="attachment">
-        <span class="fileicon">FILE</span>
-        <div>
-          <strong>${filename}</strong>
-          <small>Attachment unavailable</small>
-        </div>
-      </div>
-    `;
+    return `<div class="attachment"><strong>${filename}</strong><small>Attachment unavailable</small></div>`;
   }
 
   const url = esc(post.signedUrl);
   const mime = post.file_mime || "";
 
   if (mime.startsWith("image/")) {
-    return `
-      <a href="${url}" target="_blank" rel="noopener noreferrer">
-        <img class="post-media" src="${url}" alt="${filename}" loading="lazy">
-      </a>
-    `;
+    return `<a href="${url}" target="_blank" rel="noopener noreferrer">
+      <img class="post-media" src="${url}" alt="${filename}" loading="lazy">
+    </a>`;
   }
 
   if (mime.startsWith("video/")) {
-    return `
-      <video class="post-media" controls preload="metadata" src="${url}">
-        Your browser does not support this video.
-      </video>
-    `;
+    return `<video class="post-media" controls preload="metadata" src="${url}"></video>`;
   }
 
-  return `
-    <a class="attachment" href="${url}" target="_blank" rel="noopener noreferrer">
-      <span class="fileicon">FILE</span>
-      <span>
-        <strong>${filename}</strong>
-        <small>Open or download resource</small>
-      </span>
-    </a>
-  `;
+  return `<a class="attachment" href="${url}" target="_blank" rel="noopener noreferrer">
+    <strong>${filename}</strong><small>Open or download resource</small>
+  </a>`;
 }
 
 function postHtml(post) {
   const liked = (post.my_reaction || []).length > 0;
   const reposted = !!post.reposted_by_me;
-  const displayName =
-    post.profiles?.display_name || "LearnLoop member";
-
-  const initials = displayName
-    .split(/\s+/)
-    .slice(0, 2)
-    .map(word => word[0] || "")
-    .join("")
-    .toUpperCase() || "LL";
-
+  const name = post.profiles?.display_name || "LearnLoop member";
+  const initials = name.split(/\s+/).slice(0, 2)
+    .map(part => part[0] || "").join("").toUpperCase() || "LL";
   const isOwner = session?.user?.id === post.user_id;
 
   return `
     <article class="post" data-post-id="${esc(post.id)}">
-      ${post.repost_of
-        ? '<div class="repost-label">⟳ Reposted educational resource</div>'
-        : ""
-      }
-
+      ${post.repost_of ? '<div class="repost-label">⟳ Reposted resource</div>' : ""}
       <div class="post-header">
         <div class="avatar">${esc(initials)}</div>
-
         <div class="author-block">
-          <strong>${esc(displayName)}</strong>
-          <small>
-            ${esc(post.profiles?.bio || post.subject || "Community member")}
-            · ${esc(timeAgo(post.created_at))}
-          </small>
+          <strong>${esc(name)}</strong>
+          <small>${esc(post.profiles?.bio || post.subject || "Community member")} · ${esc(timeAgo(post.created_at))}</small>
         </div>
-
         <span class="tag">${esc(post.post_type || "Discussion")}</span>
       </div>
-
       <div class="post-text">${esc(post.body || "").replace(/\n/g, "<br>")}</div>
-
-      ${post.subject
-        ? `<span class="subject-tag">${esc(post.subject)}</span>`
-        : ""
-      }
-
+      ${post.subject ? `<span class="subject-tag">${esc(post.subject)}</span>` : ""}
       ${mediaHtml(post)}
-
       <div class="post-stats">
-        ${post.like_count || 0} likes ·
-        ${post.comment_count || 0} comments ·
-        ${post.repost_count || 0} reposts
+        ${post.like_count || 0} likes · ${post.comment_count || 0} comments · ${post.repost_count || 0} reposts
       </div>
-
       <div class="post-actions">
-        <button type="button" class="action ${liked ? "liked" : ""}"
-          data-action="like" data-id="${esc(post.id)}">
-          ${liked ? "♥ Liked" : "♡ Like"}
-        </button>
-
-        <button type="button" class="action"
-          data-action="comment" data-id="${esc(post.id)}">
-          ▢ Comment
-        </button>
-
-        <button type="button" class="action"
-          data-action="share" data-id="${esc(post.id)}">
-          ↗ Share
-        </button>
-
-        <button type="button" class="action"
-          data-action="repost" data-id="${esc(post.id)}">
-          ${reposted ? "✓ Reposted" : "⟳ Repost"}
-        </button>
-
-        <button type="button" class="action report-action"
-          data-action="report" data-id="${esc(post.id)}">
-          ⚑ Report
-        </button>
-
-        ${isOwner
-          ? `<button type="button" class="action report-action"
-               data-action="delete" data-id="${esc(post.id)}">
-               Delete
-             </button>`
-          : ""
-        }
+        <button type="button" class="action ${liked ? "liked" : ""}" data-action="like" data-id="${esc(post.id)}">${liked ? "♥ Liked" : "♡ Like"}</button>
+        <button type="button" class="action" data-action="comment" data-id="${esc(post.id)}">Comment</button>
+        <button type="button" class="action" data-action="share" data-id="${esc(post.id)}">Share</button>
+        <button type="button" class="action" data-action="repost" data-id="${esc(post.id)}">${reposted ? "✓ Reposted" : "⟳ Repost"}</button>
+        <button type="button" class="action" data-action="report" data-id="${esc(post.id)}">Report</button>
+        ${isOwner ? `<button type="button" class="action" data-action="delete" data-id="${esc(post.id)}">Delete</button>` : ""}
       </div>
-
       <section class="comments" id="comments-${esc(post.id)}">
         <div class="comment-list" id="comment-list-${esc(post.id)}"></div>
-
         <form class="comment-form" data-post-id="${esc(post.id)}">
-          <input name="body" maxlength="2000" required
-            placeholder="Write a helpful comment..."
-            aria-label="Comment">
-
+          <input name="body" maxlength="2000" required placeholder="Write a helpful comment..." aria-label="Comment">
           <button type="submit" class="primary">Send</button>
         </form>
       </section>
@@ -757,34 +798,11 @@ function postHtml(post) {
 }
 
 async function loadPosts() {
-  if (loadingPosts) return;
+  if (!supabase || loadingPosts) return;
+
   loadingPosts = true;
 
   try {
-    if (!supabase) {
-      setStatus("Connect your Supabase project to load the feed.");
-
-      if ($("feed")) {
-        $("feed").innerHTML = `
-          <div class="panel empty">
-            <h3>Your educational community starts here</h3>
-            <p>Connect Supabase to load your learning feed.</p>
-            <button type="button" class="primary" id="setupAuth">
-              Sign in / Create account
-            </button>
-          </div>
-        `;
-
-        $("setupAuth").onclick = () => showAuth("login");
-      }
-
-      return;
-    }
-
-    if (activeView !== "feed") return;
-
-    setStatus("Loading learning feed…");
-
     let query = supabase
       .from("posts")
       .select("*, profiles:user_id(display_name,bio)")
@@ -792,122 +810,87 @@ async function loadPosts() {
       .order("created_at", { ascending: false })
       .limit(100);
 
-    if (activeSubject) {
-      query = query.eq("subject", activeSubject);
-    }
+    if (activeSubject) query = query.eq("subject", activeSubject);
 
     const { data, error } = await query;
+    if (error) throw error;
 
-    if (error) {
-      setStatus("Could not load posts: " + error.message, true);
-      return;
-    }
+    let loaded = data || [];
 
-    let loadedPosts = data || [];
+    if (session && loaded.length) {
+      const ids = loaded.map(post => post.id);
 
-    if (session && loadedPosts.length) {
-      const ids = loadedPosts.map(post => post.id);
+      const [likes, reposts, comments] = await Promise.all([
+        supabase.from("reactions").select("post_id")
+          .eq("user_id", session.user.id).in("post_id", ids),
+        supabase.from("posts").select("repost_of")
+          .eq("user_id", session.user.id).in("repost_of", ids),
+        supabase.from("comments").select("post_id")
+          .in("post_id", ids).eq("status", "published")
+      ]);
 
-      const [likesResult, repostsResult, commentsResult] =
-        await Promise.all([
-          supabase
-            .from("reactions")
-            .select("post_id")
-            .eq("user_id", session.user.id)
-            .in("post_id", ids),
+      const likeSet = new Set((likes.data || []).map(x => x.post_id));
+      const repostSet = new Set((reposts.data || []).map(x => x.repost_of));
+      const counts = {};
 
-          supabase
-            .from("posts")
-            .select("repost_of")
-            .eq("user_id", session.user.id)
-            .in("repost_of", ids),
-
-          supabase
-            .from("comments")
-            .select("post_id")
-            .in("post_id", ids)
-        ]);
-
-      const likeIds = new Set(
-        (likesResult.data || []).map(item => item.post_id)
-      );
-
-      const repostIds = new Set(
-        (repostsResult.data || []).map(item => item.repost_of)
-      );
-
-      const commentCounts = {};
-
-      (commentsResult.data || []).forEach(comment => {
-        commentCounts[comment.post_id] =
-          (commentCounts[comment.post_id] || 0) + 1;
+      (comments.data || []).forEach(c => {
+        counts[c.post_id] = (counts[c.post_id] || 0) + 1;
       });
 
-      loadedPosts = loadedPosts.map(post => ({
+      loaded = loaded.map(post => ({
         ...post,
-        my_reaction: likeIds.has(post.id) ? [true] : [],
-        reposted_by_me: repostIds.has(post.id),
-        comment_count: commentCounts[post.id] || 0
+        my_reaction: likeSet.has(post.id) ? [true] : [],
+        reposted_by_me: repostSet.has(post.id),
+        comment_count: counts[post.id] || 0
       }));
     } else {
-      loadedPosts = loadedPosts.map(post => ({
+      loaded = loaded.map(post => ({
         ...post,
         my_reaction: [],
         reposted_by_me: false
       }));
     }
 
-    posts = await hydratePostFiles(loadedPosts);
+    posts = await hydratePostFiles(loaded);
 
-    renderPosts();
-
-    setStatus(
-      posts.length
-        ? `${posts.length} recent learning post${posts.length === 1 ? "" : "s"}`
-        : "No posts yet. Be the first to share a learning resource."
-    );
+    if (activeView === "feed") renderHomePage();
+    if (activeView === "following") renderFollowingPage();
+    if (activeView === "discussions") renderDiscussionPage();
+    if (activeView === "community") renderCommunityPage();
+    if (activeView === "uploads") renderUploadsPage();
+    if (activeView === "dashboard") renderDashboardPage();
 
     if (!feedChannel) {
       feedChannel = supabase
-        .channel("public-post-feed")
-        .on(
-          "postgres_changes",
-          {
-            event: "*",
-            schema: "public",
-            table: "posts"
-          },
-          () => {
-            if (activeView === "feed") loadPosts();
-          }
-        )
+        .channel("learnloop-post-feed")
+        .on("postgres_changes", {
+          event: "*",
+          schema: "public",
+          table: "posts"
+        }, () => {
+          if (!loadingPosts) loadPosts();
+        })
         .subscribe();
     }
   } catch (error) {
-    console.error("Feed error:", error);
-    setStatus("Could not load the learning feed.", true);
+    console.error("Could not load posts:", error);
+    setStatus("Could not load posts: " + error.message, true);
   } finally {
     loadingPosts = false;
   }
 }
 
-function renderPosts() {
-  const feed = $("feed");
-  if (!feed) return;
-
+function filteredPosts() {
   const term = $("searchInput")?.value.trim().toLowerCase() || "";
   const sort = $("sortSelect")?.value || "latest";
 
   let list = [...posts].filter(post => {
-    const searchable = [
-      post.body,
-      post.subject,
-      post.post_type,
-      post.profiles?.display_name,
-      post.file_name
+    const text = [
+      post.body, post.subject, post.post_type,
+      post.profiles?.display_name, post.file_name
     ].join(" ").toLowerCase();
 
-    return !term || searchable.includes(term);
+    return !term || text.includes(term);
   });
 
   if (sort === "popular") {
@@ -917,28 +900,356 @@ function renderPosts() {
     );
   }
 
-  feed.innerHTML = list.length
+  return list;
+}
+
+function renderPostList(list, container = pageContent()) {
+  if (!container) return;
+
+  container.innerHTML = list.length
     ? list.map(postHtml).join("")
-    : '<div class="panel empty">No matching posts found.</div>';
+    : `<div class="ll-empty"><h3>No posts to show yet</h3><p>Share a learning resource or try another section.</p></div>`;
+}
+
+function renderHomePage() {
+  const content = pageContent();
+  if (!content) return;
+
+  content.innerHTML = `
+    <div class="ll-action-row">
+      <button type="button" class="primary" data-page-action="new-post">＋ Create a post</button>
+      <button type="button" data-page-action="library">Browse Library</button>
+    </div>
+    <div id="llHomeComposer" class="ll-card hidden">
+      <form id="llPostForm" class="ll-page-form">
+        <textarea id="llPostText" rows="4" maxlength="10000" placeholder="Share a question, learning tip, or resource..."></textarea>
+        <select id="llPostType">
+          <option>Discussion</option><option>Question</option><option>Learning tip</option>
+          <option>Document</option><option>Photo</option><option>Video</option><option>Story</option>
+        </select>
+        <input id="llPostSubject" placeholder="Subject (optional)">
+        <input id="llPostFile" type="file" accept=".pdf,.doc,.docx,.ppt,.pptx,.txt,.csv,.xls,.xlsx,image/*,video/mp4,video/webm,video/quicktime">
+        <div class="ll-action-row">
+          <button type="submit" class="primary">Publish post</button>
+          <button type="button" data-page-action="cancel-post">Cancel</button>
+        </div>
+      </form>
+    </div>
+    <div id="llPostFeed"></div>
+  `;
+
+  renderPostList(filteredPosts(), $("llPostFeed"));
+}
+
+function renderFollowingPage() {
+  const list = session
+    ? posts.filter(post => post.user_id === session.user.id)
+    : [];
+
+  const content = pageContent();
+  if (!content) return;
+
+  content.innerHTML = `
+    <div class="ll-card">
+      <p>Your own posts are shown here for now. A true following feed requires a following/follower relationship table.</p>
+    </div>
+    <div id="llFollowingPosts"></div>
+  `;
+
+  renderPostList(list, $("llFollowingPosts"));
+}
+
+function renderDiscussionPage() {
+  const list = posts.filter(post =>
+    ["discussion", "question", "learning tip"].includes(
+      String(post.post_type || "").toLowerCase()
+    )
+  );
+  renderPostList(list);
+}
+
+function renderCommunityPage() {
+  const content = pageContent();
+  if (!content) return;
+
+  content.innerHTML = `
+    <div class="ll-card">
+      <h3>Learn together</h3>
+      <p>Browse published learning posts and join the discussion through comments.</p>
+      <button type="button" class="primary" data-page-action="new-post">Share with the community</button>
+    </div>
+    <div id="llCommunityPosts"></div>
+  `;
+
+  renderPostList(filteredPosts(), $("llCommunityPosts"));
+}
+
+function renderUploadsPage() {
+  if (!session) {
+    showEmpty("Sign in required", "Sign in to view your uploaded posts.", "Sign in", "login");
+    return;
+  }
+
+  renderPostList(posts.filter(post => post.user_id === session.user.id));
+}
+
+function renderDashboardPage() {
+  const content = pageContent();
+  if (!content) return;
+
+  if (!session) {
+    showEmpty("Your learning dashboard", "Sign in to review your activity.", "Sign in", "login");
+    return;
+  }
+
+  const mine = posts.filter(post => post.user_id === session.user.id);
+  const resources = mine.filter(post => post.file_path).length;
+  const comments = mine.reduce((total, post) => total + (post.comment_count || 0), 0);
+
+  content.innerHTML = `
+    <div class="ll-page-grid">
+      <article class="ll-card"><h3>${mine.length}</h3><p>Published posts</p></article>
+      <article class="ll-card"><h3>${resources}</h3><p>Posts with files</p></article>
+      <article class="ll-card"><h3>${comments}</h3><p>Comments on your posts</p></article>
+    </div>
+    <div class="ll-action-row">
+      <button type="button" class="primary" data-page-action="uploads">My Uploads</button>
+      <button type="button" data-page-action="profile">My Profile</button>
+    </div>
+    <h3>Your recent posts</h3>
+    <div id="llDashboardPosts"></div>
+  `;
+
+  renderPostList(mine, $("llDashboardPosts"));
+}
+
+function renderProfilePage() {
+  const content = pageContent();
+  if (!content) return;
+
+  if (!session) {
+    showEmpty("My Profile", "Sign in to view and edit your profile.", "Sign in", "login");
+    return;
+  }
+
+  const name = profile?.display_name || "LearnLoop member";
+  const mine = posts.filter(post => post.user_id === session.user.id);
+
+  content.innerHTML = `
+    <article class="ll-card">
+      <h2>${esc(name)}</h2>
+      <p>${esc(profile?.bio || "Add a short introduction about yourself.")}</p>
+      <p class="ll-muted">${esc(profile?.institution || "")}</p>
+      <p class="ll-muted">${esc(profile?.study_level || "")}</p>
+      <button type="button" class="primary" data-page-action="edit-profile">Edit profile</button>
+    </article>
+    <h3>Your posts (${mine.length})</h3>
+    <div id="llProfilePosts"></div>
+  `;
+
+  renderPostList(mine, $("llProfilePosts"));
+}
+
+function renderSavedPage() {
+  const content = pageContent();
+  if (!content) return;
+
+  content.innerHTML = `
+    <div class="ll-card">
+      <h3>Save resources for later</h3>
+      <p>Saved resources need a dedicated saved-items table in your Supabase database. This page is ready for that integration, but it will not pretend that posts are saved yet.</p>
+      <button type="button" class="primary" data-page-action="feed">Browse learning feed</button>
+    </div>
+  `;
+}
+
+function renderNotificationsPage() {
+  showEmpty(
+    "Notifications",
+    "This page is separate and ready for notification integration. Persistent alerts require a notifications table and appropriate database permissions.",
+    "Return to Home",
+    "feed"
+  );
 }
 
 /* =========================================================
-   PUBLISH A POST
+   LEARNING LIBRARY
+   ========================================================= */
+
+const LIBRARY = {
+  Science: {
+    Biology: ["Cells and their functions", "Human body systems", "Plants and photosynthesis"],
+    Chemistry: ["Atoms and elements", "Acids and bases", "Chemical reactions"],
+    Physics: ["Force and motion", "Energy", "Electricity"]
+  },
+  Technology: {
+    "Computer Basics": ["Computer components", "Operating systems", "Internet safety"],
+    Coding: ["Introduction to programming", "Variables and data", "Web development"],
+    "Digital Skills": ["Using email", "Online research", "Digital citizenship"]
+  },
+  Languages: {
+    English: ["Grammar basics", "Reading comprehension", "Writing skills"],
+    French: ["Les salutations", "La grammaire", "La compréhension écrite"],
+    Kinyarwanda: ["Gusoma no kwandika", "Ikibonezamvugo", "Gusobanura amagambo"]
+  },
+  Mathematics: {
+    Algebra: ["Expressions", "Equations", "Linear functions"],
+    Geometry: ["Angles and lines", "Triangles", "Area and volume"],
+    Statistics: ["Collecting data", "Averages", "Charts and graphs"]
+  },
+  Business: {
+    Entrepreneurship: ["Business ideas", "Business planning", "Marketing basics"],
+    Management: ["Planning and organizing", "Leadership", "Teamwork"],
+    Accounting: ["Introduction to accounting", "Income and expenses", "Budgets"]
+  },
+  "General Studies": {
+    "Health Education": ["Personal hygiene", "Nutrition", "Disease prevention"],
+    Citizenship: ["Rights and responsibilities", "Community participation", "Respect and tolerance"],
+    "Research Skills": ["Finding information", "Evaluating sources", "Writing a report"]
+  }
+};
+
+function renderLibraryPage() {
+  const content = pageContent();
+  if (!content) return;
+
+  content.innerHTML = `
+    <div class="ll-card">
+      <h3>Find a book</h3>
+      <form id="llBookSearch" class="ll-page-form">
+        <input id="llBookQuery" placeholder="Search books, authors, or subjects">
+        <button type="submit" class="primary">Search books</button>
+      </form>
+      <p id="llBookStatus" class="ll-muted">Search public book records from Open Library.</p>
+      <div id="llBookResults" class="ll-page-grid"></div>
+    </div>
+    <h3>Explore subjects</h3>
+    <div class="ll-subject-list">
+      ${Object.keys(LIBRARY).map(subject =>
+        `<button type="button" data-library-subject="${esc(subject)}">${esc(subject)}</button>`
+      ).join("")}
+    </div>
+    <div id="llLibraryTopics" class="ll-page-grid"></div>
+    <div class="ll-card">
+      <h3>Community resources</h3>
+      <p>Explore documents, photos, videos, and learning tips shared by members.</p>
+      <button type="button" class="primary" data-page-action="feed">Open learning feed</button>
+    </div>
+  `;
+}
+
+async function searchLibraryBooks(query) {
+  const status = $("llBookStatus");
+  const results = $("llBookResults");
+  if (!status || !results) return;
+
+  results.replaceChildren();
+
+  if (!query.trim()) {
+    status.textContent = "Enter a book, author, or subject.";
+    return;
+  }
+
+  status.textContent = "Searching books…";
+
+  try {
+    const url = new URL("https://openlibrary.org/search.json");
+    url.searchParams.set("q", query.trim());
+    url.searchParams.set("limit", "12");
+    url.searchParams.set("fields", "key,title,author_name,first_publish_year,cover_i");
+
+    const response = await fetch(url);
+    if (!response.ok) throw new Error("Book search failed.");
+
+    const data = await response.json();
+    const books = data.docs || [];
+
+    status.textContent = books.length
+      ? `Found ${Number(data.numFound || books.length).toLocaleString()} records.`
+      : "No books found. Try another search.";
+
+    books.forEach(book => {
+      const card = document.createElement("article");
+      card.className = "ll-card";
+
+      if (book.cover_i) {
+        const img = document.createElement("img");
+        img.src = `https://covers.openlibrary.org/b/id/${encodeURIComponent(book.cover_i)}-M.jpg`;
+        img.alt = `Cover of ${book.title || "book"}`;
+        img.loading = "lazy";
+        img.style.cssText = "max-width:100%;max-height:150px;object-fit:contain";
+        card.appendChild(img);
+      }
+
+      const title = document.createElement("h3");
+      title.textContent = book.title || "Untitled book";
+
+      const author = document.createElement("p");
+      author.textContent = (book.author_name || ["Author not listed"]).slice(0, 3).join(", ");
+
+      card.append(title, author);
+
+      if (book.first_publish_year) {
+        const year = document.createElement("p");
+        year.textContent = `First published: ${book.first_publish_year}`;
+        card.appendChild(year);
+      }
+
+      if (book.key) {
+        const link = document.createElement("a");
+        link.href = `https://openlibrary.org${book.key}`;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = "View book details ↗";
+        card.appendChild(link);
+      }
+
+      results.appendChild(card);
+    });
+  } catch (error) {
+    status.textContent = error.message;
+  }
+}
+
+function renderHostPage() {
+  const content = pageContent();
+  if (!content) return;
+
+  if (!session || !isPlatformOwner) {
+    showEmpty("Restricted area", "Only the verified platform owner can access host settings.");
+    return;
+  }
+
+  content.innerHTML = `
+    <article class="ll-card">
+      <h3>Private host settings</h3>
+      <p>Manage the existing revenue settings using the configured host dashboard.</p>
+      <button type="button" class="primary" data-page-action="host-settings">Open host settings</button>
+    </article>
+    <article class="ll-card">
+      <h3>Platform status</h3>
+      <p>Use the existing Supabase and Vercel dashboards to review backend and deployment status.</p>
+      <a href="https://vercel.com/" target="_blank" rel="noopener noreferrer">Open Vercel ↗</a>
+    </article>
+  `;
+}
+
+/* =========================================================
+   POST CREATION AND ACTIONS
    ========================================================= */
 
 async function publishPost(event) {
   event.preventDefault();
-
   if (!requireSession()) return;
 
-  const body = $("postText")?.value.trim() || "";
-  const postType = $("postType")?.value || "Discussion";
-  const subject = $("postSubject")?.value || null;
-  const file = $("postFile")?.files?.[0] || null;
-  const button = $("postForm")?.querySelector('[type="submit"]');
+  const body = $("llPostText")?.value.trim() || "";
+  const postType = $("llPostType")?.value || "Discussion";
+  const subject = $("llPostSubject")?.value.trim() || null;
+  const file = $("llPostFile")?.files?.[0] || null;
+  const button = event.target.querySelector('[type="submit"]');
 
   if (!body && !file) {
-    notify("Write a post or choose a file to share.");
+    notify("Write a post or choose a file.");
     return;
   }
 
@@ -952,17 +1263,16 @@ async function publishPost(event) {
     return;
   }
 
-  setButtonBusy(button, true, "Publishing…");
+  setBusy(button, true, "Publishing…");
 
   let uploadedPath = null;
 
   try {
     if (file) {
-      const safeName = safeFileName(file.name);
       uploadedPath =
-        `${session.user.id}/${crypto.randomUUID()}-${safeName}`;
+        `${session.user.id}/${crypto.randomUUID()}-${file.name.normalize("NFKD").replace(/[^a-zA-Z0-9._-]/g, "_").slice(-100)}`;
 
-      const { error: uploadError } = await supabase.storage
+      const { error } = await supabase.storage
         .from("learning-files")
         .upload(uploadedPath, file, {
           cacheControl: "3600",
@@ -970,103 +1280,75 @@ async function publishPost(event) {
           contentType: file.type || undefined
         });
 
-      if (uploadError) throw uploadError;
+      if (error) throw error;
     }
 
-    const { error: insertError } = await supabase
-      .from("posts")
-      .insert({
-        user_id: session.user.id,
-        body,
-        post_type: postType,
-        subject,
-        file_path: uploadedPath,
-        file_name: file?.name || null,
-        file_mime: file?.type || null,
-        status: "published"
-      });
+    const { error } = await supabase.from("posts").insert({
+      user_id: session.user.id,
+      body,
+      post_type: postType,
+      subject,
+      file_path: uploadedPath,
+      file_name: file?.name || null,
+      file_mime: file?.type || null,
+      status: "published"
+    });
 
-    if (insertError) {
+    if (error) {
       if (uploadedPath) {
-        await supabase.storage
-          .from("learning-files")
-          .remove([uploadedPath]);
+        await supabase.storage.from("learning-files").remove([uploadedPath]);
       }
-
-      throw insertError;
+      throw error;
     }
 
-    $("postForm")?.reset();
-    $("composer")?.classList.add("hidden");
-
-    activeView = "feed";
     await loadPosts();
-
     notify("Your learning post was published.");
   } catch (error) {
-    console.error("Publish error:", error);
     notify("Could not publish post: " + error.message);
   } finally {
-    setButtonBusy(button, false);
+    setBusy(button, false);
   }
 }
-
-/* =========================================================
-   LIKES
-   ========================================================= */
 
 async function toggleLike(postId) {
   if (!requireSession()) return;
 
-  const post = posts.find(item => String(item.id) === String(postId));
+  const post = posts.find(p => String(p.id) === String(postId));
   if (!post) return;
 
-  const currentlyLiked = (post.my_reaction || []).length > 0;
+  const liked = (post.my_reaction || []).length > 0;
 
   try {
-    if (currentlyLiked) {
-      const { error } = await supabase
-        .from("reactions")
-        .delete()
-        .eq("post_id", postId)
-        .eq("user_id", session.user.id);
-
+    if (liked) {
+      const { error } = await supabase.from("reactions")
+        .delete().eq("post_id", postId).eq("user_id", session.user.id);
       if (error) throw error;
 
       post.my_reaction = [];
       post.like_count = Math.max(0, (post.like_count || 0) - 1);
     } else {
-      const { error } = await supabase
-        .from("reactions")
-        .insert({
-          post_id: postId,
-          user_id: session.user.id
-        });
-
+      const { error } = await supabase.from("reactions").insert({
+        post_id: postId,
+        user_id: session.user.id
+      });
       if (error) throw error;
 
       post.my_reaction = [true];
       post.like_count = (post.like_count || 0) + 1;
     }
 
-    renderPosts();
+    rerenderCurrentPosts();
   } catch (error) {
     notify("Could not update like: " + error.message);
   }
 }
-
-/* =========================================================
-   COMMENTS
-   ========================================================= */
 
 async function openComments(postId) {
   const section = $(`comments-${postId}`);
   if (!section) return;
 
   section.classList.toggle("show");
-
   if (!section.classList.contains("show")) return;
-  if (!supabase) return;
 
   const list = $(`comment-list-${postId}`);
   if (!list) return;
@@ -1085,14 +1367,12 @@ async function openComments(postId) {
     if (error) throw error;
 
     list.innerHTML = (data || []).length
-      ? data.map(comment => `
-          <div class="comment">
-            <strong>${esc(comment.profiles?.display_name || "Member")}</strong>
-            <p>${esc(comment.body || "").replace(/\n/g, "<br>")}</p>
-            <small>${esc(timeAgo(comment.created_at))}</small>
-          </div>
-        `).join("")
-      : '<p class="muted">No comments yet. Start the discussion.</p>';
+      ? data.map(c => `<div class="comment">
+          <strong>${esc(c.profiles?.display_name || "Member")}</strong>
+          <p>${esc(c.body || "").replace(/\n/g, "<br>")}</p>
+          <small>${esc(timeAgo(c.created_at))}</small>
+        </div>`).join("")
+      : "<p>No comments yet. Start the discussion.</p>";
   } catch (error) {
     list.textContent = "Could not load comments: " + error.message;
   }
@@ -1100,46 +1380,31 @@ async function openComments(postId) {
 
 async function submitComment(event, form) {
   event.preventDefault();
-
   if (!requireSession()) return;
 
   const postId = form.dataset.postId;
   const body = new FormData(form).get("body")?.toString().trim();
-
   if (!body) return;
 
-  const button = form.querySelector('[type="submit"]');
-  setButtonBusy(button, true, "Sending…");
-
   try {
-    const { error } = await supabase
-      .from("comments")
-      .insert({
-        post_id: postId,
-        user_id: session.user.id,
-        body,
-        status: "published"
-      });
+    const { error } = await supabase.from("comments").insert({
+      post_id: postId,
+      user_id: session.user.id,
+      body,
+      status: "published"
+    });
 
     if (error) throw error;
 
     form.reset();
-
+    await loadPosts();
     const section = $(`comments-${postId}`);
     section?.classList.add("show");
-
     await openComments(postId);
-    await loadPosts();
   } catch (error) {
     notify("Could not send comment: " + error.message);
-  } finally {
-    setButtonBusy(button, false);
   }
 }
-
-/* =========================================================
-   SHARE, REPOST, REPORT AND DELETE
-   ========================================================= */
 
 async function sharePost(postId) {
   const url = new URL(window.location.href);
@@ -1147,10 +1412,7 @@ async function sharePost(postId) {
 
   try {
     if (navigator.share) {
-      await navigator.share({
-        title: "LearnLoop learning resource",
-        url: url.href
-      });
+      await navigator.share({ title: "LearnLoop learning resource", url: url.href });
     } else if (navigator.clipboard?.writeText) {
       await navigator.clipboard.writeText(url.href);
       notify("Post link copied.");
@@ -1158,16 +1420,14 @@ async function sharePost(postId) {
       window.prompt("Copy this post link:", url.href);
     }
   } catch (error) {
-    if (error.name !== "AbortError") {
-      notify("Could not share this post.");
-    }
+    if (error.name !== "AbortError") notify("Could not share this post.");
   }
 }
 
 async function repost(postId) {
   if (!requireSession()) return;
 
-  const original = posts.find(item => String(item.id) === String(postId));
+  const original = posts.find(p => String(p.id) === String(postId));
   if (!original) return;
 
   if (original.user_id === session.user.id) {
@@ -1181,23 +1441,19 @@ async function repost(postId) {
   }
 
   try {
-    const { error } = await supabase
-      .from("posts")
-      .insert({
-        user_id: session.user.id,
-        body: original.body || "",
-        post_type: original.post_type || "Discussion",
-        subject: original.subject || null,
-        file_path: original.file_path || null,
-        file_name: original.file_name || null,
-        file_mime: original.file_mime || null,
-        repost_of: original.id,
-        status: "published"
-      });
+    const { error } = await supabase.from("posts").insert({
+      user_id: session.user.id,
+      body: original.body || "",
+      post_type: original.post_type || "Discussion",
+      subject: original.subject || null,
+      file_path: original.file_path || null,
+      file_name: original.file_name || null,
+      file_mime: original.file_mime || null,
+      repost_of: original.id,
+      status: "published"
+    });
 
     if (error) throw error;
-
-    original.reposted_by_me = true;
     notify("Resource reposted.");
     await loadPosts();
   } catch (error) {
@@ -1208,49 +1464,33 @@ async function repost(postId) {
 async function reportPost(postId) {
   if (!requireSession()) return;
 
-  const reason = window.prompt(
-    "Why are you reporting this post? Describe the concern briefly."
-  );
-
+  const reason = window.prompt("Why are you reporting this post?");
   if (reason === null) return;
 
   if (!reason.trim()) {
-    notify("Please enter a reason for the report.");
+    notify("Enter a report reason.");
     return;
   }
 
-  /*
-   * The existing report table schema was not provided.
-   * Do not guess its columns or write to an unknown table.
-   */
-  notify(
-    "Please send this post ID and report reason to the LearnLoop moderator: " +
-    postId + " — " + reason.trim()
-  );
+  notify("Report recorded for follow-up: post " + postId + ". A report database table is not configured by this code.");
 }
 
 async function deletePost(postId) {
   if (!requireSession()) return;
 
-  const post = posts.find(item => String(item.id) === String(postId));
+  const post = posts.find(p => String(p.id) === String(postId));
   if (!post || post.user_id !== session.user.id) {
     notify("You can only delete your own posts.");
     return;
   }
 
-  if (!window.confirm("Delete this post? This action cannot be undone.")) {
-    return;
-  }
+  if (!window.confirm("Delete this post? This cannot be undone.")) return;
 
   try {
-    const { error } = await supabase
-      .from("posts")
-      .delete()
-      .eq("id", postId)
-      .eq("user_id", session.user.id);
+    const { error } = await supabase.from("posts")
+      .delete().eq("id", postId).eq("user_id", session.user.id);
 
     if (error) throw error;
-
     notify("Post deleted.");
     await loadPosts();
   } catch (error) {
@@ -1258,449 +1498,109 @@ async function deletePost(postId) {
   }
 }
 
-/* =========================================================
-   NAVIGATION
-   ========================================================= */
-
-function showView(view) {
-  if (!VIEW_TITLES[view]) view = "feed";
-
-  activeView = view;
-  activeSubject = null;
-
-  document.body.classList.toggle("library-mode", view === "library");
-  document.body.classList.toggle("following-mode", view === "following");
-
-  document.querySelectorAll("[data-view]").forEach(button => {
-    button.classList.toggle("active", button.dataset.view === view);
-  });
-
-  if ($("feedTitle")) {
-    $("feedTitle").textContent = VIEW_TITLES[view];
-  }
-
-  const libraryView = $("libraryView");
-  const followingView = $("followingView");
-  const feed = $("feed");
-
-  libraryView?.classList.toggle("hidden", view !== "library");
-  followingView?.classList.toggle("hidden", view !== "following");
-  feed?.classList.toggle("hidden", view !== "feed");
-
-  $("composer")?.classList.toggle("hidden", view !== "feed");
-
-  document.querySelector(".main")?.classList.toggle(
-    "following-main",
-    view === "following"
-  );
-
-  document.querySelectorAll("[data-subject]").forEach(button => {
-    button.classList.remove("selected");
-  });
-
-  if (view === "feed") {
-    loadPosts();
-  } else if (view === "saved") {
-    notify("Saved resources need a saved-items database table to work.");
-  } else if (view === "discussions") {
-    notify("Private discussions require a configured messaging backend.");
-  } else if (view === "notifications") {
-    notify("Notifications need a configured notifications backend.");
-  } else if (view === "dashboard") {
-    notify("Your learning dashboard is ready for lessons and progress features.");
-  }
+function rerenderCurrentPosts() {
+  if (activeView === "feed") renderHomePage();
+  else if (activeView === "following") renderFollowingPage();
+  else if (activeView === "discussions") renderDiscussionPage();
+  else if (activeView === "community") renderCommunityPage();
+  else if (activeView === "uploads") renderUploadsPage();
+  else if (activeView === "dashboard") renderDashboardPage();
 }
 
 /* =========================================================
-   LEARNING LIBRARY
+   CENTRAL EVENT HANDLING
    ========================================================= */
 
-(() => {
-  const subjects = $("librarySubjects");
-  const details = $("librarySubjectDetails");
-
-  if (!subjects || !details) return;
-
-  const libraryContent = {
-    Science: {
-      Biology: [
-        "Cells and their functions",
-        "Human body systems",
-        "Plants and photosynthesis"
-      ],
-      Chemistry: [
-        "Atoms and elements",
-        "Acids and bases",
-        "Chemical reactions"
-      ],
-      Physics: [
-        "Force and motion",
-        "Energy",
-        "Electricity"
-      ]
-    },
-    Technology: {
-      "Computer Basics": [
-        "Computer components",
-        "Operating systems",
-        "Internet safety"
-      ],
-      Coding: [
-        "Introduction to programming",
-        "Variables and data",
-        "Web development"
-      ],
-      "Digital Skills": [
-        "Using email",
-        "Online research",
-        "Digital citizenship"
-      ]
-    },
-    Languages: {
-      English: [
-        "Grammar basics",
-        "Reading comprehension",
-        "Writing skills"
-      ],
-      French: [
-        "Les salutations",
-        "La grammaire",
-        "La compréhension écrite"
-      ],
-      Kinyarwanda: [
-        "Gusoma no kwandika",
-        "Ikibonezamvugo",
-        "Gusobanura amagambo"
-      ]
-    },
-    Mathematics: {
-      Algebra: [
-        "Expressions",
-        "Equations",
-        "Linear functions"
-      ],
-      Geometry: [
-        "Angles and lines",
-        "Triangles",
-        "Area and volume"
-      ],
-      Statistics: [
-        "Collecting data",
-        "Averages",
-        "Charts and graphs"
-      ]
-    },
-    Business: {
-      Entrepreneurship: [
-        "Business ideas",
-        "Business planning",
-        "Marketing basics"
-      ],
-      Management: [
-        "Planning and organizing",
-        "Leadership",
-        "Teamwork"
-      ],
-      Accounting: [
-        "Introduction to accounting",
-        "Income and expenses",
-        "Budgets"
-      ]
-    },
-    "General Studies": {
-      "Health Education": [
-        "Personal hygiene",
-        "Nutrition",
-        "Disease prevention"
-      ],
-      Citizenship: [
-        "Rights and responsibilities",
-        "Community participation",
-        "Respect and tolerance"
-      ],
-      "Research Skills": [
-        "Finding information",
-        "Evaluating sources",
-        "Writing a report"
-      ]
-    }
-  };
-
-  function showSubjects() {
-    subjects.classList.remove("hidden");
-    details.classList.add("hidden");
-    details.replaceChildren();
-  }
-
-  function showSubject(subject) {
-    const topics = libraryContent[subject];
-    if (!topics) return;
-
-    subjects.classList.add("hidden");
-    details.classList.remove("hidden");
-
-    const backButton = document.createElement("button");
-    backButton.type = "button";
-    backButton.className = "library-green-button";
-    backButton.textContent = "← All subjects";
-    backButton.addEventListener("click", showSubjects);
-
-    const title = document.createElement("h2");
-    title.textContent = subject;
-
-    const description = document.createElement("p");
-    description.textContent = "Choose a topic to explore its lesson outline.";
-
-    const grid = document.createElement("div");
-    grid.className = "library-book-grid";
-
-    const lessonContainer = document.createElement("div");
-
-    for (const [topic, lessons] of Object.entries(topics)) {
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "library-book";
-
-      const icon = document.createElement("div");
-      icon.className = "book-cover";
-      icon.textContent = "📘";
-
-      const topicTitle = document.createElement("h4");
-      topicTitle.textContent = topic;
-
-      const count = document.createElement("p");
-      count.textContent = `${lessons.length} lesson topics`;
-
-      button.append(icon, topicTitle, count);
-
-      button.addEventListener("click", () => {
-        lessonContainer.replaceChildren();
-
-        const lessonTitle = document.createElement("h3");
-        lessonTitle.textContent = topic;
-
-        const intro = document.createElement("p");
-        intro.textContent = "Lesson topics to study:";
-
-        const list = document.createElement("ol");
-
-        lessons.forEach(lesson => {
-          const item = document.createElement("li");
-          item.textContent = lesson;
-          item.style.margin = "12px 0";
-          list.appendChild(item);
-        });
-
-        const note = document.createElement("p");
-        note.className = "muted";
-        note.textContent =
-          "These are lesson outlines. Full notes can be added next.";
-
-        lessonContainer.append(lessonTitle, intro, list, note);
-        lessonContainer.scrollIntoView({
-          behavior: "smooth",
-          block: "start"
-        });
-      });
-
-      grid.appendChild(button);
-    }
-
-    details.replaceChildren(
-      backButton,
-      title,
-      description,
-      grid,
-      lessonContainer
-    );
-  }
-
-  subjects.querySelectorAll("[data-library-subject]").forEach(button => {
-    button.addEventListener("click", () => {
-      showSubject(button.dataset.librarySubject);
-    });
-  });
-})();
-
-/* =========================================================
-   OPEN LIBRARY BOOK SEARCH
-   ========================================================= */
-
-(() => {
-  const search = $("librarySearch");
-  const results = $("googleBooksResults");
-  const status = $("googleBooksStatus");
-
-  if (!search || !results || !status) return;
-
-  let timer = null;
-  let requestNumber = 0;
-
-  async function searchOpenLibrary(query) {
-    const current = ++requestNumber;
-    results.replaceChildren();
-
-    if (!query.trim()) {
-      status.textContent = "Search for a book, author, or subject above.";
-      return;
-    }
-
-    status.textContent = "Searching Open Library…";
-
-    try {
-      const url = new URL("https://openlibrary.org/search.json");
-      url.searchParams.set("q", query.trim());
-      url.searchParams.set("limit", "12");
-      url.searchParams.set(
-        "fields",
-        "key,title,author_name,first_publish_year,cover_i,ebook_access,has_fulltext"
-      );
-
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error(`Book search failed (${response.status}).`);
-      }
-
-      const data = await response.json();
-      if (current !== requestNumber) return;
-
-      const books = data.docs || [];
-
-      if (!books.length) {
-        status.textContent = "No books found. Try another search.";
-        return;
-      }
-
-      status.textContent =
-        `Found ${Number(data.numFound || books.length).toLocaleString()} records. Showing ${books.length}.`;
-
-      books.forEach(book => {
-        const card = document.createElement("article");
-        card.className = "library-book";
-
-        const cover = document.createElement("div");
-        cover.className = "book-cover";
-        cover.textContent = "📘";
-
-        if (book.cover_i) {
-          const img = document.createElement("img");
-          img.src =
-            `https://covers.openlibrary.org/b/id/${encodeURIComponent(book.cover_i)}-M.jpg`;
-          img.alt = `Cover of ${book.title || "book"}`;
-          img.loading = "lazy";
-          img.style.cssText =
-            "max-width:100%;max-height:150px;object-fit:contain";
-
-          img.addEventListener("error", () => {
-            img.remove();
-            cover.textContent = "📘";
-          });
-
-          cover.replaceChildren(img);
-        }
-
-        const title = document.createElement("h4");
-        title.textContent = book.title || "Untitled book";
-
-        const author = document.createElement("p");
-        author.textContent = (book.author_name || ["Author not listed"])
-          .slice(0, 3)
-          .join(", ");
-
-        card.append(cover, title, author);
-
-        if (book.first_publish_year) {
-          const year = document.createElement("p");
-          year.textContent = `First published: ${book.first_publish_year}`;
-          card.appendChild(year);
-        }
-
-        const access = document.createElement("p");
-        access.textContent = ({
-          borrowable: "Online borrowing may be available.",
-          public: "Online reading may be available.",
-          printdisabled: "Access may be restricted.",
-          no_ebook: "No online edition listed."
-        })[book.ebook_access] || "Check available access options.";
-
-        card.appendChild(access);
-
-        if (book.key) {
-          const link = document.createElement("a");
-          link.href = `https://openlibrary.org${book.key}`;
-          link.target = "_blank";
-          link.rel = "noopener noreferrer";
-          link.textContent = "View book details ↗";
-          card.appendChild(link);
-        }
-
-        results.appendChild(card);
-      });
-    } catch (error) {
-      if (current !== requestNumber) return;
-      status.textContent = error.message || "Unable to load books.";
-    }
-  }
-
-  search.addEventListener("input", () => {
-    clearTimeout(timer);
-    timer = setTimeout(
-      () => searchOpenLibrary(search.value),
-      500
-    );
-  });
-})();
-
-/* =========================================================
-   GOOGLE BOOKS PREVIEW
-   ========================================================= */
-
-function openPreview(bookId) {
-  const viewer = $("googleBooksViewer");
-  const preview = $("googleBooksPreview");
-
-  if (!viewer || !preview || !bookId) {
-    notify("This book preview is unavailable.");
+document.addEventListener("click", async event => {
+  const viewButton = event.target.closest("[data-view]");
+  if (viewButton) {
+    event.preventDefault();
+    navigate(viewButton.dataset.view);
     return;
   }
 
-  viewer.hidden = false;
-  preview.replaceChildren();
+  const pageAction = event.target.closest("[data-page-action]");
+  if (pageAction) {
+    event.preventDefault();
 
-  const frame = document.createElement("iframe");
-  const params = new URLSearchParams({
-    id: bookId,
-    printsec: "frontcover",
-    output: "embed"
-  });
+    const action = pageAction.dataset.pageAction;
 
-  frame.src = "https://books.google.com/books?" + params.toString();
-  frame.title = "Google Books preview inside LearnLoop";
-  frame.style.cssText =
-    "width:100%;height:650px;border:1px solid #d1ead9;border-radius:12px";
-  frame.loading = "lazy";
-  frame.setAttribute("allowfullscreen", "");
+    if (action === "feed") navigate("feed");
+    else if (action === "library") navigate("library");
+    else if (action === "uploads") navigate("uploads");
+    else if (action === "profile") navigate("profile");
+    else if (action === "login") showAuth("login");
+    else if (action === "edit-profile") openProfile();
+    else if (action === "host-settings") await loadHostSettings();
+    else if (action === "cancel-post") {
+      $("llHomeComposer")?.classList.add("hidden");
+    } else if (action === "new-post") {
+      if (!requireSession()) return;
+      const composer = $("llHomeComposer");
+      composer?.classList.remove("hidden");
+      composer?.scrollIntoView({ behavior: "smooth", block: "center" });
+      $("llPostText")?.focus();
+    }
 
-  preview.appendChild(frame);
+    return;
+  }
 
-  viewer.scrollIntoView({
-    behavior: "smooth",
-    block: "start"
-  });
-}
+  const subjectButton = event.target.closest("[data-library-subject]");
+  if (subjectButton) {
+    const subject = subjectButton.dataset.librarySubject;
+    const target = $("llLibraryTopics");
+    if (!target) return;
 
-$("closeGoogleBook")?.addEventListener("click", () => {
-  const viewer = $("googleBooksViewer");
-  const preview = $("googleBooksPreview");
+    const topics = LIBRARY[subject] || {};
 
-  if (preview) preview.replaceChildren();
-  if (viewer) viewer.hidden = true;
+    target.innerHTML = `
+      <article class="ll-card">
+        <button type="button" class="ll-back" data-page-action="library">← All subjects</button>
+        <h2>${esc(subject)}</h2>
+      </article>
+      ${Object.entries(topics).map(([topic, lessons]) => `
+        <article class="ll-card">
+          <h3>${esc(topic)}</h3>
+          <ol>${lessons.map(lesson => `<li>${esc(lesson)}</li>`).join("")}</ol>
+          <p class="ll-muted">Lesson outline. Full notes can be added separately.</p>
+        </article>
+      `).join("")}
+    `;
+
+    return;
+  }
+
+  const postAction = event.target.closest("[data-action]");
+  if (postAction) {
+    const id = postAction.dataset.id;
+    const action = postAction.dataset.action;
+
+    if (action === "like") await toggleLike(id);
+    else if (action === "comment") await openComments(id);
+    else if (action === "share") await sharePost(id);
+    else if (action === "repost") await repost(id);
+    else if (action === "report") await reportPost(id);
+    else if (action === "delete") await deletePost(id);
+  }
 });
 
-/* =========================================================
-   EVENT LISTENERS
-   ========================================================= */
+document.addEventListener("submit", async event => {
+  if (event.target.id === "llPostForm") {
+    await publishPost(event);
+    return;
+  }
+
+  if (event.target.id === "llBookSearch") {
+    event.preventDefault();
+    await searchLibraryBooks($("llBookQuery")?.value || "");
+    return;
+  }
+
+  const commentForm = event.target.closest(".comment-form");
+  if (commentForm) {
+    await submitComment(event, commentForm);
+  }
+});
 
 $("loginTab")?.addEventListener("click", () => {
   authMode = "login";
@@ -1713,146 +1613,92 @@ $("signupTab")?.addEventListener("click", () => {
 });
 
 $("authForm")?.addEventListener("submit", authSubmit);
-$("postForm")?.addEventListener("submit", publishPost);
 $("profileForm")?.addEventListener("submit", saveProfile);
 $("revenueSettingsForm")?.addEventListener("submit", saveRevenueSettings);
 
-$("hostDashboardButton")?.addEventListener(
-  "click",
-  openHostDashboard
-);
+$("hostDashboardButton")?.addEventListener("click", () => navigate("host"));
 
 $("newPostTop")?.addEventListener("click", () => {
   if (!requireSession()) return;
-
-  showView("feed");
-  $("composer")?.classList.remove("hidden");
-  $("composer")?.scrollIntoView({
-    behavior: "smooth",
-    block: "center"
-  });
-  $("postText")?.focus();
+  navigate("feed");
+  setTimeout(() => {
+    $("llHomeComposer")?.classList.remove("hidden");
+    $("llPostText")?.focus();
+  }, 0);
 });
 
 $("heroCreate")?.addEventListener("click", () => {
   if (!requireSession()) return;
-
-  showView("feed");
-  $("composer")?.classList.remove("hidden");
-  $("composer")?.scrollIntoView({
-    behavior: "smooth",
-    block: "center"
-  });
-  $("postText")?.focus();
-});
-
-$("cancelPost")?.addEventListener("click", () => {
-  $("composer")?.classList.add("hidden");
+  navigate("feed");
+  setTimeout(() => {
+    $("llHomeComposer")?.classList.remove("hidden");
+    $("llPostText")?.focus();
+  }, 0);
 });
 
 $("profileButton")?.addEventListener("click", () => {
-  if (!session) return showAuth("login");
-  openProfile();
+  if (!session) showAuth("login");
+  else navigate("profile");
 });
 
 $("accountButton")?.addEventListener("click", () => {
-  if (!session) return showAuth("login");
-  openProfile();
+  if (!session) showAuth("login");
+  else navigate("profile");
 });
 
 $("signOut")?.addEventListener("click", signOut);
 
-$("searchInput")?.addEventListener("input", renderPosts);
-$("sortSelect")?.addEventListener("change", renderPosts);
+$("searchInput")?.addEventListener("input", () => {
+  if (activeView === "feed") renderHomePage();
+  if (activeView === "community") renderCommunityPage();
+});
+
+$("sortSelect")?.addEventListener("change", () => {
+  if (activeView === "feed") renderHomePage();
+  if (activeView === "community") renderCommunityPage();
+});
 
 document.querySelectorAll("[data-subject]").forEach(button => {
   button.addEventListener("click", () => {
-    const subject = button.dataset.subject;
-
-    activeSubject = activeSubject === subject ? null : subject;
-
-    document.querySelectorAll("[data-subject]").forEach(item => {
-      item.classList.toggle(
-        "selected",
-        item.dataset.subject === activeSubject
-      );
-    });
-
-    if ($("feedTitle")) {
-      $("feedTitle").textContent = activeSubject
-        ? `${activeSubject} resources`
-        : VIEW_TITLES.feed;
-    }
-
-    showView("feed");
+    activeSubject = button.dataset.subject;
+    navigate("feed");
+    loadPosts();
   });
 });
 
-document.querySelectorAll("[data-view]").forEach(button => {
-  button.addEventListener("click", () => {
-    showView(button.dataset.view);
-  });
+window.addEventListener("popstate", event => {
+  const view = event.state?.learnLoopView;
+  if (view && VIEW_INFO[view]) {
+    navigate(view, { replaceHistory: true, scroll: false });
+  }
 });
-
-$("feed")?.addEventListener("click", async event => {
-  const button = event.target.closest("[data-action]");
-  if (!button) return;
-
-  const postId = button.dataset.id;
-  const action = button.dataset.action;
-
-  if (action === "like") return toggleLike(postId);
-  if (action === "comment") return openComments(postId);
-  if (action === "share") return sharePost(postId);
-  if (action === "repost") return repost(postId);
-  if (action === "report") return reportPost(postId);
-  if (action === "delete") return deletePost(postId);
-});
-
-$("feed")?.addEventListener("submit", async event => {
-  const form = event.target.closest(".comment-form");
-  if (!form) return;
-
-  await submitComment(event, form);
-});
-
-document.addEventListener("click", event => {
-  const backButton = event.target.closest("#libraryBackHome");
-  if (!backButton) return;
-
-  event.preventDefault();
-  showView("feed");
-});
-
-(() => {
-  const compactBar = $("compactSidebar");
-  if (!compactBar) return;
-
-  window.addEventListener("scroll", () => {
-    compactBar.classList.toggle("visible", window.scrollY > 180);
-  }, { passive: true });
-
-  compactBar.querySelectorAll("button[data-view]").forEach(button => {
-    button.addEventListener("click", () => {
-      showView(button.dataset.view);
-    });
-  });
-})();
 
 /* =========================================================
-   AUTH STATE AND INITIAL STARTUP
+   AUTH STATE AND STARTUP
    ========================================================= */
 
 if (supabase) {
   supabase.auth.onAuthStateChange((_event, newSession) => {
     session = newSession;
 
-    setTimeout(() => {
-      refreshSession();
+    setTimeout(async () => {
+      await refreshSession();
+      if (activeView === "profile") renderProfilePage();
     }, 0);
   });
 }
 
 updateAuthMode();
 updateAccountUI();
-refreshSession();
+
+ensurePageStyles();
+navigate("feed", { replaceHistory: true });
+
+if (supabase) {
+  refreshSession();
+} else {
+  showEmpty(
+    "Connect LearnLoop",
+    "The existing Supabase connection could not be loaded. Check src/config.js."
+  );
+}
