@@ -286,6 +286,7 @@ function persistLikedIds() {
 
 /* ---------- Authentication and profiles ---------- */
 
+
 async function fetchProfile() {
   if (!currentUserId()) {
     state.profile = null;
@@ -295,7 +296,7 @@ async function fetchProfile() {
   const { data, error } = await supabase
     .from("profiles")
     .select("*")
-    .eq("user_id", currentUserId())
+    .eq("id", currentUserId())
     .maybeSingle();
 
   if (error) {
@@ -318,11 +319,11 @@ async function fetchProfile() {
       .from("profiles")
       .upsert(
         {
-          user_id: currentUserId(),
+          id: currentUserId(),
           display_name: metadataName,
           bio: ""
         },
-        { onConflict: "user_id" }
+        { onConflict: "id" }
       )
       .select("*")
       .maybeSingle();
@@ -334,6 +335,7 @@ async function fetchProfile() {
     }
   }
 }
+
 
 async function saveProfile(event) {
   event.preventDefault();
