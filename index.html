@@ -236,55 +236,58 @@
       <div id="googleBooksResults" class="book-grid"></div>
     </section>
     
-    <section id="youtubeCatalog" class="hidden">
-      <div class="library-section-heading">
-        <div>
-          <h2>▶ YouTube Learning</h2>
-          <p>Find educational videos and watch them without leaving LearnLoop.</p>
-        </div>
-      </div>
+   
+<section id="youtubeCatalog" class="hidden">
+  <div class="youtube-page-heading">
+    <h1>LearnLoop Videos</h1>
+    <p>Discover lessons and learn at your own pace.</p>
+  </div>
 
-      <div class="youtube-search">
-        <input
-          id="youtubeSearchInput"
-          type="search"
-          placeholder="Search mathematics, biology, English..."
-          aria-label="Search YouTube learning videos"
-        >
-       
-<button
-  class="button button-primary"
-  id="youtubeSearchButton"
-  type="button"
->
-  <span aria-hidden="true">🔍</span>
-  <span>Search videos</span>
-</button>
+  <form id="youtubeSearchForm" class="youtube-search">
+    <input
+      id="youtubeSearchInput"
+      type="search"
+      placeholder="Search mathematics, biology, English..."
+      aria-label="Search educational videos"
+    >
+    <button
+      class="button button-primary"
+      id="youtubeSearchButton"
+      type="submit"
+    >
+      🔍 Search
+    </button>
+  </form>
 
-          Search videos
-        </button>
-      </div>
+  <div class="youtube-categories" aria-label="Learning subjects">
+    <button type="button" class="youtube-chip" data-youtube-query="Mathematics lessons">Mathematics</button>
+    <button type="button" class="youtube-chip" data-youtube-query="Science lessons">Science</button>
+    <button type="button" class="youtube-chip" data-youtube-query="English lessons">Languages</button>
+    <button type="button" class="youtube-chip" data-youtube-query="Computer technology tutorials">Technology</button>
+    <button type="button" class="youtube-chip" data-youtube-query="History educational lessons">History</button>
+  </div>
 
-      <p id="youtubeStatus" class="muted small">
-        Search for a lesson to get started.
-      </p>
+  <p id="youtubeStatus" class="muted small" role="status">
+    Search for a lesson or choose a subject above.
+  </p>
 
-      <div id="youtubeResults" class="youtube-grid"></div>
+  <div id="youtubeResults" class="youtube-grid"></div>
 
-      <div id="youtubePlayerPanel" class="hidden">
-        <h3 id="youtubePlayerTitle">Now playing</h3>
-        <div class="youtube-player">
-          <iframe
-            id="youtubePlayer"
-            title="LearnLoop YouTube lesson"
-            src="about:blank"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerpolicy="strict-origin-when-cross-origin"
-            allowfullscreen
-          ></iframe>
-        </div>
-      </div>
-    </section>
+  <section id="youtubePlayerPanel" class="youtube-player-panel hidden">
+    <h2 id="youtubePlayerTitle">Now playing</h2>
+    <div class="youtube-player">
+      <iframe
+        id="youtubePlayer"
+        title="LearnLoop educational video"
+        src="about:blank"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen
+      ></iframe>
+    </div>
+  </section>
+</section>
+
 
 
     <section id="libraryReader" class="library-reader hidden">
