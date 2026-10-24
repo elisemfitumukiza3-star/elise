@@ -1171,3 +1171,329 @@ button[type="submit"]:hover,
   outline-color: #a6e8bf;
 }
 
+/* ===== LearnLoop Library: blue bookshelf redesign ===== */
+
+#libraryView .library-page {
+  --library-blue: #2457c5;
+  --library-light: #edf4ff;
+  --library-ink: #172b4d;
+  color: var(--library-ink);
+  background: #f4f7fd;
+  border: 1px solid #dce6f5;
+  border-radius: 22px;
+  padding: 24px;
+  overflow: hidden;
+}
+
+#libraryView .library-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid #dce6f5;
+}
+
+#libraryView .library-home-button {
+  background: #fff;
+  color: var(--library-blue);
+  border: 1px solid #cbdaf5;
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+#libraryView .library-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+#libraryView .library-brand-icon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  background: #dce9ff;
+  border-radius: 14px;
+  font-size: 27px;
+}
+
+#libraryView .library-brand strong,
+#libraryView .library-brand small {
+  display: block;
+}
+
+#libraryView .library-brand strong {
+  font-size: 18px;
+  color: #173b7a;
+}
+
+#libraryView .library-brand small {
+  margin-top: 4px;
+  color: #667995;
+}
+
+#libraryView .library-open-label,
+#libraryView .library-eyebrow {
+  color: #2457c5;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+#libraryView .library-welcome {
+  margin: 24px 0;
+  padding: 32px;
+  border-radius: 20px;
+  background: linear-gradient(130deg, #153c82, #2868d7 65%, #78a8ff);
+  color: #fff;
+}
+
+#libraryView .library-welcome .library-eyebrow {
+  color: #dbe8ff;
+}
+
+#libraryView .library-welcome h1 {
+  color: #fff;
+  font-size: clamp(27px, 4vw, 40px);
+  margin: 12px 0;
+  line-height: 1.15;
+}
+
+#libraryView .library-welcome p {
+  color: #edf4ff;
+  max-width: 600px;
+  line-height: 1.7;
+}
+
+#libraryView .library-search {
+  display: flex;
+  gap: 10px;
+  margin-top: 22px;
+  flex-wrap: wrap;
+}
+
+#libraryView .library-search input {
+  flex: 1 1 240px;
+  min-width: 0;
+  background: #fff;
+  color: #172b4d;
+  border: 1px solid #dce6f5;
+  border-radius: 12px;
+  padding: 13px 15px;
+}
+
+#libraryView .library-search .button {
+  background: #fff;
+  color: #2457c5;
+  border: 1px solid #fff;
+  border-radius: 12px;
+  font-weight: 800;
+}
+
+#libraryView .library-categories {
+  margin: 28px 0;
+}
+
+#libraryView .library-categories h2,
+#libraryView .library-section-heading h2 {
+  color: #173b7a;
+  margin-bottom: 8px;
+}
+
+#libraryView .subject-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+  gap: 14px;
+  margin-top: 18px;
+}
+
+#libraryView .subject-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 9px;
+  min-height: 142px;
+  padding: 18px;
+  background: #fff;
+  color: #173b7a;
+  border: 1px solid #dce6f5;
+  border-radius: 17px;
+  text-align: left;
+  box-shadow: 0 4px 12px rgba(31, 68, 130, 0.06);
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease,
+    border-color 0.18s ease;
+}
+
+#libraryView .subject-card:hover,
+#libraryView .subject-card:focus-visible {
+  transform: translateY(-3px);
+  border-color: #5b8fe9;
+  box-shadow: 0 10px 24px rgba(31, 68, 130, 0.12);
+  outline: none;
+}
+
+#libraryView .subject-card > span {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: #e7efff;
+  color: #2457c5;
+  font-size: 23px;
+}
+
+#libraryView .subject-card strong {
+  color: #173b7a;
+  font-size: 15px;
+}
+
+#libraryView .subject-card small {
+  color: #687b98;
+  line-height: 1.4;
+}
+
+#libraryView .library-section-heading {
+  margin: 30px 0 14px;
+}
+
+#libraryView #googleBooksStatus {
+  margin: 12px 0;
+  color: #687b98;
+}
+
+#libraryView #googleBooksResults {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 17px;
+  margin-top: 18px;
+}
+
+#libraryView #googleBooksResults .book-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 0;
+  padding: 18px;
+  background: #fff;
+  color: #243754;
+  border: 1px solid #dce6f5;
+  border-radius: 17px;
+  box-shadow: 0 5px 16px rgba(31, 68, 130, 0.06);
+  overflow-wrap: anywhere;
+}
+
+#libraryView #googleBooksResults .book-card img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: 155px;
+  object-fit: contain;
+  align-self: center;
+  border-radius: 5px;
+}
+
+#libraryView #googleBooksResults .book-card h3 {
+  color: #173b7a;
+  font-size: 17px;
+  line-height: 1.4;
+  margin: 5px 0 0;
+}
+
+#libraryView #googleBooksResults .book-card p {
+  color: #687b98;
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+#libraryView .lesson-badge,
+#libraryView .preview-badge {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  max-width: 100%;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+#libraryView .lesson-badge {
+  color: #2457c5;
+  background: #e7efff;
+  border: 1px solid #cbdcff;
+}
+
+#libraryView .preview-badge {
+  color: #176749;
+  background: #e1f7ed;
+  border: 1px solid #b8ead2;
+}
+
+#libraryView #googleBooksResults .book-card .button,
+#libraryView #libraryReader .button {
+  border-radius: 10px;
+  margin-top: auto;
+}
+
+#libraryView .library-reader {
+  margin-top: 24px;
+  padding: 20px;
+  background: #fff;
+  border: 1px solid #dce6f5;
+  border-radius: 18px;
+}
+
+#libraryView .library-reader-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 18px;
+  color: #2457c5;
+  font-weight: 700;
+}
+
+#libraryView .library-reader-frame {
+  display: block;
+  width: 100%;
+  min-height: 600px;
+  border: 1px solid #dce6f5;
+  border-radius: 12px;
+  background: #f8faff;
+}
+
+@media (max-width: 600px) {
+  #libraryView .library-page {
+    padding: 14px;
+    border-radius: 15px;
+  }
+
+  #libraryView .library-welcome {
+    padding: 22px 17px;
+  }
+
+  #libraryView .subject-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  #libraryView .subject-card {
+    padding: 13px;
+    min-height: 130px;
+  }
+
+  #libraryView #googleBooksResults {
+    grid-template-columns: 1fr;
+  }
+}
+
