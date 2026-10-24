@@ -1,4 +1,4 @@
-```javascript
+
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from "./src/config.js";
 
@@ -1687,4 +1687,4 @@ init().catch(error => {
     "error"
   );
 });
-```
+
