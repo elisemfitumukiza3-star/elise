@@ -1266,10 +1266,12 @@ async function searchBooks() {
         ? `https://covers.openlibrary.org/b/id/${Number(book.cover_i)}-M.jpg`
         : "";
 
+    
       const bookUrl = book.key &&
-        /^\\/works\\/OL\\d+W$/.test(book.key)
+        /^\/works\/OL\d+W$/.test(book.key)
           ? `https://openlibrary.org${book.key}`
           : "https://openlibrary.org";
+
 
       const onlineReading = Boolean(
         book.public_scan_b || book.has_fulltext
