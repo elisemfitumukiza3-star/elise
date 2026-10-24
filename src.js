@@ -1603,11 +1603,14 @@ function openProfile() {
 /* ---------- YouTube Learning ---------- */
 
 async function searchYouTubeVideos() {
-  const input = $("#youtubeSearchInput");
-  const results = $("#youtubeResults");
-  const status = $("#youtubeStatus");
+  const input = document.getElementById("youtubeSearchInput");
+  const results = document.getElementById("youtubeResults");
+  const status = document.getElementById("youtubeStatus");
 
-  if (!input || !results || !status) return;
+  if (!input || !results || !status) {
+    console.error("LearnLoop: YouTube search elements are missing.");
+    return;
+  }
 
   const query = input.value.trim();
 
@@ -1620,7 +1623,7 @@ async function searchYouTubeVideos() {
 
   if (!apiKey) {
     status.textContent =
-      "YouTube search is not configured yet. Check your Vercel environment variable.";
+      "YouTube API key is missing from this deployment. Check Vercel Environment Variables.";
     return;
   }
 
@@ -1645,30 +1648,39 @@ async function searchYouTubeVideos() {
     const data = await response.json();
 
     if (!response.ok) {
-      throw new Error(
-        data.error?.message || "YouTube search failed."
-      );
-    }
+      const message =
+        data.error?.message || `YouTube request failed (${response.status}).`;
 
-    if (!data.items?.length) {
-      status.textContent = "No videos found. Try another search.";
+      console.error("YouTube API response:", response.status, data);
+      status.textContent = `YouTube error: ${message}`;
       return;
     }
 
-    data.items.forEach(video => {
+    const videos = (data.items || []).filter(
+      video => video.id?.videoId && video.snippet
+    );
+
+    if (!videos.length) {
+      status.textContent =
+        "No videos found for this search. Try Mathematics, Biology, or English.";
+      return;
+    }
+
+    videos.forEach(video => {
       const videoId = video.id.videoId;
       const title = video.snippet.title;
       const channel = video.snippet.channelTitle;
       const thumbnail =
         video.snippet.thumbnails?.medium?.url ||
-        video.snippet.thumbnails?.default?.url;
+        video.snippet.thumbnails?.default?.url ||
+        "";
 
       const card = document.createElement("article");
       card.className = "youtube-card";
 
       const image = document.createElement("img");
-      image.src = thumbnail || "";
-      image.alt = "";
+      image.src = thumbnail;
+      image.alt = `Thumbnail for ${title}`;
       image.loading = "lazy";
 
       const heading = document.createElement("h3");
@@ -1683,11 +1695,14 @@ async function searchYouTubeVideos() {
       playButton.textContent = "Watch lesson";
 
       playButton.addEventListener("click", () => {
-        const panel = $("#youtubePlayerPanel");
-        const player = $("#youtubePlayer");
-        const playerTitle = $("#youtubePlayerTitle");
+        const panel = document.getElementById("youtubePlayerPanel");
+        const player = document.getElementById("youtubePlayer");
+        const playerTitle = document.getElementById("youtubePlayerTitle");
 
-        if (!panel || !player || !playerTitle) return;
+        if (!panel || !player || !playerTitle) {
+          status.textContent = "The video player is missing from index.html.";
+          return;
+        }
 
         playerTitle.textContent = title;
         player.src =
@@ -1700,13 +1715,16 @@ async function searchYouTubeVideos() {
       results.append(card);
     });
 
-    status.textContent = `Found ${data.items.length} videos. Choose a lesson to watch.`;
-  } catch (error) {
-    console.error("YouTube search error:", error);
     status.textContent =
-      `Unable to search YouTube: ${error.message}`;
+      `Found ${videos.length} videos. Choose a lesson to watch.`;
+  } catch (error) {
+    console.error("LearnLoop YouTube search error:", error);
+    status.textContent =
+      `Could not load videos: ${error.message}. Check your connection and API settings.`;
   }
 }
+
+
 
 /* ---------- Event wiring ---------- */
 
