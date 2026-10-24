@@ -1189,9 +1189,19 @@ async function searchBooks() {
   if (!results) return;
 
   const input = $("#librarySearch");
-  const query = input?.value.trim() || state.searchTerm;
+  const typedQuery = input?.value.trim() || "";
+  const selectedSubject = state.selectedSubject || "";
+  const query = typedQuery || (
+    selectedSubject && selectedSubject !== "All subjects"
+      ? `subject:${selectedSubject}`
+      : ""
+  );
 
   if (!query) {
+    if ($("#googleBooksStatus")) {
+      $("#googleBooksStatus").textContent =
+        "Search by book title, author, or subject to begin.";
+    }
     results.innerHTML = renderEmpty(
       "Find your next learning resource",
       "Search by book title, author, subject, or keyword."
@@ -1200,62 +1210,107 @@ async function searchBooks() {
   }
 
   if ($("#googleBooksStatus")) {
-    $("#googleBooksStatus").textContent = "Searching books…";
+    $("#googleBooksStatus").textContent = "Searching Google Books…";
   }
 
-  results.innerHTML = `<p class="muted small">Searching…</p>`;
+  results.innerHTML = `<p class="muted small">Searching books…</p>`;
 
   try {
-    const endpoint = new URL("https://www.googleapis.com/books/v1/volumes");
+    const endpoint = new URL(
+      "https://www.googleapis.com/books/v1/volumes"
+    );
     endpoint.searchParams.set("q", query);
     endpoint.searchParams.set("maxResults", "12");
     endpoint.searchParams.set("printType", "books");
+    endpoint.searchParams.set("orderBy", "relevance");
 
     const response = await fetch(endpoint);
-    if (!response.ok) throw new Error("Book search is temporarily unavailable.");
+    if (!response.ok) {
+      throw new Error("Book search is temporarily unavailable.");
+    }
 
     const data = await response.json();
     const books = data.items || [];
 
     if ($("#googleBooksStatus")) {
       $("#googleBooksStatus").textContent =
-        `${data.totalItems || 0} book results`;
+        `${data.totalItems || 0} book results from Google Books`;
     }
 
     if (!books.length) {
       results.innerHTML = renderEmpty(
         "No books found",
-        "Try a shorter title, another author, or a different subject."
+        "Try another title, author, keyword, or subject."
       );
       return;
     }
 
-    results.innerHTML = `
-      <div class="book-grid">
-        ${books.map(book => {
-          const info = book.volumeInfo || {};
-          const title = info.title || "Untitled book";
-          const authors = (info.authors || []).join(", ") || "Author unavailable";
-          const image = info.imageLinks?.thumbnail || "";
-          const description = (info.description || "No description available.")
-            .replace(/<[^>]*>/g, "")
-            .slice(0, 180);
-          const url = safeUrl(info.infoLink || "");
+    results.innerHTML = books.map(book => {
+      const info = book.volumeInfo || {};
+      const access = book.accessInfo || {};
+      const title = info.title || "Untitled book";
+      const authors = (info.authors || []).join(", ") ||
+        "Author unavailable";
+      const image = (info.imageLinks?.thumbnail || "")
+        .replace(/^http:/, "https:");
+      const description = (info.description ||
+        "No description available.")
+        .replace(/<[^>]*>/g, "")
+        .slice(0, 180);
+      const detailsUrl = safeUrl(info.infoLink || "");
+      const previewUrl = safeUrl(info.previewLink || "");
+      const bookId = book.id || "";
+      const category = info.categories?.[0] ||
+        selectedSubject ||
+        "Learning resource";
+      const hasPreview =
+        access.viewability === "PARTIAL" ||
+        access.viewability === "FULL";
 
-          return `
-            <article class="book-card">
-              ${image
-                ? `<img src="${escapeHTML(image)}" alt="${escapeHTML(title)}" loading="lazy">`
-                : `<div class="book-placeholder">📘</div>`}
-              <h3>${escapeHTML(title)}</h3>
-              <p>${escapeHTML(authors)}</p>
-              <p>${escapeHTML(description)}</p>
-              ${url
-                ? `<a class="button button-secondary" href="${escapeHTML(url)}" target="_blank" rel="noopener noreferrer">Book details</a>`
-                : ""}
-            </article>`;
-        }).join("")}
-      </div>`;
+      return `
+        <article class="book-card">
+          ${image
+            ? `<img src="${escapeHTML(image)}"
+                alt="${escapeHTML(title)}" loading="lazy">`
+            : `<div class="book-placeholder">📘</div>`}
+
+          <span class="lesson-badge">${escapeHTML(category)}</span>
+          ${hasPreview
+            ? `<span class="preview-badge">Preview available</span>`
+            : `<span class="preview-badge">Preview may be limited</span>`}
+
+          <h3>${escapeHTML(title)}</h3>
+          <p>${escapeHTML(authors)}</p>
+          <p>${escapeHTML(description)}${info.description?.length > 180 ? "…" : ""}</p>
+
+          ${bookId && hasPreview
+            ? `<button
+                class="button button-primary"
+                type="button"
+                data-book-preview="${escapeHTML(bookId)}"
+                data-book-title="${escapeHTML(title)}">
+                Read preview in LearnLoop
+              </button>`
+            : previewUrl
+              ? `<a class="button button-secondary"
+                  href="${escapeHTML(previewUrl)}"
+                  target="_blank"
+                  rel="noopener noreferrer">
+                  Check book preview
+                </a>`
+              : ""}
+
+          ${detailsUrl
+            ? `<a class="button button-secondary"
+                href="${escapeHTML(detailsUrl)}"
+                target="_blank"
+                rel="noopener noreferrer">
+                Book details
+              </a>`
+            : ""}
+        </article>`;
+    }).join("");
+
   } catch (error) {
     console.error("Book search error:", error);
 
@@ -1268,6 +1323,33 @@ async function searchBooks() {
       "Check your internet connection and try again."
     );
   }
+}
+
+function openBookPreview(bookId, title) {
+  const reader = $("#libraryReader");
+  const catalog = $("#libraryCatalog");
+  const frame = $("#libraryReaderFrame");
+  const readerTitle = $("#libraryReaderTitle");
+  const readerMessage = $("#libraryReaderMessage");
+
+  if (!reader || !frame || !bookId) return;
+
+  if (readerTitle) readerTitle.textContent = title || "Book preview";
+
+  if (readerMessage) {
+    readerMessage.textContent =
+      "Loading the Google Books preview. Availability depends on the publisher and your region.";
+  }
+
+  // Google Books' embedded reader uses this iframe.
+  const previewUrl = new URL("https://books.google.com/books");
+  previewUrl.searchParams.set("id", bookId);
+  previewUrl.searchParams.set("output", "embed");
+
+  frame.src = previewUrl.toString();
+  reader.classList.remove("hidden");
+  catalog?.classList.add("hidden");
+  reader.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 /* ---------- Dashboard ---------- */
