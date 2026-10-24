@@ -1707,7 +1707,8 @@ $("#libraryBackButton")?.addEventListener("click", () => {
       const match = options.find(option => option.value === state.selectedSubject);
       if (match) $("#postSubject").value = match.value;
     }
-
+if ($("#librarySearch")) $("#librarySearch").value = "";
+searchBooks();
     renderAllFeeds();
   });
 
