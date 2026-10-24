@@ -1709,6 +1709,8 @@ $("#libraryBackButton")?.addEventListener("click", () => {
     }
 if ($("#librarySearch")) $("#librarySearch").value = "";
 searchBooks();
+    if ($("#librarySearch")) $("#librarySearch").value = "";
+searchBooks(); 
     renderAllFeeds();
   });
 
