@@ -129,33 +129,137 @@
             </div>
           </section>
 
-          <section class="view-panel hidden" id="libraryView">
-            <div class="page-heading">
-              <span class="eyebrow">EXPLORE AND STUDY</span>
-              <h1>Learning library</h1>
-              <p>Find useful books and resources to support your studies.</p>
-            </div>
-            <div class="card library-search">
-              <label class="search-wrap wide">
-                <span>⌕</span>
-                <input id="librarySearch" type="search" placeholder="Search books, authors, or subjects…">
-              </label>
-              <button class="button button-primary" id="librarySearchButton">Search books</button>
-            </div>
-            <div class="subject-grid" id="librarySubjects">
-              <button class="subject-card" data-subject="Science"><span>⚗</span><strong>Science</strong><small>Discover how the world works</small></button>
-              <button class="subject-card" data-subject="Mathematics"><span>∑</span><strong>Mathematics</strong><small>Build problem-solving skills</small></button>
-              <button class="subject-card" data-subject="Languages"><span>文</span><strong>Languages</strong><small>Read, write, and communicate</small></button>
-              <button class="subject-card" data-subject="Technology"><span>⌘</span><strong>Technology</strong><small>Digital skills and computing</small></button>
-              <button class="subject-card" data-subject="Health"><span>＋</span><strong>Health</strong><small>Health and wellbeing education</small></button>
-              <button class="subject-card" data-subject="Social Development"><span>♧</span><strong>Social development</strong><small>Communities and development</small></button>
-            </div>
-            <div class="section-heading">
-              <div><h2>Book search</h2><p>Discover books and available previews.</p></div>
-            </div>
-            <div id="googleBooksStatus" class="muted small">Search for a title, author, or subject.</div>
-            <div id="googleBooksResults" class="book-grid"></div>
-          </section>
+       
+<section class="view-panel hidden" id="libraryView">
+  <div class="library-page">
+
+    <header class="library-topbar">
+      <button class="library-home-button"
+              type="button"
+              data-view="feed">
+        ← Home
+      </button>
+
+      <div class="library-brand">
+        <span class="library-brand-icon">📚</span>
+        <div>
+          <strong>LearnLoop Library</strong>
+          <small>Your world of knowledge</small>
+        </div>
+      </div>
+
+      <span class="library-open-label">DIGITAL LIBRARY</span>
+    </header>
+
+    <section class="library-welcome">
+      <span class="library-eyebrow">DISCOVER · READ · GROW</span>
+      <h1>Welcome to your library</h1>
+      <p>
+        Explore books, discover new ideas, and find your next
+        learning adventure—all in one place.
+      </p>
+
+      <div class="library-search">
+        <input
+          id="librarySearch"
+          type="search"
+          placeholder="Search by book title, author, or subject..."
+          aria-label="Search books"
+        />
+        <button
+          class="button button-primary"
+          id="librarySearchButton"
+          type="button"
+        >
+          Search books
+        </button>
+      </div>
+    </section>
+
+    <section class="library-categories">
+      <h2>Explore by subject</h2>
+
+      <div class="subject-grid" id="librarySubjects">
+        <button class="subject-card" data-subject="Science">
+          <span>⚗️</span>
+          <strong>Science</strong>
+          <small>Discover the world</small>
+        </button>
+
+        <button class="subject-card" data-subject="Mathematics">
+          <span>∑</span>
+          <strong>Mathematics</strong>
+          <small>Build your skills</small>
+        </button>
+
+        <button class="subject-card" data-subject="Languages">
+          <span>文</span>
+          <strong>Languages</strong>
+          <small>Words and communication</small>
+        </button>
+
+        <button class="subject-card" data-subject="Technology">
+          <span>💻</span>
+          <strong>Technology</strong>
+          <small>Explore digital skills</small>
+        </button>
+
+        <button class="subject-card" data-subject="Health">
+          <span>✚</span>
+          <strong>Health</strong>
+          <small>Learn and stay informed</small>
+        </button>
+
+        <button class="subject-card" data-subject="Social Development">
+          <span>🌍</span>
+          <strong>Social Development</strong>
+          <small>Understand communities</small>
+        </button>
+      </div>
+    </section>
+
+    <section id="libraryCatalog">
+      <div class="library-section-heading">
+        <div>
+          <h2>Discover books</h2>
+          <p>Search books and check which ones offer a reading preview.</p>
+        </div>
+      </div>
+
+      <div id="googleBooksStatus" class="muted small">
+        Search for a title, author, or subject to begin.
+      </div>
+
+      <div id="googleBooksResults" class="book-grid"></div>
+    </section>
+
+    <section id="libraryReader" class="library-reader hidden">
+      <div class="library-reader-toolbar">
+        <button id="libraryBackButton" class="button button-secondary"
+                type="button">
+          ← Back to books
+        </button>
+        <span>LearnLoop Reader</span>
+      </div>
+
+      <h2 id="libraryReaderTitle">Book reader</h2>
+
+      <p id="libraryReaderMessage" class="muted">
+        Available book previews appear below.
+      </p>
+
+      <iframe
+        id="libraryReaderFrame"
+        title="Book preview reader"
+        loading="lazy"
+        allow="autoplay"
+        referrerpolicy="strict-origin-when-cross-origin"
+      ></iframe>
+    </section>
+
+  </div>
+</section>
+
 
           <section class="view-panel hidden" id="discussionsView">
             <div class="page-heading">
