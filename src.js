@@ -1678,7 +1678,6 @@ $("#libraryBackButton")?.addEventListener("click", () => {
     }
   });
 
-  $("#librarySearchButton")?.addEventListener("click", searchBooks);
 
   $("#librarySearch")?.addEventListener("keydown", event => {
     if (event.key === "Enter") {
@@ -1707,8 +1706,6 @@ $("#libraryBackButton")?.addEventListener("click", () => {
     }
 if ($("#librarySearch")) $("#librarySearch").value = "";
 searchBooks();
-    if ($("#librarySearch")) $("#librarySearch").value = "";
-searchBooks(); 
     renderAllFeeds();
   });
 
