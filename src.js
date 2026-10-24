@@ -1652,7 +1652,25 @@ function bindEvents() {
   });
 
   $("#sortSelect")?.addEventListener("change", renderAllFeeds);
+$("#librarySearchButton")?.addEventListener("click", searchBooks);
 
+$("#googleBooksResults")?.addEventListener("click", event => {
+  const button = event.target.closest("[data-book-preview]");
+  if (!button) return;
+
+  openBookPreview(
+    button.dataset.bookPreview,
+    button.dataset.bookTitle || "Book preview"
+  );
+});
+
+$("#libraryBackButton")?.addEventListener("click", () => {
+  $("#libraryReader")?.classList.add("hidden");
+  $("#libraryCatalog")?.classList.remove("hidden");
+
+  const frame = $("#libraryReaderFrame");
+  if (frame) frame.removeAttribute("src");
+});
   $("#searchInput")?.addEventListener("input", event => {
     state.searchTerm = event.target.value.trim();
     renderAllFeeds();
