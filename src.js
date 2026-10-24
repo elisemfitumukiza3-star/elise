@@ -1710,8 +1710,7 @@ async function searchYouTubeVideos() {
 
 function bindEvents() {
 
-  $("#youtubeSearchForm")?.addEventListener("submit", event => {
-    event.preventDefault();
+  $("#youtubeSearchButton")?.addEventListener("click", () => {
     searchYouTubeVideos();
   });
 
