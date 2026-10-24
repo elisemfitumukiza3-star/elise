@@ -897,3 +897,129 @@ td {
   }
 }
 
+/* LearnLoop: final sidebar layout correction */
+.app-shell {
+  display: grid;
+  grid-template-columns: 245px minmax(0, 1fr);
+  align-items: start;
+  gap: 26px;
+  width: 100%;
+  max-width: 1544px;
+  margin: 0 auto;
+  padding: 18px 22px;
+}
+
+#sidebar {
+  position: sticky;
+  top: 18px;
+  display: flex;
+  flex-direction: column;
+  align-self: start;
+  width: 100%;
+  min-width: 0;
+  height: calc(100vh - 36px);
+  min-height: 0;
+  max-height: calc(100vh - 36px);
+  padding: 18px 12px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+#sidebar > .brand,
+#sidebar > .side-label,
+#sidebar > nav,
+#sidebar > .sidebar-bottom {
+  flex-shrink: 0;
+}
+
+#sidebar .nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  min-width: 0;
+}
+
+#sidebar .nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-width: 0;
+  min-height: 40px;
+  padding: 9px 10px;
+  text-align: left;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  line-height: 1.35;
+}
+
+#sidebar .sidebar-bottom {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+#sidebar .account-mini {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+#sidebar .icon-button {
+  flex-shrink: 0;
+}
+
+.main-area {
+  min-width: 0;
+}
+
+@media (max-width: 900px) {
+  .app-shell {
+    grid-template-columns: 205px minmax(0, 1fr);
+    gap: 14px;
+    padding: 12px;
+  }
+
+  #sidebar {
+    padding: 14px 8px;
+  }
+}
+
+@media (max-width: 720px) {
+  .app-shell {
+    display: block;
+    padding: 10px;
+  }
+
+  #sidebar {
+    position: static;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    margin-bottom: 14px;
+    overflow: visible;
+  }
+
+  #sidebar .nav-list {
+    flex-direction: row;
+    overflow-x: auto;
+    padding-bottom: 6px;
+  }
+
+  #sidebar .nav-item {
+    flex: 0 0 auto;
+    width: auto;
+    white-space: nowrap;
+  }
+
+  #sidebar .sidebar-bottom {
+    margin-top: 12px;
+  }
+}
+
