@@ -1709,10 +1709,22 @@ async function searchYouTubeVideos() {
 /* ---------- Event wiring ---------- */
 
 function bindEvents() {
-  $("#youtubeSearchButton")?.addEventListener(
-    "click",
-    searchYouTubeVideos
-  );
+
+  $("#youtubeSearchForm")?.addEventListener("submit", event => {
+    event.preventDefault();
+    searchYouTubeVideos();
+  });
+
+  document.querySelectorAll("[data-youtube-query]").forEach(button => {
+    button.addEventListener("click", () => {
+      const input = $("#youtubeSearchInput");
+      if (!input) return;
+
+      input.value = button.dataset.youtubeQuery || "";
+      searchYouTubeVideos();
+    });
+  });
+
 
   $("#youtubeSearchInput")?.addEventListener("keydown", event => {
     if (event.key === "Enter") {
