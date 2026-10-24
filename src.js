@@ -1594,12 +1594,132 @@ function openProfile() {
     $("#profileBio").value = state.profile?.bio || "";
   }
 
+ 
   openDialog("profileDialog");
+}
+
+/* ---------- YouTube Learning ---------- */
+
+async function searchYouTubeVideos() {
+  const input = $("#youtubeSearchInput");
+  const results = $("#youtubeResults");
+  const status = $("#youtubeStatus");
+
+  if (!input || !results || !status) return;
+
+  const query = input.value.trim();
+
+  if (!query) {
+    status.textContent = "Enter a subject or lesson to search.";
+    return;
+  }
+
+  const apiKey = import.meta.env.VITE_YOUTUBE_API_KEY;
+
+  if (!apiKey) {
+    status.textContent =
+      "YouTube search is not configured yet. Check your Vercel environment variable.";
+    return;
+  }
+
+  status.textContent = "Searching for educational videos...";
+  results.replaceChildren();
+
+  try {
+    const params = new URLSearchParams({
+      part: "snippet",
+      type: "video",
+      videoEmbeddable: "true",
+      safeSearch: "strict",
+      maxResults: "12",
+      q: query,
+      key: apiKey
+    });
+
+    const response = await fetch(
+      `https://www.googleapis.com/youtube/v3/search?${params}`
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        data.error?.message || "YouTube search failed."
+      );
+    }
+
+    if (!data.items?.length) {
+      status.textContent = "No videos found. Try another search.";
+      return;
+    }
+
+    data.items.forEach(video => {
+      const videoId = video.id.videoId;
+      const title = video.snippet.title;
+      const channel = video.snippet.channelTitle;
+      const thumbnail =
+        video.snippet.thumbnails?.medium?.url ||
+        video.snippet.thumbnails?.default?.url;
+
+      const card = document.createElement("article");
+      card.className = "youtube-card";
+
+      const image = document.createElement("img");
+      image.src = thumbnail || "";
+      image.alt = "";
+      image.loading = "lazy";
+
+      const heading = document.createElement("h3");
+      heading.textContent = title;
+
+      const channelText = document.createElement("p");
+      channelText.textContent = channel;
+
+      const playButton = document.createElement("button");
+      playButton.type = "button";
+      playButton.className = "button button-primary";
+      playButton.textContent = "Watch lesson";
+
+      playButton.addEventListener("click", () => {
+        const panel = $("#youtubePlayerPanel");
+        const player = $("#youtubePlayer");
+        const playerTitle = $("#youtubePlayerTitle");
+
+        if (!panel || !player || !playerTitle) return;
+
+        playerTitle.textContent = title;
+        player.src =
+          `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}`;
+        panel.classList.remove("hidden");
+        panel.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+
+      card.append(image, heading, channelText, playButton);
+      results.append(card);
+    });
+
+    status.textContent = `Found ${data.items.length} videos. Choose a lesson to watch.`;
+  } catch (error) {
+    console.error("YouTube search error:", error);
+    status.textContent =
+      `Unable to search YouTube: ${error.message}`;
+  }
 }
 
 /* ---------- Event wiring ---------- */
 
 function bindEvents() {
+  $("#youtubeSearchButton")?.addEventListener(
+    "click",
+    searchYouTubeVideos
+  );
+
+  $("#youtubeSearchInput")?.addEventListener("keydown", event => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      searchYouTubeVideos();
+    }
+  });
   $$("[data-view]").forEach(button => {
     button.addEventListener("click", () => navigate(button.dataset.view));
   });
