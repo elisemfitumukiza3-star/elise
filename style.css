@@ -782,27 +782,47 @@ td {
   }
 }
 
-/* LearnLoop sidebar alignment and visibility fix */
-#sidebar {
+
+/* LearnLoop sidebar: alignment and bottom visibility fix */
+#sidebar,
+.sidebar {
   box-sizing: border-box;
-  max-height: calc(100vh - 36px);
-  overflow-y: auto;
-  overflow-x: hidden;
-  scrollbar-width: thin;
-}
-
-#sidebar .nav-list,
-#sidebar .nav-list button,
-#sidebar nav button,
-#sidebar .sidebar-bottom {
   min-width: 0;
+  max-height: calc(100vh - 36px);
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  overscroll-behavior: contain;
 }
 
+#sidebar nav,
+.sidebar nav,
+#sidebar .nav-list,
+.sidebar .nav-list {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+  min-width: 0;
+  width: 100%;
+}
+
+#sidebar nav a,
+#sidebar nav button,
+#sidebar .nav-list a,
 #sidebar .nav-list button,
-#sidebar nav button {
+.sidebar nav a,
+.sidebar nav button,
+.sidebar .nav-list a,
+.sidebar .nav-list button,
+#sidebar [data-view],
+.sidebar [data-view] {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
+  flex: 0 0 auto;
+  width: 100%;
+  min-width: 0;
   min-height: 44px;
   height: auto;
   padding: 10px 12px;
@@ -812,28 +832,68 @@ td {
   text-align: left;
 }
 
-#sidebar .sidebar-bottom {
+#sidebar nav a svg,
+#sidebar nav button svg,
+#sidebar .nav-list a svg,
+#sidebar .nav-list button svg,
+.sidebar nav a svg,
+.sidebar nav button svg {
+  flex: 0 0 20px;
+  width: 20px;
+  height: 20px;
+}
+
+#sidebar .sidebar-bottom,
+.sidebar .sidebar-bottom {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 10px;
+  min-width: 0;
   margin-top: 16px;
 }
 
-#sidebar .account-mini {
-  flex: 1;
+#sidebar .account-mini,
+.sidebar .account-mini {
+  flex: 1 1 120px;
   min-width: 0;
   overflow-wrap: anywhere;
 }
 
 @media (max-width: 720px) {
-  #sidebar {
+  #sidebar,
+  .sidebar {
+    position: static;
+    width: 100%;
     max-height: none;
     overflow: visible;
+    margin-bottom: 14px;
   }
 
-  #sidebar .nav-list {
-    max-width: 100%;
+  #sidebar nav,
+  .sidebar nav,
+  #sidebar .nav-list,
+  .sidebar .nav-list {
+    flex-direction: row;
+    align-items: stretch;
     overflow-x: auto;
-    padding-bottom: 6px;
+    overflow-y: hidden;
+    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  #sidebar nav a,
+  #sidebar nav button,
+  #sidebar .nav-list a,
+  #sidebar .nav-list button,
+  .sidebar nav a,
+  .sidebar nav button,
+  .sidebar .nav-list a,
+  .sidebar .nav-list button {
+    flex: 0 0 auto;
+    width: auto;
+    max-width: 220px;
+    white-space: nowrap;
   }
 }
+
