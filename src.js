@@ -1190,136 +1190,134 @@ async function searchBooks() {
 
   const input = $("#librarySearch");
   const typedQuery = input?.value.trim() || "";
-  const selectedSubject = state.selectedSubject || "";
+  const subject = state.selectedSubject || "";
+
   const query = typedQuery || (
-    selectedSubject && selectedSubject !== "All subjects"
-      ? `subject:${selectedSubject}`
+    subject && subject !== "All subjects"
+      ? `subject:${subject}`
       : ""
   );
 
   if (!query) {
     if ($("#googleBooksStatus")) {
       $("#googleBooksStatus").textContent =
-        "Search by book title, author, or subject to begin.";
+        "Search for a book, author, or subject.";
     }
+
     results.innerHTML = renderEmpty(
-      "Find your next learning resource",
-      "Search by book title, author, subject, or keyword."
+      "Discover your next book",
+      "Enter a title, author, or subject to search Open Library."
     );
     return;
   }
 
   if ($("#googleBooksStatus")) {
-    $("#googleBooksStatus").textContent = "Searching Google Books…";
+    $("#googleBooksStatus").textContent =
+      "Searching Open Library…";
   }
 
-  results.innerHTML = `<p class="muted small">Searching books…</p>`;
+  results.innerHTML =
+    '<p class="muted small">Searching for books…</p>';
 
   try {
     const endpoint = new URL(
-      "https://www.googleapis.com/books/v1/volumes"
+      "https://openlibrary.org/search.json"
     );
+
     endpoint.searchParams.set("q", query);
-    endpoint.searchParams.set("maxResults", "12");
-    endpoint.searchParams.set("printType", "books");
-    endpoint.searchParams.set("orderBy", "relevance");
+    endpoint.searchParams.set("limit", "12");
+    endpoint.searchParams.set(
+      "fields",
+      "key,title,author_name,cover_i,first_publish_year,subject,public_scan_b,has_fulltext"
+    );
 
     const response = await fetch(endpoint);
+
     if (!response.ok) {
-      throw new Error("Book search is temporarily unavailable.");
+      throw new Error("Open Library search failed.");
     }
 
     const data = await response.json();
-    const books = data.items || [];
+    const books = data.docs || [];
 
     if ($("#googleBooksStatus")) {
       $("#googleBooksStatus").textContent =
-        `${data.totalItems || 0} book results from Google Books`;
+        `${data.numFound || 0} books found in Open Library`;
     }
 
     if (!books.length) {
       results.innerHTML = renderEmpty(
         "No books found",
-        "Try another title, author, keyword, or subject."
+        "Try another title, author, or subject."
       );
       return;
     }
 
     results.innerHTML = books.map(book => {
-      const info = book.volumeInfo || {};
-      const access = book.accessInfo || {};
-      const title = info.title || "Untitled book";
-      const authors = (info.authors || []).join(", ") ||
+      const title = book.title || "Untitled book";
+      const authors = (book.author_name || []).join(", ") ||
         "Author unavailable";
-      const image = (info.imageLinks?.thumbnail || "")
-        .replace(/^http:/, "https:");
-      const description = (info.description ||
-        "No description available.")
-        .replace(/<[^>]*>/g, "")
-        .slice(0, 180);
-      const detailsUrl = safeUrl(info.infoLink || "");
-      const previewUrl = safeUrl(info.previewLink || "");
-      const bookId = book.id || "";
-      const category = info.categories?.[0] ||
-        selectedSubject ||
+      const year = book.first_publish_year || "";
+      const category = book.subject?.[0] ||
+        subject ||
         "Learning resource";
-      const hasPreview =
-        access.viewability === "PARTIAL" ||
-        access.viewability === "FULL";
+
+      const cover = book.cover_i
+        ? `https://covers.openlibrary.org/b/id/${Number(book.cover_i)}-M.jpg`
+        : "";
+
+      const bookUrl = book.key &&
+        /^\\/works\\/OL\\d+W$/.test(book.key)
+          ? `https://openlibrary.org${book.key}`
+          : "https://openlibrary.org";
+
+      const onlineReading = Boolean(
+        book.public_scan_b || book.has_fulltext
+      );
 
       return `
         <article class="book-card">
-          ${image
-            ? `<img src="${escapeHTML(image)}"
-                alt="${escapeHTML(title)}" loading="lazy">`
+          ${cover
+            ? `<img src="${cover}"
+                alt="${escapeHTML(title)} cover"
+                loading="lazy">`
             : `<div class="book-placeholder">📘</div>`}
 
-          <span class="lesson-badge">${escapeHTML(category)}</span>
-          ${hasPreview
-            ? `<span class="preview-badge">Preview available</span>`
-            : `<span class="preview-badge">Preview may be limited</span>`}
+          <span class="lesson-badge">
+            ${escapeHTML(category)}
+          </span>
 
           <h3>${escapeHTML(title)}</h3>
           <p>${escapeHTML(authors)}</p>
-          <p>${escapeHTML(description)}${info.description?.length > 180 ? "…" : ""}</p>
+          ${year ? `<p>First published: ${year}</p>` : ""}
 
-          ${bookId && hasPreview
-            ? `<button
-                class="button button-primary"
-                type="button"
-                data-book-preview="${escapeHTML(bookId)}"
-                data-book-title="${escapeHTML(title)}">
-                Read preview in LearnLoop
-              </button>`
-            : previewUrl
-              ? `<a class="button button-secondary"
-                  href="${escapeHTML(previewUrl)}"
-                  target="_blank"
-                  rel="noopener noreferrer">
-                  Check book preview
-                </a>`
-              : ""}
+          <p class="muted small">
+            ${onlineReading
+              ? "Online reading may be available."
+              : "Check the book record for reading options."}
+          </p>
 
-          ${detailsUrl
-            ? `<a class="button button-secondary"
-                href="${escapeHTML(detailsUrl)}"
-                target="_blank"
-                rel="noopener noreferrer">
-                Book details
-              </a>`
-            : ""}
+          <a class="button button-primary"
+             href="${bookUrl}"
+             target="_blank"
+             rel="noopener noreferrer">
+            ${onlineReading
+              ? "Check online reading"
+              : "View book details"}
+          </a>
         </article>`;
     }).join("");
 
   } catch (error) {
-    console.error("Book search error:", error);
+    console.error("Open Library search error:", error);
 
     if ($("#googleBooksStatus")) {
-      $("#googleBooksStatus").textContent = "Search unavailable";
+      $("#googleBooksStatus").textContent =
+        "Book search unavailable";
     }
 
     results.innerHTML = renderEmpty(
-      "Book search is unavailable",
+      "Book search is temporarily unavailable",
       "Check your internet connection and try again."
     );
   }
