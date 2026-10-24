@@ -38,6 +38,7 @@ const state = {
 const VIEW_INFO = {
   feed: ["Home feed", "Discover what the community is learning."],
   library: ["Learning library", "Explore subjects, books, and learning resources."],
+  youtube: ["YouTube Learning", "Search for educational videos and watch them on LearnLoop."],
   discussions: ["Discussions", "Ask questions and share ideas."],
   community: ["Community", "Learn together and help other learners."],
   following: ["Following", "Posts from people you follow."],
