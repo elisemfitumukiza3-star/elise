@@ -2024,3 +2024,53 @@ init().catch(error => {
   });
 })();
 
+/* LearnLoop: Open and populate the independent YouTube catalog */
+(() => {
+  async function openAndLoadYouTube() {
+    const catalog = document.getElementById("youtubeCatalog");
+    if (!catalog) {
+      console.error("LearnLoop: youtubeCatalog not found.");
+      return;
+    }
+
+    // Show the catalog as its own page.
+    document.querySelectorAll(".view-panel").forEach(panel => {
+      panel.classList.add("hidden");
+    });
+
+    catalog.classList.remove("hidden");
+    catalog.style.display = "block";
+    catalog.style.visibility = "visible";
+    catalog.style.width = "100%";
+
+    const status = document.getElementById("youtubeStatus");
+    const results = document.getElementById("youtubeResults");
+
+    // Load videos using the existing YouTube search function.
+    if (typeof searchYouTubeVideos === "function") {
+      const input = document.getElementById("youtubeSearchInput");
+      if (input && !input.value.trim()) {
+        input.value = "educational lessons mathematics science English";
+      }
+
+      if (status) status.textContent = "Loading educational videos...";
+      await searchYouTubeVideos();
+    } else {
+      if (status) {
+        status.textContent =
+          "Video search is not connected. Check the existing YouTube search function.";
+      }
+      console.error("LearnLoop: searchYouTubeVideos() not found.");
+    }
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  document.addEventListener("click", event => {
+    if (event.target.closest('[data-view="youtube"]')) {
+      event.preventDefault();
+      openAndLoadYouTube();
+    }
+  });
+})();
+
