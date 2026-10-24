@@ -1980,3 +1980,47 @@ init().catch(error => {
   });
 })();
 
+/* LearnLoop: Make YouTube Learning an independent page */
+(() => {
+  function showYouTubePage() {
+    const catalog = document.getElementById("youtubeCatalog");
+    if (!catalog) {
+      console.error("LearnLoop: youtubeCatalog not found.");
+      return;
+    }
+
+    // Hide all existing main-page panels.
+    document.querySelectorAll(".view-panel").forEach(panel => {
+      panel.classList.add("hidden");
+    });
+
+    // Detach the catalog from Library visually, without deleting its content.
+    if (catalog.parentElement?.id === "libraryView") {
+      document.body.appendChild(catalog);
+    }
+
+    catalog.classList.remove("hidden");
+    catalog.classList.add("view-panel");
+    catalog.style.display = "block";
+    catalog.style.width = "100%";
+
+    // Update navigation highlighting.
+    document.querySelectorAll("[data-view]").forEach(button => {
+      button.classList.toggle(
+        "active",
+        button.dataset.view === "youtube"
+      );
+    });
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  document.addEventListener("click", event => {
+    const button = event.target.closest('[data-view="youtube"]');
+    if (!button) return;
+
+    event.preventDefault();
+    showYouTubePage();
+  });
+})();
+
