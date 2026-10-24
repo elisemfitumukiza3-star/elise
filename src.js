@@ -559,12 +559,15 @@ supabase.auth.onAuthStateChange((event, session) => {
 
 /* ---------- Navigation ---------- */
 
+
 function navigate(view) {
   const allowed = Object.keys(VIEW_INFO);
   if (!allowed.includes(view)) return;
 
-  if (["following", "saved", "myuploads", "notifications", "dashboard"].includes(view)
-      && !state.session) {
+  if (
+    ["following", "saved", "myuploads", "notifications", "dashboard"].includes(view) &&
+    !state.session
+  ) {
     openDialog("authDialog");
     return;
   }
@@ -586,7 +589,7 @@ function navigate(view) {
   const pageIds = {
     feed: "feedView",
     library: "libraryView",
-    youtube: "youtubeCatalog", 
+    youtube: "youtubeCatalog",
     discussions: "discussionsView",
     community: "communityView",
     following: "followingView",
@@ -596,9 +599,19 @@ function navigate(view) {
     dashboard: "dashboardView"
   };
 
-  for (const [key, id] of Object.entries(pageIds)) {
-    const el = document.getElementById(id);
-    if (el) el.classList.toggle("hidden", key !== view);
+  // Hide every page, including the Library, before showing the chosen page.
+  Object.values(pageIds).forEach(id => {
+    document.getElementById(id)?.classList.add("hidden");
+  });
+
+  const selectedPage = document.getElementById(pageIds[view]);
+
+  if (selectedPage) {
+    selectedPage.classList.remove("hidden");
+    selectedPage.style.display = "";
+    selectedPage.style.visibility = "visible";
+  } else {
+    console.error("LearnLoop page not found:", pageIds[view]);
   }
 
   closeMobileMenu();
@@ -606,6 +619,7 @@ function navigate(view) {
 
   if (view === "dashboard") updateDashboard();
   if (view === "library") searchBooks();
+
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
