@@ -1929,3 +1929,54 @@ init().catch(error => {
   );
 });
 
+/* LearnLoop — YouTube catalog visibility and navigation fix */
+(() => {
+  function openLearnLoopYouTube() {
+    const catalog = document.getElementById("youtubeCatalog");
+    if (!catalog) {
+      console.error("LearnLoop: #youtubeCatalog was not found in index.html");
+      return;
+    }
+
+    // Reveal the catalog and any hidden parent containers.
+    let element = catalog;
+    while (element && element !== document.body) {
+      element.classList.remove("hidden");
+      element.style.display = "";
+      element = element.parentElement;
+    }
+
+    // Hide other main page panels.
+    document.querySelectorAll(".view-panel").forEach(panel => {
+      if (panel.id !== "libraryView" && panel.id !== "youtubeCatalog") {
+        panel.classList.add("hidden");
+      }
+    });
+
+    catalog.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  document.addEventListener("click", event => {
+    const button = event.target.closest(
+      '[data-view="youtube"], [data-view="youtubeCatalog"]'
+    );
+
+    if (button) {
+      event.preventDefault();
+      openLearnLoopYouTube();
+    }
+  });
+
+  // Connect the existing YouTube search form.
+  document.addEventListener("submit", event => {
+    if (event.target.id !== "youtubeSearchForm") return;
+    event.preventDefault();
+
+    if (typeof searchYouTubeVideos === "function") {
+      searchYouTubeVideos();
+    } else {
+      console.error("LearnLoop: searchYouTubeVideos() is not available.");
+    }
+  });
+})();
+
