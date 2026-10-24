@@ -583,6 +583,7 @@ function navigate(view) {
   const pageIds = {
     feed: "feedView",
     library: "libraryView",
+    youtube: "youtubeCatalog", 
     discussions: "discussionsView",
     community: "communityView",
     following: "followingView",
