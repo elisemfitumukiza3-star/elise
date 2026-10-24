@@ -2129,3 +2129,63 @@ init().catch(error => {
   }
 })();
 
+/* LearnLoop: Final YouTube catalog loader */
+(() => {
+  async function loadLearnLoopVideos() {
+    const catalog = document.getElementById("youtubeCatalog");
+    const status = document.getElementById("youtubeStatus");
+    const input = document.getElementById("youtubeSearchInput");
+
+    if (!catalog) {
+      console.error("LearnLoop: youtubeCatalog is missing from index.html.");
+      return;
+    }
+
+    catalog.classList.remove("hidden");
+    catalog.style.display = "block";
+    catalog.style.visibility = "visible";
+
+    // Remove the hidden class from parent containers that conceal the catalog.
+    let parent = catalog.parentElement;
+    while (parent && parent !== document.body) {
+      if (
+        parent.classList.contains("view-panel") &&
+        parent.id !== "libraryView"
+      ) {
+        parent.classList.remove("hidden");
+      }
+      parent = parent.parentElement;
+    }
+
+    if (input && !input.value.trim()) {
+      input.value = "educational lessons";
+    }
+
+    if (typeof searchYouTubeVideos !== "function") {
+      if (status) {
+        status.textContent =
+          "YouTube search function not found. Video loading needs a code check.";
+      }
+      return;
+    }
+
+    if (status) status.textContent = "Loading educational videos...";
+
+    try {
+      await searchYouTubeVideos();
+    } catch (error) {
+      console.error("LearnLoop YouTube loading error:", error);
+      if (status) {
+        status.textContent =
+          "Videos could not load. Check the browser Console for the exact error.";
+      }
+    }
+  }
+
+  document.addEventListener("click", event => {
+    if (event.target.closest('[data-view="youtube"]')) {
+      loadLearnLoopVideos();
+    }
+  });
+})();
+
