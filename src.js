@@ -2074,3 +2074,58 @@ init().catch(error => {
   });
 })();
 
+/* LearnLoop: Restore normal YouTube catalog and video cards */
+(() => {
+  function initializeYouTubeCatalog() {
+    const catalog = document.getElementById("youtubeCatalog");
+    if (!catalog) return;
+
+    catalog.style.display = "";
+    catalog.style.visibility = "visible";
+    catalog.style.width = "100%";
+
+    const results = document.getElementById("youtubeResults");
+    if (results) {
+      results.style.display = "grid";
+      results.style.width = "100%";
+    }
+
+    const grid = document.querySelector(".youtube-grid");
+    if (grid) {
+      grid.style.display = "grid";
+      grid.style.gridTemplateColumns =
+        "repeat(auto-fit, minmax(260px, 1fr))";
+      grid.style.gap = "20px";
+    }
+
+    const form = document.getElementById("youtubeSearchForm");
+    if (form && !form.dataset.learnloopSearchConnected) {
+      form.dataset.learnloopSearchConnected = "true";
+
+      form.addEventListener("submit", async event => {
+        event.preventDefault();
+
+        if (typeof searchYouTubeVideos === "function") {
+          await searchYouTubeVideos();
+        } else {
+          const status = document.getElementById("youtubeStatus");
+          if (status) {
+            status.textContent =
+              "Video search is not connected. Please check src.js.";
+          }
+        }
+      });
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener(
+      "DOMContentLoaded",
+      initializeYouTubeCatalog,
+      { once: true }
+    );
+  } else {
+    initializeYouTubeCatalog();
+  }
+})();
+
