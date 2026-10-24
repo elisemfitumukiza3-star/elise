@@ -1730,15 +1730,37 @@ async function searchYouTubeVideos() {
 
 function bindEvents() {
 
- $("#youtubeSearchButton")?.addEventListener("click", () => {
-  const status = document.querySelector("#youtubeStatus");
 
-  if (status) {
-    status.textContent = "Button works! Connecting to YouTube...";
+  // LearnLoop YouTube search and subject buttons
+  const youtubeForm = document.querySelector("#youtubeSearchForm");
+  const youtubeButton = document.querySelector("#youtubeSearchButton");
+  const youtubeInput = document.querySelector("#youtubeSearchInput");
+
+  if (youtubeForm && !youtubeForm.dataset.connected) {
+    youtubeForm.dataset.connected = "true";
+
+    youtubeForm.addEventListener("submit", event => {
+      event.preventDefault();
+      searchYouTubeVideos();
+    });
+  } else if (youtubeButton && !youtubeForm) {
+    youtubeButton.addEventListener("click", event => {
+      event.preventDefault();
+      searchYouTubeVideos();
+    });
   }
 
-  searchYouTubeVideos();
-});
+  document.querySelectorAll("[data-youtube-query]").forEach(button => {
+    if (button.dataset.connected) return;
+    button.dataset.connected = "true";
+
+    button.addEventListener("click", () => {
+      if (!youtubeInput) return;
+      youtubeInput.value = button.dataset.youtubeQuery || "";
+      searchYouTubeVideos();
+    });
+  });
+
 
   document.querySelectorAll("[data-youtube-query]").forEach(button => {
     button.addEventListener("click", () => {
