@@ -1642,3 +1642,60 @@ button[type="submit"]:hover,
   }
 }
 
+/* LearnLoop YouTube page visibility fix */
+#youtubeCatalog:not(.hidden) {
+  display: block !important;
+  width: 100%;
+  min-width: 0;
+}
+
+#youtubeCatalog.hidden {
+  display: none !important;
+}
+
+#youtubeCatalog .youtube-search {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  margin: 18px 0;
+}
+
+#youtubeCatalog .youtube-search input {
+  flex: 1;
+  min-width: 0;
+}
+
+#youtubeCatalog .youtube-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0;
+}
+
+#youtubeCatalog .youtube-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px 16px;
+  margin-top: 20px;
+}
+
+#youtubeCatalog .youtube-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+@media (max-width: 800px) {
+  #youtubeCatalog .youtube-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 500px) {
+  #youtubeCatalog .youtube-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
