@@ -1710,9 +1710,15 @@ async function searchYouTubeVideos() {
 
 function bindEvents() {
 
-  $("#youtubeSearchButton")?.addEventListener("click", () => {
-    searchYouTubeVideos();
-  });
+ $("#youtubeSearchButton")?.addEventListener("click", () => {
+  const status = document.querySelector("#youtubeStatus");
+
+  if (status) {
+    status.textContent = "Button works! Connecting to YouTube...";
+  }
+
+  searchYouTubeVideos();
+});
 
   document.querySelectorAll("[data-youtube-query]").forEach(button => {
     button.addEventListener("click", () => {
