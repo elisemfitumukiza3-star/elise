@@ -1023,3 +1023,151 @@ td {
   }
 }
 
+/* LearnLoop — Deep Forest Green Home Theme */
+:root {
+  --green: #075c43;
+  --green-dark: #063d2e;
+  --green-light: #e1f0e7;
+  --canvas: #edf3ef;
+  --ink: #142b21;
+  --muted: #64776c;
+  --line: #d5e2d9;
+  --surface: #ffffff;
+  --shadow: 0 8px 28px rgba(4, 48, 33, 0.09);
+}
+
+/* Main page background */
+body {
+  background:
+    radial-gradient(
+      ellipse at 10% 0%,
+      rgba(7, 92, 67, 0.13),
+      transparent 38rem
+    ),
+    var(--canvas);
+}
+
+/* Deep-green navigation sidebar */
+#sidebar,
+.sidebar {
+  background: #063d2e;
+  border-color: #185943;
+  color: #ffffff;
+  box-shadow: 0 12px 32px rgba(4, 48, 33, 0.16);
+}
+
+#sidebar .brand,
+.sidebar .brand,
+#sidebar .logo,
+.sidebar .logo {
+  color: #ffffff;
+}
+
+#sidebar .side-label,
+.sidebar .side-label {
+  color: #b9d5c5;
+}
+
+#sidebar nav a,
+#sidebar nav button,
+#sidebar .nav-item,
+#sidebar [data-view],
+.sidebar nav a,
+.sidebar nav button,
+.sidebar [data-view] {
+  color: #e1eee6;
+  border-color: transparent;
+}
+
+#sidebar nav a:hover,
+#sidebar nav button:hover,
+#sidebar .nav-item:hover,
+#sidebar [data-view]:hover,
+.sidebar nav a:hover,
+.sidebar nav button:hover,
+.sidebar [data-view]:hover {
+  background: #10543d;
+  color: #ffffff;
+}
+
+#sidebar .active,
+#sidebar [aria-current="page"],
+#sidebar [data-view].active,
+.sidebar .active,
+.sidebar [aria-current="page"] {
+  background: #d8eee0;
+  color: #063d2e;
+  border-color: #b8ddc7;
+}
+
+#sidebar .sidebar-bottom,
+.sidebar .sidebar-bottom {
+  border-color: #28634d;
+}
+
+/* Home hero banner */
+.hero,
+.hero-section,
+.welcome-banner {
+  background: linear-gradient(
+    135deg,
+    #042f24 0%,
+    #075c43 55%,
+    #0b7653 100%
+  );
+  box-shadow: 0 16px 38px rgba(4, 48, 33, 0.2);
+}
+
+/* Main navigation and header */
+.topbar,
+#topbar {
+  background: rgba(255, 255, 255, 0.94);
+  border-color: #d5e2d9;
+}
+
+/* Primary actions */
+button[type="submit"],
+.primary,
+.btn-primary,
+#publishButton,
+#newPostTop,
+#authSubmit {
+  background: #075c43;
+}
+
+button[type="submit"]:hover,
+.primary:hover,
+.btn-primary:hover,
+#publishButton:hover,
+#newPostTop:hover,
+#authSubmit:hover {
+  background: #063d2e;
+}
+
+/* Green accents and selected subject filters */
+#librarySubjects button.active,
+#librarySubjects button[aria-pressed="true"] {
+  background: #075c43;
+  border-color: #075c43;
+  color: #ffffff;
+}
+
+/* Keep content cards clean and readable */
+.card,
+.panel,
+.post-card,
+.resource-card,
+.feed-card,
+.profile-card,
+.composer,
+#postForm {
+  background-color: #ffffff;
+  border-color: #d5e2d9;
+}
+
+/* Clear keyboard focus on the darker sidebar */
+#sidebar a:focus-visible,
+#sidebar button:focus-visible {
+  outline-color: #a6e8bf;
+}
+
