@@ -367,6 +367,57 @@
     </div>
   </section>
 </section>
+          <section id="youtubeCatalog" class="hidden">
+  <div class="youtube-page-heading">
+    <h1>LearnLoop Videos</h1>
+    <p>Discover lessons and learn at your own pace.</p>
+  </div>
+
+  <form id="youtubeSearchForm" class="youtube-search">
+    <input
+      id="youtubeSearchInput"
+      type="search"
+      placeholder="Search mathematics, biology, English..."
+      aria-label="Search educational videos"
+    >
+    <button
+      class="button button-primary"
+      id="youtubeSearchButton"
+      type="submit"
+    >
+      🔍 Search
+    </button>
+  </form>
+
+  <div class="youtube-categories" aria-label="Learning subjects">
+    <button type="button" class="youtube-chip" data-youtube-query="Mathematics lessons">Mathematics</button>
+    <button type="button" class="youtube-chip" data-youtube-query="Science lessons">Science</button>
+    <button type="button" class="youtube-chip" data-youtube-query="English lessons">Languages</button>
+    <button type="button" class="youtube-chip" data-youtube-query="Computer technology tutorials">Technology</button>
+    <button type="button" class="youtube-chip" data-youtube-query="History educational lessons">History</button>
+  </div>
+
+  <p id="youtubeStatus" class="muted small" role="status">
+    Search for a lesson or choose a subject above.
+  </p>
+
+  <div id="youtubeResults" class="youtube-grid"></div>
+
+  <section id="youtubePlayerPanel" class="youtube-player-panel hidden">
+    <h2 id="youtubePlayerTitle">Now playing</h2>
+    <div class="youtube-player">
+      <iframe
+        id="youtubePlayer"
+        title="LearnLoop educational video"
+        src="about:blank"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen
+      ></iframe>
+    </div>
+  </section>
+</section>
+
           <section class="view-panel hidden" id="discussionsView">
             <div class="page-heading">
               <span class="eyebrow">LEARN OUT LOUD</span>
