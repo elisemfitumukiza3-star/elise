@@ -615,40 +615,40 @@ function closeMobileMenu() {
 
 /* ---------- Post loading and publishing ---------- */
 
+
 async function loadPosts() {
   if (state.loadingPosts) return;
   state.loadingPosts = true;
 
   try {
-    let query = supabase
+    const { data, error } = await supabase
       .from("posts")
       .select("*, profiles:user_id(display_name,bio)")
       .eq("status", "published")
       .order("created_at", { ascending: false })
       .limit(100);
 
-    const { data, error } = await query;
-
     if (error) throw error;
 
     state.posts = data || [];
     renderAllFeeds();
     await updateDashboard();
-    } catch (error) {
+  } catch (error) {
     console.error("Post loading error:", error);
-    const feed = $("#feed");
 
+    const feed = $("#feed");
     if (feed) {
       feed.innerHTML =
         '<div class="empty-state">' +
-        '<h3>We couldn\'t load the feed</h3>' +
-        '<p>' + escapeHTML(error.message || "Please try again.") + '</p>' +
-        '</div>';
+        "<h3>We couldn't load the feed</h3>" +
+        "<p>" + escapeHTML(error.message || "Please try again.") + "</p>" +
+        "</div>";
     }
   } finally {
     state.loadingPosts = false;
   }
 }
+
 
 function validFile(file) {
   if (!file) return true;
