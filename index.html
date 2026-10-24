@@ -235,6 +235,52 @@
 
       <div id="googleBooksResults" class="book-grid"></div>
     </section>
+    
+    <section id="youtubeCatalog" class="hidden">
+      <div class="library-section-heading">
+        <div>
+          <h2>▶ YouTube Learning</h2>
+          <p>Find educational videos and watch them without leaving LearnLoop.</p>
+        </div>
+      </div>
+
+      <div class="youtube-search">
+        <input
+          id="youtubeSearchInput"
+          type="search"
+          placeholder="Search mathematics, biology, English..."
+          aria-label="Search YouTube learning videos"
+        >
+        <button
+          class="button button-primary"
+          id="youtubeSearchButton"
+          type="button"
+        >
+          Search videos
+        </button>
+      </div>
+
+      <p id="youtubeStatus" class="muted small">
+        Search for a lesson to get started.
+      </p>
+
+      <div id="youtubeResults" class="youtube-grid"></div>
+
+      <div id="youtubePlayerPanel" class="hidden">
+        <h3 id="youtubePlayerTitle">Now playing</h3>
+        <div class="youtube-player">
+          <iframe
+            id="youtubePlayer"
+            title="LearnLoop YouTube lesson"
+            src="about:blank"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+    </section>
+
 
     <section id="libraryReader" class="library-reader hidden">
       <div class="library-reader-toolbar">
