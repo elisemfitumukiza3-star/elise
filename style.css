@@ -781,3 +781,59 @@ td {
     animation-duration: 0.01ms !important;
   }
 }
+
+/* LearnLoop sidebar alignment and visibility fix */
+#sidebar {
+  box-sizing: border-box;
+  max-height: calc(100vh - 36px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+}
+
+#sidebar .nav-list,
+#sidebar .nav-list button,
+#sidebar nav button,
+#sidebar .sidebar-bottom {
+  min-width: 0;
+}
+
+#sidebar .nav-list button,
+#sidebar nav button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  height: auto;
+  padding: 10px 12px;
+  line-height: 1.4;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  text-align: left;
+}
+
+#sidebar .sidebar-bottom {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+#sidebar .account-mini {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 720px) {
+  #sidebar {
+    max-height: none;
+    overflow: visible;
+  }
+
+  #sidebar .nav-list {
+    max-width: 100%;
+    overflow-x: auto;
+    padding-bottom: 6px;
+  }
+}
