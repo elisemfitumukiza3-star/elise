@@ -2171,3 +2171,86 @@ iframe {
     box-sizing: border-box;
   }
 }
+
+/* LearnLoop Discover & Read section */
+.discover-section {
+  margin: 24px 0;
+}
+
+.section-heading {
+  margin-bottom: 16px;
+}
+
+.section-heading h2 {
+  margin: 6px 0;
+  font-size: 1.5rem;
+}
+
+.section-heading p {
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.discover-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.discover-card {
+  min-width: 0;
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+}
+
+.discover-tag {
+  display: inline-block;
+  margin-bottom: 10px;
+  color: var(--primary);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.discover-card h3 {
+  margin: 0 0 10px;
+  font-size: 1.05rem;
+  line-height: 1.4;
+}
+
+.discover-card p {
+  margin: 0 0 16px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.discover-card a {
+  display: inline-block;
+  color: var(--primary);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.discover-card a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 900px) {
+  .discover-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .discover-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .discover-card {
+    padding: 16px;
+  }
+}
