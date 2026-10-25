@@ -200,70 +200,46 @@
   </div>
 
  
-<div class="discover-grid">
-  <article class="discover-card">
-    <img
-      class="discover-image"
-      src="https://images.unsplash.com/photo-1614730321146-b6fa6a46bcb4?auto=format&fit=crop&w=800&q=80"
-      alt="Planet Earth viewed from space"
-      loading="lazy"
-    >
-    <div class="discover-card-content">
-      <span class="discover-tag">SCIENCE · 4 MIN READ</span>
-      <h3>Why does Earth have seasons?</h3>
-      <p>
-        Earth has seasons because its axis is tilted as it travels around
-        the Sun. This tilt changes the angle and duration of sunlight
-        different places receive during the year.
-      </p>
-      <a href="https://science.nasa.gov/" target="_blank" rel="noopener noreferrer">
-        Explore NASA Science →
-      </a>
-    </div>
-  </article>
 
-  <article class="discover-card">
-    <img
-      class="discover-image"
-      src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=800&q=80"
-      alt="Mathematical equations"
-      loading="lazy"
-    >
-    <div class="discover-card-content">
-      <span class="discover-tag">MATHEMATICS · 3 MIN READ</span>
-      <h3>Discover the logic of algebra</h3>
-      <p>
-        Algebra uses letters to represent unknown numbers. For example,
-        if x + 5 = 12, subtract 5 from both sides to find that x = 7.
-        Practising small examples builds confidence.
-      </p>
-      <a href="https://www.khanacademy.org/math" target="_blank" rel="noopener noreferrer">
-        Learn mathematics →
-      </a>
-    </div>
-  </article>
+<div class="lesson-library-controls">
+  <input
+    id="lessonSearch"
+    type="search"
+    placeholder="Search thousands of lessons..."
+    aria-label="Search lessons"
+  >
 
-  <article class="discover-card">
-    <img
-      class="discover-image"
-      src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=800&q=80"
-      alt="Bookshelves in a library"
-      loading="lazy"
-    >
-    <div class="discover-card-content">
-      <span class="discover-tag">READING · 5 MIN READ</span>
-      <h3>How to learn from what you read</h3>
-      <p>
-        Read a short section, identify its main idea, and explain it in
-        your own words. Writing down questions and reviewing your notes
-        can help you remember important information.
-      </p>
-      <a href="https://openstax.org/" target="_blank" rel="noopener noreferrer">
-        Explore free textbooks →
-      </a>
-    </div>
-  </article>
+  <select id="lessonSubject" aria-label="Filter lessons by subject">
+    <option value="All">All subjects</option>
+    <option value="Science">Science</option>
+    <option value="Mathematics">Mathematics</option>
+    <option value="Languages">Languages</option>
+    <option value="Technology">Technology</option>
+    <option value="Health">Health</option>
+    <option value="Business">Business</option>
+    <option value="Social Development">Social Development</option>
+    <option value="Reading">Reading</option>
+  </select>
 </div>
+
+<p id="lessonCount" class="muted" aria-live="polite">
+  Explore our growing lesson library.
+</p>
+
+<div class="discover-grid" id="lessonGrid">
+  <!-- Lesson cards will be displayed here by JavaScript. -->
+</div>
+
+<div class="lesson-load-more">
+  <button
+    class="button button-secondary"
+    id="loadMoreLessons"
+    type="button"
+  >
+    Load more lessons
+  </button>
+</div>
+
 
 
             <form class="composer card" id="postForm">
