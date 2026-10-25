@@ -2410,8 +2410,7 @@ const learnLoopLessons = [
     description: "Discover how teams divide responsibilities, communicate progress, and meet shared goals.",
     image: "https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=800&q=80",
     link: "https://www.unesco.org/en/education"
-  }
-   
+  },
   {
     subject: "Technology",
     title: "HTML Forms and User Input",
