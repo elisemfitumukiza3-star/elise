@@ -2391,6 +2391,8 @@ if (moreButton) {
   moreButton.hidden = true;
 }
 
+}
+
 function bindEvents() {
 
 
