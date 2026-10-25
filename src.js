@@ -2243,7 +2243,90 @@ const learnLoopLessons = [
     link: "https://www.un.org/sustainabledevelopment/"
   }
 ];
-
+  {
+    subject: "Science",
+    title: "How do plants make food?",
+    description: "Understand photosynthesis and how plants use sunlight, water, and carbon dioxide.",
+    image: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.khanacademy.org/science/biology"
+  },
+  {
+    subject: "Mathematics",
+    title: "Fractions in everyday life",
+    description: "Explore fractions, equivalent values, and practical examples.",
+    image: "https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.khanacademy.org/math"
+  },
+  {
+    subject: "Technology",
+    title: "Learn the basics of coding",
+    description: "Discover variables, instructions, and how programs solve problems.",
+    image: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.khanacademy.org/computing"
+  },
+  {
+    subject: "Health",
+    title: "Understanding nutrition",
+    description: "Learn about nutrients and how a varied diet supports everyday health.",
+    image: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.who.int/health-topics/nutrition"
+  },
+  {
+    subject: "Languages",
+    title: "Master English grammar basics",
+    description: "Practise sentence structure, parts of speech, and clear communication.",
+    image: "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.bbc.co.uk/learningenglish"
+  },
+  {
+    subject: "Business",
+    title: "Understanding budgeting",
+    description: "Learn to plan income, expenses, savings, and spending decisions.",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.sba.gov/business-guide"
+  },
+  {
+    subject: "Social Development",
+    title: "Introduction to community development",
+    description: "Explore how communities identify needs and organise local improvements.",
+    image: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.undp.org/"
+  },
+  {
+    subject: "Reading",
+    title: "How to identify a main idea",
+    description: "Practise finding the central message and supporting details in a text.",
+    image: "https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=800&q=80",
+    link: "https://openstax.org/"
+  },
+  {
+    subject: "Science",
+    title: "The water cycle explained",
+    description: "Discover evaporation, condensation, precipitation, and collection.",
+    image: "https://images.unsplash.com/photo-1437482078695-73f5ca6c96e2?auto=format&fit=crop&w=800&q=80",
+    link: "https://science.nasa.gov/"
+  },
+  {
+    subject: "Mathematics",
+    title: "Geometry in the world around us",
+    description: "Explore shapes, angles, area, and geometry in everyday objects.",
+    image: "https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.khanacademy.org/math/geometry"
+  },
+  {
+    subject: "Technology",
+    title: "Staying safe online",
+    description: "Learn about strong passwords, privacy, scams, and responsible internet use.",
+    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80",
+    link: "https://staysafeonline.org/"
+  },
+  {
+    subject: "Health",
+    title: "Understanding mental wellbeing",
+    description: "Learn about healthy routines, managing stress, and finding support.",
+    image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.who.int/health-topics/mental-health"
+  },
 let visibleLessonCount = 8;
 
 function renderLessonCards() {
