@@ -762,6 +762,39 @@
       <label class="check-row"><input type="checkbox" id="limitedAdsEnabled"> Enable clearly labelled, limited sponsor notices</label>
       <button class="button button-primary full-width" type="submit">Save host settings</button>
       <div class="divider"></div>
+      <div class="divider"></div>
+<h3>Web Committee Management</h3>
+<p class="muted small">Appoint members and assign responsibilities.</p>
+
+<label>
+  Registered member email
+  <input id="committeeMemberEmail" type="email"
+         placeholder="Enter member's registered email" />
+</label>
+
+<label>
+  Committee role
+  <select id="committeeMemberRole">
+    <option value="Accountant">Accountant</option>
+    <option value="Secretary">Secretary</option>
+    <option value="Community Moderator">Community Moderator</option>
+    <option value="Technical Administrator">Technical Administrator</option>
+    <option value="Education & Community Coordinator">Education & Community Coordinator</option>
+  </select>
+</label>
+
+<label>
+  Responsibilities
+  <textarea id="committeeMemberResponsibilities" rows="3"
+            placeholder="Describe the member's duties"></textarea>
+</label>
+
+<button type="button" id="appointCommitteeMember"
+        class="button button-primary full-width">
+  Appoint Committee Member
+</button>
+
+<div id="committeeMembersList" class="post-list compact-list"></div>
       <h3>Moderation</h3>
       <p class="muted small">Secure platform-wide moderation requires owner-authorized Supabase policies.</p>
       <div id="hostModerationList" class="post-list compact-list"></div>
