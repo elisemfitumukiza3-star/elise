@@ -2254,3 +2254,30 @@ iframe {
     padding: 16px;
   }
 }
+
+/* LearnLoop learning-card images */
+.discover-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.discover-image {
+  display: block;
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.discover-card-content {
+  padding: 18px;
+}
+
+@media (max-width: 600px) {
+  .discover-image {
+    height: 190px;
+  }
+
+  .discover-card-content {
+    padding: 16px;
+  }
+}
