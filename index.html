@@ -328,9 +328,46 @@
             </div>
             <div class="card inline-notice">Start a discussion or ask a question using the Home feed composer.</div>
             <div id="discussionsFeed" class="post-list"></div>
+         
+          </section>
+
+          <section class="view-panel hidden" id="messagesView">
+            <div class="page-heading">
+              <span class="eyebrow">PRIVATE CONVERSATIONS</span>
+              <h1>Messages</h1>
+              <p>Connect privately with other LearnLoop learners.</p>
+            </div>
+
+            <div class="messages-layout">
+              <aside class="card messages-sidebar">
+                <h2>Your conversations</h2>
+                <p class="muted">Your private conversations will appear here.</p>
+                <div id="conversationList"></div>
+              </aside>
+
+              <div class="card messages-chat">
+                <div id="chatEmptyState">
+                  <h2>Your private messages</h2>
+                  <p>Choose a conversation to read messages, or start a conversation with another learner.</p>
+                </div>
+
+                <div id="chatPanel" class="hidden">
+                  <div class="chat-header">
+                    <h2 id="chatPartnerName">Conversation</h2>
+                  </div>
+                  <div id="messageList" aria-live="polite"></div>
+                  <form id="messageForm">
+                    <label for="messageInput">Write a message</label>
+                    <textarea id="messageInput" maxlength="5000" required placeholder="Write a private message..."></textarea>
+                    <button class="button button-primary" type="submit">Send message</button>
+                  </form>
+                </div>
+              </div>
+            </div>
           </section>
 
           <section class="view-panel hidden" id="communityView">
+
             <div class="page-heading">
               <span class="eyebrow">BETTER TOGETHER</span>
               <h1>Community</h1>
