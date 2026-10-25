@@ -621,7 +621,7 @@ function navigate(view) {
 
   if (view === "dashboard") updateDashboard();
   if (view === "library") searchBooks();
-
+if (view === "messages") loadConversations();
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
