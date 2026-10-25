@@ -338,15 +338,29 @@ async function fetchProfile() {
 }
 
 
+
 async function saveProfile(event) {
   event.preventDefault();
   if (!requireLogin()) return;
 
   const name = $("#profileDisplayName")?.value.trim();
-  const bio = $("#profileBio")?.value.trim();
+  const bio = $("#profileBio")?.value.trim() || "";
+  const countryCode = $("#profileCountryCode")?.value || "";
+  const phone = $("#profilePhone")?.value.trim() || "";
+  const picture = $("#profilePicture")?.files?.[0] || null;
 
   if (!name) {
     toast("Please enter your display name.", "error");
+    return;
+  }
+
+  if (phone && !countryCode) {
+    toast("Please choose your country calling code.", "error");
+    return;
+  }
+
+  if (countryCode && !phone) {
+    toast("Please enter your mobile number or clear the country code.", "error");
     return;
   }
 
@@ -354,15 +368,51 @@ async function saveProfile(event) {
   setButtonBusy(button, true, "Saving…");
 
   try {
+    let avatarUrl = state.profile?.avatar_url || null;
+
+    if (picture) {
+      if (!picture.type.startsWith("image/")) {
+        throw new Error("Please select an image file.");
+      }
+
+      if (picture.size > 5 * 1024 * 1024) {
+        throw new Error("Profile pictures must be 5 MB or smaller.");
+      }
+
+      const extension = picture.name.split(".").pop()?.replace(/[^a-zA-Z0-9]/g, "") || "jpg";
+      const path = `${currentUserId()}/avatar-${crypto.randomUUID()}.${extension}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from(STORAGE_BUCKET)
+        .upload(path, picture, {
+          cacheControl: "3600",
+          upsert: false,
+          contentType: picture.type
+        });
+
+      if (uploadError) throw uploadError;
+
+      const { data: urlData } = supabase.storage
+        .from(STORAGE_BUCKET)
+        .getPublicUrl(path);
+
+      avatarUrl = urlData.publicUrl;
+    }
+
     const { data, error } = await supabase
       .from("profiles")
       .upsert(
         {
-          user_id: currentUserId(),
+          id: currentUserId(),
           display_name: name,
-          bio: bio || ""
+          bio,
+          avatar_url: avatarUrl,
+          country_calling_code: countryCode || null,
+          phone_number: phone || null,
+          phone_is_public: false,
+          updated_at: new Date().toISOString()
         },
-        { onConflict: "user_id" }
+        { onConflict: "id" }
       )
       .select("*")
       .single();
@@ -370,17 +420,19 @@ async function saveProfile(event) {
     if (error) throw error;
 
     state.profile = data;
+
     closeDialog($("#profileDialog"));
     updateAccountUI();
     toast("Your profile has been updated.");
     await loadPosts();
   } catch (error) {
-    console.error(error);
+    console.error("Profile save error:", error);
     toast(`Could not save profile: ${error.message}`, "error");
   } finally {
     setButtonBusy(button, false);
   }
 }
+
 
 function updateAccountUI() {
   const user = state.session?.user;
