@@ -126,10 +126,9 @@ video {
 
 /* Show the selected LearnLoop page */
 .view-panel:not(.hidden) {
-  display: block !important;
-  visibility: visible !important;
+  display: block;
+  visibility: visible;
 }
-
 /* Main application layout */
 #app,
 .app,
