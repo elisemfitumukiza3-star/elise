@@ -2091,6 +2091,37 @@ function bindEvents() {
   $("#profileForm")?.addEventListener("submit", saveProfile);
   $("#authForm")?.addEventListener("submit", handleAuth);
 
+  $("#welcomeAuthForm")?.addEventListener("submit", async event => {
+    event.preventDefault();
+
+    const email = $("#welcomeEmail").value.trim();
+    const password = $("#welcomePassword").value;
+    const name = $("#welcomeName").value.trim();
+
+    $("#authEmail").value = email;
+    $("#authPassword").value = password;
+
+    if (state.authMode === "signup") {
+      $("#authName").value = name;
+      if (!name) {
+        $("#welcomeAuthMessage").textContent = "Please enter your display name.";
+        return;
+      }
+    }
+
+    $("#welcomeAuthMessage").textContent = "Please wait...";
+
+    await handleAuth(event);
+
+    const authMessage = $("#authMessage")?.textContent || "";
+    $("#welcomeAuthMessage").textContent = authMessage;
+  });
+
+  $("#welcomeSwitchButton")?.addEventListener("click", () => {
+    setAuthMode(state.authMode === "login" ? "signup" : "login");
+    updateWelcomeAuthMode();
+  });
+
   $("#toggleAuthMode")?.addEventListener("click", () => {
     setAuthMode(state.authMode === "login" ? "signup" : "login");
   });
