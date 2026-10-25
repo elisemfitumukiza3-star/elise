@@ -288,6 +288,7 @@ function persistLikedIds() {
 /* ---------- Authentication and profiles ---------- */
 
 
+
 async function fetchProfile() {
   if (!currentUserId()) {
     state.profile = null;
@@ -329,13 +330,50 @@ async function fetchProfile() {
       .select("*")
       .maybeSingle();
 
-    if (!result.error && result.data) {
-      state.profile = result.data;
-    } else if (result.error) {
+    if (result.error) {
       console.warn("Profile initialization:", result.error.message);
+    } else {
+      state.profile = result.data;
     }
   }
+
+  const profile = state.profile;
+  if (!profile) return;
+
+  if ($("#profileDisplayName")) {
+    $("#profileDisplayName").value = profile.display_name || "";
+  }
+
+  if ($("#profileBio")) {
+    $("#profileBio").value = profile.bio || "";
+  }
+
+  if ($("#profileCountryCode")) {
+    $("#profileCountryCode").value = profile.country_calling_code || "";
+  }
+
+  if ($("#profilePhone")) {
+    $("#profilePhone").value = profile.phone_number || "";
+  }
+
+  const preview = $("#profilePicturePreviewImage");
+  const placeholder = $("#profilePicturePlaceholder");
+
+  if (preview) {
+    preview.classList.add("hidden");
+    preview.removeAttribute("src");
+
+    if (profile.avatar_url) {
+      preview.src = profile.avatar_url;
+      preview.classList.remove("hidden");
+    }
+  }
+
+  if (placeholder) {
+    placeholder.classList.toggle("hidden", Boolean(profile.avatar_url));
+  }
 }
+
 
 
 
