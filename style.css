@@ -2125,3 +2125,28 @@ iframe {
   position: relative;
   z-index: 1001;
 }
+/* LearnLoop mobile sidebar menu fix */
+@media (max-width: 768px) {
+  #sidebar {
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    bottom: 12px;
+    width: min(300px, calc(100vw - 24px));
+    height: auto;
+    min-height: 0;
+    overflow-y: auto;
+    z-index: 1000;
+    transform: translateX(calc(-100% - 24px));
+    transition: transform 0.25s ease;
+    border-radius: 18px;
+  }
+
+  #sidebar.open {
+    transform: translateX(0);
+  }
+
+  #menuButton {
+    display: inline-flex;
+  }
+}
