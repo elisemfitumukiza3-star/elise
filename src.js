@@ -2346,6 +2346,37 @@ function bindEvents() {
   });
 
 
+  // LearnLoop lesson library controls
+  const lessonSearch = document.querySelector("#lessonSearch");
+  const lessonSubject = document.querySelector("#lessonSubject");
+  const loadMoreLessons = document.querySelector("#loadMoreLessons");
+
+  if (lessonSearch && !lessonSearch.dataset.connected) {
+    lessonSearch.dataset.connected = "true";
+    lessonSearch.addEventListener("input", () => {
+      visibleLessonCount = 12;
+      renderLessonCards();
+    });
+  }
+
+  if (lessonSubject && !lessonSubject.dataset.connected) {
+    lessonSubject.dataset.connected = "true";
+    lessonSubject.addEventListener("change", () => {
+      visibleLessonCount = 12;
+      renderLessonCards();
+    });
+  }
+
+  if (loadMoreLessons && !loadMoreLessons.dataset.connected) {
+    loadMoreLessons.dataset.connected = "true";
+    loadMoreLessons.addEventListener("click", () => {
+      visibleLessonCount += 12;
+      renderLessonCards();
+    });
+  }
+
+  renderLessonCards();
+
  
 
 
