@@ -1776,15 +1776,7 @@ function bindEvents() {
   });
 
 
-  document.querySelectorAll("[data-youtube-query]").forEach(button => {
-    button.addEventListener("click", () => {
-      const input = $("#youtubeSearchInput");
-      if (!input) return;
-
-      input.value = button.dataset.youtubeQuery || "";
-      searchYouTubeVideos();
-    });
-  });
+ 
 
 
   $("#youtubeSearchInput")?.addEventListener("keydown", event => {
