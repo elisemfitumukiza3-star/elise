@@ -637,6 +637,279 @@ function closeMobileMenu() {
 
 
 
+/* ---------- LearnLoop private messaging ---------- */
+
+let activeConversationId = null;
+
+async function searchMessageUsers(event) {
+  event?.preventDefault();
+
+  if (!requireLogin()) return;
+
+  const input = $("#messageUserSearch");
+  const results = $("#messageUserResults");
+  if (!input || !results) return;
+
+  const term = input.value.trim();
+
+  if (term.length < 2) {
+    results.textContent = "Enter at least 2 characters.";
+    return;
+  }
+
+  results.textContent = "Searching learners...";
+
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("id, display_name")
+    .ilike("display_name", `%${term}%`)
+    .neq("id", currentUserId())
+    .limit(10);
+
+  if (error) {
+    console.error("Learner search error:", error);
+    results.textContent = "Could not search learners. Check profile permissions.";
+    return;
+  }
+
+  if (!data?.length) {
+    results.textContent = "No learners found.";
+    return;
+  }
+
+  results.innerHTML = data.map(user => `
+    <div class="message-user-result">
+      <span>${escapeHTML(user.display_name || "Learner")}</span>
+      <button
+        type="button"
+        class="button button-primary"
+        data-message-user="${escapeHTML(user.id)}"
+      >Message</button>
+    </div>
+  `).join("");
+}
+
+async function startPrivateConversation(otherUserId) {
+  if (!requireLogin() || !otherUserId) return;
+
+  const { data, error } = await supabase.rpc(
+    "create_private_conversation",
+    { other_user_id: otherUserId }
+  );
+
+  if (error) {
+    console.error("Create conversation error:", error);
+    setStatus("Could not start the conversation. Please try again.", "error");
+    return;
+  }
+
+  activeConversationId = data;
+  await loadConversations();
+  await openPrivateConversation(data);
+}
+
+async function loadConversations() {
+  const list = $("#conversationList");
+  if (!list || !currentUserId()) return;
+
+  list.textContent = "Loading conversations...";
+
+  const { data: memberships, error } = await supabase
+    .from("conversation_participants")
+    .select("conversation_id")
+    .eq("user_id", currentUserId());
+
+  if (error) {
+    console.error("Conversation list error:", error);
+    list.textContent = "Could not load conversations.";
+    return;
+  }
+
+  if (!memberships?.length) {
+    list.textContent = "No conversations yet. Search for a learner to start one.";
+    return;
+  }
+
+  const conversationIds = [...new Set(
+    memberships.map(item => item.conversation_id)
+  )];
+
+  const { data: members, error: memberError } = await supabase
+    .from("conversation_participants")
+    .select("conversation_id, user_id")
+    .in("conversation_id", conversationIds);
+
+  if (memberError) {
+    console.error("Conversation members error:", memberError);
+    list.textContent = "Could not load conversation members.";
+    return;
+  }
+
+  const otherUserIds = [...new Set(
+    (members || [])
+      .filter(item => item.user_id !== currentUserId())
+      .map(item => item.user_id)
+  )];
+
+  const { data: profiles, error: profileError } = await supabase
+    .from("profiles")
+    .select("id, display_name")
+    .in("id", otherUserIds);
+
+  if (profileError) {
+    console.error("Conversation profiles error:", profileError);
+    list.textContent = "Could not load learner names.";
+    return;
+  }
+
+  const names = new Map(
+    (profiles || []).map(profile => [
+      profile.id,
+      profile.display_name || "Learner"
+    ])
+  );
+
+  list.innerHTML = conversationIds.map(id => {
+    const member = (members || []).find(item =>
+      item.conversation_id === id &&
+      item.user_id !== currentUserId()
+    );
+
+    const name = names.get(member?.user_id) || "Learner";
+    return `
+      <button
+        type="button"
+        class="message-conversation-item"
+        data-open-conversation="${escapeHTML(id)}"
+      >${escapeHTML(name)}</button>
+    `;
+  }).join("");
+}
+
+async function openPrivateConversation(conversationId) {
+  if (!conversationId || !currentUserId()) return;
+
+  activeConversationId = conversationId;
+
+  const { data: membership, error: membershipError } = await supabase
+    .from("conversation_participants")
+    .select("user_id")
+    .eq("conversation_id", conversationId)
+    .eq("user_id", currentUserId())
+    .maybeSingle();
+
+  if (membershipError || !membership) {
+    setStatus("You cannot open that conversation.", "error");
+    return;
+  }
+
+  const { data: members, error: memberError } = await supabase
+    .from("conversation_participants")
+    .select("user_id")
+    .eq("conversation_id", conversationId);
+
+  if (memberError) {
+    setStatus("Could not load conversation details.", "error");
+    return;
+  }
+
+  const otherId = members?.find(
+    member => member.user_id !== currentUserId()
+  )?.user_id;
+
+  let partnerName = "Private conversation";
+
+  if (otherId) {
+    const { data: partner } = await supabase
+      .from("profiles")
+      .select("display_name")
+      .eq("id", otherId)
+      .maybeSingle();
+
+    if (partner?.display_name) partnerName = partner.display_name;
+  }
+
+  if ($("#chatPartnerName")) {
+    $("#chatPartnerName").textContent = partnerName;
+  }
+
+  $("#chatEmptyState")?.classList.add("hidden");
+  $("#chatPanel")?.classList.remove("hidden");
+
+  await loadPrivateMessages(conversationId);
+}
+
+async function loadPrivateMessages(conversationId) {
+  const list = $("#messageList");
+  if (!list) return;
+
+  list.textContent = "Loading messages...";
+
+  const { data, error } = await supabase
+    .from("messages")
+    .select("id, sender_id, body, created_at")
+    .eq("conversation_id", conversationId)
+    .order("created_at", { ascending: true })
+    .limit(200);
+
+  if (error) {
+    console.error("Load messages error:", error);
+    list.textContent = "Could not load messages.";
+    return;
+  }
+
+  if (!data?.length) {
+    list.textContent = "No messages yet. Say hello!";
+    return;
+  }
+
+  list.innerHTML = data.map(message => `
+    <div class="private-message ${
+      message.sender_id === currentUserId() ? "own-message" : ""
+    }">
+      <p>${escapeHTML(message.body)}</p>
+      <small>${new Date(message.created_at).toLocaleString()}</small>
+    </div>
+  `).join("");
+
+  list.scrollTop = list.scrollHeight;
+}
+
+async function sendPrivateMessage(event) {
+  event.preventDefault();
+
+  if (!requireLogin()) return;
+  if (!activeConversationId) {
+    setStatus("Choose a conversation first.", "error");
+    return;
+  }
+
+  const input = $("#messageInput");
+  const body = input?.value.trim();
+
+  if (!body) return;
+
+  const button = $("#messageForm button[type='submit']");
+  if (button) button.disabled = true;
+
+  const { error } = await supabase.from("messages").insert({
+    conversation_id: activeConversationId,
+    sender_id: currentUserId(),
+    body
+  });
+
+  if (button) button.disabled = false;
+
+  if (error) {
+    console.error("Send message error:", error);
+    setStatus("Message could not be sent.", "error");
+    return;
+  }
+
+  input.value = "";
+  await loadPrivateMessages(activeConversationId);
+}
+
 async function loadPosts() {
   if (state.loadingPosts) return;
   state.loadingPosts = true;
