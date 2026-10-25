@@ -2183,6 +2183,21 @@ function bindEvents() {
   });
 
   $("#signOutButton")?.addEventListener("click", signOut);
+   $("#newPostTop")?.addEventListener("click", () => {
+  if (!state.session) {
+    setAuthMode("login");
+    openDialog("authDialog");
+    return;
+  }
+
+  navigate("feed");
+
+  const postText = $("#postText");
+  if (postText) {
+    postText.focus();
+    postText.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+});
   $("#postForm")?.addEventListener("submit", publishPost);
 
   $("#messageUserSearchForm")?.addEventListener(
