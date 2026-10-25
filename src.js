@@ -489,10 +489,32 @@ function updateAccountUI() {
   const bioEl = $("#profileCardBio");
   if (bioEl) bioEl.textContent = bio;
 
-  for (const id of ["sidebarAvatar", "composerAvatar", "profileCardAvatar"]) {
-    const el = document.getElementById(id);
-    if (el && !el.querySelector("img")) el.textContent = initials(name);
+
+const avatarUrl = state.profile?.avatar_url || "";
+
+for (const id of ["sidebarAvatar", "composerAvatar", "profileCardAvatar"]) {
+  const el = document.getElementById(id);
+  if (!el) continue;
+
+  let img = el.querySelector("img");
+
+  if (avatarUrl) {
+    if (!img) {
+      img = document.createElement("img");
+      img.alt = `${name}'s profile picture`;
+      el.replaceChildren(img);
+    }
+
+    img.src = avatarUrl;
+    img.alt = `${name}'s profile picture`;
+    el.classList.add("has-profile-picture");
+  } else {
+    if (img) img.remove();
+    el.textContent = initials(name);
+    el.classList.remove("has-profile-picture");
   }
+}
+
 
   const accountButton = $("#accountButton");
   if (accountButton) {
