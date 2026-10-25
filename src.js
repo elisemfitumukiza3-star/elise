@@ -2199,6 +2199,41 @@ function bindEvents() {
   }
 });
   $("#postForm")?.addEventListener("submit", publishPost);
+   
+$("#profilePicture")?.addEventListener("change", event => {
+  const file = event.target.files?.[0];
+  const preview = $("#profilePicturePreviewImage");
+  const placeholder = $("#profilePicturePlaceholder");
+
+  if (!file) {
+    if (preview) {
+      preview.src = "";
+      preview.classList.add("hidden");
+    }
+    if (placeholder) placeholder.classList.remove("hidden");
+    return;
+  }
+
+  if (!file.type.startsWith("image/")) {
+    toast("Please select an image file.", "error");
+    event.target.value = "";
+    return;
+  }
+
+  if (file.size > 5 * 1024 * 1024) {
+    toast("Profile pictures must be 5 MB or smaller.", "error");
+    event.target.value = "";
+    return;
+  }
+
+  if (preview) {
+    preview.src = URL.createObjectURL(file);
+    preview.classList.remove("hidden");
+  }
+
+  if (placeholder) placeholder.classList.add("hidden");
+});
+
 
   $("#messageUserSearchForm")?.addEventListener(
     "submit",
