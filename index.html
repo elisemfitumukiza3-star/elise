@@ -342,7 +342,25 @@
               <aside class="card messages-sidebar">
                 <h2>Your conversations</h2>
                 <p class="muted">Your private conversations will appear here.</p>
-                <div id="conversationList"></div>
+                
+<div class="messages-user-search">
+  <form id="messageUserSearchForm">
+    <label for="messageUserSearch">Find a learner</label>
+    <input
+      id="messageUserSearch"
+      type="search"
+      placeholder="Search by name..."
+      autocomplete="off"
+    />
+    <button class="button button-primary" type="submit">
+      Search
+    </button>
+  </form>
+  <div id="messageUserResults" aria-live="polite"></div>
+</div>
+
+<div id="conversationList"></div>
+
               </aside>
 
               <div class="card messages-chat">
