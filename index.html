@@ -10,6 +10,96 @@
   <script type="module" src="/src.js"></script>
 </head>
 <body>
+  
+<!-- LearnLoop signed-out welcome screen -->
+<section id="welcomeScreen" class="welcome-screen hidden">
+  <div class="welcome-login-panel">
+    <div class="welcome-login-content">
+      <div class="welcome-mobile-brand">
+        <span class="welcome-logo-mark">L</span>
+        <span>LearnLoop</span>
+      </div>
+
+      <span class="eyebrow">YOUR LEARNING COMMUNITY</span>
+      <h1 id="welcomeFormTitle">Welcome back</h1>
+      <p class="welcome-intro">
+        Sign in to connect with learners, discover resources, and share knowledge.
+      </p>
+
+      <form id="welcomeAuthForm">
+        <label for="welcomeEmail">Email address</label>
+        <input
+          id="welcomeEmail"
+          type="email"
+          placeholder="Enter your email"
+          autocomplete="email"
+          required
+        >
+
+        <label for="welcomePassword">Password</label>
+        <input
+          id="welcomePassword"
+          type="password"
+          placeholder="Enter your password"
+          autocomplete="current-password"
+          required
+          minlength="6"
+        >
+
+        <label id="welcomeNameWrap" class="hidden" for="welcomeName">
+          Display name
+        </label>
+        <input
+          id="welcomeName"
+          class="hidden"
+          type="text"
+          placeholder="Choose a display name"
+          autocomplete="name"
+          maxlength="80"
+        >
+
+        <button class="button button-primary welcome-submit" type="submit">
+          Sign in
+        </button>
+
+        <p id="welcomeAuthMessage" class="small" role="status"></p>
+      </form>
+
+      <p class="welcome-switch">
+        <span id="welcomeSwitchText">New to LearnLoop?</span>
+        <button id="welcomeSwitchButton" type="button">Create new account</button>
+      </p>
+
+      <p class="welcome-privacy">
+        LearnLoop is free to use. Your learning journey starts here.
+      </p>
+    </div>
+  </div>
+
+  <aside class="welcome-brand-panel">
+    <div class="welcome-brand-content">
+      <div class="welcome-brand-logo">
+        <span class="welcome-logo-mark">L</span>
+        <span>LearnLoop</span>
+      </div>
+
+      <div class="welcome-brand-line"></div>
+
+      <h2>Knowledge is better when it is served.</h2>
+      <p>
+        Discover ideas. Share what you know. Grow together.
+      </p>
+
+      <div class="welcome-decoration" aria-hidden="true">
+        <span>✦</span>
+        <span>◎</span>
+        <span>＋</span>
+      </div>
+    </div>
+    <span class="welcome-brand-footer">LEARN · SHARE · GROW</span>
+  </aside>
+</section>
+
   <div class="app-shell">
     <aside class="sidebar" id="sidebar">
       <a class="brand" href="#" data-view="feed">
