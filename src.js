@@ -2347,8 +2347,8 @@ function renderLessonCards() {
 
     return matchesSubject && matchesSearch;
   });
-
-  const visible = filtered.slice(0, visibleLessonCount);
+const visible = filtered;
+  
 
   grid.replaceChildren();
 
@@ -2389,10 +2389,8 @@ function renderLessonCards() {
   if (count) {
     count.textContent = `Showing ${visible.length} of ${filtered.length} lessons`;
   }
-
-  if (moreButton) {
-    moreButton.hidden = visible.length >= filtered.length;
-  }
+if (moreButton) {
+  moreButton.hidden = true;
 }
 
 function bindEvents() {
