@@ -2185,6 +2185,133 @@ async function searchYouTubeVideos() {
 
 /* ---------- Event wiring ---------- */
 
+const learnLoopLessons = [
+  {
+    subject: "Science",
+    title: "Why does Earth have seasons?",
+    description: "Discover how Earth's tilted axis changes sunlight throughout the year.",
+    image: "https://images.unsplash.com/photo-1614730321146-b6fa6a46bcb4?auto=format&fit=crop&w=800&q=80",
+    link: "https://science.nasa.gov/"
+  },
+  {
+    subject: "Mathematics",
+    title: "Understanding algebra",
+    description: "Learn how letters represent unknown numbers and how to solve simple equations.",
+    image: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.khanacademy.org/math"
+  },
+  {
+    subject: "Reading",
+    title: "Become a better reader",
+    description: "Practise identifying main ideas, taking notes, and remembering what you read.",
+    image: "https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=800&q=80",
+    link: "https://openstax.org/"
+  },
+  {
+    subject: "Technology",
+    title: "How does the internet work?",
+    description: "Explore how computers exchange information across connected networks.",
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.khanacademy.org/computing"
+  },
+  {
+    subject: "Health",
+    title: "Understanding healthy habits",
+    description: "Explore sleep, movement, hygiene, and everyday habits that support wellbeing.",
+    image: "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.who.int/health-topics"
+  },
+  {
+    subject: "Business",
+    title: "Introduction to entrepreneurship",
+    description: "Learn how people identify problems, develop ideas, and create useful services.",
+    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.sba.gov/business-guide"
+  },
+  {
+    subject: "Languages",
+    title: "Build your vocabulary",
+    description: "Learn new words by reading, writing examples, and using them in conversation.",
+    image: "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.bbc.co.uk/learningenglish"
+  },
+  {
+    subject: "Social Development",
+    title: "The value of teamwork",
+    description: "Discover how communication, cooperation, and shared goals help communities.",
+    image: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.un.org/sustainabledevelopment/"
+  }
+];
+
+let visibleLessonCount = 8;
+
+function renderLessonCards() {
+  const grid = document.querySelector("#lessonGrid");
+  const count = document.querySelector("#lessonCount");
+  const moreButton = document.querySelector("#loadMoreLessons");
+
+  if (!grid) return;
+
+  const subject = document.querySelector("#lessonSubject")?.value || "All";
+  const search = document.querySelector("#lessonSearch")?.value.trim().toLowerCase() || "";
+
+  const filtered = learnLoopLessons.filter(lesson => {
+    const matchesSubject = subject === "All" || lesson.subject === subject;
+    const matchesSearch = `${lesson.title} ${lesson.description} ${lesson.subject}`
+      .toLowerCase()
+      .includes(search);
+
+    return matchesSubject && matchesSearch;
+  });
+
+  const visible = filtered.slice(0, visibleLessonCount);
+
+  grid.replaceChildren();
+
+  visible.forEach(lesson => {
+    const card = document.createElement("article");
+    card.className = "discover-card";
+
+    const image = document.createElement("img");
+    image.className = "discover-image";
+    image.src = lesson.image;
+    image.alt = lesson.title;
+    image.loading = "lazy";
+
+    const content = document.createElement("div");
+    content.className = "discover-card-content";
+
+    const tag = document.createElement("span");
+    tag.className = "discover-tag";
+    tag.textContent = lesson.subject.toUpperCase();
+
+    const heading = document.createElement("h3");
+    heading.textContent = lesson.title;
+
+    const description = document.createElement("p");
+    description.textContent = lesson.description;
+
+    const link = document.createElement("a");
+    link.href = lesson.link;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.textContent = "Explore lesson →";
+
+    content.append(tag, heading, description, link);
+    card.append(image, content);
+    grid.append(card);
+  });
+
+  if (count) {
+    count.textContent = `Showing ${visible.length} of ${filtered.length} lessons`;
+  }
+
+  if (moreButton) {
+    moreButton.hidden = visible.length >= filtered.length;
+  }
+}
+
 function bindEvents() {
 
 
