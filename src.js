@@ -775,14 +775,11 @@ function navigate(view) {
   });
 
   const selectedPage = document.getElementById(pageIds[view]);
-if (selectedPage) {
+
+  if (selectedPage) {
     selectedPage.classList.remove("hidden");
     selectedPage.style.removeProperty("display");
     selectedPage.style.removeProperty("visibility");
-} else {
-    console.error("LearnLoop page not found:", pageIds[view]);
-}
-
   } else {
     console.error("LearnLoop page not found:", pageIds[view]);
   }
@@ -792,7 +789,7 @@ if (selectedPage) {
 
   if (view === "dashboard") updateDashboard();
   if (view === "library") searchBooks();
-if (view === "messages") loadConversations();
+  if (view === "messages") loadConversations();
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
