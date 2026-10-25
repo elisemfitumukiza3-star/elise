@@ -1821,3 +1821,245 @@ button[type="submit"]:hover,
   }
 }
 
+/* LearnLoop welcome screen */
+.welcome-screen {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: #ffffff;
+  color: #172033;
+  font-family: inherit;
+}
+
+.welcome-screen.hidden {
+  display: none;
+}
+
+.welcome-login-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 28px;
+}
+
+.welcome-login-content {
+  width: 100%;
+  max-width: 410px;
+}
+
+.welcome-mobile-brand {
+  display: none;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 36px;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.welcome-logo-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 15px;
+  background: #ffffff;
+  color: #5548e8;
+  font-size: 27px;
+  font-weight: 900;
+  box-shadow: 0 8px 24px #11182720;
+}
+
+.welcome-login-content .eyebrow {
+  color: #5548e8;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.welcome-login-content h1 {
+  margin: 16px 0 10px;
+  font-size: clamp(30px, 3vw, 42px);
+  line-height: 1.15;
+  letter-spacing: -1.2px;
+}
+
+.welcome-intro {
+  margin: 0 0 30px;
+  color: #697386;
+  line-height: 1.7;
+}
+
+#welcomeAuthForm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#welcomeAuthForm label {
+  margin-top: 8px;
+  color: #344054;
+  font-size: 14px;
+  font-weight: 650;
+}
+
+#welcomeAuthForm input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 50px;
+  padding: 13px 15px;
+  border: 1px solid #d9deea;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #172033;
+  font: inherit;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#welcomeAuthForm input:focus {
+  border-color: #5548e8;
+  box-shadow: 0 0 0 3px #5548e820;
+}
+
+.welcome-submit {
+  width: 100%;
+  min-height: 50px;
+  margin-top: 14px;
+  border: 0;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+#welcomeAuthMessage {
+  min-height: 18px;
+  color: #b42318;
+  overflow-wrap: anywhere;
+}
+
+.welcome-switch {
+  margin-top: 22px;
+  color: #697386;
+  font-size: 14px;
+}
+
+#welcomeSwitchButton {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #5548e8;
+  font: inherit;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.welcome-privacy {
+  margin-top: 38px;
+  color: #98a2b3;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.welcome-brand-panel {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 48px;
+  background: linear-gradient(145deg, #5548e8 0%, #3730a3 58%, #24205f 100%);
+  color: #ffffff;
+}
+
+.welcome-brand-content {
+  width: 100%;
+  max-width: 460px;
+  position: relative;
+  z-index: 1;
+}
+
+.welcome-brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: clamp(28px, 3vw, 38px);
+  font-weight: 850;
+  letter-spacing: -1px;
+}
+
+.welcome-brand-logo .welcome-logo-mark {
+  color: #5548e8;
+}
+
+.welcome-brand-line {
+  width: 76px;
+  height: 4px;
+  margin: 34px 0;
+  border-radius: 10px;
+  background: #c4bfff;
+}
+
+.welcome-brand-content h2 {
+  max-width: 440px;
+  margin: 0;
+  font-size: clamp(32px, 3.7vw, 49px);
+  line-height: 1.2;
+  letter-spacing: -1.3px;
+}
+
+.welcome-brand-content > p {
+  max-width: 370px;
+  margin-top: 20px;
+  color: #e3e0ff;
+  font-size: 17px;
+  line-height: 1.8;
+}
+
+.welcome-decoration {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-top: 48px;
+  color: #d5d0ff;
+  font-size: 30px;
+}
+
+.welcome-decoration span:nth-child(2) {
+  font-size: 45px;
+}
+
+.welcome-brand-footer {
+  position: absolute;
+  bottom: 30px;
+  left: 48px;
+  color: #d5d0ff;
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 3px;
+}
+
+@media (max-width: 760px) {
+  .welcome-screen {
+    grid-template-columns: 1fr;
+  }
+
+  .welcome-login-panel {
+    min-height: 100vh;
+    padding: 32px 24px;
+  }
+
+  .welcome-mobile-brand {
+    display: flex;
+  }
+
+  .welcome-brand-panel {
+    display: none;
+  }
+
+  .welcome-login-content h1 {
+    font-size: 34px;
+  }
+}
+
