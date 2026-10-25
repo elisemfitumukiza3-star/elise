@@ -2098,6 +2098,23 @@ function bindEvents() {
   $("#signOutButton")?.addEventListener("click", signOut);
   $("#postForm")?.addEventListener("submit", publishPost);
 
+  $("#messageUserSearchForm")?.addEventListener(
+    "submit",
+    searchMessageUsers
+  );
+
+  $("#messageUserResults")?.addEventListener("click", event => {
+    const button = event.target.closest("[data-message-user]");
+    if (button) startPrivateConversation(button.dataset.messageUser);
+  });
+
+  $("#conversationList")?.addEventListener("click", event => {
+    const button = event.target.closest("[data-open-conversation]");
+    if (button) openPrivateConversation(button.dataset.openConversation);
+  });
+
+  $("#messageForm")?.addEventListener("submit", sendPrivateMessage);
+
   $("#postFile")?.addEventListener("change", event => {
     const file = event.target.files?.[0];
     if (file && !validFile(file)) {
