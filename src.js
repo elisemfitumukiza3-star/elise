@@ -452,6 +452,49 @@ function setAuthMode(mode) {
   if ($("#authMessage")) $("#authMessage").textContent = "";
 }
 
+function updateWelcomeAuthMode() {
+  const signup = state.authMode === "signup";
+
+  if ($("#welcomeFormTitle")) {
+    $("#welcomeFormTitle").textContent =
+      signup ? "Create your account" : "Welcome back";
+  }
+
+  if ($("#welcomeNameWrap")) {
+    $("#welcomeNameWrap").classList.toggle("hidden", !signup);
+  }
+
+  if ($("#welcomeName")) {
+    $("#welcomeName").classList.toggle("hidden", !signup);
+    $("#welcomeName").required = signup;
+    $("#welcomeName").autocomplete = "name";
+  }
+
+  const password = $("#welcomePassword");
+  if (password) {
+    password.autocomplete = signup ? "new-password" : "current-password";
+  }
+
+  const submit = $("#welcomeAuthForm button[type='submit']");
+  if (submit) {
+    submit.textContent = signup ? "Create account" : "Sign in";
+  }
+
+  if ($("#welcomeSwitchText")) {
+    $("#welcomeSwitchText").textContent =
+      signup ? "Already have an account?" : "New to LearnLoop?";
+  }
+
+  if ($("#welcomeSwitchButton")) {
+    $("#welcomeSwitchButton").textContent =
+      signup ? "Sign in" : "Create new account";
+  }
+
+  if ($("#welcomeAuthMessage")) {
+    $("#welcomeAuthMessage").textContent = "";
+  }
+}
+
 async function handleAuth(event) {
   event.preventDefault();
 
