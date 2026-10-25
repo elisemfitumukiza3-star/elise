@@ -1896,6 +1896,87 @@ async function loadHostDashboard() {
 
   renderHostSettings();
   await renderHostModeration();
+   async function loadCommitteeMembers() {
+  const list = $("#committeeMembersList");
+  if (!list || !isOwner()) return;
+
+  list.textContent = "Loading committee members…";
+
+  const { data, error } = await supabase
+    .from("committee_members")
+    .select("id, email, role, responsibilities, active")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    list.textContent = "Could not load committee members.";
+    console.error(error);
+    return;
+  }
+
+  list.replaceChildren();
+
+  if (!data?.length) {
+    list.textContent = "No committee members appointed yet.";
+    return;
+  }
+
+  data.forEach(member => {
+    const card = document.createElement("article");
+    card.className = "card";
+
+    const heading = document.createElement("h4");
+    heading.textContent = member.role;
+
+    const email = document.createElement("p");
+    email.textContent = member.email;
+
+    const duties = document.createElement("p");
+    duties.textContent = member.responsibilities || "No responsibilities specified.";
+
+    const status = document.createElement("p");
+    status.textContent = member.active ? "Active" : "Inactive";
+
+    card.append(heading, email, duties, status);
+    list.append(card);
+  });
+}
+
+async function appointCommitteeMember() {
+  if (!isOwner()) {
+    toast("Only the platform owner can appoint committee members.", "error");
+    return;
+  }
+
+  const email = $("#committeeMemberEmail")?.value.trim();
+  const role = $("#committeeMemberRole")?.value;
+  const responsibilities =
+    $("#committeeMemberResponsibilities")?.value.trim() || "";
+
+  if (!email) {
+    toast("Enter the member's registered email.", "error");
+    return;
+  }
+
+  const { error } = await supabase.rpc(
+    "host_appoint_committee_member",
+    {
+      p_email: email,
+      p_role: role,
+      p_responsibilities: responsibilities
+    }
+  );
+
+  if (error) {
+    toast(error.message, "error");
+    return;
+  }
+
+  toast("Committee member appointed successfully.", "success");
+  $("#committeeMemberEmail").value = "";
+  $("#committeeMemberResponsibilities").value = "";
+
+  await loadCommitteeMembers();
+}
 }
 
 function renderHostSettings() {
