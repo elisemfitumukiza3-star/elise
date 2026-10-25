@@ -566,7 +566,7 @@ function navigate(view) {
   if (!allowed.includes(view)) return;
 
   if (
-    ["following", "saved", "myuploads", "notifications", "dashboard"].includes(view) &&
+    ["following", "saved", "myuploads", "notifications", "dashboard", "messages"].includes(view) &&
     !state.session
   ) {
     openDialog("authDialog");
