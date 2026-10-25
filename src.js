@@ -596,6 +596,19 @@ supabase.auth.onAuthStateChange((event, session) => {
     }
 
     updateAccountUI();
+
+const welcomeScreen = document.getElementById("welcomeScreen");
+const appShell = document.querySelector(".app-shell");
+
+if (welcomeScreen) {
+  welcomeScreen.classList.toggle("hidden", !!session);
+}
+
+if (appShell) {
+  appShell.classList.toggle("hidden", !session);
+}
+
+updateWelcomeAuthMode();
     await loadPosts();
     await updateDashboard();
   }, 0);
