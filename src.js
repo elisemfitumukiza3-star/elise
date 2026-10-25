@@ -2326,6 +2326,797 @@ const learnLoopLessons = [
     image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=800&q=80",
     link: "https://www.who.int/health-topics/mental-health"
   }
+     ,
+  {
+    subject: "Technology",
+    title: "Introduction to HTML",
+    description: "Learn how HTML structures webpages using headings, paragraphs, links, and images.",
+    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80",
+    link: "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content"
+  },
+  {
+    subject: "Technology",
+    title: "CSS: Styling Your First Website",
+    description: "Learn colors, fonts, spacing, borders, and layouts to make webpages attractive.",
+    image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=800&q=80",
+    link: "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Styling_basics"
+  },
+  {
+    subject: "Technology",
+    title: "JavaScript Fundamentals",
+    description: "Explore variables, functions, conditions, and interactive webpage behavior.",
+    image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80",
+    link: "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting"
+  },
+  {
+    subject: "Technology",
+    title: "Python Programming for Beginners",
+    description: "Discover variables, loops, functions, and simple programs with Python.",
+    image: "https://images.unsplash.com/photo-1526379095098-d400fd0bf935?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.python.org/about/gettingstarted/"
+  },
+  {
+    subject: "Technology",
+    title: "Algorithms and Problem Solving",
+    description: "Break complex problems into smaller steps and design clear solutions.",
+    image: "https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.khanacademy.org/computing/computer-science/algorithms"
+  },
+  {
+    subject: "Technology",
+    title: "Git and GitHub Basics",
+    description: "Learn how to track code changes, save versions, and collaborate on projects.",
+    image: "https://images.unsplash.com/photo-1556075798-4825dfaaf498?auto=format&fit=crop&w=800&q=80",
+    link: "https://docs.github.com/en/get-started"
+  },
+  {
+    subject: "Social Development",
+    title: "Personal Accountability",
+    description: "Understand how to take responsibility for your actions, choices, and commitments.",
+    image: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.unesco.org/en/education"
+  },
+  {
+    subject: "Social Development",
+    title: "Integrity and Ethical Decisions",
+    description: "Practice honesty, fairness, and ethical decision-making in everyday situations.",
+    image: "https://images.unsplash.com/photo-1529390079861-591de354faf5?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.unesco.org/en/education"
+  },
+  {
+    subject: "Social Development",
+    title: "Transparency and Record Keeping",
+    description: "Learn why clear records, accurate information, and open processes build trust.",
+    image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.accountingcoach.com/"
+  },
+  {
+    subject: "Social Development",
+    title: "Leadership and Responsibility",
+    description: "Explore how responsible leaders set clear goals, support others, and follow through.",
+    image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.unesco.org/en/education"
+  },
+  {
+    subject: "Business",
+    title: "Introduction to Bookkeeping",
+    description: "Learn to organize income, expenses, receipts, and financial records accurately.",
+    image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.accountingcoach.com/"
+  },
+  {
+    subject: "Social Development",
+    title: "Teamwork and Shared Accountability",
+    description: "Discover how teams divide responsibilities, communicate progress, and meet shared goals.",
+    image: "https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.unesco.org/en/education"
+  }
+   
+  {
+    subject: "Technology",
+    title: "HTML Forms and User Input",
+    description: "Learn to create forms with text fields, labels, buttons, and validation.",
+    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80",
+    link: "https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Forms"
+  },
+  {
+    subject: "Technology",
+    title: "Responsive Web Design",
+    description: "Build webpages that adapt to phones, tablets, and desktop screens.",
+    image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80",
+    link: "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/CSS_layout/Responsive_Design"
+  },
+  {
+    subject: "Technology",
+    title: "CSS Flexbox Layout",
+    description: "Arrange website elements into flexible rows and columns.",
+    image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=800&q=80",
+    link: "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/CSS_layout/Flexbox"
+  },
+  {
+    subject: "Technology",
+    title: "CSS Grid Layout",
+    description: "Create structured two-dimensional layouts for modern websites.",
+    image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80",
+    link: "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/CSS_layout/Grids"
+  },
+  {
+    subject: "Technology",
+    title: "JavaScript Variables and Data Types",
+    description: "Understand strings, numbers, booleans, variables, and basic data storage.",
+    image: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=800&q=80",
+    link: "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting"
+  },
+  {
+    subject: "Technology",
+    title: "JavaScript Functions",
+    description: "Learn to write reusable functions, pass arguments, and return results.",
+    image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80",
+    link: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions"
+  },
+  {
+    subject: "Technology",
+    title: "JavaScript Arrays and Objects",
+    description: "Store, organize, and work with collections of information in your programs.",
+    image: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=800&q=80",
+    link: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide"
+  },
+  {
+    subject: "Technology",
+    title: "Debugging Code",
+    description: "Learn how to find errors, read console messages, and test solutions.",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80",
+    link: "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting/Debugging_JavaScript"
+  },
+  {
+    subject: "Technology",
+    title: "Introduction to APIs",
+    description: "Understand how applications exchange information through web APIs.",
+    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80",
+    link: "https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Client-side_APIs"
+  },
+  {
+    subject: "Technology",
+    title: "Web Accessibility Basics",
+    description: "Design websites that are easier for people with different abilities to use.",
+    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80",
+    link: "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Accessibility"
+  },
+  {
+    subject: "Social Development",
+    title: "Taking Personal Responsibility",
+    description: "Recognize your responsibilities and follow through on your commitments.",
+    image: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.unesco.org/en/education"
+  },
+  {
+    subject: "Social Development",
+    title: "Accountability in the Workplace",
+    description: "Understand how people report progress, own decisions, and meet agreed standards.",
+    image: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.unesco.org/en/education"
+  },
+  {
+    subject: "Social Development",
+    title: "Transparency and Trust",
+    description: "Explore how honest communication and clear processes build public trust.",
+    image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.transparency.org/en/what-is-corruption"
+  },
+  {
+    subject: "Social Development",
+    title: "Ethical Decision-Making",
+    description: "Use fairness, evidence, and shared values to make responsible decisions.",
+    image: "https://images.unsplash.com/photo-1529390079861-591de354faf5?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.unesco.org/en/ethics-science-and-technology"
+  },
+  {
+    subject: "Social Development",
+    title: "Accepting Feedback",
+    description: "Learn to receive feedback constructively and use it to improve your work.",
+    image: "https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.unesco.org/en/education"
+  },
+  {
+    subject: "Social Development",
+    title: "Conflict Resolution",
+    description: "Practice listening, identifying shared interests, and finding fair solutions.",
+    image: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.unesco.org/en/education"
+  },
+  {
+    subject: "Social Development",
+    title: "Delegation and Responsibility",
+    description: "Learn how to assign tasks clearly, agree on deadlines, and follow up fairly.",
+    image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.unesco.org/en/education"
+  },
+  {
+    subject: "Social Development",
+    title: "Monitoring Progress and Results",
+    description: "Set measurable goals, track activities, and evaluate whether objectives are met.",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.betterevaluation.org/"
+  },
+  {
+    subject: "Business",
+    title: "Budgeting and Financial Accountability",
+    description: "Plan spending, record transactions, and compare actual costs against a budget.",
+    image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.accountingcoach.com/"
+  },
+  {
+    subject: "Social Development",
+    title: "Responsible Community Leadership",
+    description: "Learn how leaders involve communities, explain decisions, and answer for results.",
+    image: "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.unesco.org/en/education"
+  },
+
+  {
+    subject: "Mathematics",
+    title: "Fractions Made Simple",
+    description: "Understand numerators, denominators, equivalent fractions, and fraction operations.",
+    image: "https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.khanacademy.org/math/arithmetic/fraction-arithmetic"
+  },
+  {
+    subject: "Mathematics",
+    title: "Percentages in Everyday Life",
+    description: "Calculate percentages for discounts, comparisons, marks, and everyday decisions.",
+    image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.khanacademy.org/math/arithmetic/arith-review-percent"
+  },
+  {
+    subject: "Mathematics",
+    title: "Ratios and Proportions",
+    description: "Compare quantities and solve proportion problems in practical situations.",
+    image: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.khanacademy.org/math/pre-algebra/pre-algebra-ratios-rates"
+  },
+  {
+    subject: "Mathematics",
+    title: "Introduction to Algebra",
+    description: "Explore variables, algebraic expressions, and basic mathematical rules.",
+    image: "https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.khanacademy.org/math/algebra"
+  },
+  {
+    subject: "Mathematics",
+    title: "Solving Linear Equations",
+    description: "Learn step-by-step methods for finding unknown values in equations.",
+    image: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.khanacademy.org/math/algebra/one-variable-linear-equations"
+  },
+  {
+    subject: "Mathematics",
+    title: "Geometry and Shapes",
+    description: "Study angles, triangles, circles, polygons, and their properties.",
+    image: "https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.khanacademy.org/math/geometry"
+  },
+  {
+    subject: "Mathematics",
+    title: "Statistics and Data",
+    description: "Learn mean, median, mode, range, and how to interpret datasets.",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.khanacademy.org/math/statistics-probability"
+  },
+  {
+    subject: "Mathematics",
+    title: "Probability Basics",
+    description: "Understand chance, possible outcomes, and simple probability calculations.",
+    image: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.khanacademy.org/math/statistics-probability/probability-library"
+  },
+  {
+    subject: "Mathematics",
+    title: "Reading Graphs and Charts",
+    description: "Interpret bar charts, line graphs, and tables to understand information.",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.khanacademy.org/math/statistics-probability"
+  },
+  {
+    subject: "Mathematics",
+    title: "Practical Measurement",
+    description: "Apply units, conversions, area, volume, and measurement to real problems.",
+    image: "https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.khanacademy.org/math/geometry"
+  },
+  {
+    subject: "Science",
+    title: "The Scientific Method",
+    description: "Learn how to ask questions, form hypotheses, test ideas, and draw conclusions.",
+    image: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.sciencebuddies.org/science-fair-projects/science-fair"
+  },
+  {
+    subject: "Science",
+    title: "Cells and Their Functions",
+    description: "Discover the basic structures of cells and how they support living organisms.",
+    image: "https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.khanacademy.org/science/biology/structure-of-a-cell"
+  },
+  {
+    subject: "Science",
+    title: "Ecosystems and Food Chains",
+    description: "Explore how living things interact and how energy moves through ecosystems.",
+    image: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.khanacademy.org/science/biology/ecology"
+  },
+  {
+    subject: "Science",
+    title: "Forces and Motion",
+    description: "Understand motion, speed, acceleration, and the forces that affect objects.",
+    image: "https://images.unsplash.com/photo-1636466497217-26a8cbeaf0aa?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.khanacademy.org/science/physics/forces-newtons-laws"
+  },
+  {
+    subject: "Science",
+    title: "Electricity Fundamentals",
+    description: "Explore electric circuits, current, voltage, resistance, and electrical safety.",
+    image: "https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.khanacademy.org/science/physics/circuits-topic"
+  },
+  {
+    subject: "Science",
+    title: "States of Matter",
+    description: "Compare solids, liquids, and gases and learn how matter changes state.",
+    image: "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.khanacademy.org/science/chemistry/states-of-matter-and-intermolecular-forces"
+  },
+  {
+    subject: "Science",
+    title: "Chemical Reactions",
+    description: "Discover how substances react, form new products, and conserve atoms.",
+    image: "https://images.unsplash.com/photo-1603126857599-f6e157fa2fe6?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.khanacademy.org/science/chemistry/chemical-reactions-stoichiome"
+  },
+  {
+    subject: "Science",
+    title: "Energy and Its Forms",
+    description: "Learn about kinetic, potential, thermal, chemical, and electrical energy.",
+    image: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.khanacademy.org/science/physics/work-and-energy"
+  },
+  {
+    subject: "Science",
+    title: "Weather and Climate",
+    description: "Understand weather patterns, climate systems, rainfall, and temperature.",
+    image: "https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?auto=format&fit=crop&w=800&q=80",
+    link: "https://climate.nasa.gov/"
+  },
+  {
+    subject: "Science",
+    title: "The Human Body Systems",
+    description: "Explore how the digestive, respiratory, circulatory, and nervous systems work.",
+    image: "https://images.unsplash.com/photo-1530026405186-ed1f139313f8?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.khanacademy.org/science/health-and-medicine"
+  },
+
+  {
+    subject: "Health",
+    title: "Introduction to Nursing",
+    description: "Explore the role of nurses, professional responsibilities, compassionate care, and teamwork in healthcare.",
+    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.who.int/health-topics/nursing"
+  },
+  {
+    subject: "Health",
+    title: "Hand Hygiene in Healthcare",
+    description: "Learn why hand hygiene is essential for preventing infections in healthcare settings.",
+    image: "https://images.unsplash.com/photo-1584515933487-779824d29309?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.who.int/teams/integrated-health-services/infection-prevention-control/hand-hygiene"
+  },
+  {
+    subject: "Health",
+    title: "Measuring Vital Signs",
+    description: "Study temperature, pulse, respiratory rate, blood pressure, and the importance of accurate recording.",
+    image: "https://images.unsplash.com/photo-1584982751601-97dcc096659c?auto=format&fit=crop&w=800&q=80",
+    link: "https://medlineplus.gov/vitalsigns.html"
+  },
+  {
+    subject: "Health",
+    title: "Human Anatomy for Nurses",
+    description: "Explore major organs and body systems to build a foundation for nursing education.",
+    image: "https://images.unsplash.com/photo-1530026405186-ed1f139313f8?auto=format&fit=crop&w=800&q=80",
+    link: "https://medlineplus.gov/anatomy.html"
+  },
+  {
+    subject: "Health",
+    title: "Basic Patient Assessment",
+    description: "Learn how healthcare professionals gather patient information, observe symptoms, and document findings.",
+    image: "https://images.unsplash.com/photo-1551601651-2a8555f1a136?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.ncbi.nlm.nih.gov/books/"
+  },
+  {
+    subject: "Health",
+    title: "Patient Safety and Infection Prevention",
+    description: "Understand common patient safety risks, infection prevention, and safe clinical environments.",
+    image: "https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.who.int/health-topics/patient-safety"
+  },
+  {
+    subject: "Health",
+    title: "Nursing Ethics and Confidentiality",
+    description: "Explore patient dignity, privacy, informed consent, professional boundaries, and ethical responsibilities.",
+    image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.icn.ch/"
+  },
+  {
+    subject: "Health",
+    title: "Communication with Patients",
+    description: "Develop active listening, respectful communication, empathy, and clear explanations for patients.",
+    image: "https://images.unsplash.com/photo-1573497620053-ea5300f94f21?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.who.int/health-topics/patient-safety"
+  },
+  {
+    subject: "Health",
+    title: "First Aid and Emergency Awareness",
+    description: "Learn how to recognize emergencies, seek qualified assistance, and understand basic first-aid principles.",
+    image: "https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.redcross.org/take-a-class/first-aid"
+  },
+  {
+    subject: "Health",
+    title: "Nutrition and Patient Care",
+    description: "Study basic nutrients, hydration, balanced diets, and the role of nutrition in patient wellbeing.",
+    image: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.who.int/health-topics/healthy-diet"
+  },
+  {
+    subject: "Health",
+    title: "Medication Safety Fundamentals",
+    description: "Understand medication labels, accurate documentation, allergy awareness, and the importance of following authorized instructions.",
+    image: "https://images.unsplash.com/photo-1576602976047-174e57a47881?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.who.int/initiatives/medication-without-harm"
+  },
+  {
+    subject: "Health",
+    title: "Nursing Documentation and Handover",
+    description: "Learn why clinical records must be clear, factual, timely, and handled confidentially.",
+    image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.who.int/health-topics/patient-safety"
+  },
+  {
+    subject: "Business",
+    title: "Introduction to Accounting",
+    description: "Discover assets, liabilities, equity, income, expenses, and the basic accounting equation.",
+    image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.accountingcoach.com/"
+  },
+  {
+    subject: "Business",
+    title: "Understanding Financial Statements",
+    description: "Learn what income statements, balance sheets, and cash flow statements communicate.",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.accountingcoach.com/"
+  },
+  {
+    subject: "Business",
+    title: "Managing Cash Flow",
+    description: "Understand money coming into and leaving a business and why cash flow planning matters.",
+    image: "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.sba.gov/business-guide/manage-your-business/manage-your-finances"
+  },
+  {
+    subject: "Business",
+    title: "Preparing a Simple Budget",
+    description: "Create a practical budget, estimate expenses, plan savings, and compare spending with targets.",
+    image: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.consumerfinance.gov/consumer-tools/budgeting/"
+  },
+  {
+    subject: "Business",
+    title: "Entrepreneurship Fundamentals",
+    description: "Learn to identify customer needs, evaluate ideas, and develop a basic business model.",
+    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.sba.gov/business-guide"
+  },
+  {
+    subject: "Business",
+    title: "Internal Controls and Accountability",
+    description: "Explore approvals, accurate records, separation of duties, and checks that reduce financial errors.",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.accountingcoach.com/"
+  },
+  {
+    subject: "Business",
+    title: "Inventory and Stock Management",
+    description: "Learn how to record stock, monitor supplies, reduce waste, and maintain accurate inventory.",
+    image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.sba.gov/business-guide"
+  },
+  {
+    subject: "Business",
+    title: "Ethical Financial Reporting",
+    description: "Understand honesty, supporting evidence, transparent reporting, and responsible financial decisions.",
+    image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.ifac.org/"
+  },
+
+  {
+    subject: "Languages",
+    title: "English Grammar Fundamentals",
+    description: "Learn parts of speech, sentence structure, subject-verb agreement, and correct punctuation.",
+    image: "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=800&q=80",
+    link: "https://learnenglish.britishcouncil.org/grammar"
+  },
+  {
+    subject: "Languages",
+    title: "Building English Vocabulary",
+    description: "Expand your vocabulary through context, word families, synonyms, and antonyms.",
+    image: "https://images.unsplash.com/photo-1519682337058-a94d519337bc?auto=format&fit=crop&w=800&q=80",
+    link: "https://learnenglish.britishcouncil.org/vocabulary"
+  },
+  {
+    subject: "Languages",
+    title: "Writing Clear English Paragraphs",
+    description: "Practice topic sentences, supporting details, logical order, and concluding sentences.",
+    image: "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=800&q=80",
+    link: "https://owl.purdue.edu/owl/general_writing/academic_writing/paragraphs_and_paragraphing/index.html"
+  },
+  {
+    subject: "Languages",
+    title: "Essay Writing Skills",
+    description: "Learn how to plan, organize, draft, and revise a well-structured essay.",
+    image: "https://images.unsplash.com/photo-1517842645767-c639042777db?auto=format&fit=crop&w=800&q=80",
+    link: "https://owl.purdue.edu/owl/general_writing/academic_writing/essay_writing/index.html"
+  },
+  {
+    subject: "Languages",
+    title: "Public Speaking and Presentation",
+    description: "Develop confidence, organize ideas, and deliver clear presentations to an audience.",
+    image: "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.toastmasters.org/resources/public-speaking-tips"
+  },
+  {
+    subject: "Languages",
+    title: "French Grammar Basics",
+    description: "Study French articles, pronouns, adjective agreement, and common sentence patterns.",
+    image: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.lawlessfrench.com/grammar/"
+  },
+  {
+    subject: "Languages",
+    title: "Everyday French Conversation",
+    description: "Practice greetings, introductions, asking questions, and useful everyday expressions.",
+    image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&w=800&q=80",
+    link: "https://apprendre.tv5monde.com/en"
+  },
+  {
+    subject: "Languages",
+    title: "English Listening Comprehension",
+    description: "Improve listening through short talks, identifying key ideas, and understanding context.",
+    image: "https://images.unsplash.com/photo-1478737270239-2f02b77fc618?auto=format&fit=crop&w=800&q=80",
+    link: "https://learnenglish.britishcouncil.org/skills/listening"
+  },
+  {
+    subject: "Reading",
+    title: "Reading Comprehension Strategies",
+    description: "Learn to identify main ideas, supporting details, purpose, and important evidence in texts.",
+    image: "https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.readingrockets.org/"
+  },
+  {
+    subject: "Reading",
+    title: "Critical Thinking While Reading",
+    description: "Evaluate claims, identify assumptions, distinguish facts from opinions, and question evidence.",
+    image: "https://images.unsplash.com/photo-1456324504439-367cee3b3c32?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.skillsyouneed.com/learn/critical-thinking.html"
+  },
+  {
+    subject: "Reading",
+    title: "Summarizing and Note-Taking",
+    description: "Capture key ideas, organize notes, and summarize long texts in your own words.",
+    image: "https://images.unsplash.com/photo-1517842645767-c639042777db?auto=format&fit=crop&w=800&q=80",
+    link: "https://learningcenter.unc.edu/tips-and-tools/"
+  },
+  {
+    subject: "Reading",
+    title: "Research and Source Evaluation",
+    description: "Find reliable information, check author credibility, and compare evidence across sources.",
+    image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=800&q=80",
+    link: "https://owl.purdue.edu/owl/research_and_citation/conducting_research/index.html"
+  },
+  {
+    subject: "Social Development",
+    title: "Community Needs Assessment",
+    description: "Learn how surveys, interviews, and observation help identify community priorities.",
+    image: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=800&q=80",
+    link: "https://ctb.ku.edu/en/assessing-community-needs-and-resources"
+  },
+  {
+    subject: "Social Development",
+    title: "Community Project Planning",
+    description: "Define a community problem, set objectives, identify activities, and plan resources.",
+    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.betterevaluation.org/"
+  },
+  {
+    subject: "Social Development",
+    title: "Stakeholder Engagement",
+    description: "Identify affected groups, listen to their perspectives, and involve them in decisions.",
+    image: "https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.unicef.org/evaluation"
+  },
+  {
+    subject: "Social Development",
+    title: "Monitoring and Evaluation",
+    description: "Use indicators, data collection, and results analysis to assess project progress.",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.betterevaluation.org/"
+  },
+  {
+    subject: "Social Development",
+    title: "Public Service Ethics",
+    description: "Explore impartiality, integrity, fairness, responsible use of resources, and public trust.",
+    image: "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.unodc.org/"
+  },
+  {
+    subject: "Social Development",
+    title: "Community Participation and Inclusion",
+    description: "Learn how to include different voices and reduce barriers to community participation.",
+    image: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.unicef.org/"
+  },
+  {
+    subject: "Social Development",
+    title: "Project Risk Management",
+    description: "Identify potential project problems, assess their likelihood, and plan responses.",
+    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.pmi.org/learning/library"
+  },
+  {
+    subject: "Social Development",
+    title: "Writing Project Reports",
+    description: "Prepare clear reports covering objectives, activities, results, challenges, and recommendations.",
+    image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=800&q=80",
+    link: "https://owl.purdue.edu/owl/subject_specific_writing/professional_technical_writing/index.html"
+  },
+
+  {
+    subject: "Technology",
+    title: "Computer Fundamentals",
+    description: "Understand computer hardware, software, operating systems, and basic computer operations.",
+    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80",
+    link: "https://edu.gcfglobal.org/en/computerbasics/"
+  },
+  {
+    subject: "Technology",
+    title: "Organizing Digital Files",
+    description: "Learn how to create folders, name files clearly, organize documents, and maintain backups.",
+    image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80",
+    link: "https://edu.gcfglobal.org/en/computerbasics/"
+  },
+  {
+    subject: "Technology",
+    title: "Spreadsheet Skills",
+    description: "Practice entering data, using formulas, sorting information, and creating simple charts.",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80",
+    link: "https://edu.gcfglobal.org/en/excel/"
+  },
+  {
+    subject: "Technology",
+    title: "Creating Effective Presentations",
+    description: "Design clear slides with readable text, useful visuals, and a logical flow of ideas.",
+    image: "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=800&q=80",
+    link: "https://edu.gcfglobal.org/en/powerpoint/"
+  },
+  {
+    subject: "Technology",
+    title: "Online Privacy and Security",
+    description: "Learn to protect personal information, recognize suspicious messages, and use secure accounts.",
+    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80",
+    link: "https://staysafeonline.org/"
+  },
+  {
+    subject: "Technology",
+    title: "Evaluating Online Information",
+    description: "Check sources, dates, evidence, and credibility before trusting or sharing online information.",
+    image: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=800&q=80",
+    link: "https://edu.gcfglobal.org/en/internetbasics/"
+  },
+  {
+    subject: "Technology",
+    title: "Introduction to Databases",
+    description: "Understand tables, records, fields, and how databases organize information.",
+    image: "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.w3schools.com/sql/"
+  },
+  {
+    subject: "Technology",
+    title: "Digital Citizenship",
+    description: "Practice respectful online communication, responsible sharing, and ethical digital participation.",
+    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.unicef.org/globalinsight/reports/childrens-rights-digital-age"
+  },
+  {
+    subject: "Social Development",
+    title: "Introduction to Sustainable Development",
+    description: "Explore how social wellbeing, economic opportunity, and environmental protection connect.",
+    image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=800&q=80",
+    link: "https://sdgs.un.org/goals"
+  },
+  {
+    subject: "Social Development",
+    title: "Waste Management and Recycling",
+    description: "Learn about waste reduction, sorting, reuse, recycling, and responsible disposal.",
+    image: "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.unep.org/"
+  },
+  {
+    subject: "Social Development",
+    title: "Biodiversity and Conservation",
+    description: "Understand biodiversity, threats to ecosystems, and ways to protect wildlife and habitats.",
+    image: "https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.worldwildlife.org/"
+  },
+  {
+    subject: "Social Development",
+    title: "Climate Change Awareness",
+    description: "Explore the causes and effects of climate change and practical approaches to adaptation.",
+    image: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=800&q=80",
+    link: "https://climate.nasa.gov/"
+  },
+  {
+    subject: "Social Development",
+    title: "Water, Sanitation, and Hygiene",
+    description: "Learn why safe water, sanitation facilities, and hygiene practices matter for communities.",
+    image: "https://images.unsplash.com/photo-1530053969600-caed2596d242?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.who.int/health-topics/water-sanitation-and-hygiene-wash"
+  },
+  {
+    subject: "Health",
+    title: "Understanding Mental Wellbeing",
+    description: "Explore healthy routines, emotional wellbeing, stress management, and when to seek support.",
+    image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.who.int/health-topics/mental-health"
+  },
+  {
+    subject: "Health",
+    title: "Sleep and Healthy Routines",
+    description: "Understand the importance of regular sleep, balanced routines, and recovery for wellbeing.",
+    image: "https://images.unsplash.com/photo-1511295742362-92c96b5a8d6e?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.cdc.gov/sleep/"
+  },
+  {
+    subject: "Health",
+    title: "Nutrition Labels and Food Choices",
+    description: "Learn to interpret food labels and understand nutrients, ingredients, and serving information.",
+    image: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.who.int/health-topics/healthy-diet"
+  },
+  {
+    subject: "Health",
+    title: "Preventing the Spread of Infection",
+    description: "Study everyday infection prevention practices, respiratory hygiene, and appropriate handwashing.",
+    image: "https://images.unsplash.com/photo-1584515933487-779824d29309?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.who.int/health-topics/infection-prevention-and-control"
+  },
+  {
+    subject: "Business",
+    title: "Personal Financial Planning",
+    description: "Set financial goals, plan expenses, prepare for unexpected costs, and review progress.",
+    image: "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.consumerfinance.gov/consumer-tools/"
+  },
+  {
+    subject: "Business",
+    title: "Customer Service and Communication",
+    description: "Practice listening to customers, responding respectfully, and resolving complaints professionally.",
+    image: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.sba.gov/business-guide"
+  },
+  {
+    subject: "Social Development",
+    title: "Goal Setting and Time Management",
+    description: "Break goals into manageable tasks, prioritize activities, and review your progress consistently.",
+    image: "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&w=800&q=80",
+    link: "https://www.skillsyouneed.com/ps/time-management.html"
+  },
+
 ];
 function renderLessonCards() {
   const grid = document.querySelector("#lessonGrid");
