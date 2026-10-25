@@ -2150,3 +2150,24 @@ iframe {
     display: inline-flex;
   }
 }
+/* LearnLoop: stack mobile navigation vertically */
+@media (max-width: 768px) {
+  #sidebar nav {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 6px;
+    width: 100%;
+  }
+
+  #sidebar nav a,
+  #sidebar nav button,
+  #sidebar nav [data-view] {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
