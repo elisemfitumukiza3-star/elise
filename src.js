@@ -2241,8 +2241,7 @@ const learnLoopLessons = [
     description: "Discover how communication, cooperation, and shared goals help communities.",
     image: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=800&q=80",
     link: "https://www.un.org/sustainabledevelopment/"
-  }
-];
+  },
   {
     subject: "Science",
     title: "How do plants make food?",
@@ -2326,9 +2325,8 @@ const learnLoopLessons = [
     description: "Learn about healthy routines, managing stress, and finding support.",
     image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=800&q=80",
     link: "https://www.who.int/health-topics/mental-health"
-  },
-let visibleLessonCount = 8;
-
+  }
+];
 function renderLessonCards() {
   const grid = document.querySelector("#lessonGrid");
   const count = document.querySelector("#lessonCount");
