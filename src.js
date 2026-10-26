@@ -1881,7 +1881,8 @@ async function loadHostDashboard() {
 
   if (profiles.error) {
     console.error("Registered profiles load error:", profiles.error);
-
+console.error("Profile error message:", profiles.error?.message);
+console.error("Profile error code:", profiles.error?.code);
     if ($("#hostProfilesCount")) {
       $("#hostProfilesCount").textContent = "—";
     }
