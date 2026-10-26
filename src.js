@@ -4424,6 +4424,7 @@ downloadButton.addEventListener("click", async () => {
   }
 
   const pdf = new jsPDF("landscape", "mm", "a4");
+   console.log("PDF created successfully");
 
   // Keep your existing certificate design and PDF-generation code here.
 });
