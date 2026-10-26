@@ -3371,6 +3371,88 @@ const learnLoopCourses = [
   }
 ];
 
+const academyLeadershipLessons = [
+  {
+    title: "Understanding Leadership",
+    paragraphs: [
+      "Leadership is the ability to guide, support, and encourage people toward a shared goal.",
+      "Students can demonstrate leadership by organizing group assignments, helping classmates, and taking responsibility.",
+      "Good leaders listen to others, explain decisions, and learn from their mistakes."
+    ],
+    keyPoint: "Leadership means helping people work together toward a common goal."
+  },
+  {
+    title: "Qualities of a Good Leader",
+    paragraphs: [
+      "Good leaders demonstrate honesty, respect, responsibility, patience, and fairness.",
+      "Reliable leaders keep their promises when possible and admit their mistakes.",
+      "Leaders should welcome feedback and keep learning."
+    ],
+    keyPoint: "Trust grows when leaders act honestly and fairly."
+  },
+  {
+    title: "Communication and Active Listening",
+    paragraphs: [
+      "Communication is the exchange of information, ideas, and feelings.",
+      "Active listening means paying attention, avoiding interruptions, and asking useful questions.",
+      "During group work, invite everyone to share ideas before making a decision."
+    ],
+    keyPoint: "Listen to understand before responding."
+  },
+  {
+    title: "Teamwork and Collaboration",
+    paragraphs: [
+      "Teamwork combines people's skills and efforts to achieve a shared goal.",
+      "Different opinions and abilities can strengthen a team when everyone is respected.",
+      "Share tasks fairly, encourage participation, and recognize contributions."
+    ],
+    keyPoint: "A strong team shares responsibility and respects every member."
+  },
+  {
+    title: "Decision-Making and Problem-Solving",
+    paragraphs: [
+      "Good decisions begin with understanding the problem and gathering reliable information.",
+      "Compare possible solutions by considering their benefits, risks, and effects on others.",
+      "Review the outcome and adjust your plan when necessary."
+    ],
+    keyPoint: "Understand the problem, compare options, act, and review."
+  },
+  {
+    title: "Managing Conflict and Disagreement",
+    paragraphs: [
+      "Conflict happens when people have different needs, opinions, or expectations.",
+      "Listen calmly, identify the main issue, and look for a fair solution.",
+      "Seek help from a trusted person if a disagreement involves bullying or safety concerns."
+    ],
+    keyPoint: "Handle disagreements respectfully and seek fair solutions."
+  },
+  {
+    title: "Ethics, Responsibility, and Leading by Example",
+    paragraphs: [
+      "Ethical leadership involves honesty, fairness, respect, and concern for others.",
+      "Responsible leaders follow rules, protect confidential information, and correct mistakes.",
+      "Leading by example means demonstrating the behavior you expect from others."
+    ],
+    keyPoint: "A leader's actions should reflect the values they expect from others."
+  }
+];
+
+function getAcademyReading(course, index) {
+  if (course.slug === "leadership") {
+    return academyLeadershipLessons[index];
+  }
+
+  return {
+    title: course.topics[index],
+    paragraphs: [
+      `This lesson introduces ${course.topics[index].toLowerCase()} as part of ${course.title}.`,
+      "Read the material carefully and identify the main ideas.",
+      "Think about how these ideas apply to everyday life, school, or work."
+    ],
+    keyPoint: `Remember the main ideas about ${course.topics[index].toLowerCase()}.`
+  };
+}
+
 
 const ACADEMY_PROGRESS_KEY = "learnloop_academy_read_topics_v1";
 
