@@ -2286,3 +2286,56 @@ iframe {
     padding: 16px;
   }
 }
+
+/* LearnLoop colourful post selector */
+.composer-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.post-color-picker {
+  margin: 0 0 12px;
+}
+
+.post-color-picker p {
+  margin: 0 0 8px;
+  font-size: 13px;
+  color: var(--muted, #64748b);
+}
+
+.post-color-options {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.post-color-option {
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  border: 2px solid #cbd5e1;
+  border-radius: 9px;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 8%);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.post-color-option:hover {
+  transform: translateY(-2px);
+}
+
+.post-color-option.is-selected {
+  border: 3px solid #2563eb;
+  box-shadow: 0 0 0 2px #bfdbfe;
+}
+
+.post-color-option:focus-visible {
+  outline: 3px solid #2563eb;
+  outline-offset: 3px;
+}
+
+#postText {
+  width: 100%;
+  box-sizing: border-box;
+}
