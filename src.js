@@ -4514,3 +4514,16 @@ function startAcademyQuiz(course) {
 
   showQuestion();
 }
+document.addEventListener("click", function (event) {
+  const button = event.target.closest("#academyQuizButton");
+
+  if (!button) return;
+
+  const course = window.currentAcademyCourse;
+
+  if (course) {
+    startAcademyQuiz(course);
+  } else {
+    alert("Please open a course before starting the quiz.");
+  }
+});
