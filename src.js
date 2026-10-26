@@ -4231,7 +4231,7 @@ const ACADEMY_QUIZ_SECONDS = 50;
 const ACADEMY_PASSING_SCORE = 12;
 
 let academyQuizTimer = null;
-
+window.currentAcademyCourse = window.currentAcademyCourse || null;
 function startAcademyQuiz(course) {
   const quizPanel = document.querySelector("#academyQuizPanel");
   const certificatePanel = document.querySelector("#academyCertificatePanel");
