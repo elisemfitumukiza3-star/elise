@@ -379,6 +379,7 @@ async function fetchProfile() {
 
 async function saveProfile(event) {
  event.preventDefault();
+event.stopPropagation();
 event.stopPropagation(); 
   if (event.target.id === "postForm") {
   event.target.noValidate = true;
