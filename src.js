@@ -3248,6 +3248,25 @@ const learnLoopLessons = [
   },
 
 ];
+
+function getDailyLessonOrder(lessons) {
+  const today = new Date().toISOString().slice(0, 10);
+
+  function hash(text) {
+    let value = 0;
+    for (let i = 0; i < text.length; i++) {
+      value = (value * 31 + text.charCodeAt(i)) >>> 0;
+    }
+    return value;
+  }
+
+  return [...lessons].sort((a, b) => {
+    const aKey = hash(`${today}-${a.title}`);
+    const bKey = hash(`${today}-${b.title}`);
+    return aKey - bKey;
+  });
+}
+
 function renderLessonCards() {
   const grid = document.querySelector("#lessonGrid");
   const count = document.querySelector("#lessonCount");
@@ -3266,7 +3285,7 @@ function renderLessonCards() {
 
     return matchesSubject && matchesSearch;
   });
-const visible = filtered;
+const visible = getDailyLessonOrder(filtered);
   
 
   grid.replaceChildren();
