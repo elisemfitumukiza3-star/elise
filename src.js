@@ -4402,7 +4402,37 @@ certificatePanel.classList.remove("hidden");
           return;
         }
 
-      const jsPDF = window.jspdf?.jsPDF;
+      
+downloadButton.addEventListener("click", async () => {
+  let jsPDF = window.jspdf?.jsPDF;
+
+  if (!jsPDF) {
+    try {
+      await new Promise((resolve, reject) => {
+        const script = document.createElement("script");
+        script.src =
+          "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js";
+        script.onload = resolve;
+        script.onerror = reject;
+        document.head.appendChild(script);
+      });
+
+      jsPDF = window.jspdf?.jsPDF;
+    } catch (error) {
+      console.error("PDF library failed to load:", error);
+    }
+  }
+
+  if (!jsPDF) {
+    alert("PDF library could not load. Check your internet connection and try again.");
+    return;
+  }
+
+  const pdf = new jsPDF("landscape", "mm", "a4");
+
+  // Keep your existing certificate design and PDF-generation code here.
+});
+
 
 if (!jsPDF) {
   alert("PDF library is not ready. Please refresh the page and try again.");
