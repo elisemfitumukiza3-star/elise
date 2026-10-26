@@ -2295,6 +2295,16 @@ async function searchYouTubeVideos() {
         playerTitle.textContent = title;
         player.src =
           `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}`;
+         
+  const quizButton = document.querySelector("#academyQuizButton");
+
+  if (quizButton) {
+    quizButton.onclick = () => startAcademyQuiz(course);
+  }
+
+  document.querySelector("#academyQuizPanel")?.replaceChildren();
+  document.querySelector("#academyCertificatePanel")?.replaceChildren();
+
         panel.classList.remove("hidden");
         panel.scrollIntoView({ behavior: "smooth", block: "start" });
       });
