@@ -3248,7 +3248,21 @@ const learnLoopLessons = [
   },
 
 ];
+function getAcademyReading(course, index) {
+  if (course.slug === "leadership") {
+    return academyLeadershipLessons[index];
+  }
 
+  return {
+    title: course.topics[index],
+    paragraphs: [
+      `This lesson introduces ${course.topics[index].toLowerCase()} as part of ${course.title}.`,
+      "Read the learning material carefully, identify the main ideas, and consider how they apply to everyday life, school, or work.",
+      "Before marking a lesson as read, make sure you understand its key concepts and can explain at least one important point in your own words."
+    ],
+    keyPoint: `Reflect on the main ideas in ${course.topics[index].toLowerCase()} and how you can apply them.`
+  };
+}
 const learnLoopCourses = [
   {
     slug: "leadership",
