@@ -3563,33 +3563,63 @@ function openAcademyCourse(course) {
     button.textContent =
       `${readTopics.includes(index) ? "✓ " : ""}${index + 1}. ${topic} — Open topic`;
 
-    button.addEventListener("click", () => {
-      lessonContent.replaceChildren();
+  
+button.addEventListener("click", () => {
+  const lesson = getAcademyReading(course, index);
 
-      const heading = document.createElement("h4");
-      heading.textContent = topic;
-      const markButton = document.createElement("button");
-      markButton.type = "button";
-      markButton.className = "academy-open-course";
-      markButton.textContent = readTopics.includes(index)
-        ? "Topic already marked as read"
-        : "Mark topic as read";
+  lessonContent.replaceChildren();
 
-      markButton.disabled = readTopics.includes(index);
+  const heading = document.createElement("h4");
+  heading.textContent = lesson.title;
+  lessonContent.appendChild(heading);
 
-      markButton.addEventListener("click", () => {
-        const latestProgress = getAcademyProgress();
-        const latestRead = latestProgress[course.slug] || [];
+  lesson.paragraphs.forEach(text => {
+    const paragraph = document.createElement("p");
+    paragraph.textContent = text;
+    lessonContent.appendChild(paragraph);
+  });
 
-        if (!latestRead.includes(index)) {
-          latestRead.push(index);
-          latestProgress[course.slug] = latestRead;
-          saveAcademyProgress(latestProgress);
-        }
+  const keyPoint = document.createElement("div");
+  keyPoint.className = "academy-key-point";
+  keyPoint.textContent = `Key point: ${lesson.keyPoint}`;
+  lessonContent.appendChild(keyPoint);
 
-        openAcademyCourse(course);
-        renderAcademyCourses();
-      });
+  const reminder = document.createElement("p");
+  reminder.textContent =
+    "Read the lesson carefully. Before continuing, make sure you understand its main idea.";
+  lessonContent.appendChild(reminder);
+
+  const markButton = document.createElement("button");
+  markButton.type = "button";
+  markButton.className = "academy-open-course";
+  markButton.textContent = readTopics.includes(index)
+    ? "✓ Topic already marked as read"
+    : "Mark topic as read";
+
+  markButton.disabled = readTopics.includes(index);
+
+  markButton.addEventListener("click", () => {
+    const latestProgress = getAcademyProgress();
+    const latestRead = latestProgress[course.slug] || [];
+
+    if (!latestRead.includes(index)) {
+      latestRead.push(index);
+      latestProgress[course.slug] = latestRead;
+      saveAcademyProgress(latestProgress);
+    }
+
+    openAcademyCourse(course);
+    renderAcademyCourses();
+  });
+
+  lessonContent.appendChild(markButton);
+
+  lessonContent.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+});
+
 
       lessonContent.append(heading, reading, markButton);
     });
