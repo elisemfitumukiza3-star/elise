@@ -2296,14 +2296,12 @@ async function searchYouTubeVideos() {
         player.src =
           `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}`;
          
- 
-const quizButton = document.querySelector("#academyQuizButton");
+ const quizButton = document.querySelector("#academyQuizButton");
 
 if (quizButton) {
-  quizButton.addEventListener("click", function () {
-    startAcademyQuiz(course);
-  });
+  quizButton.onclick = () => startAcademyQuiz(course);
 }
+
 
   document.querySelector("#academyQuizPanel")?.replaceChildren();
   document.querySelector("#academyCertificatePanel")?.replaceChildren();
