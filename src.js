@@ -4229,3 +4229,154 @@ const academyLeadershipQuiz = [
 const ACADEMY_QUIZ_SECONDS = 50;
 const ACADEMY_PASSING_SCORE = 12;
 
+let academyQuizTimer = null;
+
+function startAcademyQuiz(course) {
+  const quizPanel = document.querySelector("#academyQuizPanel");
+  const certificatePanel = document.querySelector("#academyCertificatePanel");
+  if (!quizPanel || !certificatePanel) return;
+
+  if (academyQuizTimer) clearInterval(academyQuizTimer);
+  certificatePanel.replaceChildren();
+  quizPanel.replaceChildren();
+
+  if (course.slug !== "leadership") {
+    quizPanel.textContent =
+      "The quiz for this course is not ready yet. Please complete the Leadership course quiz first.";
+    return;
+  }
+
+  let questionIndex = 0;
+  let score = 0;
+  let secondsLeft = ACADEMY_QUIZ_SECONDS;
+  let answered = false;
+
+  const heading = document.createElement("h4");
+  const timer = document.createElement("p");
+  const questionText = document.createElement("p");
+  const optionsBox = document.createElement("div");
+  const feedback = document.createElement("p");
+
+  const nextButton = document.createElement("button");
+  nextButton.type = "button";
+  nextButton.textContent = "Next question";
+  nextButton.disabled = true;
+
+  quizPanel.append(heading, timer, questionText, optionsBox, feedback, nextButton);
+
+  function showQuestion() {
+    if (academyQuizTimer) clearInterval(academyQuizTimer);
+
+    if (questionIndex >= academyLeadershipQuiz.length) {
+      finishQuiz();
+      return;
+    }
+
+    secondsLeft = ACADEMY_QUIZ_SECONDS;
+    answered = false;
+    nextButton.disabled = true;
+    feedback.textContent = "";
+    optionsBox.replaceChildren();
+
+    const question = academyLeadershipQuiz[questionIndex];
+    heading.textContent =
+      `Question ${questionIndex + 1} of ${academyLeadershipQuiz.length}`;
+    questionText.textContent = question.question;
+    timer.textContent = `Time remaining: ${secondsLeft} seconds`;
+
+    question.options.forEach((option, index) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.textContent = option;
+      button.className = "academy-topic-item";
+
+      button.addEventListener("click", () => {
+        if (answered) return;
+        answered = true;
+
+        if (index === question.answer) {
+          score += 2;
+          feedback.textContent = "Correct! You earned 2 points.";
+        } else {
+          feedback.textContent = "Not quite. No points for this question.";
+        }
+
+        optionsBox.querySelectorAll("button").forEach(item => {
+          item.disabled = true;
+        });
+
+        nextButton.disabled = false;
+      });
+
+      optionsBox.appendChild(button);
+    });
+
+    nextButton.textContent =
+      questionIndex === academyLeadershipQuiz.length - 1
+        ? "See results"
+        : "Next question";
+
+    academyQuizTimer = setInterval(() => {
+      secondsLeft -= 1;
+      timer.textContent = `Time remaining: ${secondsLeft} seconds`;
+
+      if (secondsLeft <= 0) {
+        clearInterval(academyQuizTimer);
+        academyQuizTimer = null;
+
+        if (!answered) {
+          answered = true;
+          feedback.textContent = "Time is up. No points earned for this question.";
+          optionsBox.querySelectorAll("button").forEach(item => {
+            item.disabled = true;
+          });
+          nextButton.disabled = false;
+        }
+      }
+    }, 1000);
+  }
+
+  nextButton.addEventListener("click", () => {
+    if (!answered) return;
+    questionIndex += 1;
+    showQuestion();
+  });
+
+  function finishQuiz() {
+    if (academyQuizTimer) clearInterval(academyQuizTimer);
+    academyQuizTimer = null;
+    quizPanel.replaceChildren();
+
+    const result = document.createElement("h3");
+    result.textContent = `Quiz complete: ${score}/20`;
+    quizPanel.appendChild(result);
+
+    const message = document.createElement("p");
+
+    if (score >= ACADEMY_PASSING_SCORE) {
+      message.textContent =
+        "Congratulations! You passed the Leadership course quiz. Your course-completion certificate can be prepared next.";
+    } else {
+      message.textContent =
+        "Keep learning and try again! You need at least 12 out of 20 points to qualify for a certificate.";
+    }
+
+    quizPanel.appendChild(message);
+
+    if (score >= ACADEMY_PASSING_SCORE) {
+      const certificateMessage = document.createElement("p");
+      certificateMessage.textContent =
+        "You have met the passing score. Certificate generation will be connected in the next step.";
+      certificatePanel.appendChild(certificateMessage);
+    }
+
+    const retryButton = document.createElement("button");
+    retryButton.type = "button";
+    retryButton.textContent = "Try quiz again";
+    retryButton.addEventListener("click", () => startAcademyQuiz(course));
+    quizPanel.appendChild(retryButton);
+  }
+
+  showQuestion();
+}
+
