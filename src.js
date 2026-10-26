@@ -4402,7 +4402,12 @@ certificatePanel.classList.remove("hidden");
           return;
         }
 
-        const { jsPDF } = window.jspdf;
+      const jsPDF = window.jspdf?.jsPDF;
+
+if (!jsPDF) {
+  alert("PDF library is not ready. Please refresh the page and try again.");
+  return;
+}  
         const pdf = new jsPDF({
           orientation: "landscape",
           unit: "mm",
