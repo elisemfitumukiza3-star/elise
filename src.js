@@ -4352,10 +4352,12 @@ function startAcademyQuiz(course) {
     showQuestion();
   });
 
+  
   function finishQuiz() {
     if (academyQuizTimer) clearInterval(academyQuizTimer);
     academyQuizTimer = null;
     quizPanel.replaceChildren();
+    certificatePanel.replaceChildren();
 
     const result = document.createElement("h3");
     result.textContent = `Quiz complete: ${score}/20`;
@@ -4365,20 +4367,152 @@ function startAcademyQuiz(course) {
 
     if (score >= ACADEMY_PASSING_SCORE) {
       message.textContent =
-        "Congratulations! You passed the Leadership course quiz. Your course-completion certificate can be prepared next.";
+        "Congratulations! You passed the Leadership course quiz!";
+      certificatePanel.classList.remove("hidden");
+
+      const certificateHeading = document.createElement("h3");
+      certificateHeading.textContent = "Get your LearnLoop certificate";
+      certificatePanel.appendChild(certificateHeading);
+
+      const nameLabel = document.createElement("label");
+      nameLabel.textContent = "Your full name";
+
+      const nameInput = document.createElement("input");
+      nameInput.type = "text";
+      nameInput.placeholder = "Enter your full name";
+      nameInput.maxLength = 100;
+      nameInput.autocomplete = "name";
+      nameInput.required = true;
+      nameInput.id = "academyCertificateName";
+
+      nameLabel.htmlFor = nameInput.id;
+      certificatePanel.append(nameLabel, nameInput);
+
+      const downloadButton = document.createElement("button");
+      downloadButton.type = "button";
+      downloadButton.textContent = "Download Certificate (PDF)";
+
+      downloadButton.addEventListener("click", () => {
+        const learnerName = nameInput.value.trim();
+
+        if (!learnerName) {
+          nameInput.setCustomValidity("Please enter your full name.");
+          nameInput.reportValidity();
+          nameInput.addEventListener("input", () => {
+            nameInput.setCustomValidity("");
+          }, { once: true });
+          return;
+        }
+
+        if (typeof window.jspdf === "undefined") {
+          message.textContent =
+            "The PDF tool has not loaded yet. Please refresh the page and try again.";
+          return;
+        }
+
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF({
+          orientation: "landscape",
+          unit: "mm",
+          format: "a4"
+        });
+
+        const certificateNumber =
+          "LL-" + Date.now().toString(36).toUpperCase();
+
+        const completionDate = new Date().toLocaleDateString("en-GB", {
+          day: "numeric",
+          month: "long",
+          year: "numeric"
+        });
+
+        // White certificate with a navy border and gold accents.
+        pdf.setFillColor(255, 255, 255);
+        pdf.rect(0, 0, 297, 210, "F");
+
+        pdf.setDrawColor(20, 39, 77);
+        pdf.setLineWidth(2);
+        pdf.rect(8, 8, 281, 194);
+
+        pdf.setDrawColor(198, 158, 64);
+        pdf.setLineWidth(0.8);
+        pdf.rect(13, 13, 271, 184);
+
+        pdf.setFillColor(20, 39, 77);
+        pdf.rect(14, 14, 269, 29, "F");
+
+        pdf.setTextColor(255, 255, 255);
+        pdf.setFont("helvetica", "bold");
+        pdf.setFontSize(22);
+        pdf.text("LEARNLOOP", 148.5, 27, { align: "center" });
+
+        pdf.setFont("helvetica", "normal");
+        pdf.setFontSize(10);
+        pdf.text("LEARN • SHARE • GROW", 148.5, 36, { align: "center" });
+
+        pdf.setTextColor(20, 39, 77);
+        pdf.setFont("helvetica", "bold");
+        pdf.setFontSize(25);
+        pdf.text("CERTIFICATE OF COMPLETION", 148.5, 65, {
+          align: "center"
+        });
+
+        pdf.setDrawColor(198, 158, 64);
+        pdf.setLineWidth(1.2);
+        pdf.line(92, 72, 205, 72);
+
+        pdf.setTextColor(75, 75, 75);
+        pdf.setFont("helvetica", "normal");
+        pdf.setFontSize(13);
+        pdf.text("This certificate is proudly presented to", 148.5, 88, {
+          align: "center"
+        });
+
+        pdf.setTextColor(20, 39, 77);
+        pdf.setFont("helvetica", "bold");
+        pdf.setFontSize(25);
+        const safeName = pdf.splitTextToSize(learnerName, 230);
+        pdf.text(safeName, 148.5, 105, { align: "center" });
+
+        const courseY = 105 + safeName.length * 10;
+
+        pdf.setTextColor(75, 75, 75);
+        pdf.setFont("helvetica", "normal");
+        pdf.setFontSize(12);
+        pdf.text("for successfully completing the course", 148.5, courseY + 7, {
+          align: "center"
+        });
+
+        pdf.setTextColor(20, 39, 77);
+        pdf.setFont("helvetica", "bold");
+        pdf.setFontSize(19);
+        pdf.text("Leadership", 148.5, courseY + 19, { align: "center" });
+
+        pdf.setTextColor(75, 75, 75);
+        pdf.setFont("helvetica", "normal");
+        pdf.setFontSize(11);
+        pdf.text(`Quiz score: ${score}/20`, 148.5, courseY + 30, {
+          align: "center"
+        });
+        pdf.text(`Date of completion: ${completionDate}`, 148.5, 174, {
+          align: "center"
+        });
+
+        pdf.setFontSize(9);
+        pdf.text(`Certificate No: ${certificateNumber}`, 148.5, 185, {
+          align: "center"
+        });
+
+        pdf.save("LearnLoop-Leadership-Certificate.pdf");
+      });
+
+      certificatePanel.appendChild(downloadButton);
     } else {
       message.textContent =
         "Keep learning and try again! You need at least 12 out of 20 points to qualify for a certificate.";
     }
 
     quizPanel.appendChild(message);
-
-    if (score >= ACADEMY_PASSING_SCORE) {
-      const certificateMessage = document.createElement("p");
-      certificateMessage.textContent =
-        "You have met the passing score. Certificate generation will be connected in the next step.";
-      certificatePanel.appendChild(certificateMessage);
-    }
 
     const retryButton = document.createElement("button");
     retryButton.type = "button";
@@ -4387,6 +4521,4 @@ function startAcademyQuiz(course) {
     quizPanel.appendChild(retryButton);
   }
 
-  showQuestion();
-}
 
