@@ -3437,10 +3437,7 @@ const academyLeadershipLessons = [
   }
 ];
 
-function getAcademyReading(course, index) {
-  if (course.slug === "leadership") {
-    return academyLeadershipLessons[index];
-  }
+
 
   return {
     title: course.topics[index],
