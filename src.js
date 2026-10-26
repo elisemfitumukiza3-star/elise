@@ -3357,66 +3357,168 @@ const learnLoopCourses = [
   }
 ];
 
+
+const ACADEMY_PROGRESS_KEY = "learnloop_academy_read_topics_v1";
+
+function getAcademyProgress() {
+  try {
+    return JSON.parse(
+      localStorage.getItem(ACADEMY_PROGRESS_KEY) || "{}"
+    );
+  } catch {
+    return {};
+  }
+}
+
+function saveAcademyProgress(progress) {
+  localStorage.setItem(
+    ACADEMY_PROGRESS_KEY,
+    JSON.stringify(progress)
+  );
+}
+
+function academyCourseIsComplete(course, progress) {
+  const readTopics = progress[course.slug] || [];
+  return course.topics.every((_, index) =>
+    readTopics.includes(index)
+  );
+}
+
 function renderAcademyCourses() {
   const grid = document.querySelector("#academyCourseGrid");
   if (!grid) return;
 
+  const progress = getAcademyProgress();
   grid.replaceChildren();
 
-  learnLoopCourses.forEach(course => {
+  learnLoopCourses.forEach((course, index) => {
+    const previousCourse = learnLoopCourses[index - 1];
+
+    const unlocked =
+      index === 0 ||
+      academyCourseIsComplete(previousCourse, progress);
+
+    const readTopics = progress[course.slug] || [];
+    const completed = academyCourseIsComplete(course, progress);
+
     const card = document.createElement("article");
     card.className = "academy-course-card";
 
     const icon = document.createElement("div");
     icon.className = "academy-course-icon";
-    icon.textContent = course.icon;
+    icon.textContent = unlocked ? course.icon : "🔒";
 
     const title = document.createElement("h3");
     title.textContent = course.title;
 
     const description = document.createElement("p");
-    description.textContent = course.description;
+    description.textContent = unlocked
+      ? course.description
+      : "Complete the previous course to unlock this course.";
 
-    const topicCount = document.createElement("span");
-    topicCount.className = "academy-topic-count";
-    topicCount.textContent = `${course.topics.length} learning topics`;
+    const count = document.createElement("span");
+    count.className = "academy-topic-count";
+    count.textContent = unlocked
+      ? `${readTopics.length} of ${course.topics.length} topics read`
+      : "Course locked";
 
     const button = document.createElement("button");
     button.type = "button";
     button.className = "academy-open-course";
-    button.textContent = "Start learning →";
+    button.textContent = !unlocked
+      ? "Locked 🔒"
+      : completed
+        ? "Review course"
+        : "Start learning →";
+    button.disabled = !unlocked;
 
     button.addEventListener("click", () => {
-      const panel = document.querySelector("#academyStudyPanel");
-      if (!panel) return;
-
-      document.querySelector("#academyCourseTitle").textContent =
-        course.title;
-
-      document.querySelector("#academyCourseDescription").textContent =
-        course.description;
-
-      const topicList = document.querySelector("#academyTopicList");
-      topicList.replaceChildren();
-
-      course.topics.forEach((topic, index) => {
-        const item = document.createElement("div");
-        item.className = "academy-topic-item";
-        item.textContent = `${index + 1}. ${topic}`;
-        topicList.appendChild(item);
-      });
-
-      document.querySelector("#academyLessonContent").textContent =
-        "Your course lessons will appear here. We're preparing the reading content next.";
-
-      panel.classList.remove("hidden");
-      panel.scrollIntoView({ behavior: "smooth", block: "start" });
+      openAcademyCourse(course);
     });
 
-    card.append(icon, title, description, topicCount, button);
+    card.append(icon, title, description, count, button);
     grid.appendChild(card);
   });
 }
+
+function openAcademyCourse(course) {
+  const panel = document.querySelector("#academyStudyPanel");
+  if (!panel) return;
+
+  const progress = getAcademyProgress();
+  const readTopics = progress[course.slug] || [];
+
+  document.querySelector("#academyCourseTitle").textContent =
+    course.title;
+
+  document.querySelector("#academyCourseDescription").textContent =
+    course.description;
+
+  const topicList = document.querySelector("#academyTopicList");
+  const lessonContent = document.querySelector("#academyLessonContent");
+
+  topicList.replaceChildren();
+  lessonContent.replaceChildren();
+
+  course.topics.forEach((topic, index) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "academy-topic-item";
+    button.textContent =
+      `${readTopics.includes(index) ? "✓ " : ""}${index + 1}. ${topic} — Open topic`;
+
+    button.addEventListener("click", () => {
+      lessonContent.replaceChildren();
+
+      const heading = document.createElement("h4");
+      heading.textContent = topic;
+
+      const reading = document.createElement("p");
+      reading.textContent =
+        "This topic has been selected. The full reading lesson for this topic will be added next, so learners can study the material before marking it as read.";
+
+      const markButton = document.createElement("button");
+      markButton.type = "button";
+      markButton.className = "academy-open-course";
+      markButton.textContent = readTopics.includes(index)
+        ? "Topic already marked as read"
+        : "Mark topic as read";
+
+      markButton.disabled = readTopics.includes(index);
+
+      markButton.addEventListener("click", () => {
+        const latestProgress = getAcademyProgress();
+        const latestRead = latestProgress[course.slug] || [];
+
+        if (!latestRead.includes(index)) {
+          latestRead.push(index);
+          latestProgress[course.slug] = latestRead;
+          saveAcademyProgress(latestProgress);
+        }
+
+        openAcademyCourse(course);
+        renderAcademyCourses();
+      });
+
+      lessonContent.append(heading, reading, markButton);
+    });
+
+    topicList.appendChild(button);
+  });
+
+  const total = course.topics.length;
+  const percentage = Math.round((readTopics.length / total) * 100);
+
+  document.querySelector("#academyProgressBar").style.width =
+    `${percentage}%`;
+
+  document.querySelector("#academyProgressText").textContent =
+    `${percentage}% completed — ${readTopics.length} of ${total} topics read`;
+
+  panel.classList.remove("hidden");
+  panel.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
 
 document.querySelector("#closeAcademyCourse")?.addEventListener("click", () => {
   document.querySelector("#academyStudyPanel")?.classList.add("hidden");
