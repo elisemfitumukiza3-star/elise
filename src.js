@@ -3614,15 +3614,14 @@ button.addEventListener("click", () => {
 
   lessonContent.appendChild(markButton);
 
+ 
+  lessonContent.appendChild(markButton);
+
   lessonContent.scrollIntoView({
     behavior: "smooth",
     block: "start"
   });
 });
-
-
-      lessonContent.append(heading, reading, markButton);
-    });
 
     topicList.appendChild(button);
   });
@@ -3639,6 +3638,7 @@ button.addEventListener("click", () => {
   panel.classList.remove("hidden");
   panel.scrollIntoView({ behavior: "smooth", block: "start" });
 }
+ 
 
 
 document.querySelector("#closeAcademyCourse")?.addEventListener("click", () => {
