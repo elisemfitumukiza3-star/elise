@@ -1195,16 +1195,19 @@ async function publishPost(event) {
   try {
     const uploaded = await uploadFile(file);
 
-    const { error } = await supabase.from("posts").insert({
-      user_id: currentUserId(),
-      body,
-      post_type: type,
-      subject,
-      file_path: uploaded.path,
-      file_name: uploaded.name,
-      file_mime: uploaded.mime,
-      status: "published"
-    });
+  
+const { error } = await supabase.from("posts").insert({
+  user_id: currentUserId(),
+  body,
+  post_type: type,
+  subject,
+  file_path: uploaded.path,
+  file_name: uploaded.name,
+  file_mime: uploaded.mime,
+  status: "published",
+  card_color: $("#postCardColor")?.value || "#FFFFFF"
+});
+
 
     if (error) {
       if (uploaded.path) {
