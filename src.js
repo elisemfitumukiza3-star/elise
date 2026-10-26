@@ -3448,8 +3448,6 @@ const academyLeadershipLessons = [
     ],
     keyPoint: `Remember the main ideas about ${course.topics[index].toLowerCase()}.`
   };
-}
-
 
 const ACADEMY_PROGRESS_KEY = "learnloop_academy_read_topics_v1";
 
