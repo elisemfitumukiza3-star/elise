@@ -3437,24 +3437,6 @@ const academyLeadershipLessons = [
   }
 ];
 
-function getAcademyReading(course, index) {
-  if (course.slug === "leadership") {
-    return academyLeadershipLessons[index];
-  }
-
-  return {
-    title: course.topics[index],
-    paragraphs: [
-      `This lesson introduces ${course.topics[index].toLowerCase()} as part of ${course.title}.`,
-      "Read the material carefully and identify the main ideas.",
-      "Think about how these ideas apply to everyday life, school, or work."
-    ],
-    keyPoint: `Remember the main ideas about ${course.topics[index].toLowerCase()}.`
-  };
-}
-
- 
-
 const ACADEMY_PROGRESS_KEY = "learnloop_academy_read_topics_v1";
 
 function getAcademyProgress() {
