@@ -3249,6 +3249,114 @@ const learnLoopLessons = [
 
 ];
 
+const learnLoopCourses = [
+  {
+    slug: "leadership",
+    title: "Leadership",
+    description: "Build responsibility, teamwork, decision-making, and leadership skills.",
+    icon: "👥",
+    topics: [
+      "Understanding Leadership",
+      "Qualities of a Good Leader",
+      "Communication and Active Listening",
+      "Teamwork and Collaboration",
+      "Decision-Making and Problem-Solving",
+      "Managing Conflict and Disagreement",
+      "Ethics, Responsibility, and Leading by Example"
+    ]
+  },
+  {
+    slug: "first-aid",
+    title: "First Aid Awareness",
+    description: "Learn basic emergency awareness and how to seek appropriate help.",
+    icon: "🩺",
+    topics: [
+      "Introduction to First Aid",
+      "Checking for Danger and Staying Safe",
+      "Calling Emergency Services",
+      "Recognizing Common Emergencies",
+      "Understanding Severe Bleeding",
+      "Burns, Injuries, and When to Seek Help",
+      "Emergency Preparedness and First Aid Kits"
+    ]
+  },
+  {
+    slug: "english",
+    title: "English Communication",
+    description: "Improve grammar, vocabulary, reading, writing, and speaking.",
+    icon: "📘",
+    topics: [
+      "Parts of Speech",
+      "Building Correct Sentences",
+      "Essential Grammar",
+      "Vocabulary Development",
+      "Reading Comprehension",
+      "Writing Clear Paragraphs",
+      "Speaking and Everyday Communication"
+    ]
+  },
+  {
+    slug: "computer-skills",
+    title: "Computer Skills",
+    description: "Develop practical digital literacy for school and work.",
+    icon: "💻",
+    topics: [
+      "Introduction to Computers",
+      "Using a Keyboard and Mouse",
+      "Managing Files and Folders",
+      "Word Processing Basics",
+      "Spreadsheets and Basic Calculations",
+      "Internet and Email Skills",
+      "Digital Safety and Responsible Technology Use"
+    ]
+  },
+  {
+    slug: "communication",
+    title: "Communication Skills",
+    description: "Express ideas clearly and work effectively with others.",
+    icon: "🗣️",
+    topics: [
+      "The Communication Process",
+      "Verbal Communication",
+      "Nonverbal Communication",
+      "Active Listening",
+      "Public Speaking Basics",
+      "Giving and Receiving Feedback",
+      "Respectful Communication Across Differences"
+    ]
+  },
+  {
+    slug: "financial-literacy",
+    title: "Financial Literacy",
+    description: "Understand budgeting, saving, spending, and financial decisions.",
+    icon: "💰",
+    topics: [
+      "Understanding Money",
+      "Needs Versus Wants",
+      "Creating a Simple Budget",
+      "Saving and Setting Goals",
+      "Understanding Income and Expenses",
+      "Responsible Borrowing and Debt Awareness",
+      "Avoiding Financial Scams"
+    ]
+  },
+  {
+    slug: "career-readiness",
+    title: "Career Readiness",
+    description: "Prepare for opportunities in education, employment, and community life.",
+    icon: "🎯",
+    topics: [
+      "Discovering Your Strengths",
+      "Setting Personal and Career Goals",
+      "Preparing a CV or Résumé",
+      "Writing a Professional Application",
+      "Interview Preparation",
+      "Workplace Ethics and Reliability",
+      "Continuous Learning and Career Growth"
+    ]
+  }
+];
+
 function getDailyLessonOrder(lessons) {
   const today = new Date().toISOString().slice(0, 10);
 
