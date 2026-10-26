@@ -1330,6 +1330,7 @@ function postCard(post) {
         ${userId ? `
           <form class="comment-form" data-comment-form="${escapeHTML(post.id)}">
             <input name="comment" type="text" maxlength="2000"
+  placeholder="Write a helpful comment…">
               placeholder="Write a helpful comment…" required>
             <button class="button button-primary" type="submit">Send</button>
           </form>` : `<p class="muted small">Log in to comment.</p>`}
