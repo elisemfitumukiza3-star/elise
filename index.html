@@ -237,12 +237,53 @@
 
             <form class="composer card" id="postForm">
               <div class="composer-head">
-                <div class="mini-avatar" id="composerAvatar">L</div>
-                <label class="composer-input">
-                  <span class="sr-only">Write a post</span>
-                  <textarea id="postText" rows="2" placeholder="What are you learning today?" required></textarea>
-                </label>
-              </div>
+               
+<div class="mini-avatar" id="composerAvatar">L</div>
+
+<div class="composer-main">
+  <div class="post-color-picker">
+    <p><strong>Choose your post background</strong></p>
+
+    <div class="post-color-options">
+      <button type="button" class="post-color-option is-selected"
+        data-color="#FFFFFF" style="background:#FFFFFF"
+        aria-label="White" aria-pressed="true"></button>
+
+      <button type="button" class="post-color-option"
+        data-color="#DBEAFE" style="background:#DBEAFE"
+        aria-label="Blue" aria-pressed="false"></button>
+
+      <button type="button" class="post-color-option"
+        data-color="#D1FAE5" style="background:#D1FAE5"
+        aria-label="Green" aria-pressed="false"></button>
+
+      <button type="button" class="post-color-option"
+        data-color="#F3E8FF" style="background:#F3E8FF"
+        aria-label="Purple" aria-pressed="false"></button>
+
+      <button type="button" class="post-color-option"
+        data-color="#FEF3C7" style="background:#FEF3C7"
+        aria-label="Yellow" aria-pressed="false"></button>
+
+      <button type="button" class="post-color-option"
+        data-color="#FFE4E6" style="background:#FFE4E6"
+        aria-label="Pink" aria-pressed="false"></button>
+
+      <button type="button" class="post-color-option"
+        data-color="#FFEDD5" style="background:#FFEDD5"
+        aria-label="Orange" aria-pressed="false"></button>
+    </div>
+
+    <input type="hidden" id="postCardColor" value="#FFFFFF">
+  </div>
+
+  <label class="composer-input">
+    <span class="sr-only">Write a post</span>
+    <textarea id="postText" rows="2"
+      placeholder="What are you learning today?" required></textarea>
+  </label>
+</div>
+ 
               <div class="composer-options">
                 <select id="postType" aria-label="Post type">
                   <option value="Discussion">Discussion</option>
