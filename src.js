@@ -4516,14 +4516,13 @@ function startAcademyQuiz(course) {
 }
 document.addEventListener("click", function (event) {
   const button = event.target.closest("#academyQuizButton");
-
   if (!button) return;
 
-  const course = window.currentAcademyCourse;
+  const course = {
+    slug: "leadership",
+    title: "Leadership"
+  };
 
-  if (course) {
-    startAcademyQuiz(course);
-  } else {
-    alert("Please open a course before starting the quiz.");
-  }
+  window.currentAcademyCourse = course;
+  startAcademyQuiz(course);
 });
