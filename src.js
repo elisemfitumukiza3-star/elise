@@ -4525,8 +4525,6 @@ function startAcademyQuiz(course) {
   }
   quizPanel.appendChild(message);
 
- 
-    quizPanel.appendChild(message);
 
     const retryButton = document.createElement("button");
     retryButton.type = "button";
