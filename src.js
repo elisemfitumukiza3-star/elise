@@ -4239,6 +4239,7 @@ function startAcademyQuiz(course) {
 
   if (academyQuizTimer) clearInterval(academyQuizTimer);
   certificatePanel.replaceChildren();
+certificatePanel.classList.remove("hidden");
   quizPanel.replaceChildren();
 
   if (course.slug !== "leadership") {
