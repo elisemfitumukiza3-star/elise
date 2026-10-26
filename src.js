@@ -3597,9 +3597,6 @@ button.addEventListener("click", () => {
 
   lessonContent.appendChild(markButton);
 
- 
-  lessonContent.appendChild(markButton);
-
   lessonContent.scrollIntoView({
     behavior: "smooth",
     block: "start"
