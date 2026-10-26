@@ -4396,12 +4396,7 @@ certificatePanel.classList.remove("hidden");
           return;
         }
 
-        if (typeof window.jspdf === "undefined") {
-          message.textContent =
-            "The PDF tool has not loaded yet. Please refresh the page and try again.";
-          return;
-        }
-
+       
       
 downloadButton.addEventListener("click", async () => {
   let jsPDF = window.jspdf?.jsPDF;
