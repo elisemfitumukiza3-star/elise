@@ -2018,7 +2018,6 @@ async function appointCommitteeMember() {
 
   await loadCommitteeMembers();
 }
-}
 
 function renderHostSettings() {
   const hostForm = $("#revenueSettingsForm");
