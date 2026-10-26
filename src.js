@@ -4515,14 +4515,6 @@ function startAcademyQuiz(course) {
         "Keep learning and try again! You need at least 12 out of 20 points to qualify for a certificate.";
     }
 
-    quizPanel.appendChild(message);
-
-    const retryButton = document.createElement("button");
-    retryButton.type = "button";
-    retryButton.textContent = "Try quiz again";
-    retryButton.addEventListener("click", () => startAcademyQuiz(course));
-    quizPanel.appendChild(retryButton);
-  }
       quizPanel.appendChild(message);
 
     const retryButton = document.createElement("button");
