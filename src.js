@@ -4422,8 +4422,12 @@ downloadButton.addEventListener("click", async () => {
     alert("PDF library could not load. Check your internet connection and try again.");
     return;
   }
-
-  const pdf = new jsPDF("landscape", "mm", "a4");
+const jsPDF = window.jspdf?.jsPDF;
+if (!jsPDF) {
+  alert("PDF library is unavailable. Please refresh and try again.");
+  return;
+}
+const pdf = new jsPDF("landscape", "mm", "a4");
    console.log("PDF created successfully");
 
   // Keep your existing certificate design and PDF-generation code here.
