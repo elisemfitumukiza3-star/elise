@@ -4523,8 +4523,7 @@ function startAcademyQuiz(course) {
     retryButton.addEventListener("click", () => startAcademyQuiz(course));
     quizPanel.appendChild(retryButton);
   }
-  quizPanel.appendChild(message);
-
+      quizPanel.appendChild(message);
 
     const retryButton = document.createElement("button");
     retryButton.type = "button";
@@ -4535,4 +4534,3 @@ function startAcademyQuiz(course) {
 
   showQuestion();
 }
-
