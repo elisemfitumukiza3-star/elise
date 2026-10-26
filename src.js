@@ -379,6 +379,9 @@ async function fetchProfile() {
 
 async function saveProfile(event) {
   event.preventDefault();
+  if (event.target.id === "postForm") {
+  event.target.noValidate = true;
+} 
   if (!requireLogin()) return;
 
   const name = $("#profileDisplayName")?.value.trim();
