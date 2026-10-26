@@ -3357,6 +3357,75 @@ const learnLoopCourses = [
   }
 ];
 
+function renderAcademyCourses() {
+  const grid = document.querySelector("#academyCourseGrid");
+  if (!grid) return;
+
+  grid.replaceChildren();
+
+  learnLoopCourses.forEach(course => {
+    const card = document.createElement("article");
+    card.className = "academy-course-card";
+
+    const icon = document.createElement("div");
+    icon.className = "academy-course-icon";
+    icon.textContent = course.icon;
+
+    const title = document.createElement("h3");
+    title.textContent = course.title;
+
+    const description = document.createElement("p");
+    description.textContent = course.description;
+
+    const topicCount = document.createElement("span");
+    topicCount.className = "academy-topic-count";
+    topicCount.textContent = `${course.topics.length} learning topics`;
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "academy-open-course";
+    button.textContent = "Start learning →";
+
+    button.addEventListener("click", () => {
+      const panel = document.querySelector("#academyStudyPanel");
+      if (!panel) return;
+
+      document.querySelector("#academyCourseTitle").textContent =
+        course.title;
+
+      document.querySelector("#academyCourseDescription").textContent =
+        course.description;
+
+      const topicList = document.querySelector("#academyTopicList");
+      topicList.replaceChildren();
+
+      course.topics.forEach((topic, index) => {
+        const item = document.createElement("div");
+        item.className = "academy-topic-item";
+        item.textContent = `${index + 1}. ${topic}`;
+        topicList.appendChild(item);
+      });
+
+      document.querySelector("#academyLessonContent").textContent =
+        "Your course lessons will appear here. We're preparing the reading content next.";
+
+      panel.classList.remove("hidden");
+      panel.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+    card.append(icon, title, description, topicCount, button);
+    grid.appendChild(card);
+  });
+}
+
+document.querySelector("#closeAcademyCourse")?.addEventListener("click", () => {
+  document.querySelector("#academyStudyPanel")?.classList.add("hidden");
+  document.querySelector("#learnLoopAcademy")?.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+});
+
 function getDailyLessonOrder(lessons) {
   const today = new Date().toISOString().slice(0, 10);
 
@@ -3400,6 +3469,7 @@ function renderFeaturedLesson() {
   link.href = lesson.link;
 }
 function renderLessonCards() {
+   renderAcademyCourses();
   renderFeaturedLesson(); 
   const grid = document.querySelector("#lessonGrid");
   const count = document.querySelector("#lessonCount");
