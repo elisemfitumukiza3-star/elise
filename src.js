@@ -4525,13 +4525,16 @@ function startAcademyQuiz(course) {
   }
   quizPanel.appendChild(message);
 
-  const retryButton = document.createElement("button");
-  retryButton.type = "button";
-  retryButton.textContent = "Try quiz again";
-  retryButton.addEventListener("click", () => startAcademyQuiz(course));
-  quizPanel.appendChild(retryButton);
-}
+ 
+    quizPanel.appendChild(message);
 
-showQuestion();
+    const retryButton = document.createElement("button");
+    retryButton.type = "button";
+    retryButton.textContent = "Try quiz again";
+    retryButton.addEventListener("click", () => startAcademyQuiz(course));
+    quizPanel.appendChild(retryButton);
+  }
+
+  showQuestion();
 }
 
