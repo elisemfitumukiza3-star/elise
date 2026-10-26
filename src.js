@@ -3669,3 +3669,28 @@ init().catch(error => {
   );
 });
 
+/* LearnLoop post background colour selection */
+document.querySelectorAll(".post-color-option").forEach(button => {
+  button.addEventListener("click", () => {
+    const color = button.dataset.color;
+    const colorInput = document.querySelector("#postCardColor");
+
+    if (!color || !colorInput) return;
+
+    colorInput.value = color;
+
+    document.querySelectorAll(".post-color-option").forEach(option => {
+      const selected = option === button;
+      option.classList.toggle("is-selected", selected);
+      option.setAttribute("aria-pressed", String(selected));
+    });
+
+    const postText = document.querySelector("#postText");
+    if (postText) {
+      postText.style.backgroundColor = color;
+      postText.style.borderRadius = "12px";
+      postText.style.padding = "12px";
+    }
+  });
+});
+
