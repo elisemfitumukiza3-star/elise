@@ -1856,6 +1856,7 @@ async function updateDashboard() {
 
 /* ---------- Host controls ---------- */
 
+
 async function loadHostDashboard() {
   if (!isOwner()) {
     toast("This dashboard is restricted to the platform owner.", "error");
@@ -1865,16 +1866,53 @@ async function loadHostDashboard() {
   openDialog("hostDashboardDialog");
 
   const [posts, profiles] = await Promise.all([
-    supabase.from("posts").select("id", { count: "exact", head: true }),
-    supabase.from("profiles").select("user_id", { count: "exact", head: true })
+    supabase
+      .from("posts")
+      .select("id", { count: "exact", head: true }),
+    supabase
+      .from("profiles")
+      .select("user_id, display_name, bio")
+      .order("display_name", { ascending: true })
   ]);
 
   if ($("#hostPostsCount")) {
     $("#hostPostsCount").textContent = String(posts.count ?? "—");
   }
 
-  if ($("#hostProfilesCount")) {
-    $("#hostProfilesCount").textContent = String(profiles.count ?? "—");
+  if (profiles.error) {
+    console.error("Registered profiles load error:", profiles.error);
+
+    if ($("#hostProfilesCount")) {
+      $("#hostProfilesCount").textContent = "—";
+    }
+
+    if ($("#hostProfilesList")) {
+      $("#hostProfilesList").innerHTML =
+        '<p class="muted">Could not load profiles. Check Supabase permissions.</p>';
+    }
+  } else {
+    const registeredProfiles = profiles.data || [];
+
+    if ($("#hostProfilesCount")) {
+      $("#hostProfilesCount").textContent =
+        String(profiles.count ?? registeredProfiles.length);
+    }
+
+    if ($("#hostProfilesList")) {
+      $("#hostProfilesList").innerHTML = registeredProfiles.length
+        ? registeredProfiles.map(profile => {
+            const name = profile.display_name || "LearnLoop learner";
+            const bio = profile.bio || "";
+
+            return `
+              <article class="card">
+                <strong>${escapeHTML(name)}</strong>
+                <p class="muted small">${escapeHTML(bio || "No bio added yet.")}</p>
+              </article>
+            `;
+          }).join("")
+        : '<p class="muted">No profiles were returned.</p>';
+    }
   }
 
   const { data, error } = await supabase
@@ -1886,6 +1924,7 @@ async function loadHostDashboard() {
   if (error) {
     console.warn("Host settings load error:", error);
     state.hostSettings = null;
+
     if ($("#revenueNotice")) {
       $("#revenueNotice").textContent =
         "Host settings could not be loaded. Check table access policies.";
@@ -1896,6 +1935,8 @@ async function loadHostDashboard() {
 
   renderHostSettings();
   await renderHostModeration();
+}
+
    async function loadCommitteeMembers() {
   const list = $("#committeeMembersList");
   if (!list || !isOwner()) return;
