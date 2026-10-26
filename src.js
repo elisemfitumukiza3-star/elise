@@ -1870,9 +1870,9 @@ async function loadHostDashboard() {
       .from("posts")
       .select("id", { count: "exact", head: true }),
     supabase
-      .from("profiles")
-      .select("user_id, display_name, bio")
-      .order("display_name", { ascending: true })
+     .from("profiles")
+.select("id, display_name, bio")
+.order("display_name", { ascending: true })
   ]);
 
   if ($("#hostPostsCount")) {
