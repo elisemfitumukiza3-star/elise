@@ -4128,3 +4128,104 @@ document.querySelectorAll(".post-color-option").forEach(button => {
   });
 });
 
+const academyLeadershipQuiz = [
+  {
+    question: "What is the main purpose of leadership?",
+    options: [
+      "To control everyone",
+      "To guide people toward a shared goal",
+      "To avoid responsibility",
+      "To make every decision alone"
+    ],
+    answer: 1
+  },
+  {
+    question: "Which is a quality of a good leader?",
+    options: ["Dishonesty", "Favoritism", "Fairness", "Impatience"],
+    answer: 2
+  },
+  {
+    question: "What does active listening involve?",
+    options: [
+      "Interrupting frequently",
+      "Ignoring other opinions",
+      "Paying attention and asking relevant questions",
+      "Talking all the time"
+    ],
+    answer: 2
+  },
+  {
+    question: "What is teamwork?",
+    options: [
+      "Working against others",
+      "Combining skills to achieve a shared objective",
+      "Giving all tasks to one person",
+      "Avoiding group discussions"
+    ],
+    answer: 1
+  },
+  {
+    question: "What should you do before making an important decision?",
+    options: [
+      "Guess without information",
+      "Ignore possible risks",
+      "Gather reliable information and consider options",
+      "Always follow the loudest person"
+    ],
+    answer: 2
+  },
+  {
+    question: "How should a leader approach a disagreement?",
+    options: [
+      "Listen calmly and seek a fair solution",
+      "Blame someone immediately",
+      "Refuse to hear other views",
+      "Make the conflict worse"
+    ],
+    answer: 0
+  },
+  {
+    question: "What should a leader do after making a mistake?",
+    options: [
+      "Hide it at all costs",
+      "Blame the team",
+      "Ignore its effects",
+      "Accept responsibility and correct it"
+    ],
+    answer: 3
+  },
+  {
+    question: "Why should a leader share credit with team members?",
+    options: [
+      "To discourage teamwork",
+      "To recognize other people's contributions",
+      "To avoid completing tasks",
+      "To gain control over others"
+    ],
+    answer: 1
+  },
+  {
+    question: "What is a fair way to organize team tasks?",
+    options: [
+      "Give every task to the same person",
+      "Choose tasks as punishment",
+      "Distribute tasks fairly and clarify responsibilities",
+      "Keep responsibilities secret"
+    ],
+    answer: 2
+  },
+  {
+    question: "What should a leader do if someone reports bullying or a safety threat?",
+    options: [
+      "Dismiss the concern",
+      "Keep it secret in every situation",
+      "Encourage retaliation",
+      "Seek help from a trusted responsible person"
+    ],
+    answer: 3
+  }
+];
+
+const ACADEMY_QUIZ_SECONDS = 50;
+const ACADEMY_PASSING_SCORE = 12;
+
