@@ -3266,8 +3266,33 @@ function getDailyLessonOrder(lessons) {
     return aKey - bKey;
   });
 }
+function renderFeaturedLesson() {
+  const title = document.querySelector("#featuredLessonTitle");
+  const description = document.querySelector("#featuredLessonDescription");
+  const image = document.querySelector("#featuredLessonImage");
+  const link = document.querySelector("#featuredLessonLink");
 
+  if (!title || !description || !image || !link || !learnLoopLessons.length) {
+    return;
+  }
+
+  const today = new Date().toISOString().slice(0, 10);
+  let hash = 0;
+
+  for (let i = 0; i < today.length; i++) {
+    hash = (hash * 31 + today.charCodeAt(i)) >>> 0;
+  }
+
+  const lesson = learnLoopLessons[hash % learnLoopLessons.length];
+
+  title.textContent = lesson.title;
+  description.textContent = lesson.description;
+  image.src = lesson.image;
+  image.alt = lesson.title;
+  link.href = lesson.link;
+}
 function renderLessonCards() {
+  renderFeaturedLesson(); 
   const grid = document.querySelector("#lessonGrid");
   const count = document.querySelector("#lessonCount");
   const moreButton = document.querySelector("#loadMoreLessons");
