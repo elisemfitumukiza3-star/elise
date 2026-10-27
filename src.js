@@ -2377,9 +2377,9 @@ async function searchYouTubeVideos() {
       image.title = "Click to play this video";
       image.addEventListener("click", openVideo);
        
-      hheading.addEventListener("click", openVideo);eading.style.cursor = "pointer";
+     
+      heading.style.cursor = "pointer";
       heading.addEventListener("click", openVideo);
-
 
 card.append(image, heading, channelText);
       results.append(card);
