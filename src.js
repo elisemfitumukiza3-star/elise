@@ -4465,7 +4465,7 @@ try {
       .from("certificates")
       .select("certificate_number, learner_name, course_title, completion_date")
       .eq("user_id", learnerId)
-      .eq("course_title", "Leadership")
+     .eq("course_title", course.title) 
       .maybeSingle();
 
   if (certificateError) throw certificateError;
@@ -4475,7 +4475,7 @@ try {
 
     const completedMessage = document.createElement("p");
     completedMessage.textContent =
-      "Congratulations! You have already earned your Leadership certificate. This course quiz is now locked, but you can still read the course lessons.";
+    `Congratulations! You have already earned your ${course.title} certificate. This course quiz is now locked, but you can still read the course lessons.`; 
 
     const certificateDetails = document.createElement("p");
     certificateDetails.textContent =
