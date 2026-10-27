@@ -4345,6 +4345,88 @@ const academyLeadershipQuiz = [
   }
 ];
 
+const academyCourseQuizzes = {
+  leadership: academyLeadershipQuiz,
+
+  "first-aid": [
+    { question: "What is the main purpose of first aid?", options: ["To replace all medical care", "To provide immediate help and support safety", "To diagnose every illness", "To avoid calling for help"], answer: 1 },
+    { question: "What should you do first when approaching an emergency?", options: ["Rush in immediately", "Move everything nearby", "Check the scene for danger", "Give the person food"], answer: 2 },
+    { question: "When should emergency services be contacted?", options: ["When a serious emergency needs professional help", "Only after several hours", "Only if a friend asks", "Never"], answer: 0 },
+    { question: "What should you do if an injured person is unconscious?", options: ["Leave them alone", "Give them a drink", "Force them to stand", "Call for emergency help and follow the operator's guidance"], answer: 3 },
+    { question: "What is important when helping someone who is bleeding heavily?", options: ["Ignore the bleeding", "Seek urgent help and apply appropriate pressure if safe", "Give them food", "Ask them to walk around"], answer: 1 },
+    { question: "What should you do for a burn?", options: ["Apply toothpaste", "Break any blisters", "Cool the burn with cool running water and seek help as needed", "Cover it with household chemicals"], answer: 2 },
+    { question: "Why should you avoid moving a person with a possible serious neck or back injury?", options: ["Movement could worsen the injury", "They must always walk", "It prevents them from speaking", "It makes the scene safer"], answer: 0 },
+    { question: "What information is useful when calling emergency services?", options: ["Only your first name", "A guess about the cause", "Unrelated personal stories", "The location, nature of emergency, and condition of the person"], answer: 3 },
+    { question: "What is the purpose of a first aid kit?", options: ["To replace emergency professionals", "To store everyday snacks", "To keep basic supplies available for appropriate first aid", "To treat every condition without help"], answer: 2 },
+    { question: "What is a responsible action after an emergency?", options: ["Spread unverified rumours", "Follow professional guidance and report what happened accurately", "Hide important information", "Blame the injured person"], answer: 1 }
+  ],
+
+  english: [
+    { question: "Which word is a noun?", options: ["Quickly", "Beautiful", "Teacher", "Run"], answer: 2 },
+    { question: "Choose the grammatically correct sentence.", options: ["She go to school.", "She goes to school.", "She going school.", "She gone to school every day."], answer: 1 },
+    { question: "Which word is a verb in 'The children played outside'?", options: ["Children", "The", "Outside", "Played"], answer: 3 },
+    { question: "Choose the correct plural of 'child'.", options: ["Children", "Childs", "Childes", "Childrens"], answer: 0 },
+    { question: "Which word is closest in meaning to 'begin'?", options: ["Finish", "Forget", "Start", "Close"], answer: 2 },
+    { question: "Which sentence uses punctuation correctly?", options: ["Where are you.", "Where are you?", "Where are you,", "Where are you!?"], answer: 1 },
+    { question: "What is the main purpose of a paragraph's topic sentence?", options: ["To introduce its main idea", "To list every reference", "To end the whole book", "To confuse the reader"], answer: 0 },
+    { question: "Choose the correct word: 'There are ___ books on the desk.'", options: ["much", "anyone", "a", "many"], answer: 3 },
+    { question: "What does reading comprehension mean?", options: ["Reading without thinking", "Copying every sentence", "Understanding what a text means", "Memorizing page numbers only"], answer: 2 },
+    { question: "Which is appropriate in a formal email to a teacher?", options: ["Yo, answer me now!", "Dear Teacher, I am writing to ask a question.", "Hey!!! What's up??", "Give me the answer."], answer: 1 }
+  ],
+
+  "computer-skills": [
+    { question: "What is a computer?", options: ["A type of furniture", "A machine that processes data", "A paper notebook", "A household switch"], answer: 1 },
+    { question: "Which device is commonly used to type text?", options: ["Monitor", "Speaker", "Keyboard", "Printer"], answer: 2 },
+    { question: "What is a folder used for?", options: ["Organizing files", "Increasing screen brightness", "Playing sound only", "Charging a computer"], answer: 0 },
+    { question: "Which application is commonly used to create text documents?", options: ["Calculator only", "Camera", "Music player", "Word processor"], answer: 3 },
+    { question: "In a spreadsheet, what is a cell?", options: ["A computer battery", "The intersection of a row and column", "A web browser", "A printed page"], answer: 1 },
+    { question: "What does a web browser help you do?", options: ["Wash a keyboard", "Repair every hardware problem", "Access websites", "Print without a printer"], answer: 2 },
+    { question: "Which is a strong password practice?", options: ["Use a long, unique password and keep it private", "Share it with everyone", "Use '123456' everywhere", "Write it in a public post"], answer: 0 },
+    { question: "What should you do with a suspicious email link?", options: ["Click immediately", "Forward it to everyone", "Enter your password", "Avoid clicking and verify the sender"], answer: 3 },
+    { question: "What is the purpose of saving a file?", options: ["To delete it permanently", "To keep your work for later use", "To turn off the monitor", "To remove its contents"], answer: 1 },
+    { question: "Which action shows responsible technology use?", options: ["Sharing another person's private data", "Installing unknown files without checking", "Respecting privacy and using trusted sources", "Posting passwords online"], answer: 2 }
+  ],
+
+  communication: [
+    { question: "What is communication?", options: ["Exchanging information and ideas", "Speaking without listening", "Avoiding all feedback", "Giving orders only"], answer: 0 },
+    { question: "Which is an example of verbal communication?", options: ["A facial expression", "A spoken conversation", "A hand gesture", "A posture"], answer: 1 },
+    { question: "What can body language communicate?", options: ["Only written facts", "Nothing at all", "Feelings and attitudes", "Computer instructions"], answer: 2 },
+    { question: "What does active listening involve?", options: ["Interrupting constantly", "Planning your reply without listening", "Ignoring the speaker", "Paying attention and clarifying meaning"], answer: 3 },
+    { question: "What helps make a presentation clear?", options: ["Speaking as fast as possible", "Organizing ideas and speaking clearly", "Avoiding preparation", "Using only unfamiliar words"], answer: 1 },
+    { question: "What is constructive feedback intended to do?", options: ["Help someone improve", "Embarrass someone", "End all discussion", "Spread rumours"], answer: 0 },
+    { question: "How should you respond when you disagree respectfully?", options: ["Insult the other person", "Refuse to listen", "Explain your view calmly and listen to theirs", "Shout until they agree"], answer: 2 },
+    { question: "Why is eye contact sometimes useful in conversation?", options: ["It proves every statement is true", "It replaces all words", "It is required in every culture in the same way", "It can show attention, depending on context and culture"], answer: 3 },
+    { question: "What should you do if a message is unclear?", options: ["Assume the worst", "Ask a polite clarifying question", "Ignore the speaker forever", "Change the subject immediately"], answer: 1 },
+    { question: "Which is an example of respectful communication?", options: ["Listening without insulting others", "Sharing private messages without permission", "Mocking different opinions", "Interrupting every speaker"], answer: 0 }
+  ],
+
+  "financial-literacy": [
+    { question: "What is money commonly used for?", options: ["Measuring height", "Replacing every skill", "Paying for goods and services", "Guaranteeing wealth"], answer: 2 },
+    { question: "Which is usually a need rather than a want?", options: ["A luxury watch", "Basic nutritious food", "The newest gaming device", "An expensive decoration"], answer: 1 },
+    { question: "What is a budget?", options: ["A plan for income and spending", "A list of dreams only", "A type of bank card", "A loan agreement only"], answer: 0 },
+    { question: "Why is saving money useful?", options: ["It removes every risk", "It guarantees instant wealth", "It means never spending anything", "It helps prepare for future needs and goals"], answer: 3 },
+    { question: "What are expenses?", options: ["Only money received", "Money spent on goods, services, or obligations", "A savings account", "A person's goals"], answer: 1 },
+    { question: "What is income?", options: ["Money received from work or other sources", "Only money borrowed", "Every item purchased", "A list of expenses"], answer: 0 },
+    { question: "What should you consider before borrowing money?", options: ["Only the colour of the contract", "Whether friends approve", "Repayment terms, costs, and your ability to repay", "How quickly you can spend it"], answer: 2 },
+    { question: "Which can be a warning sign of a financial scam?", options: ["A clear receipt", "A verified statement", "A realistic budget", "Pressure to send money urgently for a promised reward"], answer: 3 },
+    { question: "If your income is lower than your expenses, what should you do?", options: ["Ignore the difference", "Review spending and make a realistic plan", "Borrow without considering repayment", "Spend more immediately"], answer: 1 },
+    { question: "Why should you compare prices before buying?", options: ["To make informed spending decisions", "To guarantee every item is perfect", "To avoid checking quality", "To spend your whole budget"], answer: 0 }
+  ],
+
+  "career-readiness": [
+    { question: "Why is it useful to identify your strengths?", options: ["To avoid learning", "To compare yourself constantly", "To understand skills you can build on", "To guarantee a particular job"], answer: 2 },
+    { question: "What is a career goal?", options: ["A random purchase", "A planned aim related to work or professional development", "A list of excuses", "A school timetable only"], answer: 1 },
+    { question: "What should a CV or résumé normally include?", options: ["Relevant education, skills, and experience", "False qualifications", "Unrelated private information", "Other people's passwords"], answer: 0 },
+    { question: "What is the purpose of a professional application letter?", options: ["To tell unrelated stories", "To demand automatic employment", "To repeat every page of a CV", "To explain your interest and relevant suitability"], answer: 3 },
+    { question: "How can you prepare for an interview?", options: ["Arrive without knowing the role", "Research the role and practise clear answers", "Invent qualifications", "Ignore the interview instructions"], answer: 1 },
+    { question: "What does reliability at work mean?", options: ["Keeping reasonable commitments and completing tasks responsibly", "Ignoring deadlines", "Blaming colleagues", "Avoiding communication"], answer: 0 },
+    { question: "What is workplace ethics?", options: ["Winning at any cost", "Keeping all mistakes secret", "Following responsible principles such as honesty and fairness", "Avoiding every responsibility"], answer: 2 },
+    { question: "What is a useful response to a difficult interview question?", options: ["Become insulting", "Make up an experience", "Refuse to communicate", "Answer honestly and explain your reasoning"], answer: 3 },
+    { question: "Why is continuous learning important in a career?", options: ["Skills never change", "It helps people adapt and develop skills", "It removes the need for practice", "It guarantees promotion"], answer: 1 },
+    { question: "What should you do after receiving constructive feedback?", options: ["Consider it and identify ways to improve", "Ignore all of it automatically", "Blame the person who gave it", "Stop learning"], answer: 0 }
+  ]
+};
+
 const ACADEMY_QUIZ_SECONDS = 50;
 const ACADEMY_PASSING_SCORE = 12;
 
@@ -4363,11 +4445,7 @@ certificatePanel.classList.remove("hidden");
   quizPanel.replaceChildren();
 
 
-if (course.slug !== "leadership") {
-  quizPanel.textContent =
-    "The quiz for this course is not ready yet. Please complete the Leadership course quiz first.";
-  return;
-}
+
 
 const learnerId = state.session?.user?.id;
 
