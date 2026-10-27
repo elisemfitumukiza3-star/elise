@@ -2341,12 +2341,8 @@ async function searchYouTubeVideos() {
       const channelText = document.createElement("p");
       channelText.textContent = channel;
 
-      const playButton = document.createElement("button");
-      playButton.type = "button";
-      playButton.className = "button button-primary";
-      playButton.textContent = "Watch lesson";
-
-      playButton.addEventListener("click", () => {
+     
+      function openVideo() {
         const panel = document.getElementById("youtubePlayerPanel");
         const player = document.getElementById("youtubePlayer");
         const playerTitle = document.getElementById("youtubePlayerTitle");
@@ -2362,9 +2358,17 @@ async function searchYouTubeVideos() {
 
         panel.classList.remove("hidden");
         panel.scrollIntoView({ behavior: "smooth", block: "start" });
-      });
+      }
 
-      card.append(image, heading, channelText, playButton);
+      image.style.cursor = "pointer";
+      image.title = "Click to play this video";
+      image.addEventListener("click", openVideo);
+
+      heading.style.cursor = "pointer";
+      heading.addEventListener("click", openVideo);
+
+
+card.append(image, heading, channelText);
       results.append(card);
     });
 
