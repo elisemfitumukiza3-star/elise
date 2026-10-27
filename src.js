@@ -4653,6 +4653,27 @@ pdf.text("Visit LearnLoop: https://elise-neon.vercel.app", 148.5, 199, {
 });
 
 
+const { error: saveCertificateError } = await supabase
+  .from("certificates")
+  .insert({
+    user_id: learnerId,
+    learner_name: learnerName,
+    course_title: "Leadership",
+    score: score,
+    certificate_number: certificateNumber,
+    completion_date: completionDate
+  });
+
+if (saveCertificateError) {
+  console.error("Certificate registration failed:", saveCertificateError);
+  alert(
+    "We could not register your certificate. Please try again. Your certificate has not been downloaded."
+  );
+  return;
+}
+
+pdf.save("LearnLoop-Leadership-Certificate.pdf");
+
         pdf.save("LearnLoop-Leadership-Certificate.pdf");
  
       });
