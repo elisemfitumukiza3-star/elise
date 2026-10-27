@@ -612,123 +612,108 @@ function updateWelcomeAuthMode() {
   }
 }
 
+
 async function handleAuth(event) {
   event.preventDefault();
 
   const email = $("#authEmail")?.value.trim();
   const password = $("#authPassword")?.value;
   const name = $("#authName")?.value.trim();
-   const phoneCountry =
-  $("#authName")?.dataset.phoneCountry || "";
-
-const phoneNumber =
-  $("#authName")?.dataset.phoneNumber || "";
+  const phoneCountry = $("#authName")?.dataset.phoneCountry || "";
+  const phoneNumber = $("#authName")?.dataset.phoneNumber || "";
 
   if (!email || !password) {
     toast("Enter your email and password.", "error");
     return;
   }
 
+  const button = $("#authSubmit");
+  setButtonBusy(button, true, "Please wait…");
 
-const { data, error } = await supabase.auth.signUp({
-  email,
-  password,
-  options: {
-    data: {
-      display_name: name || email.split("@")[0],
-      country_calling_code: phoneCountry,
-      phone_number: phoneNumber
-    }
-  }
-});
-
+  try {
+    if (state.authMode === "signup") {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            display_name: name || email.split("@")[0],
+            country_calling_code: phoneCountry,
+            phone_number: phoneNumber
+          }
+        }
+      });
 
       if (error) throw error;
 
-if (data.session) {
-  state.session = data.session;
+      if (data.session) {
+        state.session = data.session;
 
-  await fetchProfile();
+        if (phoneCountry && phoneNumber && data.user) {
+          const { error: phoneSaveError } = await supabase
+            .from("profiles")
+            .upsert({
+              id: data.user.id,
+              country_calling_code: phoneCountry,
+              phone_number: phoneNumber,
+              phone_is_public: false,
+              updated_at: new Date().toISOString()
+            }, { onConflict: "id" });
 
-  if (phoneCountry && phoneNumber) {
-    const { error: phoneSaveError } = await supabase
-      .from("profiles")
-      .upsert(
-        {
-          id: data.user.id,
-          country_calling_code: phoneCountry,
-          phone_number: phoneNumber,
-          phone_is_public: false,
-          updated_at: new Date().toISOString()
-        },
-        { onConflict: "id" }
-      );
+          if (phoneSaveError) {
+            console.error("Phone save error:", phoneSaveError);
+          }
+        }
 
-    if (phoneSaveError) {
-      console.error("Phone save error:", phoneSaveError);
-      toast(
-        "Account created, but phone details could not be saved. Add them in your profile settings.",
-        "error"
-      );
-    } else {
-      await fetchProfile();
-    }
-  }
+        await fetchProfile();
+        closeDialog($("#authDialog"));
+        await afterLogin();
+        toast("Welcome to LearnLoop!");
+      } else {
+        toast("Check your email for your verification code.");
 
-  closeDialog($("#authDialog"));
-  await afterLogin();
-  toast("Welcome to LearnLoop!");
-} else {
-  if ($("#authMessage")) {
-    $("#authMessage").textContent =
-      "Account created. Enter the six-digit verification code sent to your email.";
-  }
-
-  toast("Check your email for your LearnLoop verification code.");
-
-  const token = window.prompt(
-    "Enter the six-digit verification code sent to your email:"
-  );
-
-  if (token && /^\d{6}$/.test(token.trim())) {
-    const { data: verifyData, error: verifyError } =
-      await supabase.auth.verifyOtp({
-        email,
-        token: token.trim(),
-        type: "signup"
-      });
-
-    if (verifyError) throw verifyError;
-
-    state.session = verifyData.session;
-
-    if (phoneCountry && phoneNumber && verifyData.user) {
-      const { error: phoneSaveError } = await supabase
-        .from("profiles")
-        .upsert(
-          {
-            id: verifyData.user.id,
-            country_calling_code: phoneCountry,
-            phone_number: phoneNumber,
-            phone_is_public: false,
-            updated_at: new Date().toISOString()
-          },
-          { onConflict: "id" }
+        const token = window.prompt(
+          "Enter the six-digit verification code sent to your email:"
         );
 
-      if (phoneSaveError) {
-        console.error("Phone save error:", phoneSaveError);
-      }
-    }
+        if (!token || !/^\d{6}$/.test(token.trim())) {
+          toast("Enter the six-digit code exactly as received.", "error");
+          return;
+        }
 
-    await fetchProfile();
-    closeDialog($("#authDialog"));
-    await afterLogin();
-    toast("Your email is verified. Welcome to LearnLoop!");
-  } else if (token !== null) {
-    toast("Enter the six-digit code exactly as received.", "error");
-  }
-} else {
+        const { data: verifyData, error: verifyError } =
+          await supabase.auth.verifyOtp({
+            email,
+            token: token.trim(),
+            type: "signup"
+          });
+
+        if (verifyError) throw verifyError;
+
+        state.session = verifyData.session;
+
+        if (phoneCountry && phoneNumber && verifyData.user) {
+          const { error: phoneSaveError } = await supabase
+            .from("profiles")
+            .upsert({
+              id: verifyData.user.id,
+              country_calling_code: phoneCountry,
+              phone_number: phoneNumber,
+              phone_is_public: false,
+              updated_at: new Date().toISOString()
+            }, { onConflict: "id" });
+
+          if (phoneSaveError) {
+            console.error("Phone save error:", phoneSaveError);
+          }
+        }
+
+        await fetchProfile();
+        closeDialog($("#authDialog"));
+        await afterLogin();
+        toast("Your email is verified. Welcome to LearnLoop!");
+      }
+    } else {
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password
@@ -744,12 +729,15 @@ if (data.session) {
     }
   } catch (error) {
     console.error("Authentication error:", error);
-    if ($("#authMessage")) $("#authMessage").textContent = error.message;
+    if ($("#authMessage")) {
+      $("#authMessage").textContent = error.message;
+    }
     toast(error.message || "Authentication failed.", "error");
   } finally {
     setButtonBusy(button, false);
   }
 }
+
 
 async function signOut() {
   const { error } = await supabase.auth.signOut();
