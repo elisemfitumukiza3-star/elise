@@ -4593,9 +4593,18 @@ downloadButton.addEventListener("click", async () => {
 
         pdf.setFont("helvetica", "normal");
         pdf.setFontSize(7);
-        pdf.text("L E A R N   •   S H A R E   •   G R O W", 148.5, 196, {
-          align: "center"
-        });
+      
+pdf.text("L E A R N   •   S H A R E   •   G R O W", 148.5, 193, {
+  align: "center"
+});
+
+pdf.setFont("helvetica", "normal");
+pdf.setFontSize(8);
+pdf.setTextColor(20, 39, 77);
+pdf.text("Visit LearnLoop: https://elise-neon.vercel.app", 148.5, 199, {
+  align: "center"
+});
+
 
         pdf.save("LearnLoop-Leadership-Certificate.pdf");
  
