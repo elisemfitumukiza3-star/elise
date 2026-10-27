@@ -679,10 +679,6 @@ if (data.session) {
   await afterLogin();
   toast("Welcome to LearnLoop!");
 } else {
-
-      
-    
-} else {
   if ($("#authMessage")) {
     $("#authMessage").textContent =
       "Account created. Enter the six-digit verification code sent to your email.";
