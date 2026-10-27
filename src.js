@@ -3622,6 +3622,7 @@ function renderAcademyCourses() {
 
 function openAcademyCourse(course) {
   const panel = document.querySelector("#academyStudyPanel");
+   window.currentAcademyCourse = course;
   if (!panel) return;
 
   const progress = getAcademyProgress();
