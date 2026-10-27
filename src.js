@@ -4867,20 +4867,26 @@ try {
 
   if (certificateError) throw certificateError;
 
-  if (existingCertificate) {
-    quizPanel.replaceChildren();
+ 
+if (existingCertificate) {
+  quizPanel.replaceChildren();
 
-    const completedMessage = document.createElement("p");
-    completedMessage.textContent =
-    `Congratulations! You have already earned your ${course.title} certificate. This course quiz is now locked, but you can still read the course lessons.`; 
+  const completedMessage = document.createElement("h3");
+  completedMessage.textContent =
+    "Certificate Earned! You can now read notes only.";
 
-    const certificateDetails = document.createElement("p");
-    certificateDetails.textContent =
-      "Certificate number: " + existingCertificate.certificate_number;
+  const certificateDetails = document.createElement("p");
+  certificateDetails.textContent =
+    `Certificate number: ${existingCertificate.certificate_number}`;
 
-    quizPanel.append(completedMessage, certificateDetails);
-    return;
-  }
+  quizPanel.append(completedMessage, certificateDetails);
+
+  certificatePanel.replaceChildren();
+  certificatePanel.classList.add("hidden");
+
+  return;
+}
+
 } catch (error) {
   console.error("Certificate completion check failed:", error);
   quizPanel.textContent =
