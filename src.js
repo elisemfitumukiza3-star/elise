@@ -4701,7 +4701,6 @@ if (saveCertificateError) {
 
 pdf.save("LearnLoop-Leadership-Certificate.pdf");
 
-        pdf.save("LearnLoop-Leadership-Certificate.pdf");
  
       });
 
