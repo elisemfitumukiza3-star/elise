@@ -4681,18 +4681,22 @@ pdf.save("LearnLoop-Leadership-Certificate.pdf");
       certificatePanel.appendChild(downloadButton);
       certificatePanel.classList.remove("hidden");
 certificatePanel.scrollIntoView({ behavior: "smooth", block: "center" }); 
-    } else {
-      message.textContent =
-        "Keep learning and try again! You need at least 12 out of 20 points to qualify for a certificate.";
-    }
+  
+} else {
+  message.textContent =
+    "Keep learning and try again! You need at least 12 out of 20 points to qualify for a certificate.";
+}
 
-      quizPanel.appendChild(message);
+quizPanel.appendChild(message);
 
-    const retryButton = document.createElement("button");
-    retryButton.type = "button";
-    retryButton.textContent = "Try quiz again";
-    retryButton.addEventListener("click", () => startAcademyQuiz(course));
-    quizPanel.appendChild(retryButton);
+if (score < ACADEMY_PASSING_SCORE) {
+  const retryButton = document.createElement("button");
+  retryButton.type = "button";
+  retryButton.textContent = "Try quiz again";
+  retryButton.addEventListener("click", () => startAcademyQuiz(course));
+  quizPanel.appendChild(retryButton);
+}
+
   }
 
   showQuestion();
