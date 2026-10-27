@@ -4680,6 +4680,46 @@ pdf.text("Visit LearnLoop: https://elise-neon.vercel.app", 148.5, 199, {
 });
 
 
+        // Generate a unique QR code for this certificate
+        const verificationUrl =
+          window.location.origin +
+          window.location.pathname +
+          "?certificate=" +
+          encodeURIComponent(certificateNumber);
+
+        const qrContainer = document.createElement("div");
+
+        new QRCode(qrContainer, {
+          text: verificationUrl,
+          width: 256,
+          height: 256,
+          correctLevel: QRCode.CorrectLevel.M
+        });
+
+        const qrCanvas = qrContainer.querySelector("canvas");
+
+        if (!qrCanvas) {
+          alert("Could not generate the verification QR code. Please try again.");
+          return;
+        }
+
+        // Add the QR code in the lower-left corner
+        pdf.addImage(
+          qrCanvas.toDataURL("image/png"),
+          "PNG",
+          18,
+          150,
+          20,
+          20
+        );
+
+        pdf.setTextColor(20, 39, 77);
+        pdf.setFont("helvetica", "bold");
+        pdf.setFontSize(6);
+        pdf.text("SCAN TO VERIFY", 28, 174, {
+          align: "center"
+        });
+
 const { error: saveCertificateError } = await supabase
   .from("certificates")
   .insert({
@@ -4799,3 +4839,24 @@ document
         "Verification is temporarily unavailable. Please try again later.";
     }
   });
+
+const certificateFromQR =
+  new URLSearchParams(window.location.search).get("certificate");
+
+if (certificateFromQR) {
+  const verificationInput = document.querySelector(
+    "#certificateVerificationNumber"
+  );
+
+  const verificationForm = document.querySelector(
+    "#certificateVerificationForm"
+  );
+
+  if (verificationInput && verificationForm) {
+    verificationInput.value = certificateFromQR;
+    verificationForm.requestSubmit();
+
+    document.querySelector("#certificateVerificationSection")
+      ?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+}
