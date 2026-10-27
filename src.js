@@ -4719,3 +4719,63 @@ document.addEventListener("click", function (event) {
   window.currentAcademyCourse = course;
   startAcademyQuiz(course);
 });
+
+document
+  .querySelector("#certificateVerificationForm")
+  ?.addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    const numberInput = document.querySelector(
+      "#certificateVerificationNumber"
+    );
+    const result = document.querySelector(
+      "#certificateVerificationResult"
+    );
+
+    const certificateNumber = numberInput.value.trim();
+
+    if (!certificateNumber || !result) return;
+
+    result.textContent = "Checking certificate...";
+
+    try {
+      const { data, error } = await supabase.rpc(
+        "verify_learnloop_certificate",
+        {
+          p_certificate_number: certificateNumber
+        }
+      );
+
+      if (error) throw error;
+
+      const certificate = Array.isArray(data) ? data[0] : data;
+
+      result.replaceChildren();
+
+      if (!certificate) {
+        result.textContent =
+          "Certificate not found. No matching official LearnLoop record was found.";
+        return;
+      }
+
+      const heading = document.createElement("h3");
+      heading.textContent = "Certificate verified";
+
+      const details = document.createElement("p");
+      details.textContent =
+        "Learner: " + certificate.learner_name +
+        " | Course: " + certificate.course_title +
+        " | Score: " + certificate.score + "/20" +
+        " | Completion date: " + certificate.completion_date;
+
+      const reference = document.createElement("p");
+      reference.textContent =
+        "Certificate number: " + certificate.certificate_number;
+
+      result.append(heading, details, reference);
+    } catch (error) {
+      console.error("Certificate verification failed:", error);
+      result.textContent =
+        "Verification is temporarily unavailable. Please try again later.";
+    }
+  });
