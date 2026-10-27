@@ -4604,8 +4604,8 @@ quizPanel.replaceChildren();
     const message = document.createElement("p");
 
     if (score >= ACADEMY_PASSING_SCORE) {
-      message.textContent =
-        "Congratulations! You passed the Leadership course quiz!";
+    message.textContent =
+  `Congratulations! You passed the ${course.title} course quiz!`;
       certificatePanel.classList.remove("hidden");
 
       const certificateHeading = document.createElement("h3");
