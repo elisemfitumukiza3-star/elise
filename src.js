@@ -728,9 +728,7 @@ if (data.session) {
   } else if (token !== null) {
     toast("Enter the six-digit code exactly as received.", "error");
   }
-}
-
-    } else {
+} else {
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password
