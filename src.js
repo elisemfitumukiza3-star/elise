@@ -3314,18 +3314,424 @@ const learnLoopLessons = [
 
 ];
 function getAcademyReading(course, index) {
+  // Keep the existing complete Leadership lessons unchanged.
   if (course.slug === "leadership") {
     return academyLeadershipLessons[index];
   }
 
-  return {
-    title: course.topics[index],
-    paragraphs: [
-      `This lesson introduces ${course.topics[index].toLowerCase()} as part of ${course.title}.`,
-      "Read the learning material carefully, identify the main ideas, and consider how they apply to everyday life, school, or work.",
-      "Before marking a lesson as read, make sure you understand its key concepts and can explain at least one important point in your own words."
+  const lessons = {
+    english: [
+      {
+        title: "Parts of Speech",
+        paragraphs: [
+          "Parts of speech describe the roles words play in sentences. Nouns name people, places, things, or ideas. Pronouns replace nouns. Verbs express actions or states. Adjectives describe nouns, while adverbs often describe verbs, adjectives, or other adverbs.",
+          "Other important parts of speech include prepositions, which express relationships such as location or time; conjunctions, which connect words or clauses; and interjections, which express sudden feelings. For example, in 'The hardworking student carefully completed the assignment,' student is a noun, hardworking is an adjective, completed is a verb, and carefully is an adverb.",
+          "A word's grammatical role can depend on its context. Study complete sentences rather than memorizing isolated words. Identifying parts of speech helps you build correct sentences, improve reading comprehension, and express ideas more precisely."
+        ],
+        keyPoint: "Recognize nouns, pronouns, verbs, adjectives, adverbs, prepositions, conjunctions, and interjections in context."
+      },
+      {
+        title: "Building Correct Sentences",
+        paragraphs: [
+          "A sentence expresses a complete thought. Many sentences contain a subject, which tells us who or what the sentence concerns, and a predicate, which tells us something about that subject. For example, 'The learners discussed the lesson' has learners as its subject and discussed the lesson as its predicate.",
+          "Sentences may be simple, compound, or complex. A simple sentence contains one independent clause. A compound sentence joins independent clauses, often using words such as and, but, or so. A complex sentence contains an independent clause and at least one dependent clause, such as 'We continued studying because the examination was approaching.'",
+          "Correct sentence construction requires appropriate word order, agreement between subjects and verbs, and suitable punctuation. Avoid fragments that express incomplete thoughts and run-on sentences that join ideas incorrectly. Read your writing aloud and check that each sentence communicates one clear idea or a logically connected group of ideas."
+        ],
+        keyPoint: "Build complete sentences with clear subjects, correct verbs, logical structure, and appropriate punctuation."
+      },
+      {
+        title: "Essential Grammar",
+        paragraphs: [
+          "Grammar provides the rules and patterns that help people communicate clearly. Important areas include verb tenses, subject–verb agreement, pronoun use, articles, prepositions, and punctuation. The present simple describes routines or general truths, while the past simple describes completed past events. The future can be expressed using forms such as 'will' or 'going to.'",
+          "Subject–verb agreement means that a verb matches its subject. For example, 'She studies every evening' is correct, while 'She study every evening' is not. Articles such as a, an, and the help identify nouns. Pronouns should clearly refer to the people or things they replace, preventing confusion.",
+          "Grammar improves through practice, reading, and revision. When you make a mistake, identify the rule involved and create another example using it correctly. In formal writing, check verb consistency, sentence structure, spelling, and punctuation before submitting your work."
+        ],
+        keyPoint: "Use consistent tenses, correct subject–verb agreement, clear pronouns, and appropriate punctuation."
+      },
+      {
+        title: "Vocabulary Development",
+        paragraphs: [
+          "Vocabulary is the collection of words a person understands and uses. A strong vocabulary helps learners explain ideas accurately, understand texts, and participate confidently in conversations. Learn unfamiliar words in context because surrounding sentences often reveal their meanings better than memorizing definitions alone.",
+          "Use a dictionary to check meaning, spelling, pronunciation, and word class. A thesaurus can suggest synonyms, but similar words do not always have identical meanings. For example, 'slim,' 'thin,' and 'narrow' may be related in some contexts but cannot always replace one another. Antonyms express contrasting meanings, while prefixes and suffixes can change a word's meaning or grammatical role.",
+          "Keep a vocabulary notebook with each new word, its definition, an example sentence, and related words. Review entries regularly and use new vocabulary in speaking and writing. Reading books, news articles, and educational materials exposes you to words used in different contexts."
+        ],
+        keyPoint: "Learn words in context, verify meanings, review them regularly, and practise using them naturally."
+      },
+      {
+        title: "Reading Comprehension",
+        paragraphs: [
+          "Reading comprehension is the ability to understand, interpret, and evaluate written information. Begin by identifying the topic and the author's main idea. Supporting details, examples, explanations, and evidence develop that main idea. A text may also contain a purpose, such as informing, explaining, persuading, or entertaining readers.",
+          "Good readers make predictions, ask questions, use context to understand unfamiliar vocabulary, and distinguish facts from opinions. They can infer information that is suggested rather than directly stated. For example, if a passage says that dark clouds gathered and people opened their umbrellas, you may infer that rain was expected or falling.",
+          "After reading, summarize the passage in your own words and identify its most important evidence. Check whether your interpretation is supported by the text rather than by assumptions. For examinations, read questions carefully, locate relevant passages, and answer precisely using evidence when required."
+        ],
+        keyPoint: "Identify main ideas, understand supporting details, make evidence-based inferences, and summarize accurately."
+      },
+      {
+        title: "Writing Clear Paragraphs",
+        paragraphs: [
+          "A paragraph develops one central idea. Its topic sentence introduces the main point, supporting sentences explain or develop that point, and a concluding sentence may summarize it or connect it to the next paragraph. Not every paragraph needs a separate concluding sentence, but its ideas should remain focused and connected.",
+          "Supporting details can include examples, facts, explanations, comparisons, or reasons. Transition words such as first, however, therefore, and for example show relationships between ideas. Avoid including unrelated information that distracts from the paragraph's purpose. For example, a paragraph about the benefits of reading should explain those benefits rather than suddenly discussing unrelated sports activities.",
+          "Plan your paragraph before writing, organize the ideas logically, and use clear language appropriate for the audience. After drafting, check whether the topic sentence matches the supporting details. Correct spelling, grammar, repetition, and punctuation during revision."
+        ],
+        keyPoint: "Organize one central idea using a topic sentence, relevant supporting details, and logical connections."
+      },
+      {
+        title: "Speaking and Everyday Communication",
+        paragraphs: [
+          "Effective speaking communicates ideas in a way listeners can understand. Consider your purpose and audience before choosing words. Speak at an appropriate pace, pronounce words clearly, and organize longer explanations into a logical beginning, middle, and conclusion. Simple, precise language is often more effective than unnecessarily complicated vocabulary.",
+          "Everyday communication includes greetings, introductions, asking questions, giving directions, making requests, and expressing opinions politely. For example, 'Could you please explain the instructions again?' is a respectful way to request clarification. Tone matters because the same words can sound supportive, impatient, or disrespectful depending on delivery.",
+          "Confidence grows through preparation and practice. Listen carefully when others speak, allow them to finish, and ask follow-up questions when something is unclear. When giving a short presentation, identify your main message, prepare key points, and practise aloud. Respectful communication includes recognizing different viewpoints and responding to disagreement without personal attacks."
+        ],
+        keyPoint: "Speak clearly, organize your ideas, listen actively, and adapt your language to the situation."
+      }
     ],
-    keyPoint: `Reflect on the main ideas in ${course.topics[index].toLowerCase()} and how you can apply them.`
+
+    "first-aid": [
+      {
+        title: "Introduction to First Aid",
+        paragraphs: [
+          "First aid is the initial assistance provided to someone who is ill or injured before qualified medical care becomes available. Its aims include preserving life, preventing a condition from worsening, and supporting recovery. First aid does not replace professional assessment, diagnosis, or treatment.",
+          "A first aider should remain calm, recognize the limits of their training, and consider personal safety before helping. Obtain assistance from a responsible adult or trained responder when needed. In a school or community setting, know who to contact and where approved first aid supplies are kept.",
+          "Different emergencies require different responses. A conscious person with a minor problem may be able to explain what happened, while someone with severe symptoms may need immediate emergency assistance. Never assume that a person is safe simply because an injury looks small. Follow recognized first aid training and the instructions of emergency professionals."
+        ],
+        keyPoint: "First aid provides initial assistance, but serious illness or injury requires appropriate professional care."
+      },
+      {
+        title: "Checking for Danger and Staying Safe",
+        paragraphs: [
+          "Before approaching an emergency, look for hazards that could harm you, the injured person, or bystanders. Hazards may include traffic, fire, smoke, electricity, unstable structures, chemicals, or other dangers. Do not enter an unsafe area or attempt a rescue beyond your training.",
+          "If the scene is dangerous, move to a safe location and contact emergency services. Warn others away from the hazard when it is safe to do so. If the scene is safe, check whether the person responds and ask a nearby person to obtain help or first aid supplies.",
+          "Use protective equipment, such as disposable gloves, when available and appropriate. Avoid unnecessary contact with blood or other body fluids. A rescuer's safety matters because becoming another casualty can make the emergency harder to manage. Follow local emergency guidance and the instructions of trained responders."
+        ],
+        keyPoint: "Assess the scene first, avoid hazards, use appropriate protection, and never create another casualty."
+      },
+      {
+        title: "Calling Emergency Services",
+        paragraphs: [
+          "Emergency services provide trained assistance for serious injuries, sudden illness, and other urgent situations. Call the appropriate local emergency number when someone is unresponsive, has serious breathing difficulty, experiences severe bleeding, or shows other signs of a life-threatening emergency. Do not delay a necessary call while trying to manage everything alone.",
+          "When calling, state your location clearly, describe what happened, explain the person's condition, and provide the number of people who need help. Answer the operator's questions and follow instructions. If possible, arrange for someone to meet responders and guide them to the correct place.",
+          "Remain on the line until the operator tells you it is appropriate to end the call. Do not hang up merely because you have shared the basic information. If the situation changes, tell the operator. Avoid crowding the injured person and protect their privacy while waiting for trained help."
+        ],
+        keyPoint: "Give emergency operators the location, nature of the emergency, person's condition, and any changes."
+      },
+      {
+        title: "Recognizing Common Emergencies",
+        paragraphs: [
+          "Emergencies can involve breathing problems, unconsciousness, seizures, allergic reactions, injuries, sudden confusion, or severe chest discomfort. Recognizing warning signs helps people seek assistance promptly. A person who cannot respond normally or is struggling to breathe needs urgent attention.",
+          "Do not try to diagnose a serious condition based only on appearance. Check what the person can tell you, observe their breathing and responsiveness, and communicate your observations to emergency professionals. If someone becomes unresponsive and is not breathing normally, contact emergency services and follow the operator's instructions for appropriate resuscitation.",
+          "For a seizure, protect the person from nearby hazards without restraining them or placing anything in their mouth. After the seizure, seek appropriate help and follow trained guidance. Suspected poisoning, a severe allergic reaction, or a sudden major change in consciousness also requires urgent professional assessment."
+        ],
+        keyPoint: "Recognize serious warning signs, seek emergency help promptly, and follow trained instructions rather than guessing a diagnosis."
+      },
+      {
+        title: "Understanding Severe Bleeding",
+        paragraphs: [
+          "Severe bleeding can become life-threatening because the body may lose blood rapidly. Warning signs include substantial ongoing bleeding, a serious wound, or symptoms such as weakness, confusion, or collapse. Treat suspected severe bleeding as an emergency and contact emergency services promptly.",
+          "If it is safe, use disposable gloves or another suitable barrier. For external bleeding, trained first aid guidance commonly recommends applying firm, direct pressure with a clean dressing or cloth. Do not repeatedly lift the dressing to inspect the wound, because doing so may interfere with clot formation. Follow emergency operator instructions.",
+          "Do not remove an embedded object from a wound or attempt procedures beyond your training. If blood soaks through a dressing, follow professional guidance about adding material and maintaining pressure. Keep the person as safe and comfortable as possible while awaiting help, and report any changes in their condition."
+        ],
+        keyPoint: "Severe bleeding requires urgent help, appropriate protection, and direct pressure when suitable and within your training."
+      },
+      {
+        title: "Burns, Injuries, and When to Seek Help",
+        paragraphs: [
+          "Burns may result from heat, hot liquids, chemicals, electricity, or other sources. The appropriate response depends on the cause and severity. For a thermal burn, recognized first aid guidance generally recommends cooling the affected area under cool running water, protecting it afterward, and avoiding ice, oils, or home remedies.",
+          "Chemical and electrical burns can cause serious harm even when the visible injury appears limited. Avoid contact with hazardous substances, follow emergency guidance, and obtain professional assessment. Do not apply substances to chemical injuries or attempt to neutralize chemicals unless specifically directed by qualified professionals.",
+          "Seek urgent help for serious, extensive, deep, chemical, or electrical burns and injuries involving breathing difficulty, major bleeding, severe pain, or suspected fractures. Do not move someone unnecessarily if a serious neck, back, or other major injury is suspected, unless remaining there creates immediate danger. Follow the instructions of trained responders."
+        ],
+        keyPoint: "Use appropriate first aid for the type of injury and seek professional care for serious or uncertain cases."
+      },
+      {
+        title: "Emergency Preparedness and First Aid Kits",
+        paragraphs: [
+          "Emergency preparedness means planning before an incident occurs. Schools, homes, and workplaces should know how to contact emergency services, identify safe exits, communicate important information, and locate first aid supplies. Clear responsibilities help people respond more effectively during stressful situations.",
+          "A first aid kit may contain suitable dressings, sterile gauze, adhesive bandages, disposable gloves, and other approved supplies. Its contents should reflect the setting, relevant risks, and local guidance. Check expiry dates, packaging, cleanliness, and stock levels regularly, and replace used or damaged items.",
+          "Preparedness also includes learning basic first aid from a recognized training provider, keeping emergency contacts accessible, and making reasonable arrangements for people with disabilities or additional needs. Do not use unfamiliar medical equipment or medicines without suitable training or authorization. Review plans after drills or incidents and correct any gaps."
+        ],
+        keyPoint: "Maintain appropriate supplies, learn recognized first aid procedures, and plan how to contact and guide emergency help."
+      }
+    ],
+
+    "computer-skills": [
+      {
+        title: "Introduction to Computers",
+        paragraphs: [
+          "A computer is an electronic device that receives data, processes it according to instructions, stores information, and produces output. Input devices include keyboards and mice; output devices include monitors and printers. Storage devices retain files, while processors execute instructions and help perform calculations.",
+          "Hardware refers to the physical components of a computer. Software consists of programs and instructions that tell the hardware what to do. An operating system manages essential functions, including files, applications, memory, and connected devices. Common applications include word processors, web browsers, spreadsheets, and presentation software.",
+          "Computers are useful for learning, communication, research, record keeping, and creative work. Different devices have different capabilities, but the basic principles remain similar. Learn to identify the main components, start and shut down devices correctly, and use applications suitable for each task."
+        ],
+        keyPoint: "Understand the roles of hardware, software, input, processing, storage, and output."
+      },
+      {
+        title: "Using a Keyboard and Mouse",
+        paragraphs: [
+          "The keyboard allows users to enter letters, numbers, symbols, and commands. Important keys include Enter, Space, Backspace, Delete, Shift, Tab, and the arrow keys. Modifier keys such as Ctrl on Windows can be combined with other keys to perform common tasks efficiently.",
+          "A mouse or touchpad moves the pointer, selects items, opens files, and interacts with on-screen controls. A single click usually selects an item, while a double-click often opens it. Right-clicking typically displays a context menu, although actions can vary by application and device settings.",
+          "Useful keyboard shortcuts include Ctrl+C to copy, Ctrl+V to paste, Ctrl+X to cut, Ctrl+Z to undo, and Ctrl+S to save in many Windows applications. Practise these commands in a safe document. Use a comfortable posture, avoid excessive force, and take short breaks during extended computer work."
+        ],
+        keyPoint: "Use common keys, pointer actions, and keyboard shortcuts accurately and comfortably."
+      },
+      {
+        title: "Managing Files and Folders",
+        paragraphs: [
+          "A file stores information such as a document, image, video, or spreadsheet. A folder groups files and may contain other folders. Organizing information into a clear folder structure makes it easier to find work, prevent duplication, and maintain useful records.",
+          "Use descriptive file names that indicate the content and, when useful, the date or version. Keep related work together, such as school assignments in a subject folder. Learn how to create, rename, copy, move, search for, and delete files. Before deleting anything, check that it is no longer needed.",
+          "Backups protect important work if a device is lost, damaged, or affected by a technical problem. Keep copies in a secure, approved location, such as an external drive or trusted cloud storage. Avoid opening unknown files, and never store passwords or confidential personal information in unprotected documents."
+        ],
+        keyPoint: "Use meaningful names, organized folders, careful file operations, and secure backups."
+      },
+      {
+        title: "Word Processing Basics",
+        paragraphs: [
+          "Word processing software helps users create, edit, format, and print documents. It is useful for letters, reports, assignments, meeting notes, and résumés. Common tasks include entering text, selecting paragraphs, correcting mistakes, adjusting margins, and saving work in an appropriate file format.",
+          "Formatting improves readability when used consistently. Headings show structure, paragraphs separate ideas, and lists organize related points. Choose readable fonts and suitable spacing instead of decorating every section. Proofread spelling, grammar, page layout, and factual accuracy before sharing or printing a document.",
+          "Save your work regularly and use descriptive file names. Learn the difference between editing an original document and creating a separate copy. When sending a final document, PDF may help preserve its layout, while an editable document format is useful when another person must revise the content."
+        ],
+        keyPoint: "Create clear, well-organized documents and save them in formats appropriate for their intended use."
+      },
+      {
+        title: "Spreadsheets and Basic Calculations",
+        paragraphs: [
+          "A spreadsheet organizes information into rows and columns. Each box is called a cell and is identified by its column letter and row number, such as A1. Spreadsheets are useful for budgets, attendance lists, marks, inventories, and other information that benefits from calculations.",
+          "Formulas calculate results from cell values. In many spreadsheet applications, =SUM(B2:B6) adds the values in cells B2 through B6, while =AVERAGE(B2:B6) calculates their mean. Formulas generally begin with an equals sign. Cell references allow calculations to update when the underlying data changes.",
+          "Clear headings, consistent formats, and accurate data entry help prevent errors. Sort or filter records carefully, and verify that formulas refer to the intended cells. Use charts when they make patterns easier to understand, and remember that incorrect input can produce misleading results even when the formula itself is correct."
+        ],
+        keyPoint: "Organize data accurately, use formulas for calculations, and check results before relying on them."
+      },
+      {
+        title: "Internet and Email Skills",
+        paragraphs: [
+          "The internet connects computers and services around the world. A web browser opens websites, while a search engine helps locate information. Search with specific keywords, compare trustworthy sources, and check publication dates. Not every page is accurate, current, or suitable for every purpose.",
+          "Email allows people to exchange messages and attachments. A professional message usually has a meaningful subject, an appropriate greeting, a clear body, and a polite closing. Check recipient addresses before sending, attach the intended files, and use Reply All only when everyone in the conversation needs the response.",
+          "Be careful with unexpected attachments, urgent requests for personal information, and links that lead to unfamiliar websites. Do not share passwords or verification codes by email. Respect privacy when sending messages to groups, and confirm that you have permission before sharing another person's contact details or documents."
+        ],
+        keyPoint: "Search critically, write clear emails, check recipients and attachments, and handle links and information cautiously."
+      },
+      {
+        title: "Digital Safety and Responsible Technology Use",
+        paragraphs: [
+          "Digital safety involves protecting accounts, devices, information, and personal wellbeing. Use long, unique passwords and a password manager where appropriate. Enable multifactor authentication when available, install updates, and use trusted security tools. Never share passwords or one-time verification codes with other people.",
+          "Protect personal information by limiting what you publish and checking privacy settings. Be alert to phishing messages that imitate trusted organizations to obtain information or money. Verify unusual requests through an independent, trusted channel rather than relying on the contact details in a suspicious message.",
+          "Responsible technology use includes respecting copyright, avoiding harassment, communicating respectfully, and checking facts before sharing information. Log out of shared devices and avoid accessing sensitive accounts on untrusted computers. Report suspicious activity or harmful online behavior to an appropriate trusted person or service."
+        ],
+        keyPoint: "Protect accounts and privacy, recognize suspicious messages, and use digital services ethically."
+      }
+    ],
+
+    communication: [
+      {
+        title: "The Communication Process",
+        paragraphs: [
+          "Communication is the exchange of information, ideas, feelings, or instructions between people. A sender develops a message and communicates it through a channel, such as speech, writing, gestures, or digital media. A receiver interprets the message and may provide feedback to show how it was understood.",
+          "Communication can be affected by noise, distractions, language differences, unclear wording, emotions, and assumptions. For example, an incomplete instruction may cause a team member to misunderstand a task. Asking questions and summarizing important details helps identify these problems before they cause larger difficulties.",
+          "Effective communication considers the purpose, audience, channel, and context. A private conversation may be appropriate for sensitive feedback, while a written notice may be better for sharing a schedule with a group. Feedback helps the sender discover whether the message was understood and whether further explanation is needed."
+        ],
+        keyPoint: "Understand sender, message, channel, receiver, feedback, and barriers to effective communication."
+      },
+      {
+        title: "Verbal Communication",
+        paragraphs: [
+          "Verbal communication uses spoken or written words to convey meaning. Clear verbal communication depends on choosing suitable language, organizing information logically, and considering what the audience already knows. Short explanations may work well for simple instructions, while complicated topics may require examples and opportunities for questions.",
+          "Tone, pace, volume, and pronunciation influence how spoken words are received. Speaking too quickly can make information difficult to follow, while an unsuitable tone may sound impatient or dismissive. Adjust your delivery to the environment without shouting unnecessarily or assuming that everyone understands specialized vocabulary.",
+          "Before an important conversation, identify the main point you need to communicate. Give relevant information in a logical order, invite clarification, and confirm important decisions. In writing, use appropriate grammar, punctuation, and structure. Respectful language does not mean avoiding disagreement; it means explaining different views without insulting others."
+        ],
+        keyPoint: "Use clear language, suitable tone, logical organization, and respectful wording."
+      },
+      {
+        title: "Nonverbal Communication",
+        paragraphs: [
+          "Nonverbal communication includes facial expressions, gestures, posture, eye contact, physical distance, and aspects of voice such as tone. These signals can support spoken words or communicate additional information. For example, nodding may show attention, while an attentive posture can help demonstrate that a conversation matters.",
+          "Nonverbal signals are influenced by culture, personality, disability, personal comfort, and context. Eye contact does not mean the same thing for everyone, and a facial expression cannot reliably reveal every person's thoughts. Avoid judging someone solely by body language or assuming that one gesture has a universal meaning.",
+          "Effective communicators consider verbal and nonverbal information together. Maintain a respectful distance, use gestures naturally, and pay attention to whether others appear comfortable. When meaning is unclear, ask a polite question instead of relying on assumptions. Online communication also needs care because written messages may not convey tone clearly."
+        ],
+        keyPoint: "Notice nonverbal signals while recognizing that their meanings depend on context and individual differences."
+      },
+      {
+        title: "Active Listening",
+        paragraphs: [
+          "Active listening means making a deliberate effort to understand another person's message. It involves paying attention, avoiding unnecessary interruptions, noticing the main ideas, and asking relevant questions. Listening differs from simply hearing words because it requires interpretation and a willingness to understand the speaker's perspective.",
+          "Useful techniques include paraphrasing, clarifying, and summarizing. For example, 'If I understand correctly, the meeting has moved to Friday' checks whether you have interpreted the information accurately. Open questions such as 'What difficulty did you encounter?' encourage explanation rather than a simple yes-or-no answer.",
+          "Good listeners avoid preparing a response while ignoring the speaker, making premature judgments, or changing the topic unnecessarily. They respect appropriate confidentiality and acknowledge feelings without pretending to know exactly what another person experiences. In a group discussion, listening carefully often reveals common interests and helps prevent avoidable disagreement."
+        ],
+        keyPoint: "Concentrate, ask clarifying questions, paraphrase key ideas, and respond after understanding the message."
+      },
+      {
+        title: "Public Speaking Basics",
+        paragraphs: [
+          "Public speaking involves presenting information or ideas to an audience. A successful presentation begins with a clear purpose: to inform, explain, persuade, or inspire. Consider the audience's knowledge and interests, then select a manageable number of main points that support your purpose.",
+          "Organize a speech with an introduction, a body, and a conclusion. The introduction identifies the topic and attracts attention; the body explains the main points with examples or evidence; and the conclusion reinforces the central message. Visual aids should support the explanation rather than replace the speaker or overwhelm the audience.",
+          "Prepare notes, practise aloud, and check the time available. Speak clearly, pause between important ideas, and use readable slides if needed. Nervousness is common and often becomes easier to manage with preparation. If you lose your place, consult your notes and continue calmly. Invite questions and respond honestly when you do not know an answer."
+        ],
+        keyPoint: "Plan a clear structure, practise delivery, use helpful evidence, and engage respectfully with the audience."
+      },
+      {
+        title: "Giving and Receiving Feedback",
+        paragraphs: [
+          "Feedback provides information about performance, behavior, or a piece of work. Constructive feedback identifies what is working, what needs improvement, and what action could help. It should be specific, respectful, timely, and connected to a clear objective rather than used to embarrass or attack someone.",
+          "For example, instead of saying 'Your presentation was bad,' explain, 'The main ideas were useful, but adding examples would make the explanation easier to understand.' This identifies a strength, describes a specific improvement, and gives the person a practical direction. Focus on observable behavior rather than making broad judgments about character.",
+          "Receiving feedback requires listening, asking questions when necessary, and considering whether the advice is useful. You do not have to accept every opinion automatically, but you should evaluate it fairly. Agree on realistic next steps and review progress later. Feedback works best as a two-way process that supports learning and improvement."
+        ],
+        keyPoint: "Give specific, respectful, actionable feedback and evaluate suggestions thoughtfully when receiving it."
+      },
+      {
+        title: "Respectful Communication Across Differences",
+        paragraphs: [
+          "People differ in language, culture, age, experience, beliefs, abilities, and communication preferences. Respectful communication recognizes these differences without treating anyone as less valuable. It avoids stereotypes and gives people a fair opportunity to express their views and participate in discussions.",
+          "Choose words that are understandable and appropriate for the audience. Explain unfamiliar terms, avoid mocking accents or mistakes, and ask respectful questions when cultural expectations are unclear. When communicating across languages, use straightforward sentences and confirm important details rather than assuming that silence means agreement.",
+          "Disagreement can be handled respectfully by separating a person's worth from the idea being discussed. Listen to the reasoning, explain your own view with evidence, and look for areas of agreement where possible. Bullying, discrimination, threats, or harassment should not be dismissed as ordinary disagreement; seek appropriate support when someone's safety or dignity is at risk."
+        ],
+        keyPoint: "Communicate inclusively, challenge ideas without demeaning people, and respond appropriately to discrimination or harassment."
+      }
+    ],
+
+    "financial-literacy": [
+      {
+        title: "Understanding Money",
+        paragraphs: [
+          "Money is commonly used to pay for goods and services, measure prices, and store purchasing power for future use. People may receive money through wages, business income, allowances, gifts, or other lawful sources. Understanding how money moves helps people plan their spending and make informed financial decisions.",
+          "Prices reflect the amount charged for goods or services, but the lowest price is not always the best value. Consider quality, usefulness, durability, and other costs. Inflation means that the general price level rises over time, reducing the amount of goods or services a given amount of money can purchase.",
+          "Financial literacy involves understanding income, expenses, saving, borrowing, risk, and financial goals. Financial decisions depend on personal circumstances, available resources, and responsibilities. Comparing options carefully and keeping accurate records helps people use money purposefully rather than making decisions only from pressure or impulse."
+        ],
+        keyPoint: "Understand money's uses, compare value carefully, and consider how prices and purchasing power affect decisions."
+      },
+      {
+        title: "Needs Versus Wants",
+        paragraphs: [
+          "Needs are essential for basic wellbeing, safety, or important responsibilities. Wants are things that may improve comfort or enjoyment but are not immediately essential. The distinction depends partly on circumstances: transport may be necessary for school or work, while a more expensive transport option may simply be a preference.",
+          "Limited resources require prioritization. Before spending, consider whether the item is necessary now, whether a suitable lower-cost alternative exists, and what other goals could be affected. Advertising, social pressure, and temporary excitement can make optional purchases feel essential even when they are not.",
+          "A useful spending decision balances essential needs, reasonable enjoyment, obligations, and future goals. Making a list before shopping can help prevent unplanned purchases. Needs and wants are not identical for every person, so evaluate decisions according to real circumstances rather than judging people by their spending choices."
+        ],
+        keyPoint: "Prioritize essential needs, recognize optional wants, and compare purchases against available resources and goals."
+      },
+      {
+        title: "Creating a Simple Budget",
+        paragraphs: [
+          "A budget is a plan for how money will be received, used, and saved over a period. It helps people compare expected income with expected expenses, prepare for obligations, and identify where adjustments may be needed. A budget can cover a week, a month, a school term, or another useful period.",
+          "Start by recording expected income and listing expenses such as transport, food, school materials, communication, and other responsibilities. Separate fixed expenses from costs that vary. Then assign realistic amounts to priorities and savings where possible. Total planned spending should not exceed available resources without a clear, responsible plan.",
+          "Review the budget against actual spending and adjust it when circumstances change. If costs are higher than expected, identify which optional expenses can be reduced without neglecting essential needs. A budget is a flexible planning tool, not a guarantee that unexpected expenses will never occur."
+        ],
+        keyPoint: "Record income, estimate expenses, plan priorities, and compare actual spending with your budget."
+      },
+      {
+        title: "Saving and Setting Goals",
+        paragraphs: [
+          "Saving means keeping part of available money for future use instead of spending it immediately. Savings can support goals such as educational materials, transport, a planned purchase, or unexpected costs. Even small, regular contributions can build a useful habit when they fit within a person's circumstances.",
+          "A useful savings goal is specific and realistic. Identify what the money is for, the amount required, and the time available. If a goal costs 12,000 Rwandan francs and you can safely set aside 2,000 francs each week, reaching the target would take six weeks, assuming no withdrawals or changes in the plan.",
+          "Choose an appropriate, secure way to keep savings and understand any fees, access restrictions, or risks. Review progress regularly and adjust the plan when necessary. Avoid promises of guaranteed high returns, and never feel pressured to give money to an unfamiliar person claiming to offer a special savings opportunity."
+        ],
+        keyPoint: "Set realistic savings targets, contribute consistently when possible, and keep money in a suitable secure place."
+      },
+      {
+        title: "Understanding Income and Expenses",
+        paragraphs: [
+          "Income is money received, while expenses are the costs of goods, services, and obligations. Income may come from employment, self-employment, a business, or other legitimate sources. Expenses may include essentials, transport, learning materials, household responsibilities, and optional activities.",
+          "Tracking income and expenses reveals patterns that are difficult to notice from memory alone. A simple record can include the date, description, amount received or spent, and category. Comparing these records over time helps identify repeated costs, unexpected changes, and opportunities to plan more effectively.",
+          "The difference between income and expenses shows whether a person has money remaining or faces a shortfall during a period. A shortfall may require reviewing costs, adjusting plans, or seeking appropriate support. Records should be accurate, kept securely, and used to guide decisions rather than to make unrealistic assumptions about future income."
+        ],
+        keyPoint: "Track money received and spent, categorize transactions, and use the difference to improve planning."
+      },
+      {
+        title: "Responsible Borrowing and Debt Awareness",
+        paragraphs: [
+          "Borrowing means receiving money or resources that must be repaid under agreed conditions. Debt can help meet certain needs, but repayment obligations can create difficulties if the cost or timing is misunderstood. Before borrowing, identify the purpose, total amount to repay, interest, fees, due dates, and consequences of late payment.",
+          "Interest is the cost of borrowing or the return earned on certain savings. A loan's total cost may include fees in addition to interest. A small regular repayment can still be difficult to manage if income is uncertain or essential expenses are already high. Compare the full repayment amount rather than focusing only on the advertised installment.",
+          "Avoid borrowing because of pressure, unclear promises, or a desire to match other people's spending. Never sign an agreement you do not understand. For significant financial commitments, seek guidance from a trusted, qualified adult or appropriate financial professional. Borrowing decisions should consider realistic repayment ability and the risks of unexpected changes."
+        ],
+        keyPoint: "Understand the full repayment cost, read conditions carefully, and assess whether repayments are realistic."
+      },
+      {
+        title: "Avoiding Financial Scams",
+        paragraphs: [
+          "Financial scams use deception to persuade people to send money, reveal confidential information, or provide access to accounts. Warning signs may include guaranteed high returns, urgent demands, secret offers, unexpected prizes, suspicious links, and requests for passwords or verification codes.",
+          "Scammers may pretend to represent a bank, employer, government office, delivery service, or trusted acquaintance. Check unexpected claims using an official contact method that you locate independently. Do not rely only on a phone number or link supplied in a suspicious message, and never share a one-time security code to prove your identity to an unknown caller.",
+          "If an offer seems suspicious, stop and ask a trusted person for advice before sending money. Keep evidence of suspicious messages and report them through appropriate official channels. If you believe an account or payment has been compromised, contact the relevant provider promptly using its verified contact information."
+        ],
+        keyPoint: "Question unrealistic promises, verify identities independently, protect account details, and report suspected fraud."
+      }
+    ],
+
+    "career-readiness": [
+      {
+        title: "Discovering Your Strengths",
+        paragraphs: [
+          "Career readiness begins with understanding your interests, abilities, values, and areas for improvement. Strengths may include explaining ideas, organizing tasks, solving problems, working with people, using technology, or learning new skills. Interests describe activities that attract your attention, while values describe what matters to you in work and life.",
+          "Use evidence rather than assumptions to identify strengths. Review school projects, responsibilities, volunteer activities, hobbies, and feedback from people who know your work. For example, repeatedly organizing group activities may suggest planning and coordination skills. A single mistake does not define your ability; skills can develop with practice.",
+          "Compare your strengths and interests with possible educational pathways and occupations. Research the tasks, training, working conditions, and skills associated with each option. Keep an open mind: discovering a weakness can help you choose a learning goal, while discovering a new interest may reveal an opportunity you had not previously considered."
+        ],
+        keyPoint: "Identify strengths using real examples, recognize development needs, and explore careers that fit your interests and values."
+      },
+      {
+        title: "Setting Personal and Career Goals",
+        paragraphs: [
+          "Goals give direction to learning and career development. A goal may focus on completing a course, improving a skill, preparing an application, or exploring an occupation. Clear goals make it easier to decide which activities deserve attention and how progress will be measured.",
+          "A useful goal is specific, measurable, achievable, relevant, and time-bound. Instead of saying 'I will improve my computer skills,' you could aim to complete a spreadsheet practice project by the end of the month. Break larger goals into smaller tasks, assign realistic deadlines, and identify any resources or support you need.",
+          "Review progress regularly and revise plans when circumstances change. Some goals depend on opportunities outside your control, so focus on actions you can take, such as practising, researching requirements, or seeking feedback. Learning from setbacks helps you adjust your approach without assuming that one unsuccessful attempt determines your future."
+        ],
+        keyPoint: "Set clear, realistic goals, divide them into actions, track progress, and adjust plans when needed."
+      },
+      {
+        title: "Preparing a CV or Résumé",
+        paragraphs: [
+          "A CV or résumé summarizes a person's education, skills, experience, achievements, and relevant activities for an application. Requirements vary by country, employer, and opportunity, so read the instructions before preparing the document. A strong application is accurate, easy to read, and tailored to the role.",
+          "Common sections include contact information, a short profile when useful, education, relevant skills, experience, projects, volunteering, and achievements. People with limited work experience can include school responsibilities, community activities, practical projects, and transferable skills. Describe what you actually did rather than inventing a job title or qualification.",
+          "Use clear headings, consistent formatting, concise bullet points, and correct spelling. Emphasize evidence relevant to the opportunity. For example, describe organizing a school event by explaining the responsibility and outcome. Check dates, contact details, and file format before sending, and avoid including unnecessary sensitive personal information."
+        ],
+        keyPoint: "Present accurate, relevant qualifications and experience in a clear, readable, tailored document."
+      },
+      {
+        title: "Writing a Professional Application",
+        paragraphs: [
+          "A professional application explains why you are applying and how your qualifications relate to an opportunity. Before writing, study the advertisement or instructions, identify required qualifications, and gather accurate information about the organization. Follow the requested format, deadline, and submission method.",
+          "A formal application letter or email usually identifies the opportunity, introduces the applicant, explains relevant skills and evidence, and closes politely. Use a suitable greeting and subject line, organized paragraphs, and professional language. Connect your abilities to the actual requirements instead of relying on general claims such as 'I am the best candidate.'",
+          "Proofread carefully, confirm that required documents are attached, and check the recipient's details. Do not exaggerate qualifications or include false references. Keep a copy of what you submitted and record the date. If follow-up is appropriate, communicate politely and allow a reasonable amount of time for the organization to respond."
+        ],
+        keyPoint: "Follow application instructions, connect your evidence to the requirements, and submit an accurate, professional application."
+      },
+      {
+        title: "Interview Preparation",
+        paragraphs: [
+          "An interview allows an organization to learn about an applicant's experience, skills, motivation, and suitability. Preparation begins by understanding the role and researching the organization using reliable sources. Review the application you submitted and identify examples that demonstrate relevant abilities.",
+          "Practise explaining your strengths, learning experiences, achievements, and reasons for applying. The STAR method can help structure examples: describe the Situation, Task, Action you took, and Result. Choose truthful examples from employment, school, volunteering, projects, or other relevant activities.",
+          "Plan appropriate clothing, travel or connection arrangements, and arrival time. Listen carefully to each question, answer directly, and ask for clarification if needed. Be honest when you do not know something and explain how you would learn or find the answer. After the interview, reflect on what went well and what you could improve."
+        ],
+        keyPoint: "Research the opportunity, practise truthful examples, communicate clearly, and prepare practical arrangements."
+      },
+      {
+        title: "Workplace Ethics and Reliability",
+        paragraphs: [
+          "Workplace ethics are principles that guide responsible behavior at work. They include honesty, respect, fairness, confidentiality, accountability, and compliance with appropriate rules. Ethical employees report information accurately, use resources responsibly, and avoid discrimination, harassment, or misuse of their position.",
+          "Reliability means that others can reasonably depend on you to meet agreed responsibilities. This includes arriving as agreed, completing tasks carefully, communicating delays early, and asking for help when instructions are unclear. If a mistake occurs, explain it honestly and take appropriate steps to correct it instead of hiding the problem.",
+          "Professional conduct also involves respecting colleagues, protecting confidential information, accepting constructive feedback, and maintaining suitable boundaries. Rules vary between workplaces, so learn the relevant policies and seek guidance when uncertain. Report serious safety, misconduct, or safeguarding concerns through appropriate channels rather than ignoring risks."
+        ],
+        keyPoint: "Act honestly, respect others, protect confidential information, and take responsibility for your work."
+      },
+      {
+        title: "Continuous Learning and Career Growth",
+        paragraphs: [
+          "Continuous learning means developing knowledge and skills throughout life. Technology, workplace practices, and community needs change over time, so people often need to update their abilities. Learning may occur through formal education, short courses, supervised practice, reading, mentoring, or experience in projects.",
+          "Begin by identifying the skills required for your goals and comparing them with your current abilities. Create a practical development plan with learning activities, deadlines, and evidence of progress. Feedback from teachers, mentors, supervisors, and colleagues can help identify gaps and suggest useful next steps.",
+          "Career growth does not always follow a straight path. New responsibilities, changing interests, and unexpected opportunities may require a revised plan. Keep records of completed training and meaningful achievements, reflect on lessons learned, and seek trustworthy opportunities to practise new skills. Stay cautious of training or employment offers that require suspicious payments or promise guaranteed success."
+        ],
+        keyPoint: "Keep learning, seek useful feedback, practise new skills, and adapt your career plan as opportunities change."
+      }
+    ]
+  };
+
+  const courseLessons = lessons[course.slug];
+
+  if (courseLessons && courseLessons[index]) {
+    return courseLessons[index];
+  }
+
+  // Safe fallback for any future course or topic.
+  return {
+    title: course.topics[index] || course.title,
+    paragraphs: [
+      `${course.topics[index]} is an important part of ${course.title}. Understanding this topic helps learners develop useful knowledge and apply it in education, daily life, and work.`,
+      "Study the main concepts carefully, identify important terms, and connect the ideas to practical examples. Compare reliable information, ask questions when something is unclear, and explain the topic in your own words.",
+      "Review what you have learned, practise applying the concepts, and identify areas that need more attention. Use feedback and further study to strengthen your understanding before moving to the next lesson."
+    ],
+    keyPoint: `Understand the main concepts of ${course.topics[index]} and practise applying them in real situations.`
   };
 }
 const learnLoopCourses = [
