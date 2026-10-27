@@ -4384,42 +4384,26 @@ certificatePanel.classList.remove("hidden");
       downloadButton.type = "button";
       downloadButton.textContent = "Download Certificate (PDF)";
 
-      downloadButton.addEventListener("click", () => {
-        const learnerName = nameInput.value.trim();
-
-        if (!learnerName) {
-          nameInput.setCustomValidity("Please enter your full name.");
-          nameInput.reportValidity();
-          nameInput.addEventListener("input", () => {
-            nameInput.setCustomValidity("");
-          }, { once: true });
-          return;
-        }
-
-       
-      
+ 
 downloadButton.addEventListener("click", async () => {
-  let jsPDF = window.jspdf?.jsPDF;
+  const learnerName = nameInput.value.trim();
+
+  if (!learnerName) {
+    nameInput.setCustomValidity("Please enter your full name.");
+    nameInput.reportValidity();
+    nameInput.addEventListener("input", () => {
+      nameInput.setCustomValidity("");
+    }, { once: true });
+    return;
+  }
+
+  const jsPDF = window.jspdf?.jsPDF;
 
   if (!jsPDF) {
-    try {
-      await new Promise((resolve, reject) => {
-        const script = document.createElement("script");
-        script.src =
-          "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js";
-        script.onload = resolve;
-        script.onerror = reject;
-        document.head.appendChild(script);
-      });
+    alert("PDF library could not load. Please refresh and try again.");
+    return;
+  }
 
-    
- 
-
-
-if (!jsPDF) {
-  alert("PDF library is not ready. Please refresh the page and try again.");
-  return;
-}  
         const pdf = new jsPDF({
           orientation: "landscape",
           unit: "mm",
