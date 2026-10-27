@@ -3372,69 +3372,90 @@ const learnLoopCourses = [
   }
 ];
 
+
 const academyLeadershipLessons = [
   {
     title: "Understanding Leadership",
     paragraphs: [
-      "Leadership is the ability to guide, support, and encourage people toward a shared goal.",
-      "Students can demonstrate leadership by organizing group assignments, helping classmates, and taking responsibility.",
-      "Good leaders listen to others, explain decisions, and learn from their mistakes."
+      "Leadership is the ability to guide, support, motivate, and encourage people toward a shared goal. A leader helps a group understand what needs to be achieved, organizes activities, and supports members as they work together. Leadership is not simply about having a title or giving instructions. It is about taking responsibility, serving others, and helping people contribute their abilities.",
+      "Leadership can be practiced in many places, including schools, families, community organizations, workplaces, and sports teams. A student demonstrates leadership by organizing a group assignment, helping classmates understand a difficult topic, encouraging participation, or taking responsibility for completing an agreed task. These everyday actions can make a positive difference even when the student has no official leadership position.",
+      "Different situations require different leadership approaches. Sometimes a leader must make a timely decision. At other times, the leader should ask questions, listen to the group, and allow members to suggest solutions. Effective leaders consider the task, the experience of the team, and the needs of the people involved before deciding how to act.",
+      "Leadership also requires continuous learning. A leader may make an incorrect decision or discover that a plan is not working. Instead of hiding the mistake or blaming others, a responsible leader examines what happened, listens to feedback, corrects the problem, and applies the lesson to future situations. This attitude encourages trust and improvement.",
+      "For example, imagine that a school group must prepare a presentation within three days. A student leader helps the group understand the assignment, divides tasks fairly, agrees on deadlines, checks progress, and offers assistance when someone experiences difficulty. The leader does not do every task alone or take all the credit. The group succeeds because members understand their responsibilities and work toward the same objective."
     ],
-    keyPoint: "Leadership means helping people work together toward a common goal."
+    keyPoint: "Leadership is responsible service: helping people work together, achieve shared goals, and improve through experience."
   },
   {
     title: "Qualities of a Good Leader",
     paragraphs: [
-      "Good leaders demonstrate honesty, respect, responsibility, patience, and fairness.",
-      "Reliable leaders keep their promises when possible and admit their mistakes.",
-      "Leaders should welcome feedback and keep learning."
+      "Good leaders develop qualities that help people trust and cooperate with them. Important qualities include honesty, responsibility, respect, fairness, patience, courage, empathy, and reliability. No leader demonstrates every quality perfectly at all times. The important thing is to practice these qualities consistently and accept responsibility when improvement is needed.",
+      "Honesty means communicating truthfully, presenting information accurately, and admitting mistakes. A leader who makes a promise should make a genuine effort to fulfill it or explain promptly when circumstances prevent it. Dishonesty may produce short-term advantages, but it damages trust and makes teamwork more difficult.",
+      "Responsibility means understanding one's duties and accepting the consequences of one's decisions. A responsible student leader attends meetings, completes assigned work, keeps useful records, and follows agreed rules. If a deadline is missed, the leader explains the situation and helps the group develop a practical recovery plan instead of unfairly blaming another member.",
+      "Fairness and respect require treating people with dignity, regardless of their background, abilities, opinions, or social position. A fair leader gives members reasonable opportunities to participate and considers evidence before making judgments. Empathy helps the leader understand how others may feel, while patience allows people time to learn, ask questions, and correct mistakes.",
+      "A good leader is also willing to learn. Feedback from classmates, teachers, colleagues, and community members can reveal weaknesses that the leader may not notice alone. Rather than viewing every suggestion as an attack, an effective leader considers whether the feedback is useful and makes changes when appropriate. Courage is equally important because some responsible decisions require speaking up against unfair treatment or admitting an unpopular truth."
     ],
-    keyPoint: "Trust grows when leaders act honestly and fairly."
+    keyPoint: "Trustworthy leadership grows from honesty, fairness, responsibility, empathy, courage, and a willingness to learn."
   },
   {
     title: "Communication and Active Listening",
     paragraphs: [
-      "Communication is the exchange of information, ideas, and feelings.",
-      "Active listening means paying attention, avoiding interruptions, and asking useful questions.",
-      "During group work, invite everyone to share ideas before making a decision."
+      "Communication is the process of sharing information, ideas, instructions, and feelings. It includes speaking, writing, listening, observing body language, and asking questions. Good communication helps a team understand its goals, coordinate activities, prevent misunderstandings, and address problems before they become more serious.",
+      "Effective leaders communicate clearly and respectfully. They explain what needs to be done, why it matters, who is responsible, and when the work should be completed. They choose language appropriate to their audience and avoid unnecessary insults, confusing instructions, or assumptions that everyone already understands the task. Important decisions and deadlines should be recorded when appropriate.",
+      "Active listening means concentrating on the speaker to understand the message rather than simply waiting for an opportunity to respond. A good listener avoids unnecessary interruptions, pays attention to the speaker's main ideas, asks clarifying questions, and summarizes important points. For example, a student might say, 'If I understand correctly, you are concerned that we have too little time to finish the research. Is that right?' This gives the speaker an opportunity to confirm or correct the understanding.",
+      "Nonverbal communication also matters. Facial expressions, posture, gestures, and tone of voice can affect how a message is understood. However, these signals do not always reveal exactly what a person thinks or feels. Leaders should avoid making quick assumptions and should ask respectful questions when a message is unclear.",
+      "Constructive feedback focuses on specific behavior and practical improvement rather than attacking someone's character. Instead of saying, 'You are careless,' a leader might explain, 'The report was submitted without the required references. Let's review the instructions together before the next submission.' This approach identifies the problem and offers a way forward without humiliating the person.",
+      "Communication is especially important when people disagree. A leader should allow participants to explain their views, distinguish facts from assumptions, summarize the points of disagreement, and help the group identify possible solutions. Confidential information should be shared only with people who have a legitimate reason to receive it."
     ],
-    keyPoint: "Listen to understand before responding."
+    keyPoint: "Listen to understand, communicate clearly, ask respectful questions, and give feedback that helps people improve."
   },
   {
     title: "Teamwork and Collaboration",
     paragraphs: [
-      "Teamwork combines people's skills and efforts to achieve a shared goal.",
-      "Different opinions and abilities can strengthen a team when everyone is respected.",
-      "Share tasks fairly, encourage participation, and recognize contributions."
+      "Teamwork is the cooperation of two or more people who combine their knowledge, skills, time, and effort to achieve a shared objective. Collaboration is more than placing people in the same group. Members must communicate, coordinate their activities, respect one another, and accept shared responsibility for the final result.",
+      "Successful teamwork begins with a clear goal. Every member should understand what the group must accomplish, the expected standard of work, the available resources, and the deadline. The team can then divide a large task into smaller responsibilities. Duties should be allocated fairly according to members' abilities, interests, availability, and opportunities to develop new skills.",
+      "Different people contribute different strengths. One student may be good at research, another at writing, and another at explaining information during a presentation. A strong team values these differences and gives everyone a meaningful opportunity to participate. Members who are less experienced should receive guidance rather than being excluded from important tasks.",
+      "Accountability helps the team remain organized. Members should agree on deadlines, report progress honestly, and inform the group early if they face difficulties. Short progress meetings can identify delays and allow responsibilities to be adjusted. A leader should monitor the overall task without controlling every small action or preventing members from using their initiative.",
+      "Disagreements can occur because members have different ideas or expectations. The team should return to its shared objective, compare suggestions using evidence, and agree on a fair decision-making process. If a member repeatedly fails to complete agreed responsibilities, the group should discuss the issue privately and constructively, clarify expectations, and seek appropriate guidance if needed.",
+      "For example, when preparing a community health presentation, one member might research prevention, another prepare visual materials, another organize the presentation, and another check the accuracy of the information. The team should review the final work together so that every section supports the same message. Afterward, members can discuss what worked well and what they would improve next time."
     ],
-    keyPoint: "A strong team shares responsibility and respects every member."
+    keyPoint: "Strong teams set clear goals, divide work fairly, communicate regularly, respect differences, and share responsibility for results."
   },
   {
     title: "Decision-Making and Problem-Solving",
     paragraphs: [
-      "Good decisions begin with understanding the problem and gathering reliable information.",
-      "Compare possible solutions by considering their benefits, risks, and effects on others.",
-      "Review the outcome and adjust your plan when necessary."
+      "Decision-making is the process of choosing among possible actions, while problem-solving involves identifying a difficulty and developing an effective response. Leaders use both skills when organizing activities, resolving disagreements, managing limited resources, and responding to unexpected changes. Good decisions are not based only on personal preference; they consider relevant information, possible consequences, and the people affected.",
+      "The first step is to define the problem accurately. A group that says, 'Our project is failing,' may need to identify the actual cause: unclear duties, insufficient materials, poor communication, or unrealistic deadlines. A clear problem statement helps prevent the team from spending time on symptoms without addressing the underlying issue.",
+      "Next, gather reliable information. This may involve checking instructions, reviewing records, consulting knowledgeable people, observing what is happening, or asking those affected for their views. Leaders should distinguish confirmed facts from assumptions and recognize when information is incomplete. When a decision involves health, safety, money, or important rights, qualified guidance may be necessary.",
+      "After understanding the problem, develop several possible solutions. Compare them according to their expected benefits, costs, risks, fairness, time requirements, available resources, and long-term effects. A simple decision table can help a team compare options systematically. The cheapest or fastest option is not automatically the best if it creates greater risks or harms other people.",
+      "Once an option is selected, prepare an action plan. Identify who will do each task, what resources are needed, when activities should happen, and how progress will be measured. Communicate the decision to relevant people and explain the main reasons. For urgent situations, leaders may need to act quickly, but they should still follow safety procedures and applicable rules.",
+      "Finally, evaluate the outcome. Did the solution address the original problem? Were the expected results achieved? Did new difficulties appear? If the solution was ineffective, examine why and adjust the plan. For example, if a study group performs poorly because meetings are irregular, members might establish a weekly schedule, assign preparation tasks, and review progress after two weeks."
     ],
-    keyPoint: "Understand the problem, compare options, act, and review."
+    keyPoint: "Define the problem, gather reliable information, compare solutions, take responsible action, and evaluate the outcome."
   },
   {
     title: "Managing Conflict and Disagreement",
     paragraphs: [
-      "Conflict happens when people have different needs, opinions, or expectations.",
-      "Listen calmly, identify the main issue, and look for a fair solution.",
-      "Seek help from a trusted person if a disagreement involves bullying or safety concerns."
+      "Conflict occurs when people have different needs, opinions, expectations, interests, or interpretations of a situation. It is a normal part of working with others and does not always indicate that a team is failing. When handled respectfully, disagreement can reveal overlooked problems, improve decisions, and help people understand different perspectives.",
+      "Conflict becomes more difficult when people make accusations, interrupt one another, spread rumors, or respond while extremely upset. A responsible leader should encourage participants to pause when necessary, speak respectfully, and focus on the issue rather than attacking a person's character. Everyone should have a reasonable opportunity to explain what happened and how the situation affects them.",
+      "A practical conflict-resolution process begins by identifying the specific disagreement. Each person explains their concerns without unnecessary interruption. The participants then clarify the facts, identify shared interests, and separate essential needs from personal preferences. Asking questions such as 'What outcome would be fair to everyone?' can help move the discussion from blame toward solutions.",
+      "Possible solutions should be considered openly. The people involved might agree to divide responsibilities differently, clarify expectations, correct inaccurate information, establish new communication rules, or ask a neutral person to help. Any agreement should specify what each person will do and when the arrangement will be reviewed. A solution is more likely to last when participants understand and accept their responsibilities.",
+      "Not every conflict can or should be resolved through direct discussion. Bullying, threats, harassment, discrimination, violence, or serious safety concerns require appropriate support from a trusted teacher, school administrator, supervisor, safeguarding officer, or other responsible authority. A person should not be pressured to confront someone directly when doing so could place them at risk.",
+      "After resolving a disagreement, the group should review what caused it and how similar problems might be prevented. Clear duties, realistic deadlines, transparent decisions, and respectful communication can reduce repeated misunderstandings. Leaders should also protect appropriate confidentiality and avoid sharing personal details with people who do not need them."
     ],
-    keyPoint: "Handle disagreements respectfully and seek fair solutions."
+    keyPoint: "Resolve ordinary disagreements through respectful listening, clear facts, fair solutions, and agreed actions; seek help when safety or dignity is at risk."
   },
   {
     title: "Ethics, Responsibility, and Leading by Example",
     paragraphs: [
-      "Ethical leadership involves honesty, fairness, respect, and concern for others.",
-      "Responsible leaders follow rules, protect confidential information, and correct mistakes.",
-      "Leading by example means demonstrating the behavior you expect from others."
+      "Ethical leadership means making decisions according to principles such as honesty, fairness, respect, accountability, and concern for other people. An ethical leader considers not only whether an action is permitted but also whether it is responsible, transparent, and likely to cause unnecessary harm. Personal convenience or the desire to gain recognition should not take priority over the group's legitimate interests.",
+      "Integrity means that a person's actions are consistent with the values they claim to follow. A student leader who expects classmates to arrive on time should also make a reasonable effort to be punctual. A leader who asks others to acknowledge their mistakes should be willing to do the same. Leading by example makes expectations more credible because people can observe the behavior directly.",
+      "Accountability requires accepting responsibility for decisions and their consequences. Leaders should explain important decisions, keep accurate records where necessary, correct mistakes, and cooperate with appropriate reviews. If a leader uses group resources incorrectly or provides inaccurate information, the responsible response is to acknowledge the problem and take practical steps to correct it.",
+      "Ethical leaders protect people's dignity, privacy, and legitimate interests. They should not share confidential information without a proper reason, favor friends unfairly, misuse authority, or take credit for work completed by others. When a leader has a personal interest that could affect a decision, that conflict should be disclosed and handled according to the relevant rules.",
+      "Responsibility also includes using resources carefully. Time, money, materials, equipment, and information should be managed for their intended purposes. Leaders should follow applicable school, workplace, community, and legal requirements. When they lack the knowledge or authority to make an important decision, they should consult a qualified or authorized person instead of pretending to know everything.",
+      "Ethical leadership requires courage because doing the right thing may be inconvenient or unpopular. A leader may need to correct false information, challenge an unfair decision respectfully, or report serious misconduct through appropriate channels. Courage should be combined with good judgment: concerns should be communicated responsibly, evidence should be handled carefully, and people should not be accused without a reasonable basis.",
+      "To develop ethical leadership, reflect regularly on questions such as: Was my decision fair? Did I listen to the people affected? Did I explain my reasons honestly? Did I protect confidential information? What should I do differently next time? These questions encourage continuous improvement and help leaders build a reputation based on responsible conduct."
     ],
-    keyPoint: "A leader's actions should reflect the values they expect from others."
+    keyPoint: "Ethical leaders act with integrity, accept accountability, protect others' dignity, use resources responsibly, and demonstrate the values they expect from their team."
   }
 ];
 
