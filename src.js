@@ -681,13 +681,59 @@ if (data.session) {
 } else {
 
       
-      } else {
-        if ($("#authMessage")) {
-          $("#authMessage").textContent =
-            "Account created. Check your email for a verification link, then log in.";
-        }
-        toast("Check your email to verify your account.");
+    
+} else {
+  if ($("#authMessage")) {
+    $("#authMessage").textContent =
+      "Account created. Enter the six-digit verification code sent to your email.";
+  }
+
+  toast("Check your email for your LearnLoop verification code.");
+
+  const token = window.prompt(
+    "Enter the six-digit verification code sent to your email:"
+  );
+
+  if (token && /^\d{6}$/.test(token.trim())) {
+    const { data: verifyData, error: verifyError } =
+      await supabase.auth.verifyOtp({
+        email,
+        token: token.trim(),
+        type: "signup"
+      });
+
+    if (verifyError) throw verifyError;
+
+    state.session = verifyData.session;
+
+    if (phoneCountry && phoneNumber && verifyData.user) {
+      const { error: phoneSaveError } = await supabase
+        .from("profiles")
+        .upsert(
+          {
+            id: verifyData.user.id,
+            country_calling_code: phoneCountry,
+            phone_number: phoneNumber,
+            phone_is_public: false,
+            updated_at: new Date().toISOString()
+          },
+          { onConflict: "id" }
+        );
+
+      if (phoneSaveError) {
+        console.error("Phone save error:", phoneSaveError);
       }
+    }
+
+    await fetchProfile();
+    closeDialog($("#authDialog"));
+    await afterLogin();
+    toast("Your email is verified. Welcome to LearnLoop!");
+  } else if (token !== null) {
+    toast("Enter the six-digit code exactly as received.", "error");
+  }
+}
+
     } else {
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
