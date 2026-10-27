@@ -4514,7 +4514,7 @@ quizPanel.replaceChildren();
   function showQuestion() {
     if (academyQuizTimer) clearInterval(academyQuizTimer);
 
-    if (questionIndex >= academyLeadershipQuiz.length) {
+    if (questionIndex >= questions.length) {
       finishQuiz();
       return;
     }
@@ -4525,9 +4525,9 @@ quizPanel.replaceChildren();
     feedback.textContent = "";
     optionsBox.replaceChildren();
 
-    const question = academyLeadershipQuiz[questionIndex];
+    const question = questions[questionIndex];
     heading.textContent =
-      `Question ${questionIndex + 1} of ${academyLeadershipQuiz.length}`;
+      `Question ${questionIndex + 1} of ${questions.length}`;
     questionText.textContent = question.question;
     timer.textContent = `Time remaining: ${secondsLeft} seconds`;
 
@@ -4559,7 +4559,7 @@ quizPanel.replaceChildren();
     });
 
     nextButton.textContent =
-      questionIndex === academyLeadershipQuiz.length - 1
+      questionIndex === questions.length - 1
         ? "See results"
         : "Next question";
 
