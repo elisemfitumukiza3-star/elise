@@ -3876,13 +3876,32 @@ function bindEvents() {
     $("#authEmail").value = email;
     $("#authPassword").value = password;
 
-    if (state.authMode === "signup") {
-      $("#authName").value = name;
-      if (!name) {
-        $("#welcomeAuthMessage").textContent = "Please enter your display name.";
-        return;
-      }
-    }
+   
+if (state.authMode === "signup") {
+  $("#authName").value = name;
+
+  const countryCode = $("#signupPhoneCountry")?.value || "";
+  const phoneNumber = $("#signupPhone")?.value.trim() || "";
+
+  if (!name) {
+    $("#welcomeAuthMessage").textContent =
+      "Please enter your display name.";
+    return;
+  }
+
+  if (!countryCode || !phoneNumber) {
+    $("#welcomeAuthMessage").textContent =
+      "Please enter your country code and phone number.";
+    return;
+  }
+
+  $("#welcomeAuthMessage").textContent =
+    "Your details are ready. Creating your account...";
+  
+  $("#authName").dataset.phoneCountry = countryCode;
+  $("#authName").dataset.phoneNumber = phoneNumber;
+}
+
 
     $("#welcomeAuthMessage").textContent = "Please wait...";
 
