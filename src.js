@@ -4929,7 +4929,9 @@ if (score < ACADEMY_PASSING_SCORE) {
 }
 } // Closes finishQuiz()
 
-} // ADD THIS brace to close startAcademyQuiz()
+showQuestion();
+
+} // Closes startAcademyQuiz()
 
 document.addEventListener("click", function (event) {
   const button = event.target.closest("#academyQuizButton");
