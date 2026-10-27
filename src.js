@@ -645,12 +645,42 @@ const { data, error } = await supabase.auth.signUp({
 
       if (error) throw error;
 
-      if (data.session) {
-        state.session = data.session;
-        await fetchProfile();
-        closeDialog($("#authDialog"));
-        await afterLogin();
-        toast("Welcome to LearnLoop!");
+if (data.session) {
+  state.session = data.session;
+
+  await fetchProfile();
+
+  if (phoneCountry && phoneNumber) {
+    const { error: phoneSaveError } = await supabase
+      .from("profiles")
+      .upsert(
+        {
+          id: data.user.id,
+          country_calling_code: phoneCountry,
+          phone_number: phoneNumber,
+          phone_is_public: false,
+          updated_at: new Date().toISOString()
+        },
+        { onConflict: "id" }
+      );
+
+    if (phoneSaveError) {
+      console.error("Phone save error:", phoneSaveError);
+      toast(
+        "Account created, but phone details could not be saved. Add them in your profile settings.",
+        "error"
+      );
+    } else {
+      await fetchProfile();
+    }
+  }
+
+  closeDialog($("#authDialog"));
+  await afterLogin();
+  toast("Welcome to LearnLoop!");
+} else {
+
+      
       } else {
         if ($("#authMessage")) {
           $("#authMessage").textContent =
