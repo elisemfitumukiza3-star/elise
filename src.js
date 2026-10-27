@@ -4413,14 +4413,7 @@ downloadButton.addEventListener("click", async () => {
       });
 
     
-  if (!jsPDF) {
-    alert("PDF library could not load. Please refresh and try again.");
-    return;
-  }
-
-  const pdf = new jsPDF("landscape", "mm", "a4");
-  console.log("PDF created successfully");
-
+ 
 
 
 if (!jsPDF) {
