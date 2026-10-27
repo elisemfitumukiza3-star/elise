@@ -4434,6 +4434,7 @@ let academyQuizTimer = null;
 window.currentAcademyCourse = window.currentAcademyCourse || null;
 
 async function startAcademyQuiz(course) {
+   const questions = academyCourseQuizzes[course.slug];
 
   const quizPanel = document.querySelector("#academyQuizPanel");
   const certificatePanel = document.querySelector("#academyCertificatePanel");
