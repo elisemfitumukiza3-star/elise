@@ -4440,7 +4440,11 @@ async function startAcademyQuiz(course) {
   const quizPanel = document.querySelector("#academyQuizPanel");
   const certificatePanel = document.querySelector("#academyCertificatePanel");
   if (!quizPanel || !certificatePanel) return;
-
+if (!questions || questions.length === 0) {
+  quizPanel.textContent =
+    "The quiz for this course is not available yet. Please try again later.";
+  return;
+}
   if (academyQuizTimer) clearInterval(academyQuizTimer);
   certificatePanel.replaceChildren();
 certificatePanel.classList.remove("hidden");
