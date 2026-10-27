@@ -4242,11 +4242,58 @@ function startAcademyQuiz(course) {
 certificatePanel.classList.remove("hidden");
   quizPanel.replaceChildren();
 
-  if (course.slug !== "leadership") {
-    quizPanel.textContent =
-      "The quiz for this course is not ready yet. Please complete the Leadership course quiz first.";
+
+if (course.slug !== "leadership") {
+  quizPanel.textContent =
+    "The quiz for this course is not ready yet. Please complete the Leadership course quiz first.";
+  return;
+}
+
+const learnerId = state.session?.user?.id;
+
+if (!learnerId) {
+  quizPanel.textContent =
+    "Please log in before taking the course quiz.";
+  return;
+}
+
+quizPanel.textContent = "Checking your course completion...";
+certificatePanel.replaceChildren();
+
+try {
+  const { data: existingCertificate, error: certificateError } =
+    await supabase
+      .from("certificates")
+      .select("certificate_number, learner_name, course_title, completion_date")
+      .eq("user_id", learnerId)
+      .eq("course_title", "Leadership")
+      .maybeSingle();
+
+  if (certificateError) throw certificateError;
+
+  if (existingCertificate) {
+    quizPanel.replaceChildren();
+
+    const completedMessage = document.createElement("p");
+    completedMessage.textContent =
+      "Congratulations! You have already earned your Leadership certificate. This course quiz is now locked, but you can still read the course lessons.";
+
+    const certificateDetails = document.createElement("p");
+    certificateDetails.textContent =
+      "Certificate number: " + existingCertificate.certificate_number;
+
+    quizPanel.append(completedMessage, certificateDetails);
     return;
   }
+} catch (error) {
+  console.error("Certificate completion check failed:", error);
+  quizPanel.textContent =
+    "We could not verify your course completion. Please try again.";
+  return;
+}
+
+quizPanel.replaceChildren();
+
 
   let questionIndex = 0;
   let score = 0;
