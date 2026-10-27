@@ -4765,8 +4765,7 @@ downloadButton.addEventListener("click", async () => {
 
         pdf.setFont("times", "bold");
         pdf.setFontSize(27);
-        pdf.text("Leadership", 148.5, 122, { align: "center" });
-
+       pdf.text(course.title, 148.5, 122, { align: "center" });
         pdf.setFont("helvetica", "normal");
         pdf.setFontSize(11);
         pdf.text("Through dedication, curiosity and active participation,", 148.5, 134, {
