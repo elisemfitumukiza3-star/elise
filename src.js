@@ -4900,7 +4900,7 @@ const { error: saveCertificateError } = await supabase
   .insert({
     user_id: learnerId,
     learner_name: learnerName,
-    course_title: "Leadership",
+   course_title: course.title,
     score: score,
     certificate_number: certificateNumber,
     completion_date: completionDate
@@ -4914,8 +4914,7 @@ if (saveCertificateError) {
   return;
 }
 
-pdf.save("LearnLoop-Leadership-Certificate.pdf");
-
+pdf.save(`LearnLoop-${course.slug}-Certificate.pdf`);
  
       });
 
@@ -4939,19 +4938,17 @@ if (score < ACADEMY_PASSING_SCORE) {
 }
 
   }
-
-  showQuestion();
-}
 document.addEventListener("click", function (event) {
   const button = event.target.closest("#academyQuizButton");
   if (!button) return;
 
-  const course = {
-    slug: "leadership",
-    title: "Leadership"
-  };
+  const course = window.currentAcademyCourse;
 
-  window.currentAcademyCourse = course;
+  if (!course || !academyCourseQuizzes[course.slug]) {
+    console.error("No quiz is available for the selected course.");
+    return;
+  }
+
   startAcademyQuiz(course);
 });
 
