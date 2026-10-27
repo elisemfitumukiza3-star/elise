@@ -618,24 +618,30 @@ async function handleAuth(event) {
   const email = $("#authEmail")?.value.trim();
   const password = $("#authPassword")?.value;
   const name = $("#authName")?.value.trim();
+   const phoneCountry =
+  $("#authName")?.dataset.phoneCountry || "";
+
+const phoneNumber =
+  $("#authName")?.dataset.phoneNumber || "";
 
   if (!email || !password) {
     toast("Enter your email and password.", "error");
     return;
   }
 
-  const button = $("#authSubmit");
-  setButtonBusy(button, true, "Please wait…");
 
-  try {
-    if (state.authMode === "signup") {
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: { display_name: name || email.split("@")[0] }
-        }
-      });
+const { data, error } = await supabase.auth.signUp({
+  email,
+  password,
+  options: {
+    data: {
+      display_name: name || email.split("@")[0],
+      country_calling_code: phoneCountry,
+      phone_number: phoneNumber
+    }
+  }
+});
+
 
       if (error) throw error;
 
