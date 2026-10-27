@@ -4616,9 +4616,13 @@ downloadButton.addEventListener("click", async () => {
         pdf.line(207, 173, 270, 173);
 
         pdf.setTextColor(20, 39, 77);
-        pdf.setFont("times", "italic");
-        pdf.setFontSize(19);
-        pdf.text("LearnLoop", 238.5, 168, { align: "center" });
+       
+pdf.setFont("times", "italic");
+pdf.setFontSize(24);
+pdf.text("LearnLoop", 238.5, 168, {
+  align: "center",
+  angle: -8
+});
 
         pdf.setFont("helvetica", "bold");
         pdf.setFontSize(8);
