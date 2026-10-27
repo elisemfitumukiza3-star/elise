@@ -4419,84 +4419,186 @@ downloadButton.addEventListener("click", async () => {
           year: "numeric"
         });
 
-        // White certificate with a navy border and gold accents.
-        pdf.setFillColor(255, 255, 255);
+       
+        // LearnLoop premium certificate — landscape A4
+        // Cream background, navy borders, and gold accents.
+        pdf.setFillColor(250, 248, 241);
         pdf.rect(0, 0, 297, 210, "F");
 
-        pdf.setDrawColor(20, 39, 77);
-        pdf.setLineWidth(2);
-        pdf.rect(8, 8, 281, 194);
-
-        pdf.setDrawColor(198, 158, 64);
-        pdf.setLineWidth(0.8);
-        pdf.rect(13, 13, 271, 184);
-
+        // Navy outer frame and gold inner border
         pdf.setFillColor(20, 39, 77);
-        pdf.rect(14, 14, 269, 29, "F");
+        pdf.rect(0, 0, 297, 210, "F");
 
-        pdf.setTextColor(255, 255, 255);
-        pdf.setFont("helvetica", "bold");
-        pdf.setFontSize(22);
-        pdf.text("LEARNLOOP", 148.5, 27, { align: "center" });
-
-        pdf.setFont("helvetica", "normal");
-        pdf.setFontSize(10);
-        pdf.text("LEARN • SHARE • GROW", 148.5, 36, { align: "center" });
-
-        pdf.setTextColor(20, 39, 77);
-        pdf.setFont("helvetica", "bold");
-        pdf.setFontSize(25);
-        pdf.text("CERTIFICATE OF COMPLETION", 148.5, 65, {
-          align: "center"
-        });
+        pdf.setFillColor(250, 248, 241);
+        pdf.rect(5, 5, 287, 200, "F");
 
         pdf.setDrawColor(198, 158, 64);
-        pdf.setLineWidth(1.2);
-        pdf.line(92, 72, 205, 72);
+        pdf.setLineWidth(1);
+        pdf.rect(9, 9, 279, 192);
 
-        pdf.setTextColor(75, 75, 75);
+        pdf.setDrawColor(20, 39, 77);
+        pdf.setLineWidth(0.5);
+        pdf.rect(12, 12, 273, 186);
+
+        // Decorative diagonal corner accents
+        pdf.setDrawColor(20, 39, 77);
+        pdf.setLineWidth(9);
+        pdf.line(0, 36, 36, 0);
+        pdf.line(261, 210, 297, 174);
+
+        pdf.setDrawColor(198, 158, 64);
+        pdf.setLineWidth(3);
+        pdf.line(0, 26, 26, 0);
+        pdf.line(271, 210, 297, 184);
+
+        // LearnLoop book-inspired brand mark
+        pdf.setDrawColor(20, 39, 77);
+        pdf.setLineWidth(1.5);
+        pdf.line(103, 22, 103, 36);
+        pdf.line(103, 22, 113, 26);
+        pdf.line(113, 26, 123, 22);
+        pdf.line(123, 22, 123, 36);
+        pdf.line(103, 36, 113, 40);
+        pdf.line(113, 40, 123, 36);
+        pdf.setFillColor(198, 158, 64);
+        pdf.circle(113, 18, 2.5, "F");
+
+        // Header wordmark and slogan
+        pdf.setTextColor(20, 39, 77);
+        pdf.setFont("helvetica", "bold");
+        pdf.setFontSize(27);
+        pdf.text("LearnLoop", 130, 28);
+
         pdf.setFont("helvetica", "normal");
-        pdf.setFontSize(13);
-        pdf.text("This certificate is proudly presented to", 148.5, 88, {
+        pdf.setFontSize(8);
+        pdf.text("L E A R N   •   S H A R E   •   G R O W", 130, 35);
+
+        pdf.setFont("times", "italic");
+        pdf.setFontSize(12);
+        pdf.text("Better Learners", 246, 20, { align: "center" });
+        pdf.text("A Brighter Future", 246, 27, { align: "center" });
+
+        pdf.setDrawColor(198, 158, 64);
+        pdf.setLineWidth(0.6);
+        pdf.line(226, 31, 266, 31);
+
+        // Certificate heading
+        pdf.setTextColor(20, 39, 77);
+        pdf.setFont("times", "bold");
+        pdf.setFontSize(27);
+        pdf.text("CERTIFICATE OF COMPLETION", 148.5, 52, {
           align: "center"
         });
 
-        pdf.setTextColor(20, 39, 77);
-        pdf.setFont("helvetica", "bold");
-        pdf.setFontSize(25);
-        const safeName = pdf.splitTextToSize(learnerName, 230);
-        pdf.text(safeName, 148.5, 105, { align: "center" });
-
-        const courseY = 105 + safeName.length * 10;
-
-        pdf.setTextColor(75, 75, 75);
         pdf.setFont("helvetica", "normal");
         pdf.setFontSize(12);
-        pdf.text("for successfully completing the course", 148.5, courseY + 7, {
+        pdf.text("T H I S   C E R T I F I E S   T H A T", 148.5, 65, {
           align: "center"
         });
+
+        // Gold name ribbon
+        pdf.setFillColor(255, 248, 225);
+        pdf.setDrawColor(198, 158, 64);
+        pdf.setLineWidth(0.7);
+        pdf.roundedRect(48, 72, 201, 22, 2, 2, "FD");
 
         pdf.setTextColor(20, 39, 77);
-        pdf.setFont("helvetica", "bold");
-        pdf.setFontSize(19);
-        pdf.text("Leadership", 148.5, courseY + 19, { align: "center" });
+        pdf.setFont("times", "italic");
+        pdf.setFontSize(25);
+        pdf.text(learnerName, 148.5, 86.5, {
+          align: "center",
+          maxWidth: 190
+        });
 
-        pdf.setTextColor(75, 75, 75);
+        // Course completion details
+        pdf.setFont("helvetica", "normal");
+        pdf.setFontSize(12);
+        pdf.text("has successfully completed the LearnLoop course", 148.5, 107, {
+          align: "center"
+        });
+
+        pdf.setFont("times", "bold");
+        pdf.setFontSize(27);
+        pdf.text("Leadership", 148.5, 122, { align: "center" });
+
         pdf.setFont("helvetica", "normal");
         pdf.setFontSize(11);
-        pdf.text(`Quiz score: ${score}/20`, 148.5, courseY + 30, {
+        pdf.text("Through dedication, curiosity and active participation,", 148.5, 134, {
           align: "center"
         });
-        pdf.text(`Date of completion: ${completionDate}`, 148.5, 174, {
+        pdf.text("you have demonstrated a commitment to lifelong learning.", 148.5, 141, {
           align: "center"
         });
 
+        // Subtle laurel-inspired side decorations
+        pdf.setDrawColor(235, 228, 207);
+        pdf.setLineWidth(0.7);
+        pdf.line(39, 145, 65, 126);
+        pdf.line(258, 145, 232, 126);
+
+        for (let i = 0; i < 5; i++) {
+          const y = 142 - i * 4;
+          pdf.ellipse(43 + i * 3, y, 2, 4, "S");
+          pdf.ellipse(254 - i * 3, y, 2, 4, "S");
+        }
+
+        // Certificate reference number
+        pdf.setTextColor(20, 39, 77);
+        pdf.setFont("helvetica", "normal");
         pdf.setFontSize(9);
-        pdf.text(`Certificate No: ${certificateNumber}`, 148.5, 185, {
+        pdf.text("Certificate No.", 48, 164, { align: "center" });
+
+        pdf.setFont("helvetica", "bold");
+        pdf.setFontSize(13);
+        pdf.text(certificateNumber, 48, 173, { align: "center" });
+
+        // Completion date
+        pdf.setFont("helvetica", "normal");
+        pdf.setFontSize(9);
+        pdf.text("Completed on", 148.5, 164, { align: "center" });
+
+        pdf.setFont("helvetica", "bold");
+        pdf.setFontSize(12);
+        pdf.text(completionDate, 148.5, 173, { align: "center" });
+
+        // LearnLoop administrator signature area — no award seal
+        pdf.setDrawColor(20, 39, 77);
+        pdf.setLineWidth(0.5);
+        pdf.line(207, 173, 270, 173);
+
+        pdf.setTextColor(20, 39, 77);
+        pdf.setFont("times", "italic");
+        pdf.setFontSize(19);
+        pdf.text("LearnLoop", 238.5, 168, { align: "center" });
+
+        pdf.setFont("helvetica", "bold");
+        pdf.setFontSize(8);
+        pdf.text("LEARNLOOP", 238.5, 180, { align: "center" });
+
+        pdf.setFont("helvetica", "normal");
+        pdf.setFontSize(7);
+        pdf.text("PLATFORM ADMINISTRATOR", 238.5, 185, {
+          align: "center"
+        });
+
+        // Bottom wordmark and slogan
+        pdf.setDrawColor(198, 158, 64);
+        pdf.setLineWidth(0.6);
+        pdf.line(105, 187, 120, 187);
+        pdf.line(177, 187, 192, 187);
+
+        pdf.setFont("helvetica", "bold");
+        pdf.setFontSize(15);
+        pdf.text("LearnLoop", 148.5, 190, { align: "center" });
+
+        pdf.setFont("helvetica", "normal");
+        pdf.setFontSize(7);
+        pdf.text("L E A R N   •   S H A R E   •   G R O W", 148.5, 196, {
           align: "center"
         });
 
         pdf.save("LearnLoop-Leadership-Certificate.pdf");
+ 
       });
 
       certificatePanel.appendChild(downloadButton);
