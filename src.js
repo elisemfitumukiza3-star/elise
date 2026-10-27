@@ -4927,8 +4927,10 @@ if (score < ACADEMY_PASSING_SCORE) {
   retryButton.addEventListener("click", () => startAcademyQuiz(course));
   quizPanel.appendChild(retryButton);
 }
+} // Closes finishQuiz()
 
-  }
+} // ADD THIS brace to close startAcademyQuiz()
+
 document.addEventListener("click", function (event) {
   const button = event.target.closest("#academyQuizButton");
   if (!button) return;
