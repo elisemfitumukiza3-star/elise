@@ -858,6 +858,19 @@ function navigate(view) {
 
   if (view === "dashboard") updateDashboard();
   if (view === "library") searchBooks();
+   
+  if (view === "youtube") {
+    const youtubeInput = document.getElementById("youtubeSearchInput");
+    const youtubeResults = document.getElementById("youtubeResults");
+
+    if (youtubeInput && youtubeResults && !youtubeResults.children.length) {
+      if (!youtubeInput.value.trim()) {
+        youtubeInput.value = "educational videos";
+      }
+      searchYouTubeVideos();
+    }
+  }
+
   if (view === "messages") loadConversations();
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
@@ -2363,8 +2376,8 @@ async function searchYouTubeVideos() {
       image.style.cursor = "pointer";
       image.title = "Click to play this video";
       image.addEventListener("click", openVideo);
-
-      heading.style.cursor = "pointer";
+       
+      hheading.addEventListener("click", openVideo);eading.style.cursor = "pointer";
       heading.addEventListener("click", openVideo);
 
 
@@ -4310,8 +4323,21 @@ function bindEvents() {
       searchYouTubeVideos();
     }
   });
+ 
   $$("[data-view]").forEach(button => {
-    button.addEventListener("click", () => navigate(button.dataset.view));
+    button.addEventListener("click", () => {
+      navigate(button.dataset.view);
+
+      if (button.dataset.view === "youtube") {
+        const input = $("#youtubeSearchInput");
+
+        if (input && !input.value.trim()) {
+          input.value = "educational videos";
+        }
+
+        searchYouTubeVideos();
+      }
+    });
   });
 
   $("#menuButton")?.addEventListener("click", openMobileMenu);
