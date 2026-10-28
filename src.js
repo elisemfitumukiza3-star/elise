@@ -5688,6 +5688,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       toast("Your document upload is complete!");
+       await loadAccountDocuments();
     } catch (error) {
       console.error("Document upload error:", error);
 
