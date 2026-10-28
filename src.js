@@ -5644,3 +5644,61 @@ if (certificateFromQR) {
       ?.scrollIntoView({ behavior: "smooth", block: "center" });
   }
 }
+// LearnLoop: My uploads document picker
+document.addEventListener("DOMContentLoaded", () => {
+  const uploadButton = document.querySelector("#accountDocumentUploadButton");
+  const fileInput = document.querySelector("#accountDocumentInput");
+  const uploadStatus = document.querySelector("#accountUploadStatus");
+
+  if (!uploadButton || !fileInput) return;
+
+  uploadButton.addEventListener("click", () => {
+    if (!state.session) {
+      toast("Please log in to upload documents.", "error");
+      return;
+    }
+
+    fileInput.click();
+  });
+
+  fileInput.addEventListener("change", async () => {
+    const files = Array.from(fileInput.files || []);
+    if (!files.length) return;
+
+    if (!state.session) {
+      toast("Please log in to upload documents.", "error");
+      fileInput.value = "";
+      return;
+    }
+
+    uploadButton.disabled = true;
+
+    try {
+      for (const file of files) {
+        if (uploadStatus) {
+          uploadStatus.textContent = `Uploading ${file.name}...`;
+        }
+
+        await uploadFile(file);
+      }
+
+      if (uploadStatus) {
+        uploadStatus.textContent =
+          `${files.length} file(s) uploaded successfully.`;
+      }
+
+      toast("Your document upload is complete!");
+    } catch (error) {
+      console.error("Document upload error:", error);
+
+      if (uploadStatus) {
+        uploadStatus.textContent = `Upload failed: ${error.message}`;
+      }
+
+      toast(`Could not upload: ${error.message}`, "error");
+    } finally {
+      uploadButton.disabled = false;
+      fileInput.value = "";
+    }
+  });
+});
