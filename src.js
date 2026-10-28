@@ -922,6 +922,10 @@ async function navigate(view) {
   }
 
   state.currentView = view;
+   if (view === "people") {
+  await loadFollowingIds();
+  await loadPeople();
+}
 if (view === "people") {
   await loadFollowingIds();
   await loadPeople();
