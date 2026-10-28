@@ -2724,3 +2724,17 @@ iframe {
   color: #a61e62;
   border: 1px solid #d63384;
 }
+
+#peopleSearch {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 16px;
+  margin-top: 16px;
+  margin-bottom: 8px;
+  border: 1px solid #f2a9c7;
+  border-radius: 12px;
+  background: #fff;
+  color: #333;
+  font: inherit;
+  outline-color: #d63384;
+}
