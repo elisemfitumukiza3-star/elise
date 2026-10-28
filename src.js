@@ -5702,3 +5702,107 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+// LearnLoop: Load the logged-in user's private documents
+async function loadAccountDocuments() {
+  const list = document.querySelector("#accountDocumentList");
+  if (!list) return;
+
+  if (!state.session) {
+    list.textContent = "Please log in to view your documents.";
+    return;
+  }
+
+  list.textContent = "Loading your documents...";
+
+  try {
+    const userId = currentUserId();
+
+    const { data, error } = await supabase.storage
+      .from(STORAGE_BUCKET)
+      .list(userId, {
+        limit: 100,
+        offset: 0,
+        sortBy: { column: "created_at", order: "desc" }
+      });
+
+    if (error) throw error;
+
+    list.replaceChildren();
+
+    const files = (data || []).filter(
+      file => file.name && file.name !== ".emptyFolderPlaceholder"
+    );
+
+    if (!files.length) {
+      list.textContent = "You have not uploaded any documents yet.";
+      return;
+    }
+
+    files.forEach(file => {
+      const path = `${userId}/${file.name}`;
+      const name = file.name.replace(
+        /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}-/i,
+        ""
+      );
+
+      const item = document.createElement("div");
+      item.className = "account-document-item";
+
+      const filename = document.createElement("div");
+      filename.className = "account-document-name";
+      filename.textContent = name;
+
+      const actions = document.createElement("div");
+      actions.className = "account-document-actions";
+
+      const openButton = document.createElement("button");
+      openButton.type = "button";
+      openButton.textContent = "Open";
+      openButton.addEventListener("click", async () => {
+        const { data, error } = await supabase.storage
+          .from(STORAGE_BUCKET)
+          .createSignedUrl(path, 60);
+
+        if (error) {
+          toast("Could not open this file.", "error");
+          return;
+        }
+
+        window.open(data.signedUrl, "_blank", "noopener,noreferrer");
+      });
+
+      const downloadButton = document.createElement("button");
+      downloadButton.type = "button";
+      downloadButton.textContent = "Download";
+      downloadButton.addEventListener("click", async () => {
+        const { data, error } = await supabase.storage
+          .from(STORAGE_BUCKET)
+          .createSignedUrl(path, 60, {
+            download: name
+          });
+
+        if (error) {
+          toast("Could not download this file.", "error");
+          return;
+        }
+
+        const link = document.createElement("a");
+        link.href = data.signedUrl;
+        link.download = name;
+        link.click();
+      });
+
+      actions.append(openButton, downloadButton);
+      item.append(filename, actions);
+      list.append(item);
+    });
+  } catch (error) {
+    console.error("Could not load account documents:", error);
+    list.textContent =
+      "Could not load your documents. Check your storage permissions and try again.";
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadAccountDocuments();
+});
