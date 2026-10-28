@@ -909,8 +909,7 @@ updateWelcomeAuthMode();
 
 /* ---------- Navigation ---------- */
 
-
-function navigate(view) {
+async function navigate(view) {
   const allowed = Object.keys(VIEW_INFO);
   if (!allowed.includes(view)) return;
 
@@ -923,7 +922,10 @@ function navigate(view) {
   }
 
   state.currentView = view;
-
+if (view === "people") {
+  await loadFollowingIds();
+  await loadPeople();
+}
   $$("[data-view]").forEach(button => {
     button.classList.toggle("active", button.dataset.view === view);
     button.setAttribute(
