@@ -932,13 +932,37 @@
     >
   </label>
 
-  <div id="profilePicturePreview" class="profile-picture-preview">
-    <img
-      id="profilePicturePreviewImage"
-      alt="Profile picture preview"
-      class="hidden"
+  <div class="profile-picture-editor">
+    <div id="profilePicturePreview" class="profile-picture-preview">
+      <img
+        id="profilePicturePreviewImage"
+        alt="Profile picture"
+        class="hidden"
+      >
+      <span id="profilePicturePlaceholder" aria-label="No profile picture">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="8" r="4"></circle>
+          <path d="M4 21a8 8 0 0 1 16 0"></path>
+        </svg>
+      </span>
+    </div>
+
+    <label
+      for="profilePicture"
+      class="profile-picture-edit-button"
+      title="Change profile picture"
+      aria-label="Change profile picture"
     >
-    <span id="profilePicturePlaceholder">Default avatar</span>
+      ✎
+    </label>
+
+    <button
+      type="button"
+      id="removeProfilePictureButton"
+      class="profile-picture-remove-button"
+    >
+      Remove picture
+    </button>
   </div>
 
   <label>
