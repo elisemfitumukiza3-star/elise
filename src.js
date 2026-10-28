@@ -42,6 +42,7 @@ const VIEW_INFO = {
   discussions: ["Discussions", "Ask questions and share ideas."],
    messages: ["Private Messages", "Chat privately with other LearnLoop learners."],
   community: ["Community", "Learn together and help other learners."],
+  people: ["People", "Discover learners and follow their journeys."], 
   following: ["Following", "Posts from people you follow."],
   saved: ["Saved resources", "Your bookmarked learning resources."],
   myuploads: ["My uploads", "Content you have shared with the community."],
@@ -835,7 +836,8 @@ function navigate(view) {
     saved: "savedView",
     myuploads: "myuploadsView",
     notifications: "notificationsView",
-    dashboard: "dashboardView"
+    dashboard: "dashboardView",
+     people: "peopleView"
   };
 
   // Hide every page, including the Library, before showing the chosen page.
