@@ -937,7 +937,7 @@ async function loadFollowingIds() {
     return;
   }
 
-  (data || []).forEach(row => {
+   (data || []).forEach(row => {
     state.followingIds.add(row.following_id);
   });
 }
