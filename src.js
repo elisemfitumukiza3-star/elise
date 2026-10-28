@@ -1488,10 +1488,12 @@ function filteredPosts(mode = "all") {
     posts = posts.filter(post => post.user_id === currentUserId());
   }
 
-  if (mode === "following") {
-    // No follow-relationship table is assumed to exist yet.
-    posts = [];
-  }
+ 
+if (mode === "following") {
+  posts = posts.filter(post =>
+    state.followingIds.has(post.user_id)
+  );
+}
 
   posts = posts.filter(postMatchesSearch);
 
