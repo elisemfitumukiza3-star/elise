@@ -376,6 +376,58 @@ async function fetchProfile() {
   }
 }
 
+async function loadPeople() {
+  const container = $("#peopleList");
+  if (!container) return;
+
+  const userId = currentUserId();
+
+  if (!userId) {
+    container.innerHTML = "<p>Please log in to discover learners.</p>";
+    return;
+  }
+
+  container.innerHTML = "<p>Loading learners...</p>";
+
+  const { data: people, error } = await supabase
+    .from("profiles")
+    .select("id, display_name, bio, avatar_url")
+    .neq("id", userId)
+    .order("display_name");
+
+  if (error) {
+    console.error("People loading error:", error);
+    container.innerHTML = "<p>Could not load learners. Please try again.</p>";
+    return;
+  }
+
+  if (!people?.length) {
+    container.innerHTML = "<p>No other learners have joined yet.</p>";
+    return;
+  }
+
+  container.innerHTML = people.map(person => {
+    const following = state.followingIds.has(person.id);
+    const name = escapeHTML(person.display_name || "Learner");
+    const bio = escapeHTML(person.bio || "LearnLoop community member");
+    const avatar = person.avatar_url
+      ? `<img src="${escapeHTML(person.avatar_url)}" alt="${name}" class="people-avatar">`
+      : `<div class="people-avatar-placeholder">👤</div>`;
+
+    return `
+      <article class="people-user-card">
+        ${avatar}
+        <h3>${name}</h3>
+        <p>${bio}</p>
+        <button type="button"
+          data-follow-user="${person.id}"
+          class="${following ? "is-following" : ""}">
+          ${following ? "Following" : "Follow"}
+        </button>
+      </article>`;
+  }).join("");
+}
+
 
 
 
