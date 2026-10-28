@@ -2784,3 +2784,64 @@ iframe {
   line-height: 1.5;
   color: #66617e;
 }
+
+.myuploads-workspace {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+  margin: 20px 0;
+}
+
+.account-upload-area {
+  margin: 0;
+  min-width: 0;
+}
+
+.account-document-library {
+  min-width: 0;
+  padding: 18px;
+  background: var(--card, #ffffff);
+  border: 1px solid var(--border, #e5e7eb);
+  border-radius: 16px;
+}
+
+.account-document-library h2 {
+  margin-top: 0;
+}
+
+.account-document-item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border, #e5e7eb);
+}
+
+.account-document-name {
+  overflow-wrap: anywhere;
+  font-weight: 600;
+}
+
+.account-document-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.account-document-actions button {
+  cursor: pointer;
+}
+
+@media (max-width: 650px) {
+  .myuploads-workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .account-upload-tile {
+    width: 100%;
+    max-width: 240px;
+  }
+}
