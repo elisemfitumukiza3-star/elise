@@ -4665,6 +4665,7 @@ $("#profilePicture")?.setAttribute("accept", "image/*");
 $("#profilePicture")?.setAttribute("title", "Choose a profile picture");
 
 $("#removeProfilePictureButton")?.addEventListener("click", () => {
+   
   const input = $("#profilePicture");
   const preview = $("#profilePicturePreviewImage");
   const placeholder = $("#profilePicturePlaceholder");
@@ -4677,6 +4678,8 @@ $("#removeProfilePictureButton")?.addEventListener("click", () => {
   }
 
   if (placeholder) placeholder.classList.remove("hidden");
+   const removeButton = $("#removeProfilePictureButton");
+if (removeButton) removeButton.dataset.removePicture = "true";
 });
 
 
@@ -4699,6 +4702,10 @@ $("#removeProfilePictureButton")?.addEventListener("click", () => {
 
   $("#postFile")?.addEventListener("change", event => {
     const file = event.target.files?.[0];
+     const removeButton = $("#removeProfilePictureButton");
+if (file && removeButton) {
+  removeButton.dataset.removePicture = "false";
+}
     if (file && !validFile(file)) {
       event.target.value = "";
       if ($("#selectedFileName")) $("#selectedFileName").textContent = "";
