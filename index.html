@@ -805,26 +805,39 @@
               <p>Posts and resources you have shared.</p>
             </div>
             
-<div class="account-upload-area">
-  <input
-    type="file"
-    id="accountDocumentInput"
-    hidden
-    multiple
-  />
 
-  <button
-    type="button"
-    class="account-upload-tile"
-    id="accountDocumentUploadButton"
-  >
-    <span class="account-upload-plus">+</span>
-    <span>Upload a document</span>
-    <small>Use your account storage allowance of up to 15 GB</small>
-  </button>
+<div class="myuploads-workspace">
+  <div class="account-upload-area">
+    <input
+      type="file"
+      id="accountDocumentInput"
+      hidden
+      multiple
+    />
 
-  <p id="accountUploadStatus" role="status"></p>
+    <button
+      type="button"
+      class="account-upload-tile"
+      id="accountDocumentUploadButton"
+    >
+      <span class="account-upload-plus">+</span>
+      <span>Upload a document</span>
+      <small>Use your account storage allowance of up to 15 GB</small>
+    </button>
+
+    <p id="accountUploadStatus" role="status"></p>
+  </div>
+
+  <div class="account-document-library">
+    <h2>Your documents</h2>
+    <p class="muted small">Open, download, or share your uploaded files.</p>
+
+    <div id="accountDocumentList">
+      <p class="muted">Your uploaded documents will appear here.</p>
+    </div>
+  </div>
 </div>
+
 
             <div id="myUploadsList" class="post-list"></div>
           </section>
