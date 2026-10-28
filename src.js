@@ -5849,3 +5849,36 @@ async function loadAccountDocuments() {
 document.addEventListener("DOMContentLoaded", () => {
   loadAccountDocuments();
 });
+
+/* LearnLoop dark mode toggle */
+(() => {
+  const button = document.querySelector("#themeToggleButton");
+  if (!button) return;
+
+  const savedTheme = localStorage.getItem("learnloop-theme");
+
+  if (savedTheme === "dark") {
+    document.body.classList.add("dark-mode");
+  }
+
+  function updateThemeButton() {
+    const isDark = document.body.classList.contains("dark-mode");
+
+    button.textContent = isDark ? "☀️ Light mode" : "🌙 Dark mode";
+    button.setAttribute(
+      "aria-label",
+      isDark ? "Switch to light mode" : "Switch to dark mode"
+    );
+    button.title = isDark ? "Switch to light mode" : "Switch to dark mode";
+  }
+
+  updateThemeButton();
+
+  button.addEventListener("click", () => {
+    const isDark = document.body.classList.toggle("dark-mode");
+
+    localStorage.setItem("learnloop-theme", isDark ? "dark" : "light");
+
+    updateThemeButton();
+  });
+})();
