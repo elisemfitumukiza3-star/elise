@@ -1194,6 +1194,29 @@ async function loadPosts() {
   } finally {
     state.loadingPosts = false;
   }
+   
+async function loadFollowingIds() {
+  const userId = currentUserId();
+
+  state.followingIds.clear();
+
+  if (!userId) return;
+
+  const { data, error } = await supabase
+    .from("user_follows")
+    .select("following_id")
+    .eq("follower_id", userId);
+
+  if (error) {
+    console.error("Could not load followed users:", error);
+    return;
+  }
+
+  (data || []).forEach(row => {
+    state.followingIds.add(row.following_id);
+  });
+}
+
 }
 
 
