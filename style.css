@@ -2738,3 +2738,49 @@ iframe {
   font: inherit;
   outline-color: #d63384;
 }
+
+.account-upload-area {
+  margin: 20px 0;
+}
+
+.account-upload-tile {
+  width: 190px;
+  min-height: 190px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border: 2px dashed #a9a5f5;
+  border-radius: 16px;
+  background: #f7f6ff;
+  color: #34305f;
+  cursor: pointer;
+  text-align: center;
+  font: inherit;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.account-upload-tile:hover {
+  border-color: #5548e8;
+  background: #efedff;
+}
+
+.account-upload-plus {
+  width: 54px;
+  height: 54px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: #5548e8;
+  color: white;
+  font-size: 38px;
+  line-height: 1;
+}
+
+.account-upload-tile small {
+  font-size: 12px;
+  line-height: 1.5;
+  color: #66617e;
+}
