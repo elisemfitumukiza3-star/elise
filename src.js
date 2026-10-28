@@ -513,7 +513,7 @@ event.stopPropagation();
   const countryCode = $("#profileCountryCode")?.value || "";
   const phone = $("#profilePhone")?.value.trim() || "";
   const picture = $("#profilePicture")?.files?.[0] || null;
-
+const removePicture = $("#removeProfilePictureButton")?.dataset.removePicture === "true";
   if (!name) {
     toast("Please enter your display name.", "error");
     return;
@@ -534,6 +534,9 @@ event.stopPropagation();
 
   try {
     let avatarUrl = state.profile?.avatar_url || null;
+   if (removePicture) {
+  avatarUrl = null;
+}  
 
     if (picture) {
       if (!picture.type.startsWith("image/")) {
