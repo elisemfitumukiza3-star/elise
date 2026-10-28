@@ -405,8 +405,19 @@ async function loadPeople() {
     container.innerHTML = "<p>No other learners have joined yet.</p>";
     return;
   }
+if (!people?.length) {
+  container.innerHTML = "<p>No other learners have joined yet.</p>";
+  return;
+}
+const searchTerm = ($("#peopleSearch")?.value || "").trim().toLowerCase();
 
-  container.innerHTML = people.map(person => {
+const filteredPeople = people.filter(person =>
+  (person.display_name || "Learner")
+    .toLowerCase()
+    .includes(searchTerm)
+);
+
+container.innerHTML = filteredPeople.map(person => {
     const following = state.followingIds.has(person.id);
     const name = escapeHTML(person.display_name || "Learner");
     const bio = escapeHTML(person.bio || "LearnLoop community member");
@@ -480,6 +491,9 @@ document.addEventListener("click", async function (event) {
   } finally {
     button.disabled = false;
   }
+   document.querySelector("#peopleSearch")?.addEventListener("input", () => {
+  loadPeople();
+});
 });
 
 
