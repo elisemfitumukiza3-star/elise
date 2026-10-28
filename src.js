@@ -760,12 +760,16 @@ async function signOut() {
   toast("You have logged out.");
 }
 
+
 async function afterLogin() {
   await fetchProfile();
   updateAccountUI();
+  await loadFollowingIds();
+   await loadFollowingIds();
   await loadPosts();
   await updateDashboard();
 }
+
 
 supabase.auth.onAuthStateChange((event, session) => {
   state.session = session;
