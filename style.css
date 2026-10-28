@@ -2686,3 +2686,41 @@ iframe {
     padding: 16px;
   }
 }
+
+.people-window {
+  background: #fff0f6;
+  border: 1px solid #f4b8d0;
+  border-radius: 20px;
+  padding: 22px;
+  box-shadow: 0 8px 24px rgba(190, 70, 120, 0.08);
+}
+
+.people-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.people-user-card {
+  background: #ffffff;
+  border: 1px solid #f2c6d8;
+  border-radius: 16px;
+  padding: 18px;
+}
+
+.people-user-card button {
+  border: 0;
+  border-radius: 999px;
+  padding: 10px 18px;
+  background: #d63384;
+  color: #ffffff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.people-user-card button.is-following {
+  background: #ffffff;
+  color: #a61e62;
+  border: 1px solid #d63384;
+}
