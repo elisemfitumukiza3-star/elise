@@ -4648,6 +4648,25 @@ $("#profilePicture")?.addEventListener("change", event => {
   if (placeholder) placeholder.classList.add("hidden");
 });
 
+$("#profilePicture")?.setAttribute("accept", "image/*");
+
+$("#profilePicture")?.setAttribute("title", "Choose a profile picture");
+
+$("#removeProfilePictureButton")?.addEventListener("click", () => {
+  const input = $("#profilePicture");
+  const preview = $("#profilePicturePreviewImage");
+  const placeholder = $("#profilePicturePlaceholder");
+
+  if (input) input.value = "";
+
+  if (preview) {
+    preview.removeAttribute("src");
+    preview.classList.add("hidden");
+  }
+
+  if (placeholder) placeholder.classList.remove("hidden");
+});
+
 
   $("#messageUserSearchForm")?.addEventListener(
     "submit",
