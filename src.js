@@ -928,7 +928,7 @@ async function navigate(view) {
   if (!allowed.includes(view)) return;
 
   if (
-    ["following", "saved", "myuploads", "notifications", "dashboard", "messages"].includes(view) &&
+  ["people", "following", "saved", "myuploads", "notifications", "dashboard", "messages"].includes(view)
     !state.session
   ) {
     openDialog("authDialog");
@@ -940,10 +940,7 @@ async function navigate(view) {
   await loadFollowingIds();
   await loadPeople();
 }
-if (view === "people") {
-  await loadFollowingIds();
-  await loadPeople();
-}
+
   $$("[data-view]").forEach(button => {
     button.classList.toggle("active", button.dataset.view === view);
     button.setAttribute(
