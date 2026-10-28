@@ -927,10 +927,10 @@ async function navigate(view) {
   const allowed = Object.keys(VIEW_INFO);
   if (!allowed.includes(view)) return;
 
-  if (
-  ["people", "following", "saved", "myuploads", "notifications", "dashboard", "messages"].includes(view)
-    !state.session
-  ) {
+ if (
+  ["people", "following", "saved", "myuploads", "notifications", "dashboard", "messages"].includes(view) &&
+  !state.session
+) {
     openDialog("authDialog");
     return;
   }
