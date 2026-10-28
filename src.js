@@ -310,6 +310,10 @@ async function fetchProfile() {
   }
 
   state.profile = data;
+  const removeButton = $("#removeProfilePictureButton");
+if (removeButton) {
+  removeButton.dataset.removePicture = "false";
+} 
 
   if (!data) {
     const email = state.session?.user?.email || "";
