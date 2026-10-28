@@ -28,8 +28,9 @@ const state = {
   searchTerm: "",
   commentsByPost: {},
   commentsOpen: new Set(),
-  savedIds: new Set(),
+   savedIds: new Set(),
   likedIds: new Set(),
+  followingIds: new Set(),
   myProfile: null,
   hostSettings: null,
   toastTimer: null
