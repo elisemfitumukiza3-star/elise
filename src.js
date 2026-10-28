@@ -1650,12 +1650,12 @@ function renderAllFeeds() {
     "Published learning posts will appear here."
   );
 
-  renderPostList(
-    $("#followingFeed"),
-    filteredPosts("following"),
-    "Following is not connected yet",
-    "A follow system needs a follow-relationships table and its access policies before this view can show posts."
-  );
+ renderPostList(
+  $("#followingFeed"),
+  filteredPosts("following"),
+  "No posts from people you follow yet",
+  "Visit People to follow learners. Their published posts will appear here."
+);
 
   renderPostList(
     $("#savedList"),
