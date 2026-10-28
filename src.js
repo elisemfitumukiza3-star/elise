@@ -565,6 +565,9 @@ const removePicture = $("#removeProfilePictureButton")?.dataset.removePicture ==
         .getPublicUrl(path);
 
       avatarUrl = urlData.publicUrl;
+      if ($("#removeProfilePictureButton")) {
+  $("#removeProfilePictureButton").dataset.removePicture = "false";
+} 
     }
 
     const { data, error } = await supabase
