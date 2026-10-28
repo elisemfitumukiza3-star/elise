@@ -4648,6 +4648,12 @@ $("#profilePicture")?.addEventListener("change", event => {
   if (placeholder) placeholder.classList.add("hidden");
 });
 
+document.querySelector(".profile-picture-edit-button")
+  ?.addEventListener("click", event => {
+    event.preventDefault();
+    $("#profilePicture")?.click();
+  });
+
 $("#profilePicture")?.setAttribute("accept", "image/*");
 
 $("#profilePicture")?.setAttribute("title", "Choose a profile picture");
