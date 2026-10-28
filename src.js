@@ -428,6 +428,60 @@ async function loadPeople() {
   }).join("");
 }
 
+document.addEventListener("click", async function (event) {
+  const button = event.target.closest("[data-follow-user]");
+  if (!button) return;
+
+  const userId = currentUserId();
+  const targetId = button.dataset.followUser;
+
+  if (!userId) {
+    toast("Please log in to follow learners.", "error");
+    return;
+  }
+
+  if (!targetId || targetId === userId) return;
+
+  button.disabled = true;
+
+  try {
+    if (state.followingIds.has(targetId)) {
+      const { error } = await supabase
+        .from("user_follows")
+        .delete()
+        .eq("follower_id", userId)
+        .eq("following_id", targetId);
+
+      if (error) throw error;
+      state.followingIds.delete(targetId);
+    } else {
+      const { error } = await supabase
+        .from("user_follows")
+        .insert({
+          follower_id: userId,
+          following_id: targetId
+        });
+
+      if (error) throw error;
+      state.followingIds.add(targetId);
+    }
+
+    await loadPeople();
+    renderAllFeeds();
+    toast(
+      state.followingIds.has(targetId)
+        ? "You are now following this learner."
+        : "You unfollowed this learner.",
+      "success"
+    );
+  } catch (error) {
+    console.error("Follow action failed:", error);
+    toast("Could not update following. Please try again.", "error");
+  } finally {
+    button.disabled = false;
+  }
+});
+
 
 
 
