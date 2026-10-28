@@ -804,6 +804,28 @@
               <h1>My uploads</h1>
               <p>Posts and resources you have shared.</p>
             </div>
+            
+<div class="account-upload-area">
+  <input
+    type="file"
+    id="accountDocumentInput"
+    hidden
+    multiple
+  />
+
+  <button
+    type="button"
+    class="account-upload-tile"
+    id="accountDocumentUploadButton"
+  >
+    <span class="account-upload-plus">+</span>
+    <span>Upload a document</span>
+    <small>Use your account storage allowance of up to 15 GB</small>
+  </button>
+
+  <p id="accountUploadStatus" role="status"></p>
+</div>
+
             <div id="myUploadsList" class="post-list"></div>
           </section>
 
