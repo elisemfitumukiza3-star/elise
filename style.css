@@ -2955,3 +2955,43 @@ body.dark-mode h2,
 body.dark-mode h3 {
   color: inherit;
 }
+
+/* Improve LearnLoop dark-mode readability */
+body.dark-mode {
+  color: #f3f4f6;
+}
+
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6,
+body.dark-mode p,
+body.dark-mode label,
+body.dark-mode span,
+body.dark-mode li,
+body.dark-mode small,
+body.dark-mode strong {
+  color: #f3f4f6;
+}
+
+body.dark-mode a {
+  color: #93c5fd;
+}
+
+body.dark-mode input,
+body.dark-mode textarea,
+body.dark-mode select {
+  color: #f9fafb;
+  background-color: #111827;
+}
+
+body.dark-mode input::placeholder,
+body.dark-mode textarea::placeholder {
+  color: #cbd5e1;
+}
+
+body.dark-mode button {
+  color: inherit;
+}
