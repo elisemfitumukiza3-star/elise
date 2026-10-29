@@ -3071,3 +3071,10 @@ body.dark-mode textarea::placeholder {
 body.dark-mode a {
   color: #93c5fd;
 }
+/* Dark mode: search box focus */
+body.dark-mode #searchInput:focus,
+body.dark-mode input[type="search"]:focus {
+  background: #111827;
+  color: #f9fafb;
+  border-color: var(--green);
+}
