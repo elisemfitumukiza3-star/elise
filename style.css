@@ -3108,3 +3108,9 @@ body.dark-mode .welcome-screen p,
 body.dark-mode .welcome-screen label {
   color: #f3f4f6;
 }
+/* LearnLoop logo mark in dark mode */
+body.dark-mode .welcome-logo-mark {
+  background: #1f2937;
+  color: #c4b5fd;
+  box-shadow: 0 8px 24px #00000040;
+}
