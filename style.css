@@ -3001,3 +3001,26 @@ body.dark-mode #libraryView .library-home-button {
   color: #f3f4f6;
   border-color: #4b5563;
 }
+/* LearnLoop: improve dark-mode panel readability */
+body.dark-mode .card,
+body.dark-mode .view-panel,
+body.dark-mode .dialog-card,
+body.dark-mode .modal,
+body.dark-mode .modal-content,
+body.dark-mode .dropdown-menu,
+body.dark-mode .popover,
+body.dark-mode .library-home-button {
+  background-color: #1f2937;
+  color: #f3f4f6;
+  border-color: #374151;
+}
+
+body.dark-mode .card p,
+body.dark-mode .view-panel p,
+body.dark-mode .dialog-card p,
+body.dark-mode .modal p,
+body.dark-mode .modal-content p,
+body.dark-mode .card label,
+body.dark-mode .view-panel label {
+  color: #f3f4f6;
+}
