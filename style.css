@@ -3238,3 +3238,28 @@ body.dark-mode .people-user-card button.is-following {
   color: #f9a8d4;
   border: 1px solid #d63384;
 }
+/* Fix Home page readability in dark mode */
+body.dark-mode #feedView .welcome-card,
+body.dark-mode #feedView .discover-section,
+body.dark-mode #feedView .learning-dashboard,
+body.dark-mode #feedView .featured-lesson,
+body.dark-mode #feedView .composer {
+  background-color: #1f2937;
+  color: #f3f4f6;
+  border-color: #374151;
+}
+
+body.dark-mode #feedView .welcome-card h1,
+body.dark-mode #feedView .welcome-card h2,
+body.dark-mode #feedView .welcome-card h3,
+body.dark-mode #feedView .welcome-card p,
+body.dark-mode #feedView .discover-section h1,
+body.dark-mode #feedView .discover-section h2,
+body.dark-mode #feedView .discover-section h3,
+body.dark-mode #feedView .discover-section p,
+body.dark-mode #feedView .featured-lesson h3,
+body.dark-mode #feedView .featured-lesson p,
+body.dark-mode #feedView .learning-dashboard h2,
+body.dark-mode #feedView .learning-dashboard p {
+  color: #f3f4f6;
+}
