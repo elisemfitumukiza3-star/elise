@@ -3078,3 +3078,9 @@ body.dark-mode input[type="search"]:focus {
   color: #f9fafb;
   border-color: var(--green);
 }
+/* Library home button: dark-mode readability */
+body.dark-mode #libraryView .library-home-button {
+  background: #1f2937;
+  color: #f9fafb;
+  border: 1px solid #4b5563;
+}
