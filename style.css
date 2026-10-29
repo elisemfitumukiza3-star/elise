@@ -3084,3 +3084,14 @@ body.dark-mode #libraryView .library-home-button {
   color: #f9fafb;
   border: 1px solid #4b5563;
 }
+/* LearnLoop dark mode: all standard input fields and dropdowns */
+body.dark-mode input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+body.dark-mode select {
+  background-color: #111827;
+  color: #f9fafb;
+  border-color: #4b5563;
+}
+
+body.dark-mode input:not([type="checkbox"]):not([type="radio"]):not([type="file"])::placeholder {
+  color: #cbd5e1;
+}
