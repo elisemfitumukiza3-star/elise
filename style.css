@@ -3142,3 +3142,18 @@ body.dark-mode #welcomeAuthForm input::placeholder {
 body.dark-mode #welcomeAuthForm input:focus {
   border-color: #818cf8;
 }
+/* Learning statistics cards in dark mode */
+body.dark-mode .learning-stat {
+  background: #1f2937;
+  color: #f3f4f6;
+  border-color: #374151;
+}
+
+body.dark-mode .learning-stat h1,
+body.dark-mode .learning-stat h2,
+body.dark-mode .learning-stat h3,
+body.dark-mode .learning-stat p,
+body.dark-mode .learning-stat span,
+body.dark-mode .learning-stat strong {
+  color: #f3f4f6;
+}
