@@ -3157,3 +3157,19 @@ body.dark-mode .learning-stat span,
 body.dark-mode .learning-stat strong {
   color: #f3f4f6;
 }
+/* LearnLoop Academy section in dark mode */
+body.dark-mode .academy-section {
+  background: #1f2937;
+  color: #f3f4f6;
+  border-color: #374151;
+}
+
+body.dark-mode .academy-section h1,
+body.dark-mode .academy-section h2,
+body.dark-mode .academy-section h3,
+body.dark-mode .academy-section h4,
+body.dark-mode .academy-section p,
+body.dark-mode .academy-section label,
+body.dark-mode .academy-section strong {
+  color: #f3f4f6;
+}
