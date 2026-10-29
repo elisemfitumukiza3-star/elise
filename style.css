@@ -3209,3 +3209,32 @@ body.dark-mode .academy-topic-item span,
 body.dark-mode .academy-topic-item strong {
   color: #f3f4f6;
 }
+
+/* People cards and follow buttons in dark mode */
+body.dark-mode .people-user-card {
+  background: #1f2937;
+  color: #f3f4f6;
+  border-color: #4b5563;
+}
+
+body.dark-mode .people-user-card h1,
+body.dark-mode .people-user-card h2,
+body.dark-mode .people-user-card h3,
+body.dark-mode .people-user-card p,
+body.dark-mode .people-user-card span,
+body.dark-mode .people-user-card strong {
+  color: #f3f4f6;
+}
+
+/* Keep the pink Follow button */
+body.dark-mode .people-user-card button:not(.is-following) {
+  background: #d63384;
+  color: #ffffff;
+}
+
+/* Make the Following button readable */
+body.dark-mode .people-user-card button.is-following {
+  background: #374151;
+  color: #f9a8d4;
+  border: 1px solid #d63384;
+}
