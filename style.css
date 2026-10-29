@@ -3128,3 +3128,17 @@ body.dark-mode #welcomeAuthForm input::placeholder {
 body.dark-mode #welcomeAuthForm input:focus {
   border-color: #818cf8;
 }
+/* Welcome and login inputs in dark mode */
+body.dark-mode #welcomeAuthForm input {
+  background: #111827;
+  color: #f9fafb;
+  border-color: #4b5563;
+}
+
+body.dark-mode #welcomeAuthForm input::placeholder {
+  color: #cbd5e1;
+}
+
+body.dark-mode #welcomeAuthForm input:focus {
+  border-color: #818cf8;
+}
