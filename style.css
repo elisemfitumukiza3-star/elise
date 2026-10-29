@@ -3095,3 +3095,16 @@ body.dark-mode select {
 body.dark-mode input:not([type="checkbox"]):not([type="radio"]):not([type="file"])::placeholder {
   color: #cbd5e1;
 }
+/* LearnLoop welcome screen in dark mode */
+body.dark-mode .welcome-screen {
+  background: #111827;
+  color: #f3f4f6;
+}
+
+body.dark-mode .welcome-screen h1,
+body.dark-mode .welcome-screen h2,
+body.dark-mode .welcome-screen h3,
+body.dark-mode .welcome-screen p,
+body.dark-mode .welcome-screen label {
+  color: #f3f4f6;
+}
