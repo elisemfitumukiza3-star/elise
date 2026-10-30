@@ -2059,29 +2059,49 @@ async function handlePostAction(event) {
     });
   
 
-  } else if (action === "preview-pdf") {
-    const pdfCard = card.querySelector(".post-pdf-card");
-    const path = pdfCard?.dataset.filePath;
-    if (!path || !pdfCard) return;
+ 
+} else if (action === "preview-pdf") {
+  const pdfCard = card.querySelector(".post-pdf-card");
+  const path = pdfCard?.dataset.filePath;
+  if (!path || !pdfCard) return;
 
-    const url = await getFileUrl(path);
+  const url = await getFileUrl(path);
 
-    if (!url) {
-      toast("The PDF could not be loaded.", "error");
-      return;
-    }
+  if (!url) {
+    toast("The PDF could not be loaded.", "error");
+    return;
+  }
 
-    const preview = document.createElement("iframe");
-    preview.className = "post-pdf-frame";
-    preview.src = `${url}#page=1&view=FitH`;
-    preview.title = "PDF document preview";
-    preview.setAttribute("loading", "lazy");
+  const preview = document.createElement("iframe");
+  preview.className = "post-pdf-frame";
+  preview.src = `${url}#page=1&view=FitH`;
+  preview.title = "PDF document preview";
+  preview.setAttribute("loading", "lazy");
 
-    const previewArea = pdfCard.querySelector(".post-pdf-preview");
-    previewArea.replaceChildren(preview);
+  const fitButton = document.createElement("button");
+  fitButton.type = "button";
+  fitButton.className = "post-pdf-fit-button";
+  fitButton.dataset.action = "fit-pdf";
+  fitButton.title = "Fit PDF to window";
+  fitButton.textContent = "⛶";
 
+  const previewArea = pdfCard.querySelector(".post-pdf-preview");
+  previewArea.replaceChildren(preview, fitButton);
+
+} else if (action === "fit-pdf") {
+  const pdfCard = card.querySelector(".post-pdf-card");
+  if (!pdfCard) return;
+
+  if (!document.fullscreenElement) {
+    pdfCard.requestFullscreen?.().catch(() => {
+      toast("Could not expand the PDF preview.", "error");
+    });
+  } else {
+    document.exitFullscreen?.();
   }
 }
+}
+
 
 /* ---------- Learning library: Google Books ---------- */
 
