@@ -5507,9 +5507,14 @@ window.currentAcademyCourse = window.currentAcademyCourse || null;
 
 async function startAcademyQuiz(course) {
    const questions = academyCourseQuizzes[course.slug];
+const quizDialog = document.querySelector("#academyQuizDialog");
+const quizPanel = document.querySelector("#academyQuizPanel");
+const certificatePanel = document.querySelector("#academyCertificatePanel");
 
-  const quizPanel = document.querySelector("#academyQuizPanel");
-  const certificatePanel = document.querySelector("#academyCertificatePanel");
+if (quizDialog && !quizDialog.open) {
+  quizDialog.showModal();
+}
+ 
   if (!quizPanel || !certificatePanel) return;
 if (!questions || questions.length === 0) {
   quizPanel.textContent =
