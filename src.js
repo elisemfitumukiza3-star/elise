@@ -2020,6 +2020,29 @@ async function handlePostAction(event) {
      player.play().catch(() => {
       toast("Press play on the video to start watching.");
     });
+  
+
+  } else if (action === "preview-pdf") {
+    const pdfCard = card.querySelector(".post-pdf-card");
+    const path = pdfCard?.dataset.filePath;
+    if (!path || !pdfCard) return;
+
+    const url = await getFileUrl(path);
+
+    if (!url) {
+      toast("The PDF could not be loaded.", "error");
+      return;
+    }
+
+    const preview = document.createElement("iframe");
+    preview.className = "post-pdf-frame";
+    preview.src = `${url}#page=1&view=FitH`;
+    preview.title = "PDF document preview";
+    preview.setAttribute("loading", "lazy");
+
+    const previewArea = pdfCard.querySelector(".post-pdf-preview");
+    previewArea.replaceChildren(preview);
+
   }
 }
 
