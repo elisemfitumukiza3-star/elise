@@ -3562,3 +3562,44 @@ min-height: 280px;
 .post-pdf-card:fullscreen .post-pdf-preview {
   height: calc(100vh - 70px);
 }
+/* Academy quiz pop-up window */
+#academyQuizDialog {
+  width: min(92%, 760px);
+  max-width: 760px;
+  max-height: 88vh;
+  padding: 0;
+  border: none;
+  border-radius: 20px;
+  overflow-y: auto;
+  background: transparent;
+  color: inherit;
+}
+
+#academyQuizDialog::backdrop {
+  background: rgba(10, 18, 35, 0.88);
+  backdrop-filter: blur(5px);
+}
+
+.academy-quiz-window {
+  background: #ffffff;
+  color: #17233b;
+  padding: 28px;
+  border-radius: 20px;
+  min-height: 250px;
+}
+
+#academyQuizPanel,
+#academyCertificatePanel {
+  width: 100%;
+}
+
+@media (max-width: 600px) {
+  #academyQuizDialog {
+    width: 95%;
+    max-height: 92vh;
+  }
+
+  .academy-quiz-window {
+    padding: 18px;
+  }
+}
