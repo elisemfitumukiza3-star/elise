@@ -7182,40 +7182,49 @@ document
     result.textContent = "Checking certificate...";
 
     try {
-      const { data, error } = await supabase.rpc(
-        "verify_learnloop_certificate",
-        {
-          p_certificate_number: certificateNumber
-        }
-      );
+     let certificate;
+let honorary = certificateNumber.startsWith("LL-HON-");
 
-      if (error) throw error;
+if (honorary) {
+  const { data, error } = await supabase.rpc(
+    "verify_honorary_certificate",
+    { p_certificate_number: certificateNumber }
+  );
 
-      const certificate = Array.isArray(data) ? data[0] : data;
+  if (error) throw error;
+  certificate = Array.isArray(data) ? data[0] : data;
+} else {
+  const { data, error } = await supabase.rpc(
+    "verify_learnloop_certificate",
+    { p_certificate_number: certificateNumber }
+  );
 
-      result.replaceChildren();
+  if (error) throw error;
+  certificate = Array.isArray(data) ? data[0] : data;
+}
 
-      if (!certificate) {
-        result.textContent =
-          "Certificate not found. No matching official LearnLoop record was found.";
-        return;
-      }
+result.replaceChildren();
 
-      const heading = document.createElement("h3");
-      heading.textContent = "Certificate verified";
+if (!certificate) {
+  result.textContent =
+    "Certificate not found. No matching official LearnLoop record was found.";
+  return;
+}
 
-      const details = document.createElement("p");
-      details.textContent =
-        "Learner: " + certificate.learner_name +
-        " | Course: " + certificate.course_title +
-        " | Score: " + certificate.score + "/20" +
-        " | Completion date: " + certificate.completion_date;
+const heading = document.createElement("h3");
+heading.textContent = "Certificate verified";
 
-      const reference = document.createElement("p");
-      reference.textContent =
-        "Certificate number: " + certificate.certificate_number;
+const details = document.createElement("p");
 
-      result.append(heading, details, reference);
+details.textContent = honorary
+  ? `Learner: ${certificate.learner_name} | Course: ${certificate.course_title} | Award: Honorary Participation | Date: ${certificate.completion_date}`
+  : `Learner: ${certificate.learner_name} | Course: ${certificate.course_title} | Score: ${certificate.score}/20 | Completion date: ${certificate.completion_date}`;
+
+const reference = document.createElement("p");
+reference.textContent =
+  "Certificate number: " + certificate.certificate_number;
+
+result.append(heading, details, reference);
     } catch (error) {
       console.error("Certificate verification failed:", error);
       result.textContent =
