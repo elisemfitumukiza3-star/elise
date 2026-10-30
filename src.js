@@ -891,6 +891,43 @@ async function signOut() {
 }
 
 
+async function loadNotifications() {
+  const list = $("#notificationsList");
+  if (!list || !currentUserId()) return;
+
+  list.innerHTML = '<div class="notification-empty">Loading notifications...</div>';
+
+  const { data, error } = await supabase
+    .from("notifications")
+    .select("id, type, title, message, link, is_read, created_at")
+    .eq("user_id", currentUserId())
+    .order("created_at", { ascending: false })
+    .limit(50);
+
+  if (error) {
+    console.error("Notification loading error:", error);
+    list.innerHTML =
+      '<div class="notification-empty">Could not load notifications. Please try again.</div>';
+    return;
+  }
+
+  if (!data?.length) {
+    list.innerHTML =
+      '<div class="notification-empty">You have no notifications yet.</div>';
+    return;
+  }
+
+  list.innerHTML = data.map(item => `
+    <article class="notification-item ${item.is_read ? "" : "unread"}">
+      <strong>${escapeHTML(item.title)}</strong>
+      <p>${escapeHTML(item.message)}</p>
+      <div class="notification-time">
+        ${escapeHTML(relativeTime(item.created_at))}
+      </div>
+    </article>
+  `).join("");
+}
+
 async function afterLogin() {
   await fetchProfile();
   updateAccountUI();
@@ -1032,6 +1069,7 @@ async function navigate(view) {
   }
 
   if (view === "messages") loadConversations();
+  if (view === "notifications") loadNotifications(); 
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
