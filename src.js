@@ -2328,7 +2328,50 @@ async function appointCommitteeMember() {
 
   await loadCommitteeMembers();
 }
+async function submitCommitteeApplication(event) {
+  event.preventDefault();
 
+  if (!requireLogin()) return;
+
+  const reason = $("#committeeApplicationReason")?.value.trim();
+  const status = $("#committeeApplicationStatus");
+
+  if (!reason || reason.length < 20) {
+    if (status) status.textContent = "Please explain your reasons in at least 20 characters.";
+    return;
+  }
+
+  const user = state.session?.user;
+
+  if (!user) return;
+
+  const { error } = await supabase
+    .from("committee_applications")
+    .insert({
+      user_id: user.id,
+      email: user.email,
+      reason,
+      status: "pending"
+    });
+
+  if (error) {
+    if (error.code === "23505") {
+      if (status) status.textContent = "You already have a pending application.";
+    } else {
+      console.error("Committee application error:", error);
+      if (status) status.textContent = "Application could not be submitted. Please try again.";
+    }
+    return;
+  }
+
+  $("#committeeApplicationForm")?.reset();
+
+  if (status) {
+    status.textContent = "Your application has been submitted successfully. The LearnLoop owner will review it.";
+  }
+
+  toast("Committee application submitted successfully.");
+}
 function renderHostSettings() {
   const hostForm = $("#revenueSettingsForm");
   if (!hostForm) return;
