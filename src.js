@@ -4845,7 +4845,7 @@ async function submitAcademyCourseReview(event) {
   }
 }
 async function loadAcademyCourseReviews(course) {
-  const client = window.learnLoopSupabase;
+const client = supabase;
   const averageBox = document.querySelector("#academyReviewAverage");
   const reviewList = document.querySelector("#academyReviewList");
   const ratingInput = document.querySelector("#academyReviewRating");
