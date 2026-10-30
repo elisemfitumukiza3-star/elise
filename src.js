@@ -4691,31 +4691,48 @@ button.addEventListener("click", () => {
     "Read the lesson carefully. Before continuing, make sure you understand its main idea.";
   lessonContent.appendChild(reminder);
 
-  const markButton = document.createElement("button");
-  markButton.type = "button";
-  markButton.className = "academy-open-course";
-  markButton.textContent = readTopics.includes(index)
-    ? "✓ Topic already marked as read"
-    : "Mark topic as read";
+ const isLastLesson = index === course.topics.length - 1;
 
-  markButton.disabled = readTopics.includes(index);
+const actionButton = document.createElement("button");
+actionButton.type = "button";
+actionButton.className = "academy-open-course";
 
-  markButton.addEventListener("click", () => {
-    const latestProgress = getAcademyProgress();
-    const latestRead = latestProgress[course.slug] || [];
+if (isLastLesson && readTopics.length === course.topics.length - 1) {
+  actionButton.id = "academyQuizButton";
+  actionButton.textContent = "Take Course Quiz";
+} else {
+  actionButton.textContent = readTopics.includes(index)
+    ? "✓ Read — Move to Next Lesson"
+    : "Mark as Read & Move to Next Lesson";
+}
 
-    if (!latestRead.includes(index)) {
-      latestRead.push(index);
-      latestProgress[course.slug] = latestRead;
-      saveAcademyProgress(latestProgress);
-    }
+actionButton.addEventListener("click", () => {
+  const latestProgress = getAcademyProgress();
+  const latestRead = latestProgress[course.slug] || [];
 
-    openAcademyCourse(course);
+  if (!latestRead.includes(index)) {
+    latestRead.push(index);
+    latestProgress[course.slug] = latestRead;
+    saveAcademyProgress(latestProgress);
+  }
+
+  if (isLastLesson) {
     renderAcademyCourses();
-  });
+    return;
+  }
 
-  lessonContent.appendChild(markButton);
+  openAcademyCourse(course);
 
+  const nextLessonButton = topicList.children[index + 1];
+
+  if (nextLessonButton) {
+    nextLessonButton.click();
+  }
+
+  renderAcademyCourses();
+});
+
+lessonContent.appendChild(actionButton);
   lessonContent.scrollIntoView({
     behavior: "smooth",
     block: "start"
