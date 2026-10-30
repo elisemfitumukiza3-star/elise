@@ -1053,114 +1053,139 @@
  
   </dialog>
 
-  <dialog id="hostDashboardDialog" class="dialog-card wide-dialog">
-    <form id="revenueSettingsForm" method="dialog">
-      <button class="dialog-close" type="button" data-close="hostDashboardDialog">×</button>
-      <span class="eyebrow">PRIVATE ADMIN AREA</span>
-      <h2>Host dashboard</h2>
-      <p class="muted">Private host settings and platform overview.</p>
+<dialog id="hostDashboardDialog" class="dialog-card wide-dialog">
+  <form id="revenueSettingsForm" method="dialog">
+
+    <button class="dialog-close" type="button" data-close="hostDashboardDialog">×</button>
+
+    <span class="eyebrow">PRIVATE ADMIN AREA</span>
+    <h2>Host dashboard</h2>
+    <p class="muted">Manage and oversee your LearnLoop platform.</p>
+
+    <!-- 1. PLATFORM OVERVIEW -->
+    <section class="card">
+      <h3>Platform Overview</h3>
       <div class="stats-grid">
-        <article class="card stat-card"><span>Published posts</span><strong id="hostPostsCount">—</strong></article>
-        <article class="card stat-card"><span>Registered profiles</span><strong id="hostProfilesCount">—</strong></article>
+        <article class="card stat-card">
+          <span>Published posts</span>
+          <strong id="hostPostsCount">—</strong>
+        </article>
+        <article class="card stat-card">
+          <span>Registered profiles</span>
+          <strong id="hostProfilesCount">—</strong>
+        </article>
       </div>
-      
-<div class="divider"></div>
+    </section>
 
-<section id="hostRegisteredProfiles">
-  <h3>Registered Profiles</h3>
-  <p class="muted small">People who have registered on LearnLoop.</p>
-  <div id="hostProfilesList">
-    <p class="muted">Profiles will appear here.</p>
-  </div>
-</section>
+    <!-- 2. LEARNER AND COMMITTEE MANAGEMENT -->
+    <details class="card">
+      <summary><strong>Learner & Committee Management</strong></summary>
 
-<div class="divider"></div>
+      <section id="hostRegisteredProfiles">
+        <h3>Registered Profiles</h3>
+        <p class="muted small">People who have registered on LearnLoop.</p>
+        <div id="hostProfilesList">
+          <p class="muted">Profiles will appear here.</p>
+        </div>
+      </section>
 
-<section id="hostPostReports">
-  <h3>Post Reports</h3>
-  <p class="muted small">
-    Review posts reported by LearnLoop learners.
-  </p>
-
-  <div id="hostReportsList">
-    <p class="muted">Reports will appear here.</p>
-  </div>
-</section>
- 
-      <label>Revenue / support notice<textarea id="revenueNotice" rows="3" placeholder="Optional sponsorship or voluntary support information"></textarea></label>
-      <label class="check-row"><input type="checkbox" id="limitedAdsEnabled"> Enable clearly labelled, limited sponsor notices</label>
-      <button class="button button-primary full-width" type="submit">Save host settings</button>
       <div class="divider"></div>
+
+      <section class="committee-applications-section">
+        <h3>Committee Applications</h3>
+        <p class="muted small">Review applications submitted by LearnLoop members.</p>
+        <div id="committeeApplicationsList" class="post-list">
+          <div class="empty-state">Applications will appear here.</div>
+        </div>
+      </section>
+
       <div class="divider"></div>
-      <div class="committee-applications-section">
-  <h3>Committee Applications</h3>
-  <p class="muted small">Review applications submitted by LearnLoop members.</p>
-  <div id="committeeApplicationsList" class="post-list">
-    <div class="empty-state">Applications will appear here.</div>
-  </div>
-</div>
-<h3>Web Committee Management</h3>
-<p class="muted small">Appoint members and assign responsibilities.</p>
 
-<label>
-  Registered member email
-  <input id="committeeMemberEmail" type="email"
-         placeholder="Enter member's registered email" />
-</label>
+      <section id="webCommitteeManagement">
+        <h3>Web Committee Management</h3>
+        <p class="muted small">Appoint members and assign responsibilities.</p>
 
-<label>
-  Committee role
-  <select id="committeeMemberRole">
-    <option value="Accountant">Accountant</option>
-    <option value="Secretary">Secretary</option>
-    <option value="Community Moderator">Community Moderator</option>
-    <option value="Technical Administrator">Technical Administrator</option>
-    <option value="Education & Community Coordinator">Education & Community Coordinator</option>
-  </select>
-</label>
+        <label>
+          Registered member email
+          <input id="committeeMemberEmail" type="email"
+            placeholder="Enter member's registered email" />
+        </label>
 
-<label>
-  Responsibilities
-  <textarea id="committeeMemberResponsibilities" rows="3"
+        <label>
+          Committee role
+          <select id="committeeMemberRole">
+            <option value="Accountant">Accountant</option>
+            <option value="Secretary">Secretary</option>
+            <option value="Community Moderator">Community Moderator</option>
+            <option value="Technical Administrator">Technical Administrator</option>
+            <option value="Education & Community Coordinator">Education & Community Coordinator</option>
+          </select>
+        </label>
+
+        <label>
+          Responsibilities
+          <textarea id="committeeMemberResponsibilities" rows="3"
             placeholder="Describe the member's duties"></textarea>
-</label>
+        </label>
 
-<button type="button" id="appointCommitteeMember"
-        class="button button-primary full-width">
-  Appoint Committee Member
-</button>
+        <button type="button" id="appointCommitteeMember"
+          class="button button-primary full-width">
+          Appoint Committee Member
+        </button>
 
-<div id="committeeMembersList" class="post-list compact-list"></div>
-      <h3>Moderation</h3>
-      <p class="muted small">Secure platform-wide moderation requires owner-authorized Supabase policies.</p>
-      <div id="hostModerationList" class="post-list compact-list"></div>
-    </form>
-  </dialog>
-  <dialog id="committeeDashboardDialog" class="dialog-card wide-dialog">
-  <button class="dialog-close" type="button" data-close="committeeDashboardDialog">×</button>
+        <div id="committeeMembersList" class="post-list compact-list"></div>
+      </section>
+    </details>
 
-  <span class="eyebrow">LEARNLOOP WEB COMMITTEE</span>
-  <h2 id="committeeDashboardTitle">Committee dashboard</h2>
-  <p id="committeeDashboardDescription" class="muted">
-    Your assigned committee responsibilities and tasks.
-  </p>
+    <!-- 3. SAFETY AND MODERATION -->
+    <details class="card">
+      <summary><strong>Safety & Moderation</strong></summary>
 
-  <div class="card">
-    <h3>My responsibilities</h3>
-    <div id="committeeResponsibilities"></div>
-  </div>
+      <section id="hostPostReports">
+        <h3>Post Reports</h3>
+        <p class="muted small">
+          Review posts reported by LearnLoop learners.
+        </p>
+        <div id="hostReportsList">
+          <p class="muted">Reports will appear here.</p>
+        </div>
+      </section>
 
-  <div class="card">
-    <h3>Assigned tasks</h3>
-    <div id="committeeTasks"></div>
-  </div>
+      <div class="divider"></div>
 
-  <div class="card">
-    <h3>Committee updates</h3>
-    <div id="committeeUpdates"></div>
-  </div>
+      <section>
+        <h3>Moderation</h3>
+        <p class="muted small">
+          Secure platform-wide moderation requires owner-authorized Supabase policies.
+        </p>
+        <div id="hostModerationList" class="post-list compact-list"></div>
+      </section>
+    </details>
+
+    <!-- 4. PLATFORM SETTINGS -->
+    <details class="card">
+      <summary><strong>Platform Settings & Revenue</strong></summary>
+
+      <label>
+        Revenue / support notice
+        <textarea id="revenueNotice" rows="3"
+          placeholder="Optional sponsorship or voluntary support information"></textarea>
+      </label>
+
+      <label class="check-row">
+        <input type="checkbox" id="limitedAdsEnabled">
+        Enable clearly labelled, limited sponsor notices
+      </label>
+
+      <button class="button button-primary full-width" type="submit">
+        Save host settings
+      </button>
+    </details>
+
+  </form>
 </dialog>
 
+ 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
   
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
