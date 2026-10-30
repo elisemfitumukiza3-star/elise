@@ -2319,37 +2319,83 @@ function openBookPreview(bookId, title) {
 
 /* ---------- Dashboard ---------- */
 
+
 async function updateDashboard() {
+  const learningStatIds = [
+    "academyCoursesCompleted",
+    "academyLessonsRead",
+    "academyCoursesInProgress"
+  ];
+
   if (!state.session) {
-    ["statPosts", "statComments", "statReactions"].forEach(id => {
+    [
+      "statPosts",
+      "statComments",
+      "statReactions",
+      ...learningStatIds
+    ].forEach(id => {
       const el = document.getElementById(id);
       if (el) el.textContent = "0";
     });
     return;
   }
 
-  const userId = currentUserId();
+  // Read the learner's existing Academy progress.
+  const academyProgress = getAcademyProgress();
+
+  const academyStats = learnLoopCourses.reduce((totals, course) => {
+    const savedTopics = Array.isArray(academyProgress[course.slug])
+      ? academyProgress[course.slug]
+      : [];
+
+    const readTopics = [...new Set(savedTopics)].filter(index =>
+      Number.isInteger(index) &&
+      index >= 0 &&
+      index < course.topics.length
+    );
+
+    const completed = academyCourseIsComplete(course, {
+      [course.slug]: readTopics
+    });
+
+    totals.lessonsRead += readTopics.length;
+
+    if (completed) {
+      totals.coursesCompleted++;
+    } else if (readTopics.length > 0) {
+      totals.coursesInProgress++;
+    }
+
+    return totals;
+  }, {
+    coursesCompleted: 0,
+    lessonsRead: 0,
+    coursesInProgress: 0
+  });
 
   const [postsResult, commentsResult, reactionsResult] = await Promise.all([
     supabase.from("posts")
       .select("id", { count: "exact", head: true })
-      .eq("user_id", userId)
+      .eq("user_id", currentUserId())
       .eq("status", "published"),
 
     supabase.from("comments")
       .select("id", { count: "exact", head: true })
-      .eq("user_id", userId)
+      .eq("user_id", currentUserId())
       .eq("status", "published"),
 
     supabase.from("reactions")
       .select("id", { count: "exact", head: true })
-      .eq("user_id", userId)
+      .eq("user_id", currentUserId())
   ]);
 
   const values = {
     statPosts: postsResult.count ?? 0,
     statComments: commentsResult.count ?? 0,
-    statReactions: reactionsResult.count ?? 0
+    statReactions: reactionsResult.count ?? 0,
+    academyCoursesCompleted: academyStats.coursesCompleted,
+    academyLessonsRead: academyStats.lessonsRead,
+    academyCoursesInProgress: academyStats.coursesInProgress
   };
 
   for (const [id, value] of Object.entries(values)) {
@@ -2357,6 +2403,7 @@ async function updateDashboard() {
     if (el) el.textContent = String(value);
   }
 }
+
 
 /* ---------- Host controls ---------- */
 
