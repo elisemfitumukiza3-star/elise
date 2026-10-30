@@ -5644,6 +5644,7 @@ async function leaveStudyGroup() {
 }
 
 function bindEvents() {
+     loadHonoraryCertificateRequests();
   // Academy course reviews
   const academyReviewForm =
     document.querySelector("#academyReviewForm");
