@@ -1780,6 +1780,7 @@ function renderAllFeeds() {
    loadPostVideoThumbnails();
 }
 
+
 async function loadPostVideoThumbnails() {
   const cards = document.querySelectorAll(".post-video-card");
 
@@ -1807,8 +1808,13 @@ async function loadPostVideoThumbnails() {
         thumbnail.currentTime = Math.min(1, thumbnail.duration / 2);
       }
     }, { once: true });
+
+    thumbnail.addEventListener("seeked", () => {
+      thumbnail.pause();
+    }, { once: true });
   }
 }
+
 
 /* ---------- Likes and comments ---------- */
 
