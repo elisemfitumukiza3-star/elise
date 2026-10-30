@@ -1588,7 +1588,6 @@ function postCard(post) {
              
 <button type="button" class="post-video-preview" data-action="play-video">
   <video class="post-video-thumbnail"
-    src="${escapeHTML(post.file_url || "")}"
     muted
     playsinline
     preload="metadata"></video>
