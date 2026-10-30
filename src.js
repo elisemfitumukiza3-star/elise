@@ -2333,6 +2333,43 @@ async function loadCommitteeApplications() {
     </div>
   `).join("");
 }
+async function reviewCommitteeApplication(event) {
+  const button = event.target.closest("[data-review-committee]");
+  if (!button || !isOwner()) return;
+
+  const applicationId = button.dataset.id;
+  const decision = button.dataset.reviewCommittee;
+
+  if (!applicationId || !["approved", "rejected"].includes(decision)) return;
+
+  const confirmed = window.confirm(
+    `Are you sure you want to ${decision} this application?`
+  );
+
+  if (!confirmed) return;
+
+  button.disabled = true;
+
+  const { error } = await supabase
+    .from("committee_applications")
+    .update({
+      status: decision,
+      reviewed_at: new Date().toISOString(),
+      reviewed_by: currentUserId()
+    })
+    .eq("id", applicationId)
+    .eq("status", "pending");
+
+  if (error) {
+    console.error("Application review error:", error);
+    toast("Could not update the application.", "error");
+    button.disabled = false;
+    return;
+  }
+
+  toast(`Application ${decision}.`);
+  await loadCommitteeApplications();
+}
 async function appointCommitteeMember() {
   if (!isOwner()) {
     toast("Only the platform owner can appoint committee members.", "error");
