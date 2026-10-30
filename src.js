@@ -1264,7 +1264,7 @@ async function loadNotifications() {
     </div>
   </article>
 `).join("");
-
+}
 async function afterLogin() {
   await fetchProfile();
   updateAccountUI();
