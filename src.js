@@ -1646,7 +1646,9 @@ function postCard(post) {
         </button>
         <button type="button" class="post-action"
           data-action="share">↗ Share</button>
-        ${ownPost ? "" : `<button type="button" class="post-action" data-action="report">⚑ Report</button>`}
+      ${ownPost
+  ? `<button type="button" class="post-action" data-action="delete-post">🗑 Remove</button>`
+  : `<button type="button" class="post-action" data-action="report">⚑ Report</button>`}
       </div>
 
       <div class="post-comments ${state.commentsOpen.has(post.id) ? "" : "hidden"}"
