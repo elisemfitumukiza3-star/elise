@@ -7242,9 +7242,11 @@ result.append(heading, details, reference);
     }
   });
 
-const certificateFromQR =
-  new URLSearchParams(window.location.search).get("certificate");
+const certificateParams = new URLSearchParams(window.location.search);
 
+const certificateFromQR =
+  certificateParams.get("certificate") ||
+  certificateParams.get("honorary_certificate");
 if (certificateFromQR) {
   const verificationInput = document.querySelector(
     "#certificateVerificationNumber"
