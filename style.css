@@ -3263,3 +3263,53 @@ body.dark-mode #feedView .learning-dashboard h2,
 body.dark-mode #feedView .learning-dashboard p {
   color: #f3f4f6;
 }
+
+/* LearnLoop notification centre */
+#notificationsView {
+  background: #f7f2ff;
+  border-radius: 18px;
+  padding: 20px;
+}
+
+#notificationsView .page-heading h1 {
+  color: #673ab7;
+}
+
+#notificationsList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#notificationsList .notification-item {
+  background: #ffffff;
+  border: 1px solid #e4d7fa;
+  border-left: 5px solid #8054c7;
+  border-radius: 14px;
+  padding: 15px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+#notificationsList .notification-item:hover {
+  background: #f0e8ff;
+}
+
+#notificationsList .notification-item.unread {
+  background: #eee5ff;
+  border-left-color: #5725a8;
+}
+
+#notificationsList .notification-time {
+  color: #776b89;
+  font-size: 12px;
+  margin-top: 6px;
+}
+
+#notificationsList .notification-empty {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 24px;
+  text-align: center;
+  color: #776b89;
+}
