@@ -4889,6 +4889,7 @@ searchBooks();
   $("#revenueSettingsForm")?.addEventListener("submit", saveHostSettings);
   $("#hostModerationList")?.addEventListener("click", moderatePost);
    $("#appointCommitteeMember")?.addEventListener("click", appointCommitteeMember);
+   $("#committeeApplicationForm")?.addEventListener("submit", submitCommitteeApplication);
    $("#hostDashboardButton")?.addEventListener("click", loadCommitteeMembers);
 
   // Close dialogs by clicking their backdrop.
