@@ -891,6 +891,76 @@ async function signOut() {
 }
 
 
+async function loadHonoraryCertificateRequests() {
+  const list = document.querySelector("#honoraryCertificateRequestList");
+  if (!list) return;
+
+  const { data: sessionData } = await supabase.auth.getSession();
+  const email = sessionData?.session?.user?.email;
+
+  if (email !== "elisemfitumukiza3@gmail.com") {
+    list.textContent = "Only the LearnLoop owner can review these requests.";
+    return;
+  }
+
+  list.textContent = "Loading requests...";
+
+  const { data, error } = await supabase
+    .from("honorary_certificate_requests")
+    .select("id, user_id, course_title, course_slug, status, created_at")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Honorary requests:", error);
+    list.textContent = "Could not load certificate requests.";
+    return;
+  }
+
+  if (!data?.length) {
+    list.textContent = "There are no honorary certificate requests yet.";
+    return;
+  }
+
+  list.replaceChildren();
+
+  data.forEach(request => {
+    const card = document.createElement("article");
+    card.className = "notification-item";
+
+    const title = document.createElement("strong");
+    title.textContent = request.course_title;
+
+    const learner = document.createElement("p");
+    learner.textContent = `Learner ID: ${request.user_id}`;
+
+    const status = document.createElement("p");
+    status.textContent = `Status: ${request.status}`;
+
+    const date = document.createElement("small");
+    date.textContent = new Date(request.created_at).toLocaleDateString();
+
+    card.append(title, learner, status, date);
+
+    if (request.status === "pending") {
+      const approve = document.createElement("button");
+      approve.type = "button";
+      approve.textContent = "Approve";
+      approve.dataset.honoraryAction = "approve";
+      approve.dataset.requestId = request.id;
+
+      const reject = document.createElement("button");
+      reject.type = "button";
+      reject.textContent = "Reject";
+      reject.dataset.honoraryAction = "reject";
+      reject.dataset.requestId = request.id;
+
+      card.append(approve, reject);
+    }
+
+    list.appendChild(card);
+  });
+}
+
 async function loadNotifications() {
   const list = $("#notificationsList");
   if (!list || !currentUserId()) return;
