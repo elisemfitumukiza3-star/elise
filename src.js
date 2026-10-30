@@ -4691,18 +4691,25 @@ button.addEventListener("click", () => {
     "Read the lesson carefully. Before continuing, make sure you understand its main idea.";
   lessonContent.appendChild(reminder);
 
- const isLastLesson = index === course.topics.length - 1;
+const isLastLesson = index === course.topics.length - 1;
+
+const previousLessonsCompleted = course.topics
+  .slice(0, -1)
+  .every((_, lessonIndex) => readTopics.includes(lessonIndex));
 
 const actionButton = document.createElement("button");
 actionButton.type = "button";
 actionButton.className = "academy-open-course";
 
-if (isLastLesson && readTopics.length === course.topics.length - 1) {
+if (isLastLesson && previousLessonsCompleted) {
   actionButton.id = "academyQuizButton";
   actionButton.textContent = "Take Course Quiz";
+} else if (isLastLesson) {
+  actionButton.textContent = "Complete Previous Lessons First";
+  actionButton.disabled = true;
 } else {
   actionButton.textContent = readTopics.includes(index)
-    ? "✓ Read — Move to Next Lesson"
+    ? "✓ Topic already marked as read"
     : "Mark as Read & Move to Next Lesson";
 }
 
