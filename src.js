@@ -5511,7 +5511,18 @@ async function leaveStudyGroup() {
 }
 
 function bindEvents() {
+  // Academy course reviews
+  const academyReviewForm =
+    document.querySelector("#academyReviewForm");
 
+  if (academyReviewForm && !academyReviewForm.dataset.connected) {
+    academyReviewForm.dataset.connected = "true";
+
+    academyReviewForm.addEventListener(
+      "submit",
+      submitAcademyCourseReview
+    );
+  }
 
   // LearnLoop YouTube search and subject buttons
   const youtubeForm = document.querySelector("#youtubeSearchForm");
