@@ -4785,15 +4785,16 @@ function renderAcademyCourses() {
     grid.appendChild(card);
   });
 }
+
 async function submitAcademyCourseReview(event) {
   event.preventDefault();
 
- const client = supabase;
+  const client = supabase;
   const course = window.currentAcademyCourse;
   const status = document.querySelector("#academyReviewStatus");
   const button = document.querySelector("#submitAcademyReview");
 
-  if (!client || !course) return;
+  if (!client || !course || !status || !button) return;
 
   const { data: sessionData } = await client.auth.getSession();
   const user = sessionData?.session?.user;
@@ -4828,22 +4829,84 @@ async function submitAcademyCourseReview(event) {
       onConflict: "course_slug,user_id"
     });
 
-  button.disabled = false;
-
   if (error) {
+    button.disabled = false;
     status.textContent = "Could not save your review. Please try again.";
     console.error("Review submission:", error);
     return;
   }
 
-  status.textContent = "Your review has been saved!";
   await loadAcademyCourseReviews(course);
 
   if (rating === 5) {
-    status.textContent =
-      "Your five-star review is saved! Next we'll issue your honorary certificate.";
+    const { data: savedReview, error: reviewError } = await client
+      .from("course_reviews")
+      .select("id")
+      .eq("course_slug", course.slug)
+      .eq("user_id", user.id)
+      .single();
+
+    if (reviewError || !savedReview) {
+      status.textContent =
+        "Your review was saved, but the award request could not be prepared.";
+      console.error("Review lookup:", reviewError);
+      button.disabled = false;
+      return;
+    }
+
+    const { data: existingRequest, error: requestLookupError } =
+      await client
+        .from("honorary_certificate_requests")
+        .select("id, status")
+        .eq("user_id", user.id)
+        .eq("course_slug", course.slug)
+        .maybeSingle();
+
+    if (requestLookupError) {
+      status.textContent =
+        "Your review was saved, but the award request could not be checked.";
+      console.error("Award request lookup:", requestLookupError);
+      button.disabled = false;
+      return;
+    }
+
+    if (!existingRequest) {
+      const { error: requestError } = await client
+        .from("honorary_certificate_requests")
+        .insert({
+          user_id: user.id,
+          review_id: savedReview.id,
+          course_slug: course.slug,
+          course_title: course.title
+        });
+
+      if (requestError) {
+        status.textContent =
+          "Your review was saved, but the award request could not be created.";
+        console.error("Award request:", requestError);
+        button.disabled = false;
+        return;
+      }
+
+      status.textContent =
+        "Five-star review saved! Your honorary certificate request is waiting for owner approval.";
+    } else if (existingRequest.status === "pending") {
+      status.textContent =
+        "Your honorary certificate request is already waiting for approval.";
+    } else if (existingRequest.status === "approved") {
+      status.textContent =
+        "Your honorary certificate has already been approved.";
+    } else {
+      status.textContent =
+        "Your previous honorary certificate request was not approved.";
+    }
+  } else {
+    status.textContent = "Your review has been saved!";
   }
+
+  button.disabled = false;
 }
+
 async function loadAcademyCourseReviews(course) {
 const client = supabase;
   const averageBox = document.querySelector("#academyReviewAverage");
