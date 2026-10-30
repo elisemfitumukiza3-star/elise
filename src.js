@@ -4628,6 +4628,106 @@ function academyCourseIsComplete(course, progress) {
   );
 }
 
+function renderCommunityAchievements() {
+  const container = document.querySelector("#communityAchievementList");
+  if (!container) return;
+
+  if (!state.session) {
+    container.textContent = "Log in to view your achievements.";
+    return;
+  }
+
+  const progress = getAcademyProgress();
+
+  let lessonsRead = 0;
+  let coursesCompleted = 0;
+
+  learnLoopCourses.forEach(course => {
+    const saved = Array.isArray(progress[course.slug])
+      ? progress[course.slug]
+      : [];
+
+    const validLessons = [...new Set(saved)].filter(index =>
+      Number.isInteger(index) &&
+      index >= 0 &&
+      index < course.topics.length
+    );
+
+    lessonsRead += validLessons.length;
+
+    if (academyCourseIsComplete(course, {
+      [course.slug]: validLessons
+    })) {
+      coursesCompleted++;
+    }
+  });
+
+  const achievements = [
+    {
+      icon: "🌱",
+      title: "First Steps",
+      description: "Read your first lesson.",
+      earned: lessonsRead >= 1
+    },
+    {
+      icon: "📚",
+      title: "Dedicated Learner",
+      description: "Read five lessons.",
+      earned: lessonsRead >= 5
+    },
+    {
+      icon: "🎓",
+      title: "Course Graduate",
+      description: "Complete one entire course.",
+      earned: coursesCompleted >= 1
+    },
+    {
+      icon: "🏆",
+      title: "Knowledge Builder",
+      description: "Complete three courses.",
+      earned: coursesCompleted >= 3
+    },
+    {
+      icon: "👑",
+      title: "Learning Champion",
+      description: "Complete every available course.",
+      earned: coursesCompleted === learnLoopCourses.length
+    }
+  ];
+
+  const earned = achievements.filter(item => item.earned);
+
+  container.replaceChildren();
+
+  if (!earned.length) {
+    container.textContent =
+      "Your achievements will appear here as you complete lessons.";
+    return;
+  }
+
+  earned.forEach(item => {
+    const card = document.createElement("article");
+    card.className = "academy-course-card";
+
+    const icon = document.createElement("div");
+    icon.className = "academy-course-icon";
+    icon.textContent = item.icon;
+
+    const title = document.createElement("h3");
+    title.textContent = item.title;
+
+    const description = document.createElement("p");
+    description.textContent = item.description;
+
+    const status = document.createElement("span");
+    status.className = "academy-topic-count";
+    status.textContent = "✓ Achievement earned";
+
+    card.append(icon, title, description, status);
+    container.appendChild(card);
+  });
+}
+
 function renderAcademyCourses() {
   const grid = document.querySelector("#academyCourseGrid");
   if (!grid) return;
