@@ -5002,7 +5002,13 @@ if (removeButton) removeButton.dataset.removePicture = "true";
     "submit",
     searchMessageUsers
   );
+$("#messageUserSearch")?.addEventListener("input", () => {
+  clearTimeout(messageUserSearchTimer);
 
+  messageUserSearchTimer = setTimeout(() => {
+    searchMessageUsers();
+  }, 300);
+});
   $("#messageUserResults")?.addEventListener("click", event => {
     const button = event.target.closest("[data-message-user]");
     if (button) startPrivateConversation(button.dataset.messageUser);
