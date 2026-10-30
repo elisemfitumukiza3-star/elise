@@ -5030,6 +5030,359 @@ if (moreButton) {
 
 }
 
+/* ---------- LearnLoop Study Groups ---------- */
+
+let activeStudyGroupId = null;
+let activeStudyGroupIsLeader = false;
+
+async function loadStudyGroups() {
+  const container = $("#studyGroupsList");
+  if (!container) return;
+
+  if (!currentUserId()) {
+    container.textContent = "Please log in to explore study groups.";
+    return;
+  }
+
+  container.textContent = "Loading study groups...";
+
+  const [groupsResult, membersResult] = await Promise.all([
+    supabase
+      .from("study_groups")
+      .select("id, name, subject, description, created_by, created_at")
+      .order("created_at", { ascending: false })
+      .limit(50),
+
+    supabase
+      .from("study_group_members")
+      .select("group_id, role")
+      .eq("user_id", currentUserId())
+  ]);
+
+  if (groupsResult.error || membersResult.error) {
+    console.error("Study groups loading error:",
+      groupsResult.error || membersResult.error);
+    container.textContent = "Could not load study groups. Please try again.";
+    return;
+  }
+
+  const memberships = new Map(
+    (membersResult.data || []).map(member => [
+      member.group_id,
+      member.role
+    ])
+  );
+
+  if (!groupsResult.data?.length) {
+    container.textContent =
+      "No study groups yet. Be the first to create one!";
+    return;
+  }
+
+  container.innerHTML = groupsResult.data.map(group => {
+    const role = memberships.get(group.id);
+    const isMember = Boolean(role);
+
+    return `
+      <article class="card info-card">
+        <span class="info-icon">📚</span>
+        <h3>${escapeHTML(group.name)}</h3>
+        <p><strong>Subject:</strong> ${escapeHTML(group.subject)}</p>
+        <p>${escapeHTML(group.description || "A LearnLoop study group.")}</p>
+        <p class="muted small">
+          Created ${escapeHTML(relativeTime(group.created_at))}
+          ${role === "leader" ? " · Group leader" : ""}
+        </p>
+        <button
+          type="button"
+          data-study-group-action="${isMember ? "open" : "join"}"
+          data-group-id="${escapeHTML(group.id)}"
+        >
+          ${isMember ? "Open Group" : "Join Group"}
+        </button>
+      </article>
+    `;
+  }).join("");
+}
+
+async function createStudyGroup(event) {
+  event.preventDefault();
+
+  if (!requireLogin()) return;
+
+  const name = $("#studyGroupName")?.value.trim();
+  const subject = $("#studyGroupSubject")?.value;
+  const description = $("#studyGroupDescription")?.value.trim() || "";
+
+  if (!name || !subject) {
+    toast("Enter a group name and choose a subject.", "error");
+    return;
+  }
+
+  const button = $("#studyGroupForm button[type='submit']");
+  setButtonBusy(button, true, "Creating group...");
+
+  try {
+    const { data, error } = await supabase
+      .from("study_groups")
+      .insert({
+        name,
+        subject,
+        description,
+        created_by: currentUserId()
+      })
+      .select("id")
+      .single();
+
+    if (error) throw error;
+
+    $("#studyGroupForm").reset();
+
+    await loadStudyGroups();
+    await openStudyGroup(data.id);
+
+    toast("Your study group has been created.");
+  } catch (error) {
+    console.error("Study group creation error:", error);
+    toast(`Could not create group: ${error.message}`, "error");
+  } finally {
+    setButtonBusy(button, false);
+  }
+}
+
+async function joinStudyGroup(groupId) {
+  if (!requireLogin()) return;
+
+  try {
+    const { error } = await supabase
+      .from("study_group_members")
+      .insert({
+        group_id: groupId,
+        user_id: currentUserId(),
+        role: "member"
+      });
+
+    if (error) throw error;
+
+    await loadStudyGroups();
+    await openStudyGroup(groupId);
+
+    toast("You have joined the study group.");
+  } catch (error) {
+    console.error("Study group joining error:", error);
+
+    if (error.code === "23505") {
+      await loadStudyGroups();
+      await openStudyGroup(groupId);
+      return;
+    }
+
+    toast(`Could not join group: ${error.message}`, "error");
+  }
+}
+
+async function openStudyGroup(groupId) {
+  if (!requireLogin()) return;
+
+  try {
+    const [groupResult, membershipResult] = await Promise.all([
+      supabase
+        .from("study_groups")
+        .select("id, name, subject, description, created_by")
+        .eq("id", groupId)
+        .single(),
+
+      supabase
+        .from("study_group_members")
+        .select("role")
+        .eq("group_id", groupId)
+        .eq("user_id", currentUserId())
+        .maybeSingle()
+    ]);
+
+    if (groupResult.error) throw groupResult.error;
+    if (membershipResult.error) throw membershipResult.error;
+
+    const group = groupResult.data;
+    const membership = membershipResult.data;
+
+    if (!membership) {
+      toast("Join this group before opening its discussions.", "error");
+      return;
+    }
+
+    activeStudyGroupId = group.id;
+    activeStudyGroupIsLeader =
+      membership.role === "leader" ||
+      group.created_by === currentUserId();
+
+    $("#studyGroupDetailsTitle").textContent =
+      `${group.name} · ${group.subject}`;
+
+    $("#studyGroupDetailsDescription").textContent =
+      group.description || "Learn and share knowledge together.";
+
+    const details = $("#studyGroupDetails");
+
+    let backButton = $("#backToStudyGroups");
+
+    if (!backButton) {
+      backButton = document.createElement("button");
+      backButton.type = "button";
+      backButton.id = "backToStudyGroups";
+      backButton.textContent = "← Back to Study Groups";
+
+      backButton.addEventListener("click", () => {
+        details.classList.add("hidden");
+        activeStudyGroupId = null;
+      });
+
+      details.prepend(backButton);
+    }
+
+    $("#leaveStudyGroupButton").hidden = activeStudyGroupIsLeader;
+
+    details.classList.remove("hidden");
+
+    await loadStudyGroupMessages();
+
+    details.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  } catch (error) {
+    console.error("Study group opening error:", error);
+    toast(`Could not open group: ${error.message}`, "error");
+  }
+}
+
+async function loadStudyGroupMessages() {
+  const container = $("#studyGroupMessages");
+  if (!container || !activeStudyGroupId) return;
+
+  container.textContent = "Loading group discussions...";
+
+  const { data: messages, error } = await supabase
+    .from("study_group_messages")
+    .select("id, user_id, message, created_at")
+    .eq("group_id", activeStudyGroupId)
+    .order("created_at", { ascending: true })
+    .limit(100);
+
+  if (error) {
+    console.error("Study group messages error:", error);
+    container.textContent = "Could not load group discussions.";
+    return;
+  }
+
+  if (!messages?.length) {
+    container.textContent =
+      "No discussions yet. Start the first conversation!";
+    return;
+  }
+
+  const userIds = [...new Set(messages.map(item => item.user_id))];
+
+  const { data: profiles, error: profilesError } = await supabase
+    .from("profiles")
+    .select("id, display_name")
+    .in("id", userIds);
+
+  if (profilesError) {
+    console.warn("Group member names could not be loaded:", profilesError);
+  }
+
+  const names = new Map(
+    (profiles || []).map(profile => [
+      profile.id,
+      profile.display_name || "Learner"
+    ])
+  );
+
+  container.innerHTML = messages.map(item => {
+    const author = item.user_id === currentUserId()
+      ? "You"
+      : names.get(item.user_id) || "Learner";
+
+    return `
+      <article class="card">
+        <strong>${escapeHTML(author)}</strong>
+        <p>${escapeHTML(item.message)}</p>
+        <span class="muted small">
+          ${escapeHTML(relativeTime(item.created_at))}
+        </span>
+      </article>
+    `;
+  }).join("");
+}
+
+async function sendStudyGroupMessage(event) {
+  event.preventDefault();
+
+  if (!requireLogin() || !activeStudyGroupId) return;
+
+  const input = $("#studyGroupMessage");
+  const message = input?.value.trim();
+
+  if (!message) return;
+
+  const button = $("#studyGroupMessageForm button[type='submit']");
+  setButtonBusy(button, true, "Sending...");
+
+  try {
+    const { error } = await supabase
+      .from("study_group_messages")
+      .insert({
+        group_id: activeStudyGroupId,
+        user_id: currentUserId(),
+        message
+      });
+
+    if (error) throw error;
+
+    input.value = "";
+    await loadStudyGroupMessages();
+
+    toast("Your group message has been sent.");
+  } catch (error) {
+    console.error("Group message error:", error);
+    toast(`Could not send message: ${error.message}`, "error");
+  } finally {
+    setButtonBusy(button, false);
+  }
+}
+
+async function leaveStudyGroup() {
+  if (!requireLogin() || !activeStudyGroupId) return;
+
+  if (activeStudyGroupIsLeader) {
+    toast("Group leaders cannot leave their own group.", "error");
+    return;
+  }
+
+  const groupId = activeStudyGroupId;
+
+  try {
+    const { error } = await supabase
+      .from("study_group_members")
+      .delete()
+      .eq("group_id", groupId)
+      .eq("user_id", currentUserId());
+
+    if (error) throw error;
+
+    activeStudyGroupId = null;
+    $("#studyGroupDetails").classList.add("hidden");
+
+    await loadStudyGroups();
+
+    toast("You have left the study group.");
+  } catch (error) {
+    console.error("Leaving study group error:", error);
+    toast(`Could not leave group: ${error.message}`, "error");
+  }
+}
+
 function bindEvents() {
 
 
@@ -5414,6 +5767,31 @@ searchBooks();
    $("#hostDashboardButton")?.addEventListener("click", loadCommitteeMembers);
 $("#hostDashboardButton")?.addEventListener("click", loadCommitteeApplications);
    $("#committeeApplicationsList")?.addEventListener("click", reviewCommitteeApplication);
+     // LearnLoop Study Groups events
+  $("#studyGroupForm")?.addEventListener("submit", createStudyGroup);
+
+  $("#studyGroupsList")?.addEventListener("click", event => {
+    const button = event.target.closest("[data-study-group-action]");
+    if (!button) return;
+
+    const groupId = button.dataset.groupId;
+
+    if (button.dataset.studyGroupAction === "join") {
+      joinStudyGroup(groupId);
+    } else {
+      openStudyGroup(groupId);
+    }
+  });
+
+  $("#studyGroupMessageForm")?.addEventListener(
+    "submit",
+    sendStudyGroupMessage
+  );
+
+  $("#leaveStudyGroupButton")?.addEventListener(
+    "click",
+    leaveStudyGroup
+  );
   // Close dialogs by clicking their backdrop.
   $$("dialog").forEach(dialog => {
     dialog.addEventListener("click", event => {
