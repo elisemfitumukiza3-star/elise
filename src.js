@@ -2291,7 +2291,48 @@ console.error("Profile error code:", profiles.error?.code);
     list.append(card);
   });
 }
+async function loadCommitteeApplications() {
+  const list = $("#committeeApplicationsList");
+  if (!list || !isOwner()) return;
 
+  list.textContent = "Loading applications…";
+
+  const { data, error } = await supabase
+    .from("committee_applications")
+    .select("id, email, reason, status, created_at")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Committee applications error:", error);
+    list.textContent = "Could not load applications.";
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    list.textContent = "No committee applications yet.";
+    return;
+  }
+
+  list.innerHTML = data.map(application => `
+    <div class="card">
+      <p><strong>Applicant:</strong> ${escapeHTML(application.email)}</p>
+      <p><strong>Reason:</strong> ${escapeHTML(application.reason)}</p>
+      <p><strong>Status:</strong> ${escapeHTML(application.status)}</p>
+      ${
+        application.status === "pending"
+          ? `
+            <button type="button" data-review-committee="approved" data-id="${application.id}">
+              Approve
+            </button>
+            <button type="button" data-review-committee="rejected" data-id="${application.id}">
+              Reject
+            </button>
+          `
+          : ""
+      }
+    </div>
+  `).join("");
+}
 async function appointCommitteeMember() {
   if (!isOwner()) {
     toast("Only the platform owner can appoint committee members.", "error");
