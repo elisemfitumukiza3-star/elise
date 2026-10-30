@@ -907,7 +907,7 @@ async function loadHonoraryCertificateRequests() {
 
   const { data, error } = await supabase
     .from("honorary_certificate_requests")
-    .select("id, user_id, course_title, course_slug, status, created_at")
+   .select("id, user_id, learner_name, course_title, course_slug, status, created_at")
     .order("created_at", { ascending: false });
 
   if (error) {
@@ -929,10 +929,9 @@ async function loadHonoraryCertificateRequests() {
 
     const title = document.createElement("strong");
     title.textContent = request.course_title;
-
-    const learner = document.createElement("p");
-    learner.textContent = `Learner ID: ${request.user_id}`;
-
+const learner = document.createElement("p");
+learner.textContent =
+  `Learner: ${request.learner_name || "Name not provided"}`;
     const status = document.createElement("p");
     status.textContent = `Status: ${request.status}`;
 
