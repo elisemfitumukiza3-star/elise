@@ -6057,6 +6057,19 @@ searchBooks();
    $("#hostDashboardButton")?.addEventListener("click", loadCommitteeMembers);
 $("#hostDashboardButton")?.addEventListener("click", loadCommitteeApplications);
    $("#committeeApplicationsList")?.addEventListener("click", reviewCommitteeApplication);
+   $("#honoraryCertificateRequestList")?.addEventListener("click", event => {
+  const button = event.target.closest("[data-honorary-action]");
+  if (!button) return;
+
+  const requestId = button.dataset.requestId;
+  const action = button.dataset.honoraryAction;
+
+  if (action === "approve") {
+    approveHonoraryCertificate(requestId);
+  } else if (action === "reject") {
+    rejectHonoraryCertificate(requestId);
+  }
+});
      // LearnLoop Study Groups events
   $("#studyGroupForm")?.addEventListener("submit", createStudyGroup);
 
