@@ -890,7 +890,265 @@ async function signOut() {
   toast("You have logged out.");
 }
 
+async function approveHonoraryCertificate(requestId) {
+  const { data: sessionData } = await supabase.auth.getSession();
+  const email = sessionData?.session?.user?.email;
 
+  if (email !== "elisemfitumukiza3@gmail.com") {
+    alert("Only the LearnLoop owner can approve certificates.");
+    return;
+  }
+
+  const { data: request, error } = await supabase
+    .from("honorary_certificate_requests")
+    .select("*")
+    .eq("id", requestId)
+    .single();
+
+  if (error || !request) {
+    alert("Could not load this certificate request.");
+    return;
+  }
+
+  if (request.status !== "pending") {
+    alert("This request has already been reviewed.");
+    return;
+  }
+
+  const jsPDF = window.jspdf?.jsPDF;
+
+  if (!jsPDF || typeof QRCode === "undefined") {
+    alert("PDF or QR library could not load. Please refresh.");
+    return;
+  }
+
+  const certificateNumber =
+    "LL-HON-" + Date.now().toString(36).toUpperCase();
+
+  const completionDate = new Date().toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "long",
+    year: "numeric"
+  });
+
+  const pdf = new jsPDF({
+    orientation: "landscape",
+    unit: "mm",
+    format: "a4"
+  });
+
+  // LearnLoop cream, navy and gold certificate design
+  pdf.setFillColor(20, 39, 77);
+  pdf.rect(0, 0, 297, 210, "F");
+
+  pdf.setFillColor(250, 248, 241);
+  pdf.rect(5, 5, 287, 200, "F");
+
+  pdf.setDrawColor(198, 158, 64);
+  pdf.setLineWidth(1);
+  pdf.rect(9, 9, 279, 192);
+
+  pdf.setTextColor(20, 39, 77);
+  pdf.setFont("helvetica", "bold");
+  pdf.setFontSize(27);
+  pdf.text("LearnLoop", 148.5, 28, { align: "center" });
+
+  pdf.setFont("helvetica", "normal");
+  pdf.setFontSize(8);
+  pdf.text("L E A R N   •   S H A R E   •   G R O W", 148.5, 35, {
+    align: "center"
+  });
+
+  pdf.setFont("times", "bold");
+  pdf.setFontSize(23);
+  pdf.text(
+    "CERTIFICATE OF HONORARY PARTICIPATION",
+    148.5, 57, { align: "center" }
+  );
+
+  pdf.setFont("helvetica", "normal");
+  pdf.setFontSize(12);
+  pdf.text("THIS CERTIFICATE IS PROUDLY PRESENTED TO", 148.5, 70, {
+    align: "center"
+  });
+
+  pdf.setFillColor(255, 248, 225);
+  pdf.setDrawColor(198, 158, 64);
+  pdf.roundedRect(48, 77, 201, 22, 2, 2, "FD");
+
+  pdf.setTextColor(20, 39, 77);
+  pdf.setFont("times", "italic");
+  pdf.setFontSize(25);
+  pdf.text(request.learner_name, 148.5, 91, {
+    align: "center",
+    maxWidth: 190
+  });
+
+  pdf.setFont("helvetica", "normal");
+  pdf.setFontSize(12);
+  pdf.text("In recognition of outstanding participation and appreciation", 148.5, 115, {
+    align: "center"
+  });
+  pdf.text("for the LearnLoop learning community and course:", 148.5, 123, {
+    align: "center"
+  });
+
+  pdf.setFont("times", "bold");
+  pdf.setFontSize(25);
+  pdf.text(request.course_title, 148.5, 139, {
+    align: "center",
+    maxWidth: 220
+  });
+
+  pdf.setFont("helvetica", "normal");
+  pdf.setFontSize(9);
+  pdf.text("Awarded on", 148.5, 162, { align: "center" });
+
+  pdf.setFont("helvetica", "bold");
+  pdf.setFontSize(12);
+  pdf.text(completionDate, 148.5, 170, { align: "center" });
+
+  pdf.setFont("times", "italic");
+  pdf.setFontSize(23);
+  pdf.text("LearnLoop", 238, 166, {
+    align: "center",
+    angle: -8
+  });
+
+  pdf.setFont("helvetica", "bold");
+  pdf.setFontSize(8);
+  pdf.text("PLATFORM ADMINISTRATOR", 238, 180, {
+    align: "center"
+  });
+
+  pdf.setFont("helvetica", "normal");
+  pdf.setFontSize(8);
+  pdf.text("Certificate No: " + certificateNumber, 28, 188);
+
+  pdf.text("Visit LearnLoop: https://elise-neon.vercel.app", 148.5, 198, {
+    align: "center"
+  });
+
+  const verificationUrl =
+    window.location.origin +
+    window.location.pathname +
+    "?honorary_certificate=" +
+    encodeURIComponent(certificateNumber);
+
+  const qrContainer = document.createElement("div");
+
+  new QRCode(qrContainer, {
+    text: verificationUrl,
+    width: 256,
+    height: 256,
+    correctLevel: QRCode.CorrectLevel.M
+  });
+
+  const qrCanvas = qrContainer.querySelector("canvas");
+
+  if (!qrCanvas) {
+    alert("Could not generate the verification QR code.");
+    return;
+  }
+
+  pdf.addImage(
+    qrCanvas.toDataURL("image/png"),
+    "PNG",
+    18,
+    151,
+    22,
+    22
+  );
+
+  pdf.setFontSize(6);
+  pdf.text("SCAN TO VERIFY", 29, 176, { align: "center" });
+
+  const pdfBlob = pdf.output("blob");
+  const filePath = `${request.user_id}/${certificateNumber}.pdf`;
+
+  const { error: uploadError } = await supabase.storage
+    .from("honorary-certificates")
+    .upload(filePath, pdfBlob, {
+      contentType: "application/pdf",
+      upsert: false
+    });
+
+  if (uploadError) {
+    console.error(uploadError);
+    alert("Certificate upload failed. Please try again.");
+    return;
+  }
+
+  const { data: urlData } = supabase.storage
+    .from("honorary-certificates")
+    .getPublicUrl(filePath);
+
+  const certificateUrl = urlData.publicUrl;
+
+  const { error: updateError } = await supabase
+    .from("honorary_certificate_requests")
+    .update({
+      status: "approved",
+      certificate_number: certificateNumber,
+      certificate_url: certificateUrl,
+      reviewed_at: new Date().toISOString(),
+      reviewed_by: sessionData.session.user.id
+    })
+    .eq("id", requestId);
+
+  if (updateError) {
+    console.error(updateError);
+    alert("Certificate was uploaded, but approval could not be saved.");
+    return;
+  }
+
+  const { error: notificationError } = await supabase
+    .from("notifications")
+    .insert({
+      user_id: request.user_id,
+      type: "honorary_certificate",
+      title: "Your honorary certificate is ready!",
+      message: `Your honorary participation certificate for ${request.course_title} has been approved.`,
+      link: certificateUrl,
+      is_read: false
+    });
+
+  if (notificationError) {
+    console.error(notificationError);
+    alert("Certificate approved, but its notification could not be sent.");
+  } else {
+    alert("Certificate approved and sent to the learner's notifications!");
+  }
+
+  await loadHonoraryCertificateRequests();
+}
+
+async function rejectHonoraryCertificate(requestId) {
+  const { data: sessionData } = await supabase.auth.getSession();
+
+  if (sessionData?.session?.user?.email !== "elisemfitumukiza3@gmail.com") {
+    alert("Only the LearnLoop owner can reject requests.");
+    return;
+  }
+
+  const { error } = await supabase
+    .from("honorary_certificate_requests")
+    .update({
+      status: "rejected",
+      reviewed_at: new Date().toISOString(),
+      reviewed_by: sessionData.session.user.id
+    })
+    .eq("id", requestId)
+    .eq("status", "pending");
+
+  if (error) {
+    console.error(error);
+    alert("Could not reject this request.");
+    return;
+  }
+
+  await loadHonoraryCertificateRequests();
+}
 async function loadHonoraryCertificateRequests() {
   const list = document.querySelector("#honoraryCertificateRequestList");
   if (!list) return;
