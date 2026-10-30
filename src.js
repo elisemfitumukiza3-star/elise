@@ -1054,6 +1054,7 @@ async function navigate(view) {
   renderAllFeeds();
 
   if (view === "dashboard") updateDashboard();
+   if (view === "community") renderCommunityAchievements();
   if (view === "library") searchBooks();
    
   if (view === "youtube") {
