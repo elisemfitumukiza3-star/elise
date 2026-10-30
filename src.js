@@ -4932,7 +4932,7 @@ searchBooks();
    $("#appointCommitteeMember")?.addEventListener("click", appointCommitteeMember);
    $("#committeeApplicationForm")?.addEventListener("submit", submitCommitteeApplication);
    $("#hostDashboardButton")?.addEventListener("click", loadCommitteeMembers);
-
+$("#hostDashboardButton")?.addEventListener("click", loadCommitteeApplications);
   // Close dialogs by clicking their backdrop.
   $$("dialog").forEach(dialog => {
     dialog.addEventListener("click", event => {
