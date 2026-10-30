@@ -4786,6 +4786,75 @@ function renderAcademyCourses() {
   });
 }
 
+async function loadAcademyCourseReviews(course) {
+  const client = window.learnLoopSupabase;
+  const averageBox = document.querySelector("#academyReviewAverage");
+  const reviewList = document.querySelector("#academyReviewList");
+  const ratingInput = document.querySelector("#academyReviewRating");
+  const commentInput = document.querySelector("#academyReviewText");
+
+  if (!client || !averageBox || !reviewList) return;
+
+  averageBox.textContent = "Loading ratings...";
+  reviewList.replaceChildren();
+
+  const { data, error } = await client
+    .from("course_reviews")
+    .select("rating, review, created_at, user_id")
+    .eq("course_slug", course.slug)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    averageBox.textContent = "Could not load course reviews.";
+    console.error("Course reviews:", error);
+    return;
+  }
+
+  const reviews = data || [];
+
+  if (reviews.length) {
+    const average =
+      reviews.reduce((sum, item) => sum + item.rating, 0) /
+      reviews.length;
+
+    averageBox.textContent =
+      `★★★★★ ${average.toFixed(1)} / 5 (${reviews.length} reviews)`;
+  } else {
+    averageBox.textContent = "No ratings yet.";
+  }
+
+  const { data: sessionData } = await client.auth.getSession();
+  const userId = sessionData?.session?.user?.id;
+
+  const ownReview = reviews.find(item => item.user_id === userId);
+
+  if (ownReview) {
+    ratingInput.value = String(ownReview.rating);
+    commentInput.value = ownReview.review || "";
+  } else {
+    ratingInput.value = "";
+    commentInput.value = "";
+  }
+
+  reviews.forEach(item => {
+    const card = document.createElement("article");
+    card.className = "academy-review-item";
+
+    const stars = document.createElement("strong");
+    stars.textContent = "★".repeat(item.rating) +
+      "☆".repeat(5 - item.rating);
+
+    const comment = document.createElement("p");
+    comment.textContent = item.review || "No written comment.";
+
+    const date = document.createElement("small");
+    date.textContent = new Date(item.created_at).toLocaleDateString();
+
+    card.append(stars, comment, date);
+    reviewList.appendChild(card);
+  });
+}
+
 function openAcademyCourse(course) {
   const panel = document.querySelector("#academyStudyPanel");
    window.currentAcademyCourse = course;
