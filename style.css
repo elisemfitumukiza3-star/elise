@@ -3482,3 +3482,47 @@ body.dark-mode #feedView .learning-dashboard p {
   color: #667085;
   font-size: 12px;
 }
+
+/* LearnLoop colorful text posts */
+.post-card .post-body {
+  padding: 22px 16px;
+  margin: 14px 0;
+  border-radius: 14px;
+  min-height: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 19px;
+  font-weight: 650;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  color: #243047;
+}
+
+/* Different Facebook-inspired colors */
+.post-card:nth-child(5n + 1) .post-body {
+  background: #e3efff;
+  color: #174477;
+}
+
+.post-card:nth-child(5n + 2) .post-body {
+  background: #f1e6ff;
+  color: #58318a;
+}
+
+.post-card:nth-child(5n + 3) .post-body {
+  background: #ffe8ef;
+  color: #87334f;
+}
+
+.post-card:nth-child(5n + 4) .post-body {
+  background: #fff2cf;
+  color: #74521b;
+}
+
+.post-card:nth-child(5n + 5) .post-body {
+  background: #e1f5e9;
+  color: #245c3d;
+}
