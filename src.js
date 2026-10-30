@@ -1960,11 +1960,10 @@ async function handlePostAction(event) {
 
   if (url) {
     window.open(url, "_blank", "noopener,noreferrer");
-  } else {
-    toast("The file could not be opened. Check its storage access policies.", "error");
-  }
-
-} else if (action === "play-video") {
+     } else {
+      toast("The file could not be opened. Check its storage access policies.", "error");
+    }
+  } else if (action === "play-video") {
   const path = card.querySelector("[data-file-path]")?.dataset.filePath;
   if (!path) return;
 
@@ -1988,9 +1987,10 @@ async function handlePostAction(event) {
 
   videoCard.replaceChildren(player);
 
-  player.play().catch(() => {
-    toast("Press play on the video to start watching.");
-  });
+     player.play().catch(() => {
+      toast("Press play on the video to start watching.");
+    });
+  }
 }
 
 /* ---------- Learning library: Google Books ---------- */
