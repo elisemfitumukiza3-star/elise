@@ -4878,7 +4878,26 @@ async function submitAcademyCourseReview(event) {
     document.querySelector("#academyReviewRating").value
   );
   const review = document.querySelector("#academyReviewText").value.trim();
+let certificateName = "";
 
+if (rating === 5) {
+  const profileName = state.profile?.display_name || "";
+
+  certificateName = window.confirm(
+    `Use your registered profile name "${profileName}" for your honorary certificate?`
+  )
+    ? profileName.trim()
+    : (window.prompt(
+        "Enter your full certificate name:",
+        profileName
+      ) || "").trim();
+
+  if (!certificateName) {
+    status.textContent =
+      "Please enter your certificate name to submit your five-star award request.";
+    return;
+  }
+}
   if (!rating || rating < 1 || rating > 5) {
     status.textContent = "Please choose a star rating.";
     return;
