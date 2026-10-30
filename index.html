@@ -297,7 +297,40 @@
     <div id="academyTopicList"></div>
 
     <div id="academyLessonContent"></div>
+<section class="card academy-reviews" id="academyReviews">
+  <h3>Course Reviews & Ratings</h3>
+  <p>Share your experience and appreciate the learning journey.</p>
 
+  <div id="academyReviewAverage">
+    No ratings yet.
+  </div>
+
+  <form id="academyReviewForm">
+    <label for="academyReviewRating">Your rating</label>
+    <select id="academyReviewRating" required>
+      <option value="">Choose stars</option>
+      <option value="1">★☆☆☆☆ — 1 star</option>
+      <option value="2">★★☆☆☆ — 2 stars</option>
+      <option value="3">★★★☆☆ — 3 stars</option>
+      <option value="4">★★★★☆ — 4 stars</option>
+      <option value="5">★★★★★ — 5 stars</option>
+    </select>
+
+    <label for="academyReviewText">Your comment</label>
+    <textarea
+      id="academyReviewText"
+      maxlength="1000"
+      placeholder="Share what you think about this course..."
+    ></textarea>
+
+    <button type="submit" id="submitAcademyReview">
+      Submit Review
+    </button>
+    <p id="academyReviewStatus" aria-live="polite"></p>
+  </form>
+
+  <div id="academyReviewList"></div>
+</section>
    <dialog id="academyQuizDialog" class="academy-quiz-dialog">
   <div class="academy-quiz-window">
    <button
