@@ -4788,7 +4788,7 @@ function renderAcademyCourses() {
 async function submitAcademyCourseReview(event) {
   event.preventDefault();
 
-  const client = window.learnLoopSupabase;
+ const client = supabase;
   const course = window.currentAcademyCourse;
   const status = document.querySelector("#academyReviewStatus");
   const button = document.querySelector("#submitAcademyReview");
