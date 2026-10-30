@@ -1778,6 +1778,37 @@ function renderAllFeeds() {
     "You haven't shared anything yet",
     "Your published posts and resources will appear here."
   );
+   loadPostVideoThumbnails();
+}
+
+async function loadPostVideoThumbnails() {
+  const cards = document.querySelectorAll(".post-video-card");
+
+  for (const card of cards) {
+    const path = card.dataset.filePath;
+    const thumbnail = card.querySelector(".post-video-thumbnail");
+
+    if (!path || !thumbnail || thumbnail.dataset.loaded === "true") {
+      continue;
+    }
+
+    thumbnail.dataset.loaded = "true";
+
+    const url = await getFileUrl(path);
+
+    if (!url) {
+      thumbnail.dataset.loaded = "false";
+      continue;
+    }
+
+    thumbnail.src = url;
+
+    thumbnail.addEventListener("loadedmetadata", () => {
+      if (thumbnail.duration > 0) {
+        thumbnail.currentTime = Math.min(1, thumbnail.duration / 2);
+      }
+    }, { once: true });
+  }
 }
 
 /* ---------- Likes and comments ---------- */
