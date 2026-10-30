@@ -1963,6 +1963,33 @@ async function handlePostAction(event) {
       toast("The file could not be opened. Check its storage access policies.", "error");
     }
   }
+    } else if (action === "play-video") {
+    const path = card.querySelector("[data-file-path]")?.dataset.filePath;
+    if (!path) return;
+
+    const url = await getFileUrl(path);
+
+    if (!url) {
+      toast("The video could not be loaded. Please check storage access.", "error");
+      return;
+    }
+
+    const videoCard = card.querySelector(".post-video-card");
+    if (!videoCard) return;
+
+    const player = document.createElement("video");
+    player.className = "post-video-player";
+    player.controls = true;
+    player.autoplay = true;
+    player.playsInline = true;
+    player.preload = "metadata";
+    player.src = url;
+
+    videoCard.replaceChildren(player);
+
+    player.play().catch(() => {
+      toast("Press play on the video to start watching.");
+    }); 
 }
 
 /* ---------- Learning library: Google Books ---------- */
