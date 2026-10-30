@@ -1244,16 +1244,26 @@ async function loadNotifications() {
     return;
   }
 
-  list.innerHTML = data.map(item => `
-    <article class="notification-item ${item.is_read ? "" : "unread"}">
-      <strong>${escapeHTML(item.title)}</strong>
-      <p>${escapeHTML(item.message)}</p>
-      <div class="notification-time">
-        ${escapeHTML(relativeTime(item.created_at))}
-      </div>
-    </article>
-  `).join("");
-}
+ list.innerHTML = data.map(item => `
+  <article class="notification-item ${item.is_read ? "" : "unread"}">
+    <strong>${escapeHTML(item.title)}</strong>
+    <p>${escapeHTML(item.message)}</p>
+
+    ${
+      item.link && /^https:\/\//i.test(item.link)
+        ? `<p><a href="${escapeHTML(item.link)}"
+             target="_blank"
+             rel="noopener noreferrer">
+             Download honorary certificate (PDF)
+           </a></p>`
+        : ""
+    }
+
+    <div class="notification-time">
+      ${escapeHTML(relativeTime(item.created_at))}
+    </div>
+  </article>
+`).join("");
 
 async function afterLogin() {
   await fetchProfile();
