@@ -4785,7 +4785,65 @@ function renderAcademyCourses() {
     grid.appendChild(card);
   });
 }
+async function submitAcademyCourseReview(event) {
+  event.preventDefault();
 
+  const client = window.learnLoopSupabase;
+  const course = window.currentAcademyCourse;
+  const status = document.querySelector("#academyReviewStatus");
+  const button = document.querySelector("#submitAcademyReview");
+
+  if (!client || !course) return;
+
+  const { data: sessionData } = await client.auth.getSession();
+  const user = sessionData?.session?.user;
+
+  if (!user) {
+    status.textContent = "Please log in to submit a review.";
+    return;
+  }
+
+  const rating = Number(
+    document.querySelector("#academyReviewRating").value
+  );
+  const review = document.querySelector("#academyReviewText").value.trim();
+
+  if (!rating || rating < 1 || rating > 5) {
+    status.textContent = "Please choose a star rating.";
+    return;
+  }
+
+  button.disabled = true;
+  status.textContent = "Submitting your review...";
+
+  const { error } = await client
+    .from("course_reviews")
+    .upsert({
+      course_slug: course.slug,
+      user_id: user.id,
+      rating,
+      review,
+      updated_at: new Date().toISOString()
+    }, {
+      onConflict: "course_slug,user_id"
+    });
+
+  button.disabled = false;
+
+  if (error) {
+    status.textContent = "Could not save your review. Please try again.";
+    console.error("Review submission:", error);
+    return;
+  }
+
+  status.textContent = "Your review has been saved!";
+  await loadAcademyCourseReviews(course);
+
+  if (rating === 5) {
+    status.textContent =
+      "Your five-star review is saved! Next we'll issue your honorary certificate.";
+  }
+}
 async function loadAcademyCourseReviews(course) {
   const client = window.learnLoopSupabase;
   const averageBox = document.querySelector("#academyReviewAverage");
