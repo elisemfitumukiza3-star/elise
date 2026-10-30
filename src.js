@@ -1592,17 +1592,30 @@ function postCard(post) {
 
       ${body ? `<div class="post-body">${linkifyText(body)}</div>` : ""}
 
-      ${post.file_path ? `
-        <div class="post-attachment" data-file-path="${escapeHTML(post.file_path)}">
-          <div class="post-attachment-icon">${fileIcon(post.file_mime || "")}</div>
-          <div class="post-attachment-info">
-            <strong>${escapeHTML(post.file_name || "Learning resource")}</strong>
-            <small>Attached learning resource</small>
-          </div>
-          <button class="button button-secondary" data-action="open-file" type="button">
-            Open
-          </button>
-        </div>` : ""}
+    ${post.file_path ? (
+  isVideo(post.file_mime || "")
+    ? `
+      <div class="post-video-card" data-file-path="${escapeHTML(post.file_path)}">
+        <button type="button" class="post-video-preview" data-action="play-video">
+          <span class="post-video-play-icon">▶</span>
+          <strong>${escapeHTML(post.file_name || "Learning video")}</strong>
+          <small>Click to play video</small>
+        </button>
+      </div>
+    `
+    : `
+      <div class="post-attachment" data-file-path="${escapeHTML(post.file_path)}">
+        <div class="post-attachment-icon">${fileIcon(post.file_mime || "")}</div>
+        <div class="post-attachment-info">
+          <strong>${escapeHTML(post.file_name || "Learning resource")}</strong>
+          <small>Attached learning resource</small>
+        </div>
+        <button class="button button-secondary" data-action="open-file" type="button">
+          Open
+        </button>
+      </div>
+    `
+) : ""}
 
       <div class="post-actions">
         <button type="button" class="post-action ${liked ? "active" : ""}"
