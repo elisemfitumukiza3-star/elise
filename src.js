@@ -1585,11 +1585,19 @@ function postCard(post) {
         isVideo(post.file_mime || "")
           ? `
             <div class="post-video-card" data-file-path="${escapeHTML(post.file_path)}">
-              <button type="button" class="post-video-preview" data-action="play-video">
-                <span class="post-video-play-icon">▶</span>
-                <strong>${escapeHTML(post.file_name || "Learning video")}</strong>
-                <small>Click to play video</small>
-              </button>
+             
+<button type="button" class="post-video-preview" data-action="play-video">
+  <video class="post-video-thumbnail"
+    src="${escapeHTML(post.file_url || "")}"
+    muted
+    playsinline
+    preload="metadata"></video>
+  <span class="post-video-play-icon">▶</span>
+</button>
+<div class="post-video-title">
+  <strong>${escapeHTML(post.file_name || "Learning video")}</strong>
+</div>
+
             </div>
           `
           : (
