@@ -2020,8 +2020,49 @@ async function handlePostAction(event) {
         toast("Could not share this post.", "error");
       }
     }
-  } else if (action === "report") {
-    await reportPost(post);
+  
+} else if (action === "delete-post") {
+  const userId = currentUserId();
+
+  if (!userId || String(post.user_id) !== String(userId)) {
+    toast("You can only remove your own posts.", "error");
+    return;
+  }
+
+  const confirmed = window.confirm(
+    "Are you sure you want to remove this post? This cannot be undone."
+  );
+
+  if (!confirmed) return;
+
+  const { data, error } = await supabase
+    .from("posts")
+    .delete()
+    .eq("id", post.id)
+    .eq("user_id", userId)
+    .select("id")
+    .maybeSingle();
+
+  if (error) {
+    console.error("Post deletion error:", error);
+    toast("Could not remove the post.", "error");
+    return;
+  }
+
+  if (!data) {
+    toast("Post not found or you cannot remove it.", "error");
+    return;
+  }
+
+  state.posts = state.posts.filter(
+    item => String(item.id) !== String(post.id)
+  );
+
+  renderAllFeeds();
+  toast("Your post was removed.");
+} else if (action === "report") {
+  await reportPost(post);
+
 } else if (action === "open-file") {
   const path = card.querySelector("[data-file-path]")?.dataset.filePath;
   if (!path) return;
