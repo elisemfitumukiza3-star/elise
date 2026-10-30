@@ -3313,3 +3313,55 @@ body.dark-mode #feedView .learning-dashboard p {
   text-align: center;
   color: #776b89;
 }
+/* LearnLoop: three-column post layout */
+#feed,
+#discussionsFeed,
+#communityFeed,
+#followingFeed,
+#savedList,
+#myUploadsList {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  align-items: start;
+}
+
+.post-card {
+  min-width: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+}
+
+.post-body {
+  overflow-wrap: anywhere;
+}
+
+.post-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+@media (max-width: 900px) {
+  #feed,
+  #discussionsFeed,
+  #communityFeed,
+  #followingFeed,
+  #savedList,
+  #myUploadsList {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  #feed,
+  #discussionsFeed,
+  #communityFeed,
+  #followingFeed,
+  #savedList,
+  #myUploadsList {
+    grid-template-columns: 1fr;
+  }
+}
