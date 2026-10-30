@@ -2438,9 +2438,79 @@ console.error("Profile error code:", profiles.error?.code);
     state.hostSettings = data;
   }
 
-  renderHostSettings();
+   renderHostSettings();
   await renderHostModeration();
+  await renderHostReports();
 }
+
+async function renderHostReports() {
+  const container = $("#hostReportsList");
+  if (!container) return;
+
+  const { data: reports, error } = await supabase
+    .from("reports")
+    .select("id, post_id, reporter_id, reason, status, created_at")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Host reports load error:", error);
+    container.innerHTML =
+      '<p class="muted">Could not load reports. Check reports table permissions.</p>';
+    return;
+  }
+
+  if (!reports?.length) {
+    container.innerHTML =
+      '<p class="muted">No reports have been submitted yet.</p>';
+    return;
+  }
+
+  const postIds = [...new Set(reports.map(r => r.post_id).filter(Boolean))];
+  const reporterIds = [...new Set(reports.map(r => r.reporter_id).filter(Boolean))];
+
+  const [postsResult, profilesResult] = await Promise.all([
+    postIds.length
+      ? supabase.from("posts").select("id, body").in("id", postIds)
+      : Promise.resolve({ data: [], error: null }),
+    reporterIds.length
+      ? supabase.from("profiles").select("id, display_name").in("id", reporterIds)
+      : Promise.resolve({ data: [], error: null })
+  ]);
+
+  if (postsResult.error) console.error("Reported posts load error:", postsResult.error);
+  if (profilesResult.error) console.error("Reporters load error:", profilesResult.error);
+
+  const postsById = new Map((postsResult.data || []).map(p => [String(p.id), p]));
+  const profilesById = new Map((profilesResult.data || []).map(p => [String(p.id), p]));
+
+  container.innerHTML = reports.map(report => {
+    const post = postsById.get(String(report.post_id));
+    const profile = profilesById.get(String(report.reporter_id));
+    const date = report.created_at
+      ? new Date(report.created_at).toLocaleString()
+      : "Date unavailable";
+
+    return `
+      <article class="card" style="margin-bottom:14px;">
+        <strong>Reported post</strong>
+        <p>${escapeHTML(post?.body || "Post unavailable or deleted.")}</p>
+
+        <p class="muted small">
+          Reported by: ${escapeHTML(profile?.display_name || "Unknown learner")}
+        </p>
+
+        <p><strong>Reason:</strong> ${escapeHTML(report.reason)}</p>
+
+        <p class="muted small">
+          Date: ${escapeHTML(date)}
+        </p>
+
+        <p><strong>Status:</strong> ${escapeHTML(report.status)}</p>
+      </article>
+    `;
+  }).join("");
+}
+
 
    async function loadCommitteeMembers() {
   const list = $("#committeeMembersList");
