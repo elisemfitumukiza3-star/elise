@@ -774,6 +774,85 @@
   </div>
 </section>
 
+<section class="card" id="studyGroupsSection">
+  <h2>LearnLoop Study Groups</h2>
+  <p>Create or join a group to learn and exchange ideas with other learners.</p>
+
+  <div class="study-group-create">
+    <h3>Create a Study Group</h3>
+
+    <form id="studyGroupForm">
+      <label for="studyGroupName">Group name</label>
+      <input
+        type="text"
+        id="studyGroupName"
+        maxlength="80"
+        placeholder="Example: Mathematics Study Group"
+        required
+      >
+
+      <label for="studyGroupSubject">Subject</label>
+      <select id="studyGroupSubject" required>
+        <option value="">Choose a subject</option>
+        <option>General</option>
+        <option>Science</option>
+        <option>Mathematics</option>
+        <option>Languages</option>
+        <option>Technology</option>
+        <option>Health</option>
+        <option>Social Development</option>
+        <option>Business</option>
+      </select>
+
+      <label for="studyGroupDescription">Description</label>
+      <textarea
+        id="studyGroupDescription"
+        rows="3"
+        maxlength="500"
+        placeholder="What will members learn together?"
+      ></textarea>
+
+      <button type="submit">Create Group</button>
+    </form>
+
+    <p id="studyGroupStatus" aria-live="polite"></p>
+  </div>
+
+  <div class="section-heading">
+    <div>
+      <h3>Explore Study Groups</h3>
+      <p>Discover groups created by other learners.</p>
+    </div>
+  </div>
+
+  <div id="studyGroupsList">
+    <p>Study groups will appear here.</p>
+  </div>
+
+  <div id="studyGroupDetails" class="hidden">
+    <h3 id="studyGroupDetailsTitle"></h3>
+    <p id="studyGroupDetailsDescription"></p>
+
+    <div id="studyGroupMessages"></div>
+
+    <form id="studyGroupMessageForm">
+      <label for="studyGroupMessage">Share something with your group</label>
+      <textarea
+        id="studyGroupMessage"
+        rows="3"
+        maxlength="2000"
+        required
+        placeholder="Write a learning question or contribution..."
+      ></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+
+    <button type="button" id="leaveStudyGroupButton">
+      Leave Group
+    </button>
+  </div>
+</section>
+
             <section class="card" id="committeeApplicationSection">
   <h2>Apply to Join the LearnLoop Committee</h2>
   <p>Tell us why you would like to serve the LearnLoop community.</p>
