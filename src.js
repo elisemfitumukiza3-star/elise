@@ -6028,7 +6028,16 @@ if (score < ACADEMY_PASSING_SCORE) {
 showQuestion();
 
 } // Closes startAcademyQuiz()
+// Close the quiz window and stop its timer
+document.querySelector("#closeAcademyQuizDialog")
+  ?.addEventListener("click", () => {
+    if (academyQuizTimer) {
+      clearInterval(academyQuizTimer);
+      academyQuizTimer = null;
+    }
 
+    document.querySelector("#academyQuizDialog")?.close();
+  });
 document.addEventListener("click", function (event) {
   const button = event.target.closest("#academyQuizButton");
   if (!button) return;
