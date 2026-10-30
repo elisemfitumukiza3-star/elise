@@ -1815,6 +1815,21 @@ async function loadPostVideoThumbnails() {
   }
 }
 
+async function getFileUrl(path) {
+  if (!path) return null;
+
+  const { data, error } = await supabase.storage
+    .from(STORAGE_BUCKET)
+    .createSignedUrl(path, 3600);
+
+  if (error) {
+    console.warn("File URL error:", error.message);
+    return null;
+  }
+
+  return data?.signedUrl || null;
+}
+
 
 /* ---------- Likes and comments ---------- */
 
