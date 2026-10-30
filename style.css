@@ -3414,3 +3414,58 @@ body.dark-mode #feedView .learning-dashboard p {
   object-fit: contain;
   background: #000;
 }
+
+/* LearnLoop PDF document cards */
+.post-pdf-card {
+  width: 100%;
+  margin: 12px 0;
+  padding: 12px;
+  background: #f5f6f8;
+  border: 1px solid #dfe3e8;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.post-pdf-heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  overflow-wrap: anywhere;
+}
+
+.post-pdf-preview {
+  width: 100%;
+  height: 420px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.post-pdf-preview button {
+  padding: 12px 18px;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #17243a;
+  color: white;
+  font-weight: 600;
+}
+
+.post-pdf-frame {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: white;
+}
+
+.post-pdf-caption {
+  display: block;
+  margin-top: 8px;
+  color: #667085;
+  font-size: 12px;
+}
