@@ -1088,6 +1088,7 @@ function closeMobileMenu() {
 /* ---------- LearnLoop private messaging ---------- */
 
 let activeConversationId = null;
+let messageUserSearchTimer = null;
 
 async function searchMessageUsers(event) {
   event?.preventDefault();
