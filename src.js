@@ -4962,13 +4962,13 @@ if (rating === 5) {
     if (!existingRequest) {
       const { error: requestError } = await client
         .from("honorary_certificate_requests")
-        .insert({
-          user_id: user.id,
-          review_id: savedReview.id,
-          course_slug: course.slug,
-          course_title: course.title
-        });
-
+       .insert({
+  user_id: user.id,
+  review_id: savedReview.id,
+  course_slug: course.slug,
+  course_title: course.title,
+  learner_name: certificateName
+});
       if (requestError) {
         status.textContent =
           "Your review was saved, but the award request could not be created.";
