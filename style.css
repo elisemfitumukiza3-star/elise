@@ -4570,3 +4570,28 @@ body.dark-mode #hostDashboardDialog details.card summary {
 #postsFeed .post-actions {
   border-top-color: #D7E3EF;
 }
+/* Make Attach File button more visible */
+#postForm .file-pick {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 10px 16px;
+  background: #2563EB;
+  color: #FFFFFF;
+  font-weight: 700;
+  border-radius: 10px;
+  cursor: pointer;
+  border: 1px solid #1D4ED8;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+#postForm .file-pick:hover {
+  background: #1D4ED8;
+  transform: translateY(-2px);
+}
+
+#postForm .file-pick:focus-within {
+  outline: 3px solid #93C5FD;
+  outline-offset: 3px;
+}
