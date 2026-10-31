@@ -7331,7 +7331,13 @@ pdf.text("PLATFORM ADMINISTRATOR", 238.5, 185, {
   align: "center"
 });
       
-
+// LearnLoop website link
+pdf.setFont("helvetica", "normal");
+pdf.setFontSize(8);
+pdf.setTextColor(20, 39, 77);
+pdf.text("Visit LearnLoop: https://elise-neon.vercel.app", 148.5, 195, {
+  align: "center"
+});
 const { error: saveCertificateError } = await supabase
   .from("certificates")
   .insert({
