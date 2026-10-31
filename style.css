@@ -3687,3 +3687,80 @@ body.dark-mode #sidebar [aria-current="page"] {
   background: #373078;
   color: #ffffff;
 }
+
+/* LearnLoop professional homepage polish */
+.main-area {
+  min-width: 0;
+}
+
+.topbar {
+  border-color: #e4e1ff;
+  box-shadow: 0 8px 24px rgba(85, 72, 232, 0.07);
+}
+
+.topbar-title strong {
+  color: #30277f;
+}
+
+.topbar-title span {
+  color: #77748f;
+}
+
+/* Homepage welcome banner */
+#feedView .welcome-card {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(25px, 4vw, 42px);
+  border: 1px solid #dedaff;
+  border-radius: 24px;
+  background: linear-gradient(120deg, #332a9b, #5548e8 65%, #3977db);
+  box-shadow: 0 14px 32px rgba(85, 72, 232, 0.16);
+  color: #ffffff;
+}
+
+#feedView .welcome-card h1,
+#feedView .welcome-card p {
+  color: #ffffff;
+}
+
+#feedView .welcome-card h1 {
+  font-size: clamp(26px, 3vw, 38px);
+  line-height: 1.2;
+}
+
+/* Main learning sections */
+#feedView .academy-section,
+#feedView .learning-dashboard,
+#feedView #postForm {
+  border: 1px solid #e6e4f8;
+  border-radius: 22px;
+  box-shadow: 0 8px 24px rgba(55, 45, 120, 0.06);
+}
+
+#feedView .academy-section {
+  border-top: 4px solid #5548e8;
+}
+
+#feedView .learning-dashboard {
+  background: linear-gradient(135deg, #ffffff, #f4f2ff);
+}
+
+#feedView .featured-lesson {
+  border: 1px solid #e0ddff;
+  border-radius: 22px;
+  background: linear-gradient(135deg, #f1f0ff, #edf5ff);
+}
+
+/* Cleaner community post cards */
+#feedView .post-card {
+  border: 1px solid #e7e8f3;
+  border-radius: 18px;
+  box-shadow: 0 6px 20px rgba(40, 45, 90, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#feedView .post-card:hover {
+  transform: translateY(-2px);
+  border-color: #c9c3ff;
+  box-shadow: 0 12px 26px rgba(85, 72, 232, 0.10);
+}
