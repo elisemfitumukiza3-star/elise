@@ -2130,29 +2130,19 @@ function renderPostList(element, posts, emptyTitle, emptyMessage) {
 }
 
 function renderAllFeeds() {
-  const feedPosts = filteredPosts("all");
-  renderPostList($("#feed"), feedPosts, "No posts yet", "Be the first to share a useful learning resource.");
-
   renderPostList(
-    $("#discussionsFeed"),
-    filteredPosts("discussions"),
-    "No discussions yet",
-    "Questions, stories, and learning tips will appear here."
-  );
-
-  renderPostList(
-    $("#communityFeed"),
+    $("#postsFeed"),
     filteredPosts("all"),
-    "Your community is getting started",
-    "Published learning posts will appear here."
+    "No posts yet",
+    "Be the first to share a useful learning resource."
   );
 
- renderPostList(
-  $("#followingFeed"),
-  filteredPosts("following"),
-  "No posts from people you follow yet",
-  "Visit People to follow learners. Their published posts will appear here."
-);
+  renderPostList(
+    $("#followingFeed"),
+    filteredPosts("following"),
+    "No posts from people you follow yet",
+    "Visit People to follow learners. Their published posts will appear here."
+  );
 
   renderPostList(
     $("#savedList"),
@@ -2167,8 +2157,9 @@ function renderAllFeeds() {
     "You haven't shared anything yet",
     "Your published posts and resources will appear here."
   );
-   loadPostVideoThumbnails();
-   loadPostImagePreviews();
+
+  loadPostVideoThumbnails();
+  loadPostImagePreviews();
 }
 
 
