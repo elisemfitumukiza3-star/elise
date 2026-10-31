@@ -4556,3 +4556,17 @@ body.dark-mode #hostDashboardDialog details.card summary {
     padding: 16px;
   }
 }
+/* LearnLoop soft blue Posts cards */
+#postsFeed > .post-card {
+  background: #EAF2FA;
+  border-color: #D7E3EF;
+}
+
+#postsFeed > .post-card:hover {
+  border-color: #B8CEE2;
+  box-shadow: 0 12px 28px rgba(35, 75, 110, 0.12);
+}
+
+#postsFeed .post-actions {
+  border-top-color: #D7E3EF;
+}
