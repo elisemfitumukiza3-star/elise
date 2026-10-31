@@ -6387,8 +6387,15 @@ $("#hostDashboardButton")?.addEventListener("click", loadCommitteeApplications);
     });
   });
    $("#hostProfilesList")?.addEventListener("click", async event => {
-  const button = event.target.closest("[data-admin-message-user]");
-  if (!button) return;
+const editButton = event.target.closest("[data-edit-member]");
+
+if (editButton) {
+  // Keep your entire existing editButton code here.
+  // Do not duplicate it.
+}
+
+const button = event.target.closest("[data-admin-message-user]");
+if (!button) return;
 const editButton = event.target.closest("[data-edit-member]");
 
 if (editButton) {
