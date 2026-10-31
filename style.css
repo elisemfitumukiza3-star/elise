@@ -3810,3 +3810,49 @@ button:focus-visible {
   outline: 3px solid rgba(85, 72, 232, 0.3);
   outline-offset: 3px;
 }
+
+/* LearnLoop professional learning cards */
+#lessonGrid .lesson-card,
+#academyCourseGrid .academy-course-card,
+#academyCourseGrid .course-card {
+  border: 1px solid #e5e3f5;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 6px 20px rgba(55, 45, 120, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#lessonGrid .lesson-card:hover,
+#academyCourseGrid .academy-course-card:hover,
+#academyCourseGrid .course-card:hover {
+  transform: translateY(-3px);
+  border-color: #c9c3ff;
+  box-shadow: 0 12px 26px rgba(85, 72, 232, 0.11);
+}
+
+#lessonGrid .lesson-card h3,
+#academyCourseGrid h3 {
+  color: #30277f;
+  font-weight: 750;
+  line-height: 1.35;
+}
+
+#lessonGrid .lesson-card p,
+#academyCourseGrid p {
+  color: #68677f;
+  line-height: 1.65;
+}
+
+#lessonGrid .lesson-card button,
+#academyCourseGrid button {
+  border-radius: 10px;
+}
+
+/* Mobile spacing */
+@media (max-width: 600px) {
+  #lessonGrid .lesson-card,
+  #academyCourseGrid .academy-course-card,
+  #academyCourseGrid .course-card {
+    border-radius: 15px;
+  }
+}
