@@ -652,11 +652,12 @@ for (const id of ["sidebarAvatar", "composerAvatar", "profileCardAvatar"]) {
   }
 }
 
+const accountButton = $("#accountButton");
+if (accountButton) {
+  accountButton.innerHTML = '<span aria-hidden="true">👤</span>';
+  accountButton.setAttribute("aria-label", "My account");
+}
 
-  const accountButton = $("#accountButton");
-  if (accountButton) {
-    accountButton.textContent = user ? "My account" : "Log in";
-  }
 
   const hostButton = $("#hostDashboardButton");
   if (hostButton) hostButton.classList.toggle("hidden", !isOwner());
