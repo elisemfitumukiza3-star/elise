@@ -1125,12 +1125,28 @@ async function approveHonoraryCertificate(requestId, decisionReason) {
 
   await loadHonoraryCertificateRequests();
 }
-
-async function rejectHonoraryCertificate(requestId) {
+async function rejectHonoraryCertificate(requestId, decisionReason) {
   const { data: sessionData } = await supabase.auth.getSession();
 
   if (sessionData?.session?.user?.email !== "elisemfitumukiza3@gmail.com") {
     alert("Only the LearnLoop owner can reject requests.");
+    return;
+  }
+
+  if (!decisionReason?.trim()) {
+    alert("Please provide a rejection reason.");
+    return;
+  }
+
+  const { data: request, error: requestError } = await supabase
+    .from("honorary_certificate_requests")
+    .select("user_id, course_title")
+    .eq("id", requestId)
+    .eq("status", "pending")
+    .single();
+
+  if (requestError || !request) {
+    alert("This request could not be found or has already been reviewed.");
     return;
   }
 
@@ -1150,8 +1166,26 @@ async function rejectHonoraryCertificate(requestId) {
     return;
   }
 
+  const { error: notificationError } = await supabase
+    .from("notifications")
+    .insert({
+      user_id: request.user_id,
+      type: "honorary_certificate",
+      title: "Update on your honorary certificate request",
+      message: `Your request for ${request.course_title} was not approved. Decision reason: ${decisionReason.trim()}`,
+      is_read: false
+    });
+
+  if (notificationError) {
+    console.error(notificationError);
+    alert("Request rejected, but the notification could not be sent.");
+  } else {
+    alert("Request rejected and the decision reason sent to the learner.");
+  }
+
   await loadHonoraryCertificateRequests();
 }
+
 async function loadHonoraryCertificateRequests() {
   const list = document.querySelector("#honoraryCertificateRequestList");
   if (!list) return;
