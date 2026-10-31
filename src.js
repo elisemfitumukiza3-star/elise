@@ -6221,11 +6221,7 @@ if (state.authMode === "signup") {
     postText.scrollIntoView({ behavior: "smooth", block: "center" });
   }
 });
-$("#postForm")?.addEventListener("submit", async function (event) {
-  event.preventDefault();
-  event.stopPropagation();
-  await publishPost(event);
-});
+$("#postForm")?.addEventListener("submit", publishPost);
 $("#profilePicture")?.addEventListener("change", event => {
   const file = event.target.files?.[0];
   const preview = $("#profilePicturePreviewImage");
