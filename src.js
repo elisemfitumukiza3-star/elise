@@ -1897,7 +1897,7 @@ const { error } = await supabase.from("posts").insert({
     if ($("#selectedFileName")) $("#selectedFileName").textContent = "";
 
     await loadPosts();
-    navigate("feed");
+    navigate("posts");
     toast("Your post has been published!");
   } catch (error) {
     console.error("Publish error:", error);
