@@ -3764,3 +3764,49 @@ body.dark-mode #sidebar [aria-current="page"] {
   border-color: #c9c3ff;
   box-shadow: 0 12px 26px rgba(85, 72, 232, 0.10);
 }
+
+/* LearnLoop: consistent professional buttons and forms */
+button[type="submit"],
+.primary,
+.btn-primary,
+#publishButton,
+#newPostTop,
+#authSubmit,
+.button-primary {
+  background: #5548e8;
+  color: #ffffff;
+  border-color: #5548e8;
+  border-radius: 11px;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(85, 72, 232, 0.15);
+}
+
+button[type="submit"]:hover,
+.primary:hover,
+.btn-primary:hover,
+#publishButton:hover,
+#newPostTop:hover,
+#authSubmit:hover,
+.button-primary:hover {
+  background: #4035c4;
+  border-color: #4035c4;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: #5548e8;
+  box-shadow: 0 0 0 3px rgba(85, 72, 232, 0.12);
+}
+
+input,
+textarea,
+select {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:focus-visible {
+  outline: 3px solid rgba(85, 72, 232, 0.3);
+  outline-offset: 3px;
+}
