@@ -3856,3 +3856,149 @@ button:focus-visible {
     border-radius: 15px;
   }
 }
+/* LearnLoop — Professional dashboard upgrade */
+
+/* Wider Host Dashboard */
+#hostDashboardDialog {
+  width: min(1120px, calc(100% - 32px));
+  max-width: 1120px;
+  max-height: 92vh;
+  padding: 28px;
+  border: 1px solid #dedaff;
+  border-radius: 24px;
+  background: linear-gradient(145deg, #ffffff, #f7f6ff);
+  box-shadow: 0 24px 80px rgba(55, 45, 130, 0.2);
+}
+
+#hostDashboardDialog #revenueSettingsForm {
+  display: grid;
+  gap: 20px;
+}
+
+/* Learner and host statistic layouts */
+#dashboardView .stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+#hostDashboardDialog .stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+/* Colourful statistic cards */
+#dashboardView .stat-card,
+#hostDashboardDialog .stat-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 145px;
+  padding: 24px;
+  border: 1px solid #dedaff;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #ffffff, #f0eeff);
+  box-shadow: 0 8px 24px rgba(85, 72, 232, 0.09);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#dashboardView .stat-card:hover,
+#hostDashboardDialog .stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 30px rgba(85, 72, 232, 0.14);
+}
+
+#dashboardView .stat-card strong,
+#hostDashboardDialog .stat-card strong {
+  display: block;
+  margin-top: 14px;
+  color: #5548e8;
+  font-size: 2.3rem;
+  font-weight: 800;
+}
+
+/* Visual icons without changing dashboard data */
+#dashboardView > .stats-grid .stat-card:nth-child(1)::before {
+  content: "✍️";
+}
+
+#dashboardView > .stats-grid .stat-card:nth-child(2)::before {
+  content: "💬";
+}
+
+#dashboardView > .stats-grid .stat-card:nth-child(3)::before {
+  content: "✨";
+}
+
+#dashboardView > .card .stats-grid .stat-card:nth-child(1)::before {
+  content: "🎓";
+}
+
+#dashboardView > .card .stats-grid .stat-card:nth-child(2)::before {
+  content: "📚";
+}
+
+#dashboardView > .card .stats-grid .stat-card:nth-child(3)::before {
+  content: "🚀";
+}
+
+#hostDashboardDialog .stat-card:nth-child(1)::before {
+  content: "📝";
+}
+
+#hostDashboardDialog .stat-card:nth-child(2)::before {
+  content: "👥";
+}
+
+#dashboardView .stat-card::before,
+#hostDashboardDialog .stat-card::before {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  font-size: 30px;
+}
+
+/* Dashboard sections */
+#dashboardView > .card,
+#hostDashboardDialog > .card {
+  margin-top: 20px;
+  padding: 24px;
+  border: 1px solid #e5e2fa;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(55, 45, 120, 0.06);
+}
+
+/* Mobile layout */
+@media (max-width: 650px) {
+  #dashboardView .stats-grid,
+  #hostDashboardDialog .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  #hostDashboardDialog {
+    width: calc(100% - 20px);
+    padding: 17px;
+  }
+
+  #dashboardView .stat-card,
+  #hostDashboardDialog .stat-card {
+    min-height: 120px;
+  }
+}
+
+/* Dark mode */
+body.dark-mode #hostDashboardDialog {
+  background: #1f2937;
+  border-color: #374151;
+}
+
+body.dark-mode #dashboardView .stat-card,
+body.dark-mode #hostDashboardDialog .stat-card {
+  background: linear-gradient(135deg, #293449, #373078);
+  border-color: #4b4785;
+}
+
+body.dark-mode #dashboardView .stat-card strong,
+body.dark-mode #hostDashboardDialog .stat-card strong {
+  color: #c4b5fd;
+}
