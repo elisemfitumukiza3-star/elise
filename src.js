@@ -6154,6 +6154,22 @@ if (state.authMode === "signup") {
     $("#welcomeAuthMessage").textContent = authMessage;
   });
 
+  // Public welcome page authentication buttons
+  $("#publicLoginButton")?.addEventListener("click", () => {
+    setAuthMode("login");
+    openDialog("authDialog");
+  });
+
+  $("#publicRegisterButton")?.addEventListener("click", () => {
+    setAuthMode("signup");
+    openDialog("authDialog");
+  });
+
+  $("#publicHeroRegisterButton")?.addEventListener("click", () => {
+    setAuthMode("signup");
+    openDialog("authDialog");
+  });
+
   $("#welcomeSwitchButton")?.addEventListener("click", () => {
     setAuthMode(state.authMode === "login" ? "signup" : "login");
     updateWelcomeAuthMode();
