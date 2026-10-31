@@ -1957,55 +1957,65 @@ function postCard(post) {
       ${body ? `<div class="post-body">${linkifyText(body)}</div>` : ""}
 
    
-      ${post.file_path ? (
-        isVideo(post.file_mime || "")
-          ? `
-            <div class="post-video-card" data-file-path="${escapeHTML(post.file_path)}">
-             
-<button type="button" class="post-video-preview" data-action="play-video">
-  <video class="post-video-thumbnail"
-    muted
-    playsinline
-    preload="metadata"></video>
-  <span class="post-video-play-icon">▶</span>
-</button>
-<div class="post-video-title">
-  <strong>${escapeHTML(post.file_name || "Learning video")}</strong>
-</div>
-
+    ${post.file_path ? (
+  isVideo(post.file_mime || "")
+    ? `
+      <div class="post-video-card" data-file-path="${escapeHTML(post.file_path)}">
+        <button type="button" class="post-video-preview" data-action="play-video">
+          <video class="post-video-thumbnail"
+            muted
+            playsinline
+            preload="metadata"></video>
+          <span class="post-video-play-icon">▶</span>
+        </button>
+        <div class="post-video-title">
+          <strong>${escapeHTML(post.file_name || "Learning video")}</strong>
+        </div>
+      </div>
+    `
+    : (
+        (post.file_mime || "").toLowerCase().startsWith("image/") ||
+        /\.(jpg|jpeg|png|gif|webp)$/i.test(post.file_name || "")
+      )
+      ? `
+        <div class="post-image-card" data-file-path="${escapeHTML(post.file_path)}">
+          <img
+            class="post-image-preview"
+            alt="${escapeHTML(post.file_name || "Post image")}"
+            loading="lazy">
+        </div>
+      `
+      : (
+          (post.file_mime || "").toLowerCase() === "application/pdf" ||
+          /\.pdf$/i.test(post.file_name || "")
+        )
+        ? `
+          <div class="post-pdf-card" data-file-path="${escapeHTML(post.file_path)}">
+            <div class="post-pdf-heading">
+              <span>📄</span>
+              <strong>${escapeHTML(post.file_name || "PDF Document")}</strong>
             </div>
-          `
-          : (
-              (post.file_mime || "").toLowerCase() === "application/pdf" ||
-              /\.pdf$/i.test(post.file_name || "")
-            )
-            ? `
-              <div class="post-pdf-card" data-file-path="${escapeHTML(post.file_path)}">
-                <div class="post-pdf-heading">
-                  <span>📄</span>
-                  <strong>${escapeHTML(post.file_name || "PDF Document")}</strong>
-                </div>
-                <div class="post-pdf-preview">
-                  <button type="button" data-action="preview-pdf">
-                    📖 Preview document
-                  </button>
-                </div>
-                <small class="post-pdf-caption">PDF document · Preview first page</small>
-              </div>
-            `
-            : `
-              <div class="post-attachment" data-file-path="${escapeHTML(post.file_path)}">
-                <div class="post-attachment-icon">${fileIcon(post.file_mime || "")}</div>
-                <div class="post-attachment-info">
-                  <strong>${escapeHTML(post.file_name || "Learning resource")}</strong>
-                  <small>Attached learning resource</small>
-                </div>
-                <button class="button button-secondary" data-action="open-file" type="button">
-                  Open
-                </button>
-              </div>
-            `
-      ) : ""}
+            <div class="post-pdf-preview">
+              <button type="button" data-action="preview-pdf">
+                📖 Preview document
+              </button>
+            </div>
+            <small class="post-pdf-caption">PDF document · Preview first page</small>
+          </div>
+        `
+        : `
+          <div class="post-attachment" data-file-path="${escapeHTML(post.file_path)}">
+            <div class="post-attachment-icon">${fileIcon(post.file_mime || "")}</div>
+            <div class="post-attachment-info">
+              <strong>${escapeHTML(post.file_name || "Learning resource")}</strong>
+              <small>Attached learning resource</small>
+            </div>
+            <button class="button button-secondary" data-action="open-file" type="button">
+              Open
+            </button>
+          </div>
+        `
+) : ""}
 
 
       <div class="post-actions">
