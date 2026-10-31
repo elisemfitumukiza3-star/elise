@@ -505,12 +505,8 @@ document.addEventListener("click", async function (event) {
 
 
 async function saveProfile(event) {
- event.preventDefault();
+event.preventDefault();
 event.stopPropagation();
-event.stopPropagation(); 
-  if (event.target.id === "postForm") {
-  event.target.noValidate = true;
-} 
   if (!requireLogin()) return;
 
   const name = $("#profileDisplayName")?.value.trim();
