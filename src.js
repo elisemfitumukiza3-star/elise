@@ -3412,7 +3412,6 @@ async function searchYouTubeVideos() {
         playerTitle.textContent = title;
         player.src =
           `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}`;
-         loadAcademyCourseReviews(course);
         panel.classList.remove("hidden");
         panel.scrollIntoView({ behavior: "smooth", block: "start" });
       }
@@ -3424,9 +3423,10 @@ async function searchYouTubeVideos() {
      
       heading.style.cursor = "pointer";
       heading.addEventListener("click", openVideo);
-
 card.append(image, heading, channelText);
-      results.append(card);
+card.style.cursor = "pointer";
+card.addEventListener("click", openVideo);
+results.append(card);
     });
 
     status.textContent =
