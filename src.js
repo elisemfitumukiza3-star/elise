@@ -889,8 +889,11 @@ async function signOut() {
   closeDialog($("#hostDashboardDialog"));
   toast("You have logged out.");
 }
-
-async function approveHonoraryCertificate(requestId) {
+async function approveHonoraryCertificate(requestId, decisionReason) {
+  if (!decisionReason?.trim()) {
+    alert("Please provide an approval reason.");
+    return;
+  }
   const { data: sessionData } = await supabase.auth.getSession();
   const email = sessionData?.session?.user?.email;
 
@@ -1108,7 +1111,7 @@ async function approveHonoraryCertificate(requestId) {
       user_id: request.user_id,
       type: "honorary_certificate",
       title: "Your honorary certificate is ready!",
-      message: `Your honorary participation certificate for ${request.course_title} has been approved.`,
+      message: `Your honorary participation certificate for ${request.course_title} has been approved. Decision reason: ${decisionReason.trim()}`,
       link: certificateUrl,
       is_read: false
     });
