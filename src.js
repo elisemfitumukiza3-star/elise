@@ -7241,114 +7241,74 @@ downloadButton.addEventListener("click", async () => {
           pdf.ellipse(43 + i * 3, y, 2, 4, "S");
           pdf.ellipse(254 - i * 3, y, 2, 4, "S");
         }
+// QR verification area — bottom left
+pdf.addImage(
+  qrCanvas.toDataURL("image/png"),
+  "PNG",
+  20,
+  155,
+  24,
+  24
+);
 
-        // Certificate reference number
-        pdf.setTextColor(20, 39, 77);
-        pdf.setFont("helvetica", "normal");
-        pdf.setFontSize(9);
-        pdf.text("Certificate No.", 48, 164, { align: "center" });
+pdf.setTextColor(20, 39, 77);
+pdf.setFont("helvetica", "bold");
+pdf.setFontSize(6);
+pdf.text("SCAN TO VERIFY", 32, 183, {
+  align: "center"
+});
 
-        pdf.setFont("helvetica", "bold");
-        pdf.setFontSize(13);
-        pdf.text(certificateNumber, 48, 173, { align: "center" });
+// Certificate reference number — clearly separated from QR
+pdf.setFont("helvetica", "normal");
+pdf.setFontSize(9);
+pdf.text("CERTIFICATE NUMBER", 82, 164, {
+  align: "center"
+});
 
-        // Completion date
-        pdf.setFont("helvetica", "normal");
-        pdf.setFontSize(9);
-        pdf.text("Completed on", 148.5, 164, { align: "center" });
+pdf.setFont("helvetica", "bold");
+pdf.setFontSize(12);
+pdf.text(certificateNumber, 82, 174, {
+  align: "center"
+});
 
-        pdf.setFont("helvetica", "bold");
-        pdf.setFontSize(12);
-        pdf.text(completionDate, 148.5, 173, { align: "center" });
+// Completion date
+pdf.setFont("helvetica", "normal");
+pdf.setFontSize(9);
+pdf.text("COMPLETION DATE", 148.5, 164, {
+  align: "center"
+});
 
-        // LearnLoop administrator signature area — no award seal
-        pdf.setDrawColor(20, 39, 77);
-        pdf.setLineWidth(0.5);
-        pdf.line(207, 173, 270, 173);
+pdf.setFont("helvetica", "bold");
+pdf.setFontSize(11);
+pdf.text(completionDate, 148.5, 174, {
+  align: "center"
+});
 
-        pdf.setTextColor(20, 39, 77);
-       
+// Administrator signature
+pdf.setDrawColor(20, 39, 77);
+pdf.setLineWidth(0.5);
+pdf.line(207, 173, 270, 173);
+
+pdf.setTextColor(20, 39, 77);
 pdf.setFont("times", "italic");
-pdf.setFontSize(24);
+pdf.setFontSize(22);
 pdf.text("LearnLoop", 238.5, 168, {
   align: "center",
   angle: -8
 });
 
-        pdf.setFont("helvetica", "bold");
-        pdf.setFontSize(8);
-        pdf.text("LEARNLOOP", 238.5, 180, { align: "center" });
-
-        pdf.setFont("helvetica", "normal");
-        pdf.setFontSize(7);
-        pdf.text("PLATFORM ADMINISTRATOR", 238.5, 185, {
-          align: "center"
-        });
-
-        // Bottom wordmark and slogan
-        pdf.setDrawColor(198, 158, 64);
-        pdf.setLineWidth(0.6);
-        pdf.line(105, 187, 120, 187);
-        pdf.line(177, 187, 192, 187);
-
-        pdf.setFont("helvetica", "bold");
-        pdf.setFontSize(15);
-        pdf.text("LearnLoop", 148.5, 190, { align: "center" });
-
-        pdf.setFont("helvetica", "normal");
-        pdf.setFontSize(7);
-      
-pdf.text("L E A R N   •   S H A R E   •   G R O W", 148.5, 193, {
+pdf.setFont("helvetica", "bold");
+pdf.setFontSize(8);
+pdf.text("LEARNLOOP", 238.5, 180, {
   align: "center"
 });
 
 pdf.setFont("helvetica", "normal");
-pdf.setFontSize(8);
-pdf.setTextColor(20, 39, 77);
-pdf.text("Visit LearnLoop: https://elise-neon.vercel.app", 148.5, 199, {
+pdf.setFontSize(7);
+pdf.text("PLATFORM ADMINISTRATOR", 238.5, 185, {
   align: "center"
 });
-
-
-        // Generate a unique QR code for this certificate
-        const verificationUrl =
-          window.location.origin +
-          window.location.pathname +
-          "?certificate=" +
-          encodeURIComponent(certificateNumber);
-
-        const qrContainer = document.createElement("div");
-
-        new QRCode(qrContainer, {
-          text: verificationUrl,
-          width: 256,
-          height: 256,
-          correctLevel: QRCode.CorrectLevel.M
-        });
-
-        const qrCanvas = qrContainer.querySelector("canvas");
-
-        if (!qrCanvas) {
-          alert("Could not generate the verification QR code. Please try again.");
-          return;
-        }
-
-        // Add the QR code in the lower-left corner
-        pdf.addImage(
-          qrCanvas.toDataURL("image/png"),
-          "PNG",
-          18,
-          150,
-          20,
-          20
-        );
-
-        pdf.setTextColor(20, 39, 77);
-        pdf.setFont("helvetica", "bold");
-        pdf.setFontSize(6);
-        pdf.text("SCAN TO VERIFY", 28, 174, {
-          align: "center"
-        });
+      
 
 const { error: saveCertificateError } = await supabase
   .from("certificates")
