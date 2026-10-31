@@ -2794,12 +2794,22 @@ console.error("Profile error code:", profiles.error?.code);
             const name = profile.display_name || "LearnLoop learner";
             const bio = profile.bio || "";
 
-            return `
-              <article class="card">
-                <strong>${escapeHTML(name)}</strong>
-                <p class="muted small">${escapeHTML(bio || "No bio added yet.")}</p>
-              </article>
-            `;
+           return `
+  <article class="card">
+    <strong>${escapeHTML(name)}</strong>
+    <p class="muted small">
+      ${escapeHTML(bio || "No bio added yet.")}
+    </p>
+
+    <button
+      type="button"
+      class="button button-primary"
+      data-admin-message-user="${escapeHTML(profile.id)}"
+      data-admin-message-name="${escapeHTML(name)}">
+      Message member
+    </button>
+  </article>
+`;
           }).join("")
         : '<p class="muted">No profiles were returned.</p>';
     }
