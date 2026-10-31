@@ -44,6 +44,7 @@ const VIEW_INFO = {
    messages: ["Private Messages", "Chat privately with other LearnLoop learners."],
   community: ["Community", "Learn together and help other learners."],
   people: ["People", "Discover learners and follow their journeys."], 
+  posts: ["Posts", "Explore all  posts shared on LearnLoop."], 
   following: ["Following", "Posts from people you follow."],
   saved: ["Saved resources", "Your bookmarked learning resources."],
   myuploads: ["My uploads", "Content you have shared with the community."],
