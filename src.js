@@ -7241,6 +7241,28 @@ downloadButton.addEventListener("click", async () => {
           pdf.ellipse(43 + i * 3, y, 2, 4, "S");
           pdf.ellipse(254 - i * 3, y, 2, 4, "S");
         }
+   // Generate the certificate verification QR code
+const verificationUrl =
+  window.location.origin +
+  window.location.pathname +
+  "?certificate=" +
+  encodeURIComponent(certificateNumber);
+
+const qrContainer = document.createElement("div");
+
+new QRCode(qrContainer, {
+  text: verificationUrl,
+  width: 256,
+  height: 256,
+  correctLevel: QRCode.CorrectLevel.M
+});
+
+const qrCanvas = qrContainer.querySelector("canvas");
+
+if (!qrCanvas) {
+  alert("Could not generate the verification QR code. Please try again.");
+  return;
+}
 // QR verification area — bottom left
 pdf.addImage(
   qrCanvas.toDataURL("image/png"),
