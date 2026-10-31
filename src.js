@@ -2913,8 +2913,7 @@ async function renderHostReports() {
   }).join("");
 }
 
-
-   async function loadCommitteeMembers() {
+async function loadCommitteeMembers() {
   const list = $("#committeeMembersList");
   if (!list || !isOwner()) return;
 
@@ -2922,7 +2921,7 @@ async function renderHostReports() {
 
   const { data, error } = await supabase
     .from("committee_members")
-    .select("id, email, role, responsibilities, active")
+    .select("id, user_id, email, role, responsibilities, active")
     .order("created_at", { ascending: false });
 
   if (error) {
@@ -2933,31 +2932,41 @@ async function renderHostReports() {
 
   list.replaceChildren();
 
-  if (!data?.length) {
-    list.textContent = "No committee members appointed yet.";
+  const activeMembers = (data || []).filter(member => member.active);
+
+  if (!activeMembers.length) {
+    list.textContent = "No active committee members yet.";
     return;
   }
 
-  data.forEach(member => {
+  activeMembers.forEach(member => {
     const card = document.createElement("article");
     card.className = "card";
 
-    const heading = document.createElement("h4");
-    heading.textContent = member.role;
+    card.innerHTML = `
+      <h4>${escapeHTML(member.role)}</h4>
+      <p>${escapeHTML(member.email)}</p>
+      <p>${escapeHTML(member.responsibilities || "No responsibilities specified.")}</p>
 
-    const email = document.createElement("p");
-    email.textContent = member.email;
+      <button type="button"
+        class="button button-primary"
+        data-committee-message="${escapeHTML(member.user_id)}">
+        ✉ Message
+      </button>
 
-    const duties = document.createElement("p");
-    duties.textContent = member.responsibilities || "No responsibilities specified.";
+      <button type="button"
+        class="button"
+        data-committee-edit="${escapeHTML(member.user_id)}">
+        ✏ Edit position
+      </button>
 
-    const status = document.createElement("p");
-    status.textContent = member.active ? "Active" : "Inactive";
+      <div class="committee-action-area"></div>
+    `;
 
-    card.append(heading, email, duties, status);
     list.append(card);
   });
 }
+  
 async function loadCommitteeApplications() {
   const list = $("#committeeApplicationsList");
   if (!list || !isOwner()) return;
