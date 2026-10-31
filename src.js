@@ -6338,19 +6338,77 @@ searchBooks();
    $("#hostDashboardButton")?.addEventListener("click", loadCommitteeMembers);
 $("#hostDashboardButton")?.addEventListener("click", loadCommitteeApplications);
    $("#committeeApplicationsList")?.addEventListener("click", reviewCommitteeApplication);
-   $("#honoraryCertificateRequestList")?.addEventListener("click", event => {
-  const button = event.target.closest("[data-honorary-action]");
+$("#honoraryCertificateRequestList")?.addEventListener("click", event => {
+  const button = event.target.closest(
+    "[data-honorary-action], [data-honorary-confirm], [data-honorary-cancel]"
+  );
+
   if (!button) return;
 
-  const requestId = button.dataset.requestId;
-  const action = button.dataset.honoraryAction;
+  const card = button.closest(".notification-item");
+  if (!card) return;
 
-  if (action === "approve") {
-    approveHonoraryCertificate(requestId);
-  } else if (action === "reject") {
-    rejectHonoraryCertificate(requestId);
+  const requestId = button.dataset.requestId;
+  const area = card.querySelector(".honorary-decision-area");
+
+  // Open the decision-reason box
+  if (button.hasAttribute("data-honorary-action")) {
+    let decisionArea = area;
+
+    if (!decisionArea) {
+      decisionArea = document.createElement("div");
+      decisionArea.className = "honorary-decision-area";
+      card.appendChild(decisionArea);
+    }
+
+    const reason = document.createElement("textarea");
+    reason.placeholder = "Write the reason for your decision...";
+    reason.maxLength = 2000;
+    reason.required = true;
+
+    const confirm = document.createElement("button");
+    confirm.type = "button";
+    confirm.textContent =
+      button.dataset.honoraryAction === "approve"
+        ? "Confirm approval"
+        : "Confirm rejection";
+    confirm.dataset.honoraryConfirm = button.dataset.honoraryAction;
+    confirm.dataset.requestId = requestId;
+
+    const cancel = document.createElement("button");
+    cancel.type = "button";
+    cancel.textContent = "Cancel";
+    cancel.dataset.honoraryCancel = "true";
+
+    decisionArea.replaceChildren(reason, confirm, cancel);
+    reason.focus();
+    return;
   }
-});
+
+  // Cancel the decision
+  if (button.hasAttribute("data-honorary-cancel")) {
+    area?.replaceChildren();
+    return;
+  }
+
+  // Confirm the decision and send its reason
+  if (button.hasAttribute("data-honorary-confirm")) {
+    const reason = area?.querySelector("textarea")?.value.trim();
+
+    if (!reason) {
+      alert("Please write the decision reason first.");
+      return;
+    }
+
+    button.disabled = true;
+
+    if (button.dataset.honoraryConfirm === "approve") {
+      await approveHonoraryCertificate(requestId, reason);
+    } else {
+      await rejectHonoraryCertificate(requestId, reason);
+    }
+  }
+}); 
      // LearnLoop Study Groups events
   $("#studyGroupForm")?.addEventListener("submit", createStudyGroup);
 
