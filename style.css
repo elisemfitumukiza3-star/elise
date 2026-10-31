@@ -4002,3 +4002,117 @@ body.dark-mode #dashboardView .stat-card strong,
 body.dark-mode #hostDashboardDialog .stat-card strong {
   color: #c4b5fd;
 }
+/* Host Dashboard — match the Learner Dashboard design */
+
+#hostDashboardDialog {
+  width: min(1120px, calc(100% - 32px));
+  max-width: 1120px;
+  border-radius: 24px;
+  background: linear-gradient(145deg, #ffffff, #f7f6ff);
+  border: 1px solid #dedaff;
+  box-shadow: 0 24px 80px rgba(55, 45, 130, 0.18);
+}
+
+#hostDashboardDialog #revenueSettingsForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 12px;
+}
+
+#hostDashboardDialog #revenueSettingsForm > .eyebrow {
+  color: #5548e8;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+}
+
+#hostDashboardDialog #revenueSettingsForm > h2 {
+  color: #30277f;
+  font-size: 30px;
+  margin-bottom: 0;
+}
+
+#hostDashboardDialog #revenueSettingsForm > section.card,
+#hostDashboardDialog #revenueSettingsForm > details.card,
+#hostDashboardDialog > #honoraryCertificateRequests {
+  padding: 24px;
+  border: 1px solid #e5e2fa;
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(55, 45, 120, 0.06);
+}
+
+#hostDashboardDialog .stats-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+#hostDashboardDialog .stat-card {
+  min-height: 145px;
+  border: 1px solid #dedaff;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #ffffff, #f0eeff);
+  box-shadow: 0 8px 24px rgba(85, 72, 232, 0.09);
+}
+
+#hostDashboardDialog .stat-card strong {
+  color: #5548e8;
+  font-size: 2.3rem;
+  font-weight: 800;
+}
+
+#hostDashboardDialog details.card summary {
+  padding: 12px;
+  color: #30277f;
+  font-size: 17px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+#hostDashboardDialog details.card[open] summary {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #e5e2fa;
+  padding-bottom: 16px;
+}
+
+#hostDashboardDialog h3 {
+  color: #30277f;
+}
+
+#hostDashboardDialog .divider {
+  margin: 22px 0;
+  border-color: #e5e2fa;
+}
+
+@media (max-width: 650px) {
+  #hostDashboardDialog {
+    width: calc(100% - 20px);
+    padding: 12px;
+  }
+
+  #hostDashboardDialog #revenueSettingsForm {
+    padding: 4px;
+  }
+
+  #hostDashboardDialog .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+body.dark-mode #hostDashboardDialog {
+  background: #1f2937;
+  border-color: #374151;
+}
+
+body.dark-mode #hostDashboardDialog #revenueSettingsForm > section.card,
+body.dark-mode #hostDashboardDialog #revenueSettingsForm > details.card,
+body.dark-mode #hostDashboardDialog > #honoraryCertificateRequests {
+  background: #293449;
+  border-color: #4b4785;
+}
+
+body.dark-mode #hostDashboardDialog h2,
+body.dark-mode #hostDashboardDialog h3,
+body.dark-mode #hostDashboardDialog details.card summary {
+  color: #c4b5fd;
+}
