@@ -2808,6 +2808,13 @@ console.error("Profile error code:", profiles.error?.code);
       data-admin-message-name="${escapeHTML(name)}">
       Message member
     </button>
+    <button
+  type="button"
+  class="button"
+  data-edit-member="${escapeHTML(profile.id)}"
+  data-edit-member-name="${escapeHTML(name)}">
+  ✏️ Edit position
+</button>
   </article>
 `;
           }).join("")
