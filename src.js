@@ -6482,6 +6482,144 @@ if (editButton) {
     await openPrivateConversation(data.conversation_id);
   }
 });
+  $("#committeeMembersList")?.addEventListener("click", async event => {
+  const button = event.target.closest(
+    "[data-committee-message], [data-committee-edit], [data-send-committee-message], [data-save-committee-edit], [data-cancel-committee-action]"
+  );
+
+  if (!button) return;
+
+  const card = button.closest(".card");
+  const area = card?.querySelector(".committee-action-area");
+
+  if (!card || !area || !isOwner()) return;
+
+  // Open administrator message form
+  if (button.hasAttribute("data-committee-message")) {
+    const userId = button.dataset.committeeMessage;
+
+    const textarea = document.createElement("textarea");
+    textarea.placeholder = "Write your administrator message...";
+    textarea.maxLength = 5000;
+    textarea.required = true;
+
+    const send = document.createElement("button");
+    send.type = "button";
+    send.className = "button button-primary";
+    send.textContent = "Send message";
+    send.dataset.sendCommitteeMessage = userId;
+
+    const cancel = document.createElement("button");
+    cancel.type = "button";
+    cancel.className = "button";
+    cancel.textContent = "Cancel";
+    cancel.dataset.cancelCommitteeAction = "true";
+
+    area.replaceChildren(textarea, send, cancel);
+    textarea.focus();
+    return;
+  }
+
+  // Open position editor
+  if (button.hasAttribute("data-committee-edit")) {
+    const userId = button.dataset.committeeEdit;
+
+    const roles = [
+      "Accountant",
+      "Secretary",
+      "Community Moderator",
+      "Technical Administrator",
+      "Education & Community Coordinator"
+    ];
+
+    const select = document.createElement("select");
+    roles.forEach(role => {
+      const option = document.createElement("option");
+      option.value = role;
+      option.textContent = role;
+      select.append(option);
+    });
+
+    const duties = document.createElement("textarea");
+    duties.placeholder = "Enter new responsibilities...";
+
+    const save = document.createElement("button");
+    save.type = "button";
+    save.className = "button button-primary";
+    save.textContent = "Save position";
+    save.dataset.saveCommitteeEdit = userId;
+
+    const cancel = document.createElement("button");
+    cancel.type = "button";
+    cancel.className = "button";
+    cancel.textContent = "Cancel";
+    cancel.dataset.cancelCommitteeAction = "true";
+
+    area.replaceChildren(select, duties, save, cancel);
+    return;
+  }
+
+  if (button.hasAttribute("data-cancel-committee-action")) {
+    area.replaceChildren();
+    return;
+  }
+
+  // Send administrator message
+  if (button.hasAttribute("data-send-committee-message")) {
+    const textarea = area.querySelector("textarea");
+    const body = textarea?.value.trim();
+
+    if (!body) {
+      toast("Write a message first.", "error");
+      return;
+    }
+
+    button.disabled = true;
+
+    const { error } = await supabase.rpc("host_send_admin_message", {
+      p_user_id: button.dataset.sendCommitteeMessage,
+      p_body: body
+    });
+
+    button.disabled = false;
+
+    if (error) {
+      toast(error.message, "error");
+      return;
+    }
+
+    area.replaceChildren();
+    toast("Administrator message sent successfully.", "success");
+    return;
+  }
+
+  // Save new committee position
+  if (button.hasAttribute("data-save-committee-edit")) {
+    const select = area.querySelector("select");
+    const duties = area.querySelector("textarea");
+
+    button.disabled = true;
+
+    const { error } = await supabase.rpc(
+      "host_update_member_position",
+      {
+        p_user_id: button.dataset.saveCommitteeEdit,
+        p_role: select.value,
+        p_responsibilities: duties.value.trim()
+      }
+    );
+
+    button.disabled = false;
+
+    if (error) {
+      toast(error.message, "error");
+      return;
+    }
+
+    toast("Committee position updated successfully.", "success");
+    await loadCommitteeMembers();
+  }
+}); 
 }
 
 /* ---------- Start application ---------- */
