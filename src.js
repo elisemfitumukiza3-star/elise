@@ -6375,7 +6375,7 @@ searchBooks();
    $("#hostDashboardButton")?.addEventListener("click", loadCommitteeMembers);
 $("#hostDashboardButton")?.addEventListener("click", loadCommitteeApplications);
    $("#committeeApplicationsList")?.addEventListener("click", reviewCommitteeApplication);
-$("#honoraryCertificateRequestList")?.addEventListener("click", event => {
+$("#honoraryCertificateRequestList")?.addEventListener("click", async event => {
   const button = event.target.closest(
     "[data-honorary-action], [data-honorary-confirm], [data-honorary-cancel]"
   );
