@@ -1397,6 +1397,7 @@ async function navigate(view) {
 
   const pageIds = {
     feed: "feedView",
+     posts: "postsView",
     library: "libraryView",
     youtube: "youtubeCatalog",
    discussions: "discussionsView",
