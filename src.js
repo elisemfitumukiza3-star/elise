@@ -6379,6 +6379,49 @@ $("#hostDashboardButton")?.addEventListener("click", loadCommitteeApplications);
       if (event.target === dialog) closeDialog(dialog);
     });
   });
+   $("#hostProfilesList")?.addEventListener("click", async event => {
+  const button = event.target.closest("[data-admin-message-user]");
+  if (!button) return;
+
+  if (!isOwner()) {
+    toast("Only the platform owner can send administrator messages.", "error");
+    return;
+  }
+
+  const userId = button.dataset.adminMessageUser;
+  const memberName = button.dataset.adminMessageName;
+
+  const body = prompt(
+    `Write your administrator message to ${memberName}:`
+  );
+
+  if (!body || !body.trim()) return;
+
+  button.disabled = true;
+
+  const { data, error } = await supabase.rpc(
+    "host_send_admin_message",
+    {
+      p_user_id: userId,
+      p_body: body.trim()
+    }
+  );
+
+  button.disabled = false;
+
+  if (error) {
+    console.error("Administrator message error:", error);
+    toast(error.message, "error");
+    return;
+  }
+
+  toast("Administrator message sent successfully.", "success");
+
+  if (data?.conversation_id) {
+    await loadConversations();
+    await openPrivateConversation(data.conversation_id);
+  }
+});
 }
 
 /* ---------- Start application ---------- */
