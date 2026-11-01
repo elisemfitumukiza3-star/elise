@@ -291,6 +291,86 @@
         padding: 14px 5%;
       }
     }
+    /* LearnLoop Rwanda — About page slideshow */
+body {
+  position: relative;
+  isolation: isolate;
+  background: transparent;
+}
+
+.about-slideshow {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.about-slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  animation: aboutLearnLoopSlideshow 24s infinite;
+}
+
+.about-library {
+  background-image: url("https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=2000&q=85");
+  animation-delay: 0s;
+}
+
+.about-computers {
+  background-image: url("https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=2000&q=85");
+  animation-delay: -18s;
+}
+
+.about-reading {
+  background-image: url("https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=2000&q=85");
+  animation-delay: -12s;
+}
+
+.about-classroom {
+  background-image: url("https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=2000&q=85");
+  animation-delay: -6s;
+}
+
+@keyframes aboutLearnLoopSlideshow {
+  0%, 5% { opacity: 0; }
+  10%, 25% { opacity: 1; }
+  30%, 100% { opacity: 0; }
+}
+
+.topbar {
+  background: rgba(255, 255, 255, 0.88);
+}
+
+.hero {
+  position: relative;
+  background: rgba(28, 39, 100, 0.68);
+}
+
+.section {
+  background: rgba(255, 255, 255, 0.84);
+  backdrop-filter: blur(3px);
+}
+
+.card {
+  background: rgba(248, 247, 255, 0.84);
+}
+
+.mission-box {
+  background: rgba(244, 242, 255, 0.84);
+}
+
+.values li {
+  background: rgba(247, 246, 255, 0.84);
+}
+
+.highlight {
+  background: rgba(68, 57, 196, 0.82);
+}
   </style>
 </head>
 
