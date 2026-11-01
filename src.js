@@ -3116,6 +3116,110 @@ if (reportForm && !reportForm.dataset.handlerBound) {
     container.append(card);
   });
 }
+async function loadCommitteeWeeklyReports() {
+  const list = document.getElementById("committeeWeeklyReportsList");
+  const weekInput = document.getElementById("committeeReportWeek");
+
+  if (!list || !weekInput || !isOwner()) return;
+
+  const selectedWeek = weekInput.value;
+
+  if (!selectedWeek) {
+    list.textContent = "Please select a week.";
+    return;
+  }
+
+  // Calculate Monday and Sunday of the selected week
+  const [year, week] = selectedWeek.split("-W").map(Number);
+
+  const januaryFourth = new Date(Date.UTC(year, 0, 4));
+  const monday = new Date(januaryFourth);
+
+  monday.setUTCDate(
+    januaryFourth.getUTCDate() -
+    ((januaryFourth.getUTCDay() + 6) % 7) +
+    (week - 1) * 7
+  );
+
+  const sunday = new Date(monday);
+  sunday.setUTCDate(monday.getUTCDate() + 6);
+
+  const startDate = monday.toISOString().slice(0, 10);
+  const endDate = sunday.toISOString().slice(0, 10);
+
+  list.textContent = "Loading weekly reports...";
+
+  const { data: reports, error } = await supabase
+    .from("committee_daily_reports")
+    .select("user_id, report_date, accomplishments, challenges, next_steps")
+    .gte("report_date", startDate)
+    .lte("report_date", endDate)
+    .order("report_date", { ascending: false });
+
+  if (error) {
+    console.error("Weekly reports error:", error);
+    list.textContent = "Could not load weekly reports.";
+    return;
+  }
+
+  const { data: members, error: membersError } = await supabase
+    .from("committee_members")
+    .select("user_id, email, role");
+
+  if (membersError) {
+    console.error("Committee member details error:", membersError);
+  }
+
+  const memberMap = new Map(
+    (members || []).map(member => [member.user_id, member])
+  );
+
+  list.replaceChildren();
+
+  if (!reports || !reports.length) {
+    list.textContent = "No committee reports were submitted for this week.";
+    return;
+  }
+
+  reports.forEach(report => {
+    const member = memberMap.get(report.user_id);
+
+    const card = document.createElement("article");
+    card.className = "card";
+
+    const heading = document.createElement("h4");
+    heading.textContent = member?.role || "Committee Member";
+
+    const email = document.createElement("p");
+    email.textContent = member?.email || "Member details unavailable.";
+
+    const date = document.createElement("p");
+    date.textContent = "Report date: " + report.report_date;
+
+    const accomplishments = document.createElement("p");
+    accomplishments.textContent =
+      "Accomplishments: " + report.accomplishments;
+
+    const challenges = document.createElement("p");
+    challenges.textContent =
+      "Challenges: " + (report.challenges || "None reported.");
+
+    const nextSteps = document.createElement("p");
+    nextSteps.textContent =
+      "Next steps: " + (report.next_steps || "Not specified.");
+
+    card.append(
+      heading,
+      email,
+      date,
+      accomplishments,
+      challenges,
+      nextSteps
+    );
+
+    list.append(card);
+  });
+}
 async function loadCommitteeMembers() {
   const list = $("#committeeMembersList");
   if (!list || !isOwner()) return;
