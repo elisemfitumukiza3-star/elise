@@ -1370,7 +1370,7 @@ async function navigate(view) {
   if (!allowed.includes(view)) return;
 
  if (
-  ["people", "following", "saved", "myuploads", "notifications", "dashboard", "messages"].includes(view) &&
+  ["people", "following", "saved", "myuploads", "notifications", "dashboard", "messages","committeeDuty"].includes(view) &&
   !state.session
 ) {
     openDialog("authDialog");
