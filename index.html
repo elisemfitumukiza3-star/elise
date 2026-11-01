@@ -1131,7 +1131,47 @@
       Loading your committee responsibilities...
     </p>
   </div>
+  <div class="card">
+    <h2>Submit my daily report</h2>
+    <p class="muted">Record what you accomplished and what you plan to do next.</p>
 
+    <form id="committeeDailyReportForm">
+      <label for="committeeReportDate">Report date</label>
+      <input
+        type="date"
+        id="committeeReportDate"
+        required
+      >
+
+      <label for="committeeReportAccomplishments">What did you accomplish today?</label>
+      <textarea
+        id="committeeReportAccomplishments"
+        rows="4"
+        required
+        placeholder="Describe the work you completed..."
+      ></textarea>
+
+      <label for="committeeReportChallenges">Challenges (optional)</label>
+      <textarea
+        id="committeeReportChallenges"
+        rows="3"
+        placeholder="Were there any challenges?"
+      ></textarea>
+
+      <label for="committeeReportNextSteps">Plans for next time (optional)</label>
+      <textarea
+        id="committeeReportNextSteps"
+        rows="3"
+        placeholder="What will you work on next?"
+      ></textarea>
+
+      <button type="submit" class="button button-primary">
+        Submit daily report
+      </button>
+
+      <p id="committeeReportMessage" class="muted" aria-live="polite"></p>
+    </form>
+  </div>
   <div class="card">
     <h2>My assigned tasks</h2>
     <div id="committeeDutyTasks">
