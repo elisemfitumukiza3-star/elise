@@ -2756,7 +2756,22 @@ async function searchBooks() {
     );
   }
 }
+// LearnLoop Home slideshow rotation
+(function initHomeSlideshow() {
+  const slides = document.querySelectorAll(".home-slide");
 
+  if (slides.length < 2) return;
+
+  let currentSlide = 0;
+
+  setInterval(() => {
+    slides[currentSlide].classList.remove("active");
+
+    currentSlide = (currentSlide + 1) % slides.length;
+
+    slides[currentSlide].classList.add("active");
+  }, 5000);
+})();
 function openBookPreview(bookId, title) {
   const reader = $("#libraryReader");
   const catalog = $("#libraryCatalog");
