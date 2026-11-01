@@ -2651,7 +2651,7 @@ async function searchBooks() {
       "https://openlibrary.org/search.json"
     );
 
-    endpoint.searchParams.set("q", query);
+      endpoint.searchParams.set("q", searchQuery);
     endpoint.searchParams.set("limit", "12");
     endpoint.searchParams.set(
       "fields",
