@@ -2966,7 +2966,67 @@ async function renderHostReports() {
 async function loadCommitteeMembers() {
   const list = $("#committeeMembersList");
   if (!list || !isOwner()) return;
+// Handle committee duty removal
+if (!list.dataset.removeHandlerBound) {
+  list.dataset.removeHandlerBound = "true";
 
+  list.addEventListener("click", async (event) => {
+    const button = event.target.closest("[data-committee-remove]");
+    if (!button) return;
+
+    if (!isOwner()) return;
+
+    const memberId = button.dataset.committeeRemove;
+    const userId = button.dataset.memberUser;
+
+    if (!memberId || !userId) {
+      alert("Could not identify this committee member.");
+      return;
+    }
+
+    const confirmed = confirm(
+      "Are you sure you want to remove this member from committee duty? Their personal account will remain active."
+    );
+
+    if (!confirmed) return;
+
+    button.disabled = true;
+    button.textContent = "Removing...";
+
+    const { error: updateError } = await supabase
+      .from("committee_members")
+      .update({ active: false })
+      .eq("id", memberId)
+      .eq("user_id", userId);
+
+    if (updateError) {
+      console.error(updateError);
+      alert("Could not remove this member from duty.");
+      button.disabled = false;
+      button.textContent = "✖ Remove from duty";
+      return;
+    }
+
+    const { error: notificationError } = await supabase
+      .from("notifications")
+      .insert({
+        user_id: userId,
+        type: "committee_duty_removed",
+        title: "Your committee duty has ended",
+        message: "You have been removed from your committee position. Your personal LearnLoop account remains active.",
+        is_read: false
+      });
+
+    if (notificationError) {
+      console.error(notificationError);
+      alert("Duty was removed, but the notification could not be sent.");
+    } else {
+      alert("Committee duty removed and notification sent successfully.");
+    }
+
+    await loadCommitteeMembers();
+  });
+}
   list.textContent = "Loading committee members…";
 
   const { data, error } = await supabase
