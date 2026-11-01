@@ -4595,3 +4595,84 @@ body.dark-mode #hostDashboardDialog details.card summary {
   outline: 3px solid #93C5FD;
   outline-offset: 3px;
 }
+/* LearnLoop Rwanda — full-window educational slideshow */
+#welcomeScreen {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: #172b4d;
+}
+
+.welcome-slideshow {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.welcome-slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  animation: learnLoopSlideshow 24s infinite;
+}
+
+/* Library books */
+.slide-library {
+  background-image: url("https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=2000&q=85");
+  animation-delay: 0s;
+}
+
+/* Students studying with computers */
+.slide-computers {
+  background-image: url("https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=2000&q=85");
+  animation-delay: -18s;
+}
+
+/* Students reading and learning together */
+.slide-reading {
+  background-image: url("https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=2000&q=85");
+  animation-delay: -12s;
+}
+
+/* Collaborative classroom learning */
+.slide-classroom {
+  background-image: url("https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=2000&q=85");
+  animation-delay: -6s;
+}
+
+@keyframes learnLoopSlideshow {
+  0%, 5% {
+    opacity: 0;
+  }
+  10%, 25% {
+    opacity: 1;
+  }
+  30%, 100% {
+    opacity: 0;
+  }
+}
+
+#welcomeScreen > .public-welcome-header,
+#welcomeScreen > .public-welcome-main {
+  position: relative;
+  z-index: 1;
+}
+
+#welcomeScreen .public-welcome-header {
+  background: rgba(255, 255, 255, 0.88);
+}
+
+#welcomeScreen .public-hero {
+  background: rgba(28, 39, 100, 0.68);
+}
+
+#welcomeScreen .public-features > div,
+#welcomeScreen .public-welcome-about {
+  background: rgba(255, 255, 255, 0.86);
+  backdrop-filter: blur(3px);
+}
