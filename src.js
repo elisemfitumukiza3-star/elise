@@ -2756,21 +2756,71 @@ async function searchBooks() {
     );
   }
 }
-// LearnLoop Home slideshow rotation
+// LearnLoop Home slideshow rotation and controls
 (function initHomeSlideshow() {
-  const slides = document.querySelectorAll(".home-slide");
+  const container = document.querySelector(".home-slideshow");
+  if (!container) return;
+
+  const slides = Array.from(container.querySelectorAll(".home-slide"));
+  const dotsContainer = container.querySelector("#homeSlideDots");
+  const prevButton = container.querySelector("#homeSlidePrev");
+  const nextButton = container.querySelector("#homeSlideNext");
 
   if (slides.length < 2) return;
 
   let currentSlide = 0;
+  let slideTimer;
 
-  setInterval(() => {
-    slides[currentSlide].classList.remove("active");
+  if (dotsContainer) {
+    dotsContainer.innerHTML = slides.map((_, index) => `
+      <button
+        type="button"
+        class="home-slide-dot${index === 0 ? " active" : ""}"
+        aria-label="Go to slide ${index + 1}"
+        aria-current="${index === 0 ? "true" : "false"}"
+        data-home-slide="${index}">
+      </button>
+    `).join("");
+  }
 
-    currentSlide = (currentSlide + 1) % slides.length;
+  function showSlide(index) {
+    currentSlide = (index + slides.length) % slides.length;
 
-    slides[currentSlide].classList.add("active");
-  }, 5000);
+    slides.forEach((slide, i) => {
+      slide.classList.toggle("active", i === currentSlide);
+    });
+
+    dotsContainer?.querySelectorAll(".home-slide-dot").forEach((dot, i) => {
+      dot.classList.toggle("active", i === currentSlide);
+      dot.setAttribute("aria-current", i === currentSlide ? "true" : "false");
+    });
+  }
+
+  function startTimer() {
+    clearInterval(slideTimer);
+    slideTimer = setInterval(() => showSlide(currentSlide + 1), 5000);
+  }
+
+  prevButton?.addEventListener("click", () => {
+    showSlide(currentSlide - 1);
+    startTimer();
+  });
+
+  nextButton?.addEventListener("click", () => {
+    showSlide(currentSlide + 1);
+    startTimer();
+  });
+
+  dotsContainer?.addEventListener("click", event => {
+    const dot = event.target.closest("[data-home-slide]");
+    if (!dot) return;
+
+    showSlide(Number(dot.dataset.homeSlide));
+    startTimer();
+  });
+
+  showSlide(0);
+  startTimer();
 })();
 function openBookPreview(bookId, title) {
   const reader = $("#libraryReader");
