@@ -49,7 +49,11 @@ const VIEW_INFO = {
   saved: ["Saved resources", "Your bookmarked learning resources."],
   myuploads: ["My uploads", "Content you have shared with the community."],
   notifications: ["Notifications", "Updates and activity from LearnLoop."],
-  dashboard: ["My dashboard", "An overview of your learning activity."]
+  dashboard: ["My dashboard", "An overview of your learning activity."],
+   committeeDuty: [
+  "My Duty Dashboard",
+  "Manage your committee responsibilities and assigned tasks."
+]
 };
 
 /* ---------- Safe HTML and small utilities ---------- */
