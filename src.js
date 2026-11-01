@@ -3053,34 +3053,35 @@ if (!list.dataset.removeHandlerBound) {
     const card = document.createElement("article");
     card.className = "card";
 
-    card.innerHTML = `
-      <h4>${escapeHTML(member.role)}</h4>
-      <p>${escapeHTML(member.email)}</p>
-      <p>${escapeHTML(member.responsibilities || "No responsibilities specified.")}</p>
+ card.innerHTML = `
+  <h4>${escapeHTML(member.role)}</h4>
+  <p>${escapeHTML(member.email)}</p>
+  <p>${escapeHTML(member.responsibilities || "No responsibilities specified.")}</p>
 
-      <button type="button"
-        class="button button-primary"
-        data-committee-message="${escapeHTML(member.user_id)}">
-        ✉ Message
-      </button>
+  <button type="button"
+    class="button button-primary"
+    data-committee-message="${escapeHTML(member.user_id)}">
+    ✉ Message
+  </button>
 
-      <button type="button"
-        class="button"
-        data-committee-edit="${escapeHTML(member.user_id)}">
-        ✏ Edit position
-        <button type="button"
-  class="button"
-  data-committee-remove="${escapeHTML(member.id)}"
-  data-member-user="${escapeHTML(member.user_id)}">
-  ✖ Remove from duty
-</button>
-      </button>
+  <button type="button"
+    class="button"
+    data-committee-edit="${escapeHTML(member.user_id)}">
+    ✏ Edit position
+  </button>
 
-      <div class="committee-action-area"></div>
-    `;
+  <button type="button"
+    class="button"
+    data-committee-remove="${escapeHTML(member.id)}"
+    data-member-user="${escapeHTML(member.user_id)}">
+    ✖ Remove from duty
+  </button>
 
-    list.append(card);
-  });
+  <div class="committee-action-area"></div>
+`;
+
+list.append(card);
+});
 }
   
 async function loadCommitteeApplications() {
