@@ -3008,6 +3008,12 @@ async function loadCommitteeMembers() {
         class="button"
         data-committee-edit="${escapeHTML(member.user_id)}">
         ✏ Edit position
+        <button type="button"
+  class="button"
+  data-committee-remove="${escapeHTML(member.id)}"
+  data-member-user="${escapeHTML(member.user_id)}">
+  ✖ Remove from duty
+</button>
       </button>
 
       <div class="committee-action-area"></div>
