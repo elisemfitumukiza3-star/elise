@@ -1432,6 +1432,7 @@ if (view === "committeeDuty") {
     myuploads: "myuploadsView",
     notifications: "notificationsView",
     dashboard: "dashboardView",
+     committeeDuty: "committeeDutyView",
      people: "peopleView"
   };
 
