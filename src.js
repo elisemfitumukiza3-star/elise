@@ -2620,10 +2620,7 @@ async function searchBooks() {
       : ""
   );
 
-  const searchQuery = [
-    query,
-    educationLevel !== "All" ? educationLevel : ""
-  ].filter(Boolean).join(" "); 
+const searchQuery = query;
 
     if (!searchQuery) {
     if ($("#googleBooksStatus")) {
