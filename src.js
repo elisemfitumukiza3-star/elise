@@ -2609,18 +2609,26 @@ async function searchBooks() {
   const results = $("#googleBooksResults");
   if (!results) return;
 
-  const input = $("#librarySearch");
+   const input = $("#librarySearch");
   const typedQuery = input?.value.trim() || "";
   const subject = state.selectedSubject || "";
   const educationLevel = $("#libraryEducationLevel")?.value || "All";
 
-  const query = typedQuery || (
-    subject && subject !== "All subjects"
-      ? `subject:${subject}`
-      : ""
-  );
+  const levelSearchTerms = {
+    "Primary": "primary school textbooks",
+    "Lower Secondary": "lower secondary school textbooks",
+    "Upper Secondary": "high school textbooks",
+    "TVET": "technical vocational education",
+    "University and College": "university college textbooks",
+    "Postgraduate": "advanced academic textbooks",
+    "Doctoral and Research": "research methodology academic books",
+    "Professors and Educators": "teaching education academic books"
+  };
 
-const searchQuery = query;
+  const searchQuery = typedQuery ||
+    (subject && subject !== "All subjects"
+      ? `subject:${subject}`
+      : levelSearchTerms[educationLevel] || "");
 
     if (!searchQuery) {
     if ($("#googleBooksStatus")) {
