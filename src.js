@@ -2612,6 +2612,7 @@ async function searchBooks() {
   const input = $("#librarySearch");
   const typedQuery = input?.value.trim() || "";
   const subject = state.selectedSubject || "";
+  const educationLevel = $("#libraryEducationLevel")?.value || "All";
 
   const query = typedQuery || (
     subject && subject !== "All subjects"
@@ -2619,7 +2620,12 @@ async function searchBooks() {
       : ""
   );
 
-  if (!query) {
+  const searchQuery = [
+    query,
+    educationLevel !== "All" ? educationLevel : ""
+  ].filter(Boolean).join(" "); 
+
+    if (!searchQuery) {
     if ($("#googleBooksStatus")) {
       $("#googleBooksStatus").textContent =
         "Search for a book, author, or subject.";
