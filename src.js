@@ -1425,6 +1425,7 @@ if (view === "committeeDuty") {
 
   document.getElementById("committeeDutyResponsibilities").textContent =
     dutyMember.responsibilities || "No responsibilities specified.";
+   await loadMyCommitteeTasks();
 }
   state.currentView = view;
    if (view === "people") {
