@@ -1304,9 +1304,34 @@ async function loadNotifications() {
   </article>
 `).join("");
 }
+async function updateCommitteeDutyNav() {
+  const button = document.getElementById("committeeDutyNavButton");
+
+  if (!button || !state.session) {
+    button?.classList.add("hidden");
+    return;
+  }
+
+  const { data, error } = await supabase
+    .from("committee_members")
+    .select("id")
+    .eq("user_id", state.session.user.id)
+    .eq("active", true)
+    .limit(1)
+    .maybeSingle();
+
+  if (error) {
+    console.error("Could not check committee membership:", error);
+    button.classList.add("hidden");
+    return;
+  }
+
+  button.classList.toggle("hidden", !data);
+}
 async function afterLogin() {
   await fetchProfile();
   updateAccountUI();
+   await updateCommitteeDutyNav();
   await loadFollowingIds();
   await loadPosts();
   await updateDashboard();
