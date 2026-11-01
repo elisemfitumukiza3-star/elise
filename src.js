@@ -6659,7 +6659,9 @@ if (file && removeButton) {
 
   $("#sortSelect")?.addEventListener("change", renderAllFeeds);
 $("#librarySearchButton")?.addEventListener("click", searchBooks);
-
+$("#libraryEducationLevel")?.addEventListener("change", () => {
+  searchBooks();
+});
 $("#googleBooksResults")?.addEventListener("click", event => {
   const button = event.target.closest("[data-book-preview]");
   if (!button) return;
