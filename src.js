@@ -8027,7 +8027,39 @@ async function loadAccountDocuments() {
 document.addEventListener("DOMContentLoaded", () => {
   loadAccountDocuments();
 });
+// Weekly committee reports
+const weeklyReportsButton = document.getElementById(
+  "loadCommitteeWeeklyReports"
+);
 
+if (weeklyReportsButton) {
+  weeklyReportsButton.addEventListener("click", () => {
+    loadCommitteeWeeklyReports();
+  });
+}
+
+// Set the current week automatically
+const committeeWeekInput = document.getElementById("committeeReportWeek");
+
+if (committeeWeekInput && !committeeWeekInput.value) {
+  const now = new Date();
+  const date = new Date(Date.UTC(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate()
+  ));
+
+  const day = date.getUTCDay() || 7;
+  date.setUTCDate(date.getUTCDate() + 4 - day);
+
+  const yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
+  const weekNumber = Math.ceil(
+    (((date - yearStart) / 86400000) + 1) / 7
+  );
+
+  committeeWeekInput.value =
+    date.getUTCFullYear() + "-W" + String(weekNumber).padStart(2, "0");
+}
 /* LearnLoop dark mode toggle */
 (() => {
   const button = document.querySelector("#themeToggleButton");
