@@ -1376,7 +1376,31 @@ async function navigate(view) {
     openDialog("authDialog");
     return;
   }
+if (view === "committeeDuty") {
+  const dutyNav = document.getElementById("committeeDutyNavButton");
 
+  const { data: dutyMember, error: dutyError } = await supabase
+    .from("committee_members")
+    .select("role, responsibilities")
+    .eq("user_id", state.session.user.id)
+    .eq("active", true)
+    .limit(1)
+    .maybeSingle();
+
+  if (dutyError || !dutyMember) {
+    dutyNav?.classList.add("hidden");
+    alert("Your committee duty dashboard is not currently available.");
+    return;
+  }
+
+  dutyNav?.classList.remove("hidden");
+
+  document.getElementById("committeeDutyRole").textContent =
+    dutyMember.role || "Committee Member";
+
+  document.getElementById("committeeDutyResponsibilities").textContent =
+    dutyMember.responsibilities || "No responsibilities specified.";
+}
   state.currentView = view;
    if (view === "people") {
   await loadFollowingIds();
