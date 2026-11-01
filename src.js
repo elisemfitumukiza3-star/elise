@@ -3016,7 +3016,49 @@ async function renderHostReports() {
     `;
   }).join("");
 }
+async function loadMyCommitteeTasks() {
+  const container = document.getElementById("committeeDutyTasks");
 
+  if (!container || !state.session) return;
+
+  container.textContent = "Loading your tasks...";
+
+  const { data, error } = await supabase
+    .from("committee_tasks")
+    .select("id, title, description, status, created_at")
+    .eq("assigned_to", state.session.user.id)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Could not load committee tasks:", error);
+    container.textContent = "Could not load your assigned tasks.";
+    return;
+  }
+
+  container.replaceChildren();
+
+  if (!data || !data.length) {
+    container.textContent = "No tasks assigned yet.";
+    return;
+  }
+
+  data.forEach(task => {
+    const card = document.createElement("article");
+    card.className = "card";
+
+    const title = document.createElement("h3");
+    title.textContent = task.title || "Untitled task";
+
+    const description = document.createElement("p");
+    description.textContent = task.description || "No description provided.";
+
+    const status = document.createElement("p");
+    status.textContent = "Status: " + (task.status || "Pending");
+
+    card.append(title, description, status);
+    container.append(card);
+  });
+}
 async function loadCommitteeMembers() {
   const list = $("#committeeMembersList");
   if (!list || !isOwner()) return;
