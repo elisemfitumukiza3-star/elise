@@ -4676,3 +4676,9 @@ body.dark-mode #hostDashboardDialog details.card summary {
   background: rgba(255, 255, 255, 0.86);
   backdrop-filter: blur(3px);
 }
+/* Full-width public welcome page */
+#welcomeScreen:not(.hidden) {
+  display: block;
+  width: 100%;
+  min-height: 100vh;
+}
