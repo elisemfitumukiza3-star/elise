@@ -3021,7 +3021,63 @@ async function loadMyCommitteeTasks() {
   const container = document.getElementById("committeeDutyTasks");
 
   if (!container || !state.session) return;
+// Set today's date using the user's local time
+const reportDateInput = document.getElementById("committeeReportDate");
 
+if (reportDateInput && !reportDateInput.value) {
+  const now = new Date();
+  const localDate = new Date(
+    now.getTime() - now.getTimezoneOffset() * 60000
+  ).toISOString().slice(0, 10);
+
+  reportDateInput.value = localDate;
+}
+
+// Connect the daily report form once
+const reportForm = document.getElementById("committeeDailyReportForm");
+
+if (reportForm && !reportForm.dataset.handlerBound) {
+  reportForm.dataset.handlerBound = "true";
+
+  reportForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const message = document.getElementById("committeeReportMessage");
+    const submitButton = reportForm.querySelector('button[type="submit"]');
+
+    const report = {
+      user_id: state.session.user.id,
+      report_date: reportDateInput.value,
+      accomplishments: document.getElementById("committeeReportAccomplishments").value.trim(),
+      challenges: document.getElementById("committeeReportChallenges").value.trim(),
+      next_steps: document.getElementById("committeeReportNextSteps").value.trim()
+    };
+
+    if (!report.report_date || !report.accomplishments) {
+      message.textContent = "Please enter the date and your accomplishments.";
+      return;
+    }
+
+    submitButton.disabled = true;
+    message.textContent = "Submitting your report...";
+
+    const { error } = await supabase
+      .from("committee_daily_reports")
+      .upsert(report, {
+        onConflict: "user_id,report_date"
+      });
+
+    submitButton.disabled = false;
+
+    if (error) {
+      console.error("Daily report error:", error);
+      message.textContent = "Could not submit your report. Please try again.";
+      return;
+    }
+
+    message.textContent = "Your daily report was submitted successfully.";
+  });
+}
   container.textContent = "Loading your tasks...";
 
   const { data, error } = await supabase
