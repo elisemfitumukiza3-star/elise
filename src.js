@@ -2353,34 +2353,6 @@ async function getFileUrl(path) {
   return url;
 }
 
-
-async function loadPostImagePreviews() {
-  const images = document.querySelectorAll(".post-image-card");
-
-  for (const card of images) {
-    const path = card.dataset.filePath;
-    const image = card.querySelector(".post-image-preview");
-
-    if (!path || !image || image.dataset.loaded === "true") {
-      continue;
-    }
-
-    image.dataset.loaded = "true";
-
-    const url = await getFileUrl(path);
-
-    if (!url) {
-      image.dataset.loaded = "false";
-      continue;
-    }
-
-    image.src = url;
-
-    image.addEventListener("error", () => {
-      image.dataset.loaded = "false";
-    }, { once: true });
-  }
-}
 async function getFileUrl(path) {
   if (!path) return null;
 
