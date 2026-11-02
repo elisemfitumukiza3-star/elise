@@ -1495,9 +1495,7 @@ if (view === "committeeDuty") {
     console.error("LearnLoop page not found:", pageIds[view]);
   }
 
-  closeMobileMenu();
-  renderAllFeeds();
-
+closeMobileMenu();
   if (view === "dashboard") updateDashboard();
    if (view === "community") renderCommunityAchievements();
   if (view === "library") searchBooks();
