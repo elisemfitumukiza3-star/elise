@@ -2230,39 +2230,128 @@ function renderAllFeeds() {
 }
 
 
-async function loadPostVideoThumbnails() {
-  const cards = document.querySelectorAll(".post-video-card");
-
-  for (const card of cards) {
-    const path = card.dataset.filePath;
-    const thumbnail = card.querySelector(".post-video-thumbnail");
-
-    if (!path || !thumbnail || thumbnail.dataset.loaded === "true") {
-      continue;
+function observePostMedia(card) {
+  if (!("IntersectionObserver" in window)) {
+    if (card.classList.contains("post-image-card")) {
+      loadPostImageCard(card);
+    } else {
+      loadPostVideoCard(card);
     }
-
-    thumbnail.dataset.loaded = "true";
-
-    const url = await getFileUrl(path);
-
-    if (!url) {
-      thumbnail.dataset.loaded = "false";
-      continue;
-    }
-
-    thumbnail.src = url;
-
-    thumbnail.addEventListener("loadedmetadata", () => {
-      if (thumbnail.duration > 0) {
-        thumbnail.currentTime = Math.min(1, thumbnail.duration / 2);
-      }
-    }, { once: true });
-
-    thumbnail.addEventListener("seeked", () => {
-      thumbnail.pause();
-    }, { once: true });
+    return;
   }
+
+  if (!postMediaObserver) {
+    postMediaObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+
+        const card = entry.target;
+        postMediaObserver.unobserve(card);
+
+        if (card.classList.contains("post-image-card")) {
+          loadPostImageCard(card);
+        } else {
+          loadPostVideoCard(card);
+        }
+      });
+    }, { rootMargin: "400px 0px" });
+  }
+
+  postMediaObserver.observe(card);
 }
+
+function loadPostVideoThumbnails() {
+  document.querySelectorAll(".post-video-card")
+    .forEach(observePostMedia);
+}
+
+function loadPostImagePreviews() {
+  document.querySelectorAll(".post-image-card")
+    .forEach(observePostMedia);
+}
+
+async function loadPostImageCard(card) {
+  const path = card.dataset.filePath;
+  const image = card.querySelector(".post-image-preview");
+
+  if (!path || !image || image.dataset.loaded === "true") return;
+
+  image.dataset.loaded = "true";
+  image.decoding = "async";
+
+  const url = await getFileUrl(path);
+
+  if (!url) {
+    image.dataset.loaded = "false";
+    return;
+  }
+
+  image.src = url;
+
+  image.addEventListener("error", () => {
+    image.dataset.loaded = "false";
+  }, { once: true });
+}
+
+async function loadPostVideoCard(card) {
+  const path = card.dataset.filePath;
+  const thumbnail = card.querySelector(".post-video-thumbnail");
+
+  if (!path || !thumbnail || thumbnail.dataset.loaded === "true") return;
+
+  thumbnail.dataset.loaded = "true";
+
+  const url = await getFileUrl(path);
+
+  if (!url) {
+    thumbnail.dataset.loaded = "false";
+    return;
+  }
+
+  thumbnail.addEventListener("loadedmetadata", () => {
+    if (thumbnail.duration > 0) {
+      thumbnail.currentTime = Math.min(1, thumbnail.duration / 2);
+    }
+  }, { once: true });
+
+  thumbnail.addEventListener("seeked", () => {
+    thumbnail.pause();
+  }, { once: true });
+
+  thumbnail.src = url;
+}
+
+async function getFileUrl(path) {
+  if (!path) return null;
+
+  const cached = fileUrlCache.get(path);
+
+  if (cached && cached.expiresAt > Date.now()) {
+    return cached.url;
+  }
+
+  const { data, error } = await supabase.storage
+    .from(STORAGE_BUCKET)
+    .createSignedUrl(path, 3600);
+
+  if (error) {
+    console.warn("File URL error:", error.message);
+    return null;
+  }
+
+  const url = data?.signedUrl || null;
+
+  if (url) {
+    fileUrlCache.set(path, {
+      url,
+      expiresAt: Date.now() + 50 * 60 * 1000
+    });
+  }
+
+  return url;
+}
+
+
 async function loadPostImagePreviews() {
   const images = document.querySelectorAll(".post-image-card");
 
