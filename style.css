@@ -4944,3 +4944,86 @@ body {
   border-radius: 999px;
   background: #fff;
 }
+/* LearnLoop Lessons Entry Card */
+.learnloop-lessons-card {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  margin: 20px 0;
+  padding: 25px;
+  border: 1px solid #dce5f2;
+  border-radius: 16px;
+  background: linear-gradient(120deg, #edf3ff, #ffffff);
+  text-decoration: none;
+  box-shadow: 0 5px 18px rgba(20, 45, 90, 0.07);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.learnloop-lessons-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 9px 24px rgba(20, 45, 90, 0.12);
+}
+
+.lessons-card-icon {
+  min-width: 65px;
+  height: 65px;
+  display: grid;
+  place-items: center;
+  border-radius: 15px;
+  background: #173b70;
+  color: white;
+  font-size: 29px;
+}
+
+.lessons-card-label {
+  color: #a87924;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+}
+
+.lessons-card-content h2 {
+  margin: 5px 0;
+  color: #173b70;
+  font-size: 25px;
+}
+
+.lessons-card-content h3 {
+  margin: 7px 0;
+  color: #26384d;
+  font-size: 16px;
+}
+
+.lessons-card-content p {
+  margin: 7px 0 12px;
+  color: #637083;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.lessons-card-link {
+  color: #173b70;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+@media (max-width: 600px) {
+  .learnloop-lessons-card {
+    gap: 13px;
+    padding: 17px;
+  }
+
+  .lessons-card-icon {
+    min-width: 48px;
+    height: 48px;
+    font-size: 22px;
+  }
+
+  .lessons-card-content h2 {
+    font-size: 21px;
+  }
+
+  .lessons-card-content h3 {
+    font-size: 14px;
+  }
+}
