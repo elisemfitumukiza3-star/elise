@@ -7773,19 +7773,26 @@ pdf.setLineWidth(0.5);
 pdf.line(207, 173, 270, 173);
 
 pdf.setTextColor(20, 39, 77);
+
+// Official LearnLoop administrator signature
+pdf.setTextColor(20, 39, 77);
 pdf.setFont("times", "italic");
-pdf.setFontSize(22);
-pdf.text("LearnLoop", 238.5, 168, {
+pdf.setFontSize(28);
+pdf.text("LearnLoop", 238, 166, {
   align: "center",
   angle: -8
 });
 
+pdf.setDrawColor(198, 158, 64);
+pdf.setLineWidth(0.6);
+pdf.line(211, 174, 265, 174);
+
 pdf.setFont("helvetica", "bold");
 pdf.setFontSize(8);
-pdf.text("LEARNLOOP", 238.5, 180, {
+pdf.setTextColor(20, 39, 77);
+pdf.text("PLATFORM ADMINISTRATOR", 238, 181, {
   align: "center"
 });
-
 pdf.setFont("helvetica", "normal");
 pdf.setFontSize(7);
 pdf.text("PLATFORM ADMINISTRATOR", 238.5, 185, {
