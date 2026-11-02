@@ -935,7 +935,23 @@ async function approveHonoraryCertificate(requestId, decisionReason) {
     month: "long",
     year: "numeric"
   });
+const logoImage = await new Promise((resolve) => {
+  const image = new Image();
 
+  image.onload = () => {
+    const canvas = document.createElement("canvas");
+    canvas.width = image.naturalWidth;
+    canvas.height = image.naturalHeight;
+
+    const context = canvas.getContext("2d");
+    context.drawImage(image, 0, 0);
+
+    resolve(canvas.toDataURL("image/png"));
+  };
+
+  image.onerror = () => resolve(null);
+  image.src = "/learnloop-icon.png.png";
+});
   const pdf = new jsPDF({
     orientation: "landscape",
     unit: "mm",
