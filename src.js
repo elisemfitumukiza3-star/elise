@@ -37,6 +37,8 @@ const state = {
 };
 let postMediaObserver = null;
 const fileUrlCache = new Map();
+let postMediaObserver = null;
+const fileUrlCache = new Map();
 const VIEW_INFO = {
   feed: ["Home feed", "Discover what the community is learning."],
   library: ["Learning library", "Explore subjects, books, and learning resources."],
