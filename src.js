@@ -968,7 +968,9 @@ const logoImage = await new Promise((resolve) => {
   pdf.setDrawColor(198, 158, 64);
   pdf.setLineWidth(1);
   pdf.rect(9, 9, 279, 192);
-
+if (logoImage) {
+  pdf.addImage(logoImage, "PNG", 18, 15, 24, 24);
+}
   pdf.setTextColor(20, 39, 77);
   pdf.setFont("helvetica", "bold");
   pdf.setFontSize(27);
