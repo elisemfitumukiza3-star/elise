@@ -6424,7 +6424,11 @@ async function leaveStudyGroup() {
 }
 
 function bindEvents() {
-     loadHonoraryCertificateRequests();
+  Promise.resolve()
+  .then(() => loadHonoraryCertificateRequests())
+  .catch(error => {
+    console.error("Honorary certificate requests failed to load:", error);
+  }); 
   // Academy course reviews
   const academyReviewForm =
     document.querySelector("#academyReviewForm");
