@@ -40,6 +40,7 @@ const fileUrlCache = new Map();
 
 const VIEW_INFO = {
   feed: ["Home feed", "Discover what the community is learning."],
+  academy: ["LearnLoop Lessons", "Read, understand, take quizzes and earn certificates."], 
   library: ["Learning library", "Explore subjects, books, and learning resources."],
   youtube: ["YouTube Learning", "Search for educational videos and watch them on LearnLoop."],
   discussions: ["Discussions", "Ask questions and share ideas."],
