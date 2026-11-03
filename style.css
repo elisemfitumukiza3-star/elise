@@ -5218,3 +5218,84 @@ a:hover,
   background: #f8e9ae;
   color: #80600c;
 }
+/* LearnLoop Academy — full professional colored cards */
+
+#academyCourseGrid .academy-course-card:nth-child(1) {
+  background: linear-gradient(145deg, #eaf4ff, #d8eaff) !important;
+  border: 1px solid #acd1ff !important;
+  --course-color: #1262c4;
+}
+
+#academyCourseGrid .academy-course-card:nth-child(2) {
+  background: linear-gradient(145deg, #eaffef, #d1f7dc) !important;
+  border: 1px solid #a5e9bc !important;
+  --course-color: #07864c;
+}
+
+#academyCourseGrid .academy-course-card:nth-child(3) {
+  background: linear-gradient(145deg, #f5edff, #e7d8ff) !important;
+  border: 1px solid #d4b9ff !important;
+  --course-color: #7135bd;
+}
+
+#academyCourseGrid .academy-course-card:nth-child(4) {
+  background: linear-gradient(145deg, #fff0e2, #ffdfc2) !important;
+  border: 1px solid #ffc58f !important;
+  --course-color: #d85a0b;
+}
+
+#academyCourseGrid .academy-course-card:nth-child(5) {
+  background: linear-gradient(145deg, #fff0f5, #ffdce9) !important;
+  border: 1px solid #ffb9d1 !important;
+  --course-color: #c52d69;
+}
+
+#academyCourseGrid .academy-course-card:nth-child(6) {
+  background: linear-gradient(145deg, #e6fbfc, #c9f4f5) !important;
+  border: 1px solid #9ce5e9 !important;
+  --course-color: #087e86;
+}
+
+#academyCourseGrid .academy-course-card:nth-child(7) {
+  background: linear-gradient(145deg, #fff8df, #ffedb5) !important;
+  border: 1px solid #f5d778 !important;
+  --course-color: #a87500;
+}
+
+/* Matching course icons */
+
+#academyCourseGrid .academy-course-icon {
+  background: var(--course-color) !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 50% !important;
+  box-shadow: 0 5px 12px rgba(0,0,0,0.12);
+}
+
+/* Matching course titles and progress labels */
+
+#academyCourseGrid .academy-course-card h3 {
+  color: #102a56 !important;
+}
+
+#academyCourseGrid .academy-topic-count {
+  background: rgba(255,255,255,0.65) !important;
+  border-color: rgba(255,255,255,0.8) !important;
+  color: var(--course-color) !important;
+}
+
+/* Matching course action buttons */
+
+#academyCourseGrid .academy-open-course {
+  background: var(--course-color) !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 12px !important;
+  width: 100%;
+  padding: 13px;
+  box-shadow: 0 5px 12px rgba(0,0,0,0.10);
+}
+
+#academyCourseGrid .academy-open-course:hover:not(:disabled) {
+  filter: brightness(0.9);
+}
