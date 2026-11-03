@@ -5099,3 +5099,49 @@ body {
     font-size: 13px;
   }
 }
+
+/* LearnLoop: clean link styling */
+a:hover,
+.discover-card a:hover,
+.featured-lesson a:hover {
+  text-decoration: none;
+}
+
+/* LearnLoop: flexible Posts cards */
+#postsFeed {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: start;
+  min-width: 0;
+}
+
+#postsFeed > .post-card {
+  min-width: 0;
+  height: auto;
+  align-self: start;
+}
+
+#postsFeed .post-image-preview {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  max-height: 340px;
+  object-fit: contain;
+}
+
+#postsFeed .post-body {
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+
+@media (max-width: 1000px) {
+  #postsFeed {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 650px) {
+  #postsFeed {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
