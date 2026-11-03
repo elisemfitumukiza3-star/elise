@@ -6482,10 +6482,12 @@ actionButton.addEventListener("click", () => {
     saveAcademyProgress(latestProgress);
   }
 
-  if (isLastLesson) {
-    renderAcademyCourses();
-    return;
-  }
+ if (isLastLesson) {
+  renderAcademyCourses();
+
+  document.querySelector("#academyQuizButton")?.click();
+  return;
+}
 
   openAcademyCourse(course);
 
