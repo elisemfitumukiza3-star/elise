@@ -5286,6 +5286,73 @@ function getAcademyReading(course, index) {
     keyPoint: `Understand the main concepts of ${course.topics[index]} and practise applying them in real situations.`
   };
 }
+const academyAdditionalLessons = {
+  "personal-hygiene": [
+    {
+      title: "Understanding Personal Hygiene",
+      paragraphs: [
+        "Personal hygiene is the daily practice of keeping the body clean and maintaining habits that support health, comfort, and confidence. It includes caring for the skin, hair, teeth, hands, clothing, and other parts of the body.",
+        "Good hygiene helps reduce the spread of germs and supports a healthy learning and working environment. It is important at home, at school, at work, and in public places.",
+        "For example, washing hands before eating, keeping clothes clean, brushing teeth regularly, and maintaining clean living spaces are simple habits that contribute to personal wellbeing."
+      ],
+      keyPoint: "Personal hygiene is a collection of everyday habits that protect health and promote wellbeing."
+    },
+    {
+      title: "Hand Hygiene and Germ Prevention",
+      paragraphs: [
+        "Hands come into contact with many surfaces throughout the day. Some surfaces may carry germs that can spread when people touch their eyes, nose, mouth, food, or other objects.",
+        "Hand hygiene means keeping hands clean through appropriate washing. It is especially important before preparing or eating food, after using the toilet, after handling waste, and after coughing or sneezing.",
+        "In schools and workplaces, accessible handwashing facilities and good hygiene habits help protect entire communities. People should also avoid sharing personal items that may transfer germs."
+      ],
+      keyPoint: "Clean hands help reduce the spread of germs between people and surfaces."
+    },
+    {
+      title: "Oral Hygiene and Dental Care",
+      paragraphs: [
+        "Oral hygiene involves caring for the teeth, gums, tongue, and mouth. Healthy oral habits help prevent common dental problems and support comfortable eating and speaking.",
+        "Brushing teeth regularly with suitable toothpaste, cleaning between teeth, and limiting frequent sugary snacks are important habits. Regular dental check-ups can help identify concerns early.",
+        "Oral health is connected to general wellbeing. Pain or untreated dental problems can affect concentration, sleep, communication, and daily activities."
+      ],
+      keyPoint: "Consistent oral care supports healthy teeth, gums, and overall wellbeing."
+    },
+    {
+      title: "Skin, Hair, and Body Care",
+      paragraphs: [
+        "The skin is the body's outer protective covering. Keeping it clean and caring for it appropriately helps maintain comfort and supports its protective role.",
+        "Basic body care includes regular bathing, wearing clean clothes, keeping hair clean, and using personal care products suitable for individual needs. Personal towels, combs, and similar items should not be shared without proper cleaning.",
+        "People have different skin and hair types, so personal care routines may vary. Good care should focus on cleanliness, comfort, and health rather than unrealistic appearance standards."
+      ],
+      keyPoint: "Body care should protect cleanliness, comfort, and the natural health of skin and hair."
+    },
+    {
+      title: "Clean Clothing and Personal Items",
+      paragraphs: [
+        "Clothing and personal items can collect sweat, dirt, and microorganisms during everyday activities. Keeping them clean contributes to personal comfort and helps maintain hygienic surroundings.",
+        "Clothes should be washed appropriately and dried properly before being stored. Items such as towels, toothbrushes, underwear, and hairbrushes should be treated as personal belongings.",
+        "At school, home, and work, organizing personal belongings and keeping frequently used items clean helps create a healthier shared environment."
+      ],
+      keyPoint: "Clean clothing and properly maintained personal items are important parts of everyday hygiene."
+    },
+    {
+      title: "Hygiene at Home, School, and Work",
+      paragraphs: [
+        "Personal hygiene is not limited to individual routines. Shared environments also need good hygiene practices to protect everyone who uses them.",
+        "At home, people can keep kitchens, bathrooms, sleeping areas, and frequently touched surfaces clean. At school and work, waste should be disposed of properly and shared facilities should be kept tidy.",
+        "Everyone has a role in maintaining clean surroundings. Respecting shared spaces, reporting hygiene concerns, and following established cleaning routines help prevent avoidable health problems."
+      ],
+      keyPoint: "Healthy environments depend on individual responsibility and cooperation."
+    },
+    {
+      title: "Building Lifelong Hygiene Habits",
+      paragraphs: [
+        "Good hygiene becomes easier when it is part of a consistent daily routine. Small actions, repeated regularly, can make a meaningful difference to personal and community wellbeing.",
+        "A practical routine may include morning and evening oral care, regular bathing, handwashing at important moments, clean clothing, and keeping personal spaces organized.",
+        "Families, teachers, health educators, and community leaders can encourage good hygiene by sharing accurate information and making clean water and hygiene facilities accessible."
+      ],
+      keyPoint: "Consistent, practical hygiene habits support lifelong health and community wellbeing."
+    }
+  ]
+};
 const learnLoopCourses = [
 
   // =====================================================
