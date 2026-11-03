@@ -5416,7 +5416,7 @@ const academyAdditionalLessons = {
       ],
       keyPoint: "Consistent, practical hygiene habits support lifelong health and community wellbeing."
     }
-  ]
+  ],
 };
 const learnLoopCourses = [
 
