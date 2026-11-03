@@ -6488,7 +6488,41 @@ function bindEvents() {
       submitAcademyCourseReview
     );
   }
+  // LearnLoop Academy slideshow controls
+  const academyHeading = document.querySelector(
+    "#academyView .academy-heading"
+  );
 
+  if (academyHeading && !academyHeading.dataset.slideshowReady) {
+    academyHeading.dataset.slideshowReady = "true";
+    academyHeading.dataset.slide = "0";
+
+    const controls = document.createElement("div");
+    controls.className = "academy-slideshow-controls";
+    controls.innerHTML = `
+      <button type="button" data-academy-slide="prev"
+        aria-label="Previous photo">‹</button>
+      <span class="academy-slide-count">1 / 5</span>
+      <button type="button" data-academy-slide="next"
+        aria-label="Next photo">›</button>
+    `;
+
+    academyHeading.appendChild(controls);
+
+    controls.addEventListener("click", event => {
+      const button = event.target.closest("[data-academy-slide]");
+      if (!button) return;
+
+      let slide = Number(academyHeading.dataset.slide || 0);
+
+      slide += button.dataset.academySlide === "next" ? 1 : -1;
+      slide = (slide + 5) % 5;
+
+      academyHeading.dataset.slide = String(slide);
+      controls.querySelector(".academy-slide-count").textContent =
+        `${slide + 1} / 5`;
+    });
+  }
   // LearnLoop YouTube search and subject buttons
   const youtubeForm = document.querySelector("#youtubeSearchForm");
   const youtubeButton = document.querySelector("#youtubeSearchButton");
