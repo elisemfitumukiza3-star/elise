@@ -5561,3 +5561,76 @@ a:hover,
     max-width: 100%;
   }
 }
+
+/* LearnLoop Academy — improve hero text readability */
+#academyView .academy-heading {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: #082c66;
+  border-radius: 20px;
+}
+
+#academyView .academy-heading::before {
+  z-index: -1;
+}
+
+#academyView .academy-heading::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    #082c66 0%,
+    #082c66 32%,
+    rgba(8, 44, 102, 0.96) 45%,
+    rgba(8, 44, 102, 0.78) 57%,
+    rgba(8, 44, 102, 0.25) 78%,
+    transparent 100%
+  );
+}
+
+#academyView .academy-heading > * {
+  position: relative;
+  z-index: 1;
+}
+
+#academyView .academy-heading h2 {
+  color: #ffffff;
+  font-size: clamp(32px, 4vw, 48px);
+  line-height: 1.15;
+  letter-spacing: -1px;
+  max-width: 55%;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+#academyView .academy-heading p {
+  color: #f1f5ff;
+  font-size: 16px;
+  line-height: 1.8;
+  max-width: 52%;
+}
+
+#academyView .academy-heading .eyebrow {
+  color: #ffd36a;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+@media (max-width: 650px) {
+  #academyView .academy-heading::after {
+    background: linear-gradient(
+      0deg,
+      #082c66 0%,
+      rgba(8, 44, 102, 0.98) 55%,
+      rgba(8, 44, 102, 0.2) 100%
+    );
+  }
+
+  #academyView .academy-heading h2,
+  #academyView .academy-heading p {
+    max-width: 100%;
+  }
+}
