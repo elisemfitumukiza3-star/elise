@@ -6407,13 +6407,14 @@ function openAcademyCourse(course) {
   const topicList = document.querySelector("#academyTopicList");
   const lessonContent = document.querySelector("#academyLessonContent");
 
-  topicList.replaceChildren();
-  lessonContent.replaceChildren();
+ topicList.replaceChildren();
+lessonContent.replaceChildren();
 
-  course.topics.forEach((topic, index) => {
-     const firstIncompleteIndex = course.topics.findIndex(
+const firstIncompleteIndex = course.topics.findIndex(
   (_, lessonIndex) => !readTopics.includes(lessonIndex)
 );
+
+course.topics.forEach((topic, index) => {
     const button = document.createElement("button");
     button.type = "button";
     button.className = "academy-topic-item";
