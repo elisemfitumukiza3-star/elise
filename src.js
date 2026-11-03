@@ -10225,42 +10225,56 @@ pdf.text(completionDate, 148, 173, {
   align: "center"
 });
 
-// Director and Platform Administrator signature
-pdf.setTextColor(...navy);
-pdf.setFont("times", "italic");
-pdf.setFontSize(12);
-pdf.text("MFITUMUKIZA Elise", 211, 168, {
-  align: "center",
-  maxWidth: 46
-});
+// LearnLoop certificate signatory areas
+// Decorative digital marks — not substitutes for verified personal signatures.
+pdf.setDrawColor(...navy);
+pdf.setLineWidth(0.75);
 
+// Administrator decorative signature mark
+pdf.lines([
+  [4, 9, 8, 1, 13, 3],
+  [13, 3, 17, 5, 19, 9],
+  [19, 9, 23, 13, 27, 6],
+  [27, 6, 31, 0, 35, 4],
+  [35, 4, 39, 7, 44, 2]
+], 187, 158, 1, "S", false);
+
+// Moderator decorative signature mark
+pdf.lines([
+  [3, 8, 7, 2, 11, 5],
+  [11, 5, 15, 8, 18, 3],
+  [18, 3, 22, 0, 25, 5],
+  [25, 5, 29, 11, 33, 5],
+  [33, 5, 38, 0, 44, 4]
+], 240, 158, 1, "S", false);
+
+// Signature lines
 pdf.setDrawColor(...gold);
 pdf.setLineWidth(0.6);
-pdf.line(186, 175, 236, 175);
+pdf.line(186, 174, 236, 174);
+pdf.line(239, 174, 287, 174);
 
+// Names below the lines
+pdf.setTextColor(...navy);
+pdf.setFont("times", "bold");
+pdf.setFontSize(9);
+pdf.text("MFITUMUKIZA Elise", 211, 181, {
+  align: "center"
+});
+pdf.text("NAHIMANA Moise", 263, 181, {
+  align: "center"
+});
+
+// Official titles
 pdf.setFont("helvetica", "bold");
-pdf.setFontSize(6.5);
-pdf.text("DIRECTOR & PLATFORM ADMINISTRATOR", 211, 181, {
+pdf.setFontSize(6.2);
+pdf.text("DIRECTOR & PLATFORM ADMINISTRATOR", 211, 187, {
   align: "center",
   maxWidth: 50
 });
-
-// Academic Coordinator signature
-pdf.setFont("times", "italic");
-pdf.setFontSize(12);
-pdf.text("NAHIMANA Moise", 263, 168, {
+pdf.text("EDUCATION & COMMUNITY MODERATOR", 263, 187, {
   align: "center",
-  maxWidth: 46
-});
-
-pdf.setDrawColor(...gold);
-pdf.setLineWidth(0.6);
-pdf.line(239, 175, 287, 175);
-
-pdf.setFont("helvetica", "bold");
-pdf.setFontSize(7);
-pdf.text("ACADEMIC COORDINATOR", 263, 181, {
-  align: "center"
+  maxWidth: 50
 });
 
 // LearnLoop award seal
