@@ -8243,9 +8243,11 @@ course.topics.forEach((topic, index) => {
      button.disabled =
   !readTopics.includes(index) &&
   index !== firstIncompleteIndex;
-    button.textContent =
-      `${readTopics.includes(index) ? "✓ " : ""}${index + 1}. ${topic} — Open topic`;
-
+   button.textContent = readTopics.includes(index)
+  ? `✓ ${index + 1}. ${topic} — Review lesson`
+  : index === firstIncompleteIndex
+    ? `${index + 1}. ${topic} — Start lesson`
+    : `🔒 ${index + 1}. ${topic}`;
   
 button.addEventListener("click", () => {
   const lesson = getAcademyReading(course, index);
