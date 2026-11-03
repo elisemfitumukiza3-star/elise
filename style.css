@@ -5375,3 +5375,120 @@ a:hover,
     font-size: 14px;
   }
 }
+/* LearnLoop Academy — full-width split hero */
+
+#academyView .academy-heading {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 340px;
+  padding: 45px;
+  margin-bottom: 30px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  border-radius: 22px;
+  background: linear-gradient(110deg, #082c66, #0754ad);
+  box-shadow: 0 14px 35px rgba(5, 55, 115, 0.22);
+}
+
+#academyView .academy-heading::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 48%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  animation: academyPhotoShow 18s infinite;
+  border-left: 4px solid rgba(255,255,255,0.2);
+}
+
+#academyView .academy-heading::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    #082c66 0%,
+    rgba(8,44,102,0.98) 42%,
+    rgba(8,44,102,0.35) 68%,
+    rgba(8,44,102,0.05) 100%
+  );
+}
+
+#academyView .academy-heading .eyebrow,
+#academyView .academy-heading h2,
+#academyView .academy-heading p {
+  position: relative;
+  z-index: 2;
+  max-width: 48%;
+}
+
+#academyView .academy-heading .eyebrow {
+  color: #ffd76a;
+  font-weight: 800;
+  letter-spacing: 2.5px;
+}
+
+#academyView .academy-heading h2 {
+  color: white;
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 850;
+  margin: 12px 0;
+}
+
+#academyView .academy-heading p {
+  color: #e4efff;
+  line-height: 1.8;
+}
+
+@keyframes academyPhotoShow {
+  0%, 28% {
+    background-image: url("https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1200");
+  }
+  33%, 61% {
+    background-image: url("https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=1200");
+  }
+  66%, 94% {
+    background-image: url("https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1200");
+  }
+  100% {
+    background-image: url("https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1200");
+  }
+}
+
+@media (max-width: 650px) {
+  #academyView .academy-heading {
+    min-height: 420px;
+    padding: 28px 22px;
+    justify-content: flex-end;
+  }
+
+  #academyView .academy-heading::before {
+    width: 100%;
+    height: 48%;
+    top: 0;
+    border-left: none;
+    border-bottom: 3px solid rgba(255,255,255,0.2);
+  }
+
+  #academyView .academy-heading::after {
+    background: linear-gradient(
+      0deg,
+      #082c66 0%,
+      rgba(8,44,102,0.95) 45%,
+      rgba(8,44,102,0.05) 100%
+    );
+  }
+
+  #academyView .academy-heading .eyebrow,
+  #academyView .academy-heading h2,
+  #academyView .academy-heading p {
+    max-width: 100%;
+  }
+}
