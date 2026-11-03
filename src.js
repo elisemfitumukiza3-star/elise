@@ -10060,19 +10060,28 @@ for (let i = 0; i < 6; i++) {
   pdf.ellipse(268 - i * 2, 111 + i * 4, 2, 4, "S");
 }
 
-// LearnLoop book logo
-pdf.setDrawColor(...navy);
-pdf.setLineWidth(1.5);
+// Official LearnLoop PNG logo
+const learnLoopLogo = await new Promise((resolve) => {
+  const image = new Image();
 
-pdf.line(105, 19, 105, 34);
-pdf.line(105, 19, 115, 23);
-pdf.line(115, 23, 125, 19);
-pdf.line(125, 19, 125, 34);
-pdf.line(105, 34, 115, 38);
-pdf.line(115, 38, 125, 34);
+  image.onload = () => {
+    const canvas = document.createElement("canvas");
+    canvas.width = image.naturalWidth;
+    canvas.height = image.naturalHeight;
 
-pdf.setFillColor(...gold);
-pdf.circle(115, 16, 2, "F");
+    const context = canvas.getContext("2d");
+    context.drawImage(image, 0, 0);
+
+    resolve(canvas.toDataURL("image/png"));
+  };
+
+  image.onerror = () => resolve(null);
+  image.src = "/learnloop-icon.png.png";
+});
+
+if (learnLoopLogo) {
+  pdf.addImage(learnLoopLogo, "PNG", 105, 15, 20, 20);
+}
 
 // LearnLoop wordmark
 pdf.setTextColor(...navy);
