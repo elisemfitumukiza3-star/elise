@@ -5299,3 +5299,79 @@ a:hover,
 #academyCourseGrid .academy-open-course:hover:not(:disabled) {
   filter: brightness(0.9);
 }
+/* LearnLoop Academy — premium hero heading */
+
+#academyView .academy-heading {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  padding: 42px 44px;
+  margin-bottom: 30px;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  background:
+    radial-gradient(circle at 85% 20%, rgba(75, 173, 255, 0.55), transparent 28%),
+    linear-gradient(115deg, #082c66 0%, #0754ad 55%, #1685e8 100%);
+  border: 1px solid #2878ca;
+  border-radius: 22px;
+  box-shadow: 0 14px 35px rgba(5, 55, 115, 0.22);
+}
+
+#academyView .academy-heading::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: 260px;
+  height: 260px;
+  right: 5%;
+  top: -95px;
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 28px rgba(255,255,255,0.04),
+    0 0 0 58px rgba(255,255,255,0.035);
+}
+
+#academyView .academy-heading .eyebrow {
+  color: #ffd76a;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 2.5px;
+  margin-bottom: 12px;
+}
+
+#academyView .academy-heading h2 {
+  color: #ffffff;
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 850;
+  letter-spacing: -1.5px;
+  margin: 0 0 12px;
+  line-height: 1.15;
+}
+
+#academyView .academy-heading p {
+  color: #e4efff;
+  font-size: 16px;
+  line-height: 1.8;
+  max-width: 620px;
+  margin: 0;
+}
+
+@media (max-width: 650px) {
+  #academyView .academy-heading {
+    padding: 30px 22px;
+    min-height: 190px;
+    border-radius: 17px;
+  }
+
+  #academyView .academy-heading h2 {
+    font-size: 30px;
+  }
+
+  #academyView .academy-heading p {
+    font-size: 14px;
+  }
+}
