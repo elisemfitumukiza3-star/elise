@@ -5287,26 +5287,17 @@ function getAcademyReading(course, index) {
   };
 }
 const learnLoopCourses = [
-  {
-    slug: "leadership",
-    title: "Leadership",
-    description: "Build responsibility, teamwork, decision-making, and leadership skills.",
-    icon: "👥",
-    topics: [
-      "Understanding Leadership",
-      "Qualities of a Good Leader",
-      "Communication and Active Listening",
-      "Teamwork and Collaboration",
-      "Decision-Making and Problem-Solving",
-      "Managing Conflict and Disagreement",
-      "Ethics, Responsibility, and Leading by Example"
-    ]
-  },
+
+  // =====================================================
+  // 1. HEALTH AND SAFETY
+  // =====================================================
   {
     slug: "first-aid",
+    category: "Health and Safety",
     title: "First Aid Awareness",
-    description: "Learn basic emergency awareness and how to seek appropriate help.",
+    description: "Understand basic emergency awareness, personal safety, and how to seek appropriate help.",
     icon: "🩺",
+    educationLevels: ["General Learning", "Secondary Education", "TVET / Technical Education", "University / Higher Education"],
     topics: [
       "Introduction to First Aid",
       "Checking for Danger and Staying Safe",
@@ -5318,25 +5309,84 @@ const learnLoopCourses = [
     ]
   },
   {
-    slug: "english",
-    title: "English Communication",
-    description: "Improve grammar, vocabulary, reading, writing, and speaking.",
-    icon: "📘",
+    slug: "personal-hygiene",
+    category: "Health and Safety",
+    title: "Personal Hygiene and Disease Prevention",
+    description: "Learn healthy hygiene habits and understand how common illnesses can be prevented.",
+    icon: "🧼",
+    educationLevels: ["Primary Education", "Secondary Education", "General Learning"],
     topics: [
-      "Parts of Speech",
-      "Building Correct Sentences",
-      "Essential Grammar",
-      "Vocabulary Development",
-      "Reading Comprehension",
-      "Writing Clear Paragraphs",
-      "Speaking and Everyday Communication"
+      "Understanding Personal Hygiene",
+      "Handwashing and Cleanliness",
+      "Oral Health and Dental Care",
+      "Clean Water and Safe Sanitation",
+      "Understanding How Diseases Spread",
+      "Preventing Common Infections",
+      "Building Healthy Daily Habits"
     ]
   },
   {
+    slug: "nutrition-healthy-living",
+    category: "Health and Safety",
+    title: "Nutrition and Healthy Living",
+    description: "Understand balanced nutrition, healthy routines, and informed everyday health choices.",
+    icon: "🥗",
+    educationLevels: ["Primary Education", "Secondary Education", "General Learning"],
+    topics: [
+      "Introduction to Nutrition",
+      "Understanding Food Groups",
+      "Balanced Meals and Healthy Eating",
+      "Water and Hydration",
+      "Physical Activity and Everyday Wellbeing",
+      "Sleep and Healthy Routines",
+      "Making Informed Health Choices"
+    ]
+  },
+  {
+    slug: "public-health",
+    category: "Health and Safety",
+    title: "Public Health Awareness",
+    description: "Explore community health, disease prevention, and the importance of health education.",
+    icon: "🏥",
+    educationLevels: ["Secondary Education", "TVET / Technical Education", "University / Higher Education"],
+    topics: [
+      "Introduction to Public Health",
+      "Health in Families and Communities",
+      "Disease Prevention and Health Education",
+      "Vaccination Awareness",
+      "Environmental Health",
+      "Accessing Reliable Health Information",
+      "Community Participation in Health"
+    ]
+  },
+  {
+    slug: "workplace-safety",
+    category: "Health and Safety",
+    title: "Workplace and Community Safety",
+    description: "Recognize common safety concerns and understand responsible prevention practices.",
+    icon: "🦺",
+    educationLevels: ["Secondary Education", "TVET / Technical Education", "University / Higher Education"],
+    topics: [
+      "Introduction to Safety Principles",
+      "Recognizing Common Hazards",
+      "Understanding Safety Signs",
+      "Personal Protective Equipment Awareness",
+      "Fire and Emergency Safety Awareness",
+      "Reporting Safety Concerns",
+      "Building a Culture of Safety"
+    ]
+  },
+
+  // =====================================================
+  // 2. TECHNOLOGY AND DIGITAL SKILLS
+  // =====================================================
+  {
     slug: "computer-skills",
+    category: "Technology and Digital Skills",
     title: "Computer Skills",
-    description: "Develop practical digital literacy for school and work.",
+    description: "Develop practical computer knowledge for education, communication, and work.",
     icon: "💻",
+    educationLevels: ["Primary Education", "Secondary Education", "TVET / Technical Education", "General Learning"],
     topics: [
       "Introduction to Computers",
       "Using a Keyboard and Mouse",
@@ -5348,25 +5398,84 @@ const learnLoopCourses = [
     ]
   },
   {
-    slug: "communication",
-    title: "Communication Skills",
-    description: "Express ideas clearly and work effectively with others.",
-    icon: "🗣️",
+    slug: "digital-literacy",
+    category: "Technology and Digital Skills",
+    title: "Internet and Digital Literacy",
+    description: "Learn to navigate online information, digital platforms, and everyday internet tools.",
+    icon: "🌐",
+    educationLevels: ["Primary Education", "Secondary Education", "General Learning"],
     topics: [
-      "The Communication Process",
-      "Verbal Communication",
-      "Nonverbal Communication",
-      "Active Listening",
-      "Public Speaking Basics",
-      "Giving and Receiving Feedback",
-      "Respectful Communication Across Differences"
+      "Understanding the Internet",
+      "Using Web Browsers and Search Engines",
+      "Finding Reliable Online Information",
+      "Digital Communication Tools",
+      "Online Learning Platforms",
+      "Digital Footprints and Online Responsibility",
+      "Evaluating Information and Avoiding Misinformation"
     ]
   },
   {
+    slug: "coding-fundamentals",
+    category: "Technology and Digital Skills",
+    title: "Coding Fundamentals",
+    description: "Discover programming concepts and learn how digital applications are developed.",
+    icon: "👨‍💻",
+    educationLevels: ["Secondary Education", "TVET / Technical Education", "University / Higher Education"],
+    topics: [
+      "Introduction to Programming",
+      "Understanding Algorithms",
+      "Variables and Data Types",
+      "Conditions and Decision-Making",
+      "Loops and Repetition",
+      "Functions and Reusable Code",
+      "Introduction to Building Simple Programs"
+    ]
+  },
+  {
+    slug: "cybersecurity-awareness",
+    category: "Technology and Digital Skills",
+    title: "Cybersecurity Awareness",
+    description: "Understand digital risks and learn responsible ways to protect information and accounts.",
+    icon: "🔐",
+    educationLevels: ["Secondary Education", "TVET / Technical Education", "University / Higher Education", "General Learning"],
+    topics: [
+      "Introduction to Cybersecurity",
+      "Understanding Personal Information",
+      "Strong Passwords and Account Protection",
+      "Recognizing Online Scams",
+      "Safe Browsing and Downloads",
+      "Privacy and Digital Security",
+      "Responsible Reporting of Online Threats"
+    ]
+  },
+  {
+    slug: "ai-data-literacy",
+    category: "Technology and Digital Skills",
+    title: "Artificial Intelligence and Data Literacy",
+    description: "Explore artificial intelligence, data, responsible use, and modern digital opportunities.",
+    icon: "🤖",
+    educationLevels: ["Secondary Education", "TVET / Technical Education", "University / Higher Education"],
+    topics: [
+      "Introduction to Artificial Intelligence",
+      "Understanding Data and Information",
+      "How AI Systems Are Used",
+      "Introduction to Data Analysis",
+      "Checking AI-Generated Information",
+      "Ethics, Privacy, and Responsible AI",
+      "AI Skills for Education and Work"
+    ]
+  },
+
+  // =====================================================
+  // 3. BUSINESS AND ENTREPRENEURSHIP
+  // =====================================================
+  {
     slug: "financial-literacy",
+    category: "Business and Entrepreneurship",
     title: "Financial Literacy",
-    description: "Understand budgeting, saving, spending, and financial decisions.",
+    description: "Understand budgeting, saving, spending, and responsible financial decisions.",
     icon: "💰",
+    educationLevels: ["Secondary Education", "TVET / Technical Education", "University / Higher Education", "General Learning"],
     topics: [
       "Understanding Money",
       "Needs Versus Wants",
@@ -5378,10 +5487,351 @@ const learnLoopCourses = [
     ]
   },
   {
+    slug: "entrepreneurship",
+    category: "Business and Entrepreneurship",
+    title: "Entrepreneurship Fundamentals",
+    description: "Discover how business ideas become useful products, services, and sustainable ventures.",
+    icon: "🚀",
+    educationLevels: ["Secondary Education", "TVET / Technical Education", "University / Higher Education"],
+    topics: [
+      "Introduction to Entrepreneurship",
+      "Identifying Problems and Opportunities",
+      "Developing a Business Idea",
+      "Understanding Customers and Markets",
+      "Planning Resources and Costs",
+      "Introduction to Business Models",
+      "Starting and Improving a Small Venture"
+    ]
+  },
+  {
+    slug: "business-management",
+    category: "Business and Entrepreneurship",
+    title: "Business Management",
+    description: "Build an understanding of planning, organizing, managing, and improving businesses.",
+    icon: "🏢",
+    educationLevels: ["TVET / Technical Education", "University / Higher Education"],
+    topics: [
+      "Introduction to Business Management",
+      "Planning Business Activities",
+      "Organizing People and Resources",
+      "Understanding Business Operations",
+      "Customer Service and Relationships",
+      "Monitoring Business Performance",
+      "Responsible and Sustainable Management"
+    ]
+  },
+  {
+    slug: "accounting-basics",
+    category: "Business and Entrepreneurship",
+    title: "Accounting Basics",
+    description: "Understand basic financial records, transactions, budgets, and business reporting.",
+    icon: "📊",
+    educationLevels: ["TVET / Technical Education", "University / Higher Education"],
+    topics: [
+      "Introduction to Accounting",
+      "Understanding Business Transactions",
+      "Income and Expenses",
+      "Assets and Liabilities",
+      "Introduction to Financial Records",
+      "Understanding Basic Financial Statements",
+      "Accuracy and Responsibility in Record-Keeping"
+    ]
+  },
+  {
+    slug: "project-management",
+    category: "Business and Entrepreneurship",
+    title: "Project Management Fundamentals",
+    description: "Learn how to plan, organize, monitor, and evaluate projects effectively.",
+    icon: "📋",
+    educationLevels: ["Secondary Education", "TVET / Technical Education", "University / Higher Education"],
+    topics: [
+      "Introduction to Project Management",
+      "Defining Project Goals",
+      "Planning Tasks and Timelines",
+      "Managing Resources and Budgets",
+      "Team Coordination and Communication",
+      "Monitoring Risks and Progress",
+      "Project Evaluation and Reporting"
+    ]
+  },
+
+  // =====================================================
+  // 4. LEADERSHIP AND SOCIAL DEVELOPMENT
+  // =====================================================
+  {
+    slug: "leadership",
+    category: "Leadership and Social Development",
+    title: "Leadership",
+    description: "Build responsibility, teamwork, decision-making, and leadership skills.",
+    icon: "👥",
+    educationLevels: ["Secondary Education", "TVET / Technical Education", "University / Higher Education", "General Learning"],
+    topics: [
+      "Understanding Leadership",
+      "Qualities of a Good Leader",
+      "Communication and Active Listening",
+      "Teamwork and Collaboration",
+      "Decision-Making and Problem-Solving",
+      "Managing Conflict and Disagreement",
+      "Ethics, Responsibility, and Leading by Example"
+    ]
+  },
+  {
+    slug: "teamwork-collaboration",
+    category: "Leadership and Social Development",
+    title: "Teamwork and Collaboration",
+    description: "Develop cooperation, shared responsibility, and effective group-work skills.",
+    icon: "🤝",
+    educationLevels: ["Primary Education", "Secondary Education", "TVET / Technical Education", "General Learning"],
+    topics: [
+      "Understanding Teamwork",
+      "Roles and Responsibilities in a Team",
+      "Respecting Different Ideas",
+      "Sharing Tasks Fairly",
+      "Collaborative Problem-Solving",
+      "Building Trust and Accountability",
+      "Evaluating Team Performance"
+    ]
+  },
+  {
+    slug: "conflict-resolution",
+    category: "Leadership and Social Development",
+    title: "Conflict Resolution",
+    description: "Understand disagreements and develop respectful approaches to resolving conflict.",
+    icon: "⚖️",
+    educationLevels: ["Secondary Education", "TVET / Technical Education", "University / Higher Education"],
+    topics: [
+      "Understanding Conflict",
+      "Common Causes of Disagreement",
+      "Listening to Different Perspectives",
+      "Respectful Communication During Conflict",
+      "Negotiation and Fair Solutions",
+      "When to Seek Mediation or Support",
+      "Preventing Repeated Conflicts"
+    ]
+  },
+  {
+    slug: "community-development",
+    category: "Leadership and Social Development",
+    title: "Community Development",
+    description: "Explore community needs, participation, cooperation, and positive social change.",
+    icon: "🌍",
+    educationLevels: ["Secondary Education", "TVET / Technical Education", "University / Higher Education"],
+    topics: [
+      "Understanding Communities",
+      "Identifying Community Needs",
+      "Community Participation",
+      "Planning Community Activities",
+      "Volunteering and Social Responsibility",
+      "Working with Community Organizations",
+      "Measuring Community Impact"
+    ]
+  },
+  {
+    slug: "civic-education",
+    category: "Leadership and Social Development",
+    title: "Civic Education and Responsible Citizenship",
+    description: "Understand citizenship, rights, responsibilities, and constructive participation in society.",
+    icon: "🏛️",
+    educationLevels: ["Secondary Education", "University / Higher Education", "General Learning"],
+    topics: [
+      "Understanding Citizenship",
+      "Rights and Responsibilities",
+      "Respect for Laws and Institutions",
+      "Participation in Community Life",
+      "Equality and Respect for Others",
+      "Responsible Public Dialogue",
+      "Contributing to Positive Social Change"
+    ]
+  },
+
+  // =====================================================
+  // 5. LANGUAGES AND COMMUNICATION
+  // =====================================================
+  {
+    slug: "english",
+    category: "Languages and Communication",
+    title: "English Communication",
+    description: "Improve grammar, vocabulary, reading, writing, and everyday speaking.",
+    icon: "📘",
+    educationLevels: ["Primary Education", "Secondary Education", "TVET / Technical Education", "General Learning"],
+    topics: [
+      "Parts of Speech",
+      "Building Correct Sentences",
+      "Essential Grammar",
+      "Vocabulary Development",
+      "Reading Comprehension",
+      "Writing Clear Paragraphs",
+      "Speaking and Everyday Communication"
+    ]
+  },
+  {
+    slug: "french-communication",
+    category: "Languages and Communication",
+    title: "French Communication",
+    description: "Develop foundational French vocabulary, grammar, reading, and conversation skills.",
+    icon: "🇫🇷",
+    educationLevels: ["Primary Education", "Secondary Education", "General Learning"],
+    topics: [
+      "French Greetings and Introductions",
+      "Everyday Vocabulary",
+      "Numbers, Dates, and Time",
+      "Basic French Sentence Structure",
+      "Common Verbs and Expressions",
+      "Reading and Understanding Short Texts",
+      "Everyday French Conversations"
+    ]
+  },
+  {
+    slug: "kinyarwanda-communication",
+    category: "Languages and Communication",
+    title: "Kinyarwanda Communication",
+    description: "Strengthen Kinyarwanda reading, writing, vocabulary, and effective communication.",
+    icon: "🇷🇼",
+    educationLevels: ["Primary Education", "Secondary Education", "General Learning"],
+    topics: [
+      "Kinyarwanda Communication Foundations",
+      "Vocabulary and Expressions",
+      "Sentence Construction",
+      "Reading Comprehension",
+      "Writing Clear Messages",
+      "Respectful Everyday Conversations",
+      "Communicating Ideas Confidently"
+    ]
+  },
+  {
+    slug: "communication",
+    category: "Languages and Communication",
+    title: "Communication Skills",
+    description: "Express ideas clearly and work effectively with other people.",
+    icon: "🗣️",
+    educationLevels: ["Secondary Education", "TVET / Technical Education", "University / Higher Education", "General Learning"],
+    topics: [
+      "The Communication Process",
+      "Verbal Communication",
+      "Nonverbal Communication",
+      "Active Listening",
+      "Public Speaking Basics",
+      "Giving and Receiving Feedback",
+      "Respectful Communication Across Differences"
+    ]
+  },
+  {
+    slug: "professional-writing",
+    category: "Languages and Communication",
+    title: "Professional Writing",
+    description: "Learn to prepare clear, organized, and appropriate written communication.",
+    icon: "✍️",
+    educationLevels: ["Secondary Education", "TVET / Technical Education", "University / Higher Education"],
+    topics: [
+      "Principles of Clear Writing",
+      "Writing Professional Emails",
+      "Formal and Informal Language",
+      "Paragraph and Document Organization",
+      "Reports and Summaries",
+      "Editing and Proofreading",
+      "Responsible Use of Sources and References"
+    ]
+  },
+
+  // =====================================================
+  // 6. AGRICULTURE AND ENVIRONMENT
+  // =====================================================
+  {
+    slug: "modern-agriculture",
+    category: "Agriculture and Environment",
+    title: "Introduction to Modern Agriculture",
+    description: "Explore agricultural systems, farming knowledge, and responsible innovation.",
+    icon: "🌱",
+    educationLevels: ["Secondary Education", "TVET / Technical Education", "University / Higher Education"],
+    topics: [
+      "Understanding Modern Agriculture",
+      "Types of Agricultural Systems",
+      "Crop Production Fundamentals",
+      "Livestock Production Awareness",
+      "Agricultural Tools and Technology",
+      "Farm Planning and Record-Keeping",
+      "Innovation in Agriculture"
+    ]
+  },
+  {
+    slug: "sustainable-farming",
+    category: "Agriculture and Environment",
+    title: "Sustainable Farming",
+    description: "Understand farming practices that support productivity and environmental care.",
+    icon: "🌾",
+    educationLevels: ["Secondary Education", "TVET / Technical Education", "University / Higher Education"],
+    topics: [
+      "Introduction to Sustainable Agriculture",
+      "Soil Health and Conservation",
+      "Water-Smart Farming",
+      "Crop Diversity and Rotation",
+      "Responsible Use of Farm Inputs",
+      "Reducing Agricultural Waste",
+      "Building Resilient Farming Systems"
+    ]
+  },
+  {
+    slug: "soil-water-conservation",
+    category: "Agriculture and Environment",
+    title: "Soil and Water Conservation",
+    description: "Learn why soil and water resources matter and how they can be protected.",
+    icon: "💧",
+    educationLevels: ["Secondary Education", "TVET / Technical Education", "University / Higher Education"],
+    topics: [
+      "Understanding Soil Resources",
+      "Soil Types and Basic Properties",
+      "Causes of Soil Erosion",
+      "Soil Conservation Principles",
+      "Understanding Water Resources",
+      "Water Conservation Practices",
+      "Protecting Land and Water for the Future"
+    ]
+  },
+  {
+    slug: "climate-environment",
+    category: "Agriculture and Environment",
+    title: "Climate Change and Environmental Awareness",
+    description: "Understand environmental challenges, climate impacts, and sustainable choices.",
+    icon: "🌍",
+    educationLevels: ["Primary Education", "Secondary Education", "TVET / Technical Education", "General Learning"],
+    topics: [
+      "Introduction to the Environment",
+      "Understanding Climate and Weather",
+      "Introduction to Climate Change",
+      "Climate Impacts on Communities",
+      "Biodiversity and Ecosystems",
+      "Waste Management and Pollution Prevention",
+      "Environmental Responsibility and Action"
+    ]
+  },
+  {
+    slug: "food-systems-agribusiness",
+    category: "Agriculture and Environment",
+    title: "Food Systems and Agribusiness",
+    description: "Explore how food is produced, processed, distributed, and connected to business.",
+    icon: "🚜",
+    educationLevels: ["TVET / Technical Education", "University / Higher Education"],
+    topics: [
+      "Understanding Food Systems",
+      "Food Production and Supply",
+      "Food Quality and Safety Awareness",
+      "Storage and Post-Harvest Management",
+      "Agricultural Markets and Customers",
+      "Introduction to Agribusiness",
+      "Innovation and Opportunities in Food Systems"
+    ]
+  },
+
+  // =====================================================
+  // 7. PROFESSIONAL AND CAREER DEVELOPMENT
+  // =====================================================
+  {
     slug: "career-readiness",
+    category: "Professional and Career Development",
     title: "Career Readiness",
     description: "Prepare for opportunities in education, employment, and community life.",
     icon: "🎯",
+    educationLevels: ["Secondary Education", "TVET / Technical Education", "University / Higher Education"],
     topics: [
       "Discovering Your Strengths",
       "Setting Personal and Career Goals",
@@ -5391,10 +5841,77 @@ const learnLoopCourses = [
       "Workplace Ethics and Reliability",
       "Continuous Learning and Career Growth"
     ]
+  },
+  {
+    slug: "workplace-ethics",
+    category: "Professional and Career Development",
+    title: "Workplace Ethics and Professionalism",
+    description: "Develop responsible workplace conduct, integrity, and professional habits.",
+    icon: "💼",
+    educationLevels: ["TVET / Technical Education", "University / Higher Education"],
+    topics: [
+      "Understanding Workplace Professionalism",
+      "Integrity and Honesty at Work",
+      "Respect and Professional Conduct",
+      "Time Management and Reliability",
+      "Confidentiality and Responsibility",
+      "Working with Rules and Policies",
+      "Continuous Professional Improvement"
+    ]
+  },
+  {
+    slug: "cv-job-applications",
+    category: "Professional and Career Development",
+    title: "CV Writing and Job Applications",
+    description: "Learn how to present your education, skills, and experience in applications.",
+    icon: "📄",
+    educationLevels: ["Secondary Education", "TVET / Technical Education", "University / Higher Education"],
+    topics: [
+      "Understanding CVs and Résumés",
+      "Identifying Skills and Experience",
+      "Organizing Education and Qualifications",
+      "Writing a Clear Professional Profile",
+      "Preparing Application Letters",
+      "Checking and Improving Applications",
+      "Adapting Applications to Opportunities"
+    ]
+  },
+  {
+    slug: "interview-skills",
+    category: "Professional and Career Development",
+    title: "Interview Preparation and Skills",
+    description: "Build confidence in preparing for interviews and communicating your abilities.",
+    icon: "🎤",
+    educationLevels: ["Secondary Education", "TVET / Technical Education", "University / Higher Education"],
+    topics: [
+      "Understanding Interview Formats",
+      "Researching an Opportunity",
+      "Preparing for Common Questions",
+      "Explaining Skills and Experience",
+      "Professional Communication",
+      "Asking Appropriate Questions",
+      "Reflecting and Improving After Interviews"
+    ]
+  },
+  {
+    slug: "research-study-skills",
+    category: "Professional and Career Development",
+    title: "Research and Effective Study Skills",
+    description: "Improve learning strategies, research habits, critical thinking, and academic organization.",
+    icon: "📚",
+    educationLevels: ["Secondary Education", "TVET / Technical Education", "University / Higher Education"],
+    topics: [
+      "Understanding Effective Learning",
+      "Planning Study Time",
+      "Note-Taking and Information Organization",
+      "Researching Reliable Sources",
+      "Critical Thinking and Evidence",
+      "Referencing and Academic Integrity",
+      "Reviewing Knowledge and Preparing for Assessments"
+    ]
   }
+
 ];
-
-
 const academyLeadershipLessons = [
   {
     title: "Understanding Leadership",
