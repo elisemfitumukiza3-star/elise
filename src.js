@@ -5417,6 +5417,1696 @@ const academyAdditionalLessons = {
       keyPoint: "Consistent, practical hygiene habits support lifelong health and community wellbeing."
     }
   ],
+     "public-health": [
+    {
+      title: "Introduction to Public Health",
+      paragraphs: [
+        "Public health is the organized effort to protect and improve the health of individuals and entire communities. Unlike healthcare that focuses mainly on treating individual patients, public health also works to prevent illness and create conditions that allow people to live healthier lives.",
+        "Public health involves governments, healthcare workers, schools, families, researchers, and community organizations. Their work includes health education, disease monitoring, vaccination programmes, sanitation, and improving access to essential services.",
+        "For example, a community health campaign that teaches safe water practices can help prevent illness among many households. This demonstrates how prevention and cooperation can improve community wellbeing."
+      ],
+      keyPoint: "Public health protects communities through prevention, education, cooperation, and accessible health services."
+    },
+    {
+      title: "Health Promotion and Disease Prevention",
+      paragraphs: [
+        "Health promotion helps people gain knowledge and develop the ability to make informed decisions about their wellbeing. It encourages healthy environments, supportive policies, and positive everyday practices.",
+        "Disease prevention includes activities that reduce the risk of illness. Examples include vaccination, hand hygiene, safe food handling, regular health checks, and access to accurate health information.",
+        "Prevention can take place at different stages. Some activities prevent illness before it begins, while others identify health concerns early or support people already living with a condition."
+      ],
+      keyPoint: "Promoting health and preventing disease can reduce avoidable illness and improve quality of life."
+    },
+    {
+      title: "Understanding Communicable Diseases",
+      paragraphs: [
+        "Communicable diseases are illnesses caused by infectious agents that can spread between people or through other routes. These agents include certain bacteria, viruses, parasites, and fungi.",
+        "Transmission can occur through different routes, including respiratory droplets, contaminated food or water, infected surfaces, and certain insect vectors. The route depends on the particular disease.",
+        "Prevention measures vary according to the disease. They may include vaccination, clean water, appropriate sanitation, hand hygiene, safe food practices, and following guidance from qualified health professionals."
+      ],
+      keyPoint: "Understanding how infections spread helps communities choose suitable prevention measures."
+    },
+    {
+      title: "Understanding Non-Communicable Diseases",
+      paragraphs: [
+        "Non-communicable diseases are generally long-lasting conditions that do not spread directly from one person to another. Examples include diabetes, cardiovascular diseases, many cancers, and chronic respiratory diseases.",
+        "Their development can involve several factors, including inherited characteristics, environmental conditions, lifestyle influences, and access to healthcare. Not every risk factor is within an individual's control.",
+        "Public health responses include education, early detection, accessible treatment, supportive environments, and policies that reduce preventable risks. Respect and support are important for people living with these conditions."
+      ],
+      keyPoint: "Non-communicable diseases require prevention, early attention, long-term care, and community support."
+    },
+    {
+      title: "Community Health Services",
+      paragraphs: [
+        "Community health services bring essential health information and support closer to the people who need them. They may include health education, maternal and child health services, vaccination, screening, and referrals.",
+        "Community health workers can help connect households with healthcare facilities. They may share reliable information, encourage preventive services, and help people understand where to seek professional care.",
+        "Effective community health services depend on trained workers, adequate resources, respectful communication, confidentiality, and cooperation between communities and healthcare institutions."
+      ],
+      keyPoint: "Accessible community health services help connect people with prevention, information, and professional care."
+    },
+    {
+      title: "Environmental Health",
+      paragraphs: [
+        "Environmental health examines how surroundings influence human wellbeing. Important areas include safe drinking water, sanitation, air quality, housing, food safety, waste management, and protection from environmental hazards.",
+        "Poor environmental conditions can contribute to illness and affect learning, work, and daily life. Clean water systems, proper waste disposal, good ventilation, and safe public spaces can reduce many environmental health risks.",
+        "Communities, institutions, and individuals all have responsibilities. Local environmental improvements are more effective when residents participate in identifying concerns and supporting practical solutions."
+      ],
+      keyPoint: "A clean and safe environment is an important foundation for community health."
+    },
+    {
+      title: "Public Health Education and Responsibility",
+      paragraphs: [
+        "Public health education helps people understand health information and use it to make informed decisions. Clear communication is especially important when communities face disease outbreaks, environmental concerns, or misleading information.",
+        "Reliable health information should come from qualified professionals and trusted public health institutions. Information should be communicated in language that people can understand and should respect different backgrounds and circumstances.",
+        "Everyone can contribute by supporting healthy environments, sharing verified information responsibly, respecting others, and using appropriate health services. Public health is strongest when individuals and institutions work together."
+      ],
+      keyPoint: "Accurate information, responsible decisions, and community cooperation strengthen public health."
+    }
+  ],
+    "workplace-safety": [
+    {
+      title: "Introduction to Workplace Safety",
+      paragraphs: [
+        "Workplace safety refers to the policies, practices, and conditions that protect people from injury, illness, and avoidable risks while working. It applies to offices, schools, workshops, farms, factories, hospitals, and other working environments.",
+        "A safe workplace protects employees, visitors, customers, and employers. It also supports productivity because people can concentrate better when their working environment is organized and risks are properly managed.",
+        "Safety is a shared responsibility. Employers should provide suitable working conditions, information, training, and protective measures, while workers should follow safety guidance and report concerns."
+      ],
+      keyPoint: "Workplace safety protects people and supports a healthy, productive working environment."
+    },
+    {
+      title: "Identifying Workplace Hazards",
+      paragraphs: [
+        "A workplace hazard is anything that could potentially cause injury, illness, or damage. Hazards can be physical, chemical, biological, ergonomic, or psychosocial.",
+        "Examples include slippery floors, excessive noise, poor lighting, exposure to harmful substances, infectious materials, uncomfortable working positions, and excessive workplace stress.",
+        "Identifying hazards requires paying attention to the environment, equipment, work activities, and experiences of workers. Employees should report unsafe conditions through the appropriate workplace channels."
+      ],
+      keyPoint: "Recognizing different types of hazards is an important first step in preventing workplace harm."
+    },
+    {
+      title: "Risk Awareness and Prevention",
+      paragraphs: [
+        "A workplace risk is the possibility that a hazard will cause harm, together with the seriousness of the possible consequences. Risk assessment helps organizations understand which concerns require attention.",
+        "Prevention begins by identifying hazards, considering who may be affected, and selecting appropriate control measures. Where possible, dangerous hazards should be removed or replaced with safer alternatives.",
+        "Other controls may include physical barriers, clear procedures, training, appropriate supervision, and suitable protective equipment. Organizations should review controls regularly to ensure they remain effective."
+      ],
+      keyPoint: "Good risk management identifies hazards and applies suitable measures to reduce exposure to harm."
+    },
+    {
+      title: "Safe Use of Tools and Equipment",
+      paragraphs: [
+        "Tools and equipment should be suitable for the task and maintained in a safe condition. Damaged, poorly maintained, or unsuitable equipment can create unnecessary workplace risks.",
+        "Workers should receive appropriate instruction before using unfamiliar equipment. They should follow manufacturer guidance and workplace procedures rather than improvising or ignoring safety requirements.",
+        "Defective equipment should be reported and handled according to workplace rules. Only appropriately trained and authorized people should perform maintenance or repairs."
+      ],
+      keyPoint: "Suitable equipment, proper training, and regular maintenance help prevent avoidable accidents."
+    },
+    {
+      title: "Emergency Preparedness",
+      paragraphs: [
+        "Emergency preparedness means planning how people should respond to unexpected events such as fires, serious accidents, severe weather, or other threats to safety.",
+        "Workplaces should have clear emergency procedures, accessible exits, suitable warning systems, designated assembly areas, and appropriate communication arrangements. Workers should know how to find and follow these procedures.",
+        "Emergency training and practice help people understand their responsibilities. During an actual emergency, individuals should follow official instructions and avoid actions beyond their training."
+      ],
+      keyPoint: "Clear emergency plans and regular awareness activities help people respond more safely."
+    },
+    {
+      title: "Workplace Health and Hygiene",
+      paragraphs: [
+        "Workplace health includes physical and mental wellbeing. Hygiene practices help maintain clean shared environments and reduce the spread of infections.",
+        "Useful practices include maintaining clean facilities, providing safe drinking water, managing waste appropriately, keeping shared surfaces clean, and ensuring suitable ventilation where possible.",
+        "Organizations should also consider workload, rest, respectful relationships, and access to appropriate support. A healthy workplace values the wellbeing and dignity of everyone."
+      ],
+      keyPoint: "Workplace wellbeing includes cleanliness, health protection, and respect for people."
+    },
+    {
+      title: "Building a Safety Culture",
+      paragraphs: [
+        "A safety culture exists when people at every level treat safety as an important part of everyday work. It is reflected in decisions, communication, leadership, and the way concerns are handled.",
+        "Managers can encourage safety by providing resources, listening to workers, responding to reports, and ensuring that procedures are understood. Workers contribute by following guidance and sharing concerns responsibly.",
+        "Continuous improvement is essential. Reviewing incidents, learning from mistakes without unfair blame, and updating procedures can help organizations create safer environments over time."
+      ],
+      keyPoint: "A strong safety culture grows through leadership, participation, communication, and continuous improvement."
+    }
+  ],
+     "digital-literacy": [
+    {
+      title: "Understanding Digital Literacy",
+      paragraphs: [
+        "Digital literacy is the ability to use digital devices, applications, and online services confidently, safely, and effectively. It includes finding information, evaluating sources, communicating, creating content, and solving everyday problems using technology.",
+        "Digital literacy is more than knowing how to operate a phone or computer. A digitally literate person understands when technology is useful, how to choose suitable tools, and how to recognize unreliable information.",
+        "These skills are valuable in education, employment, business, healthcare, and community development. For example, learners can use digital libraries, online lessons, and educational platforms to expand their knowledge."
+      ],
+      keyPoint: "Digital literacy combines practical technology skills, critical thinking, responsible use, and online awareness."
+    },
+    {
+      title: "Using Digital Devices",
+      paragraphs: [
+        "Digital devices are electronic tools that process, store, or communicate information. Common examples include smartphones, tablets, desktop computers, laptops, digital cameras, and smart devices.",
+        "Each device has different features and purposes. Computers are useful for document preparation and complex tasks, while smartphones provide portable access to communication, information, and learning applications.",
+        "Users should understand basic device functions, including power controls, settings, connectivity, charging, and accessibility options. Choosing the right device depends on the task, available resources, and the user's needs."
+      ],
+      keyPoint: "Understanding device functions helps people choose and use technology effectively."
+    },
+    {
+      title: "Operating Systems and Applications",
+      paragraphs: [
+        "An operating system is the main software that manages a digital device. It controls important functions such as files, memory, applications, user accounts, and communication with hardware.",
+        "Examples include Microsoft Windows, macOS, Linux, Android, and iOS. Applications run on these systems to perform specific tasks such as writing documents, browsing the internet, editing images, and attending online meetings.",
+        "Users should learn how to open and close applications, manage settings, install trusted updates, and organize their work. Understanding the difference between an operating system and an application makes digital devices easier to use."
+      ],
+      keyPoint: "Operating systems manage devices, while applications help users perform specific tasks."
+    },
+    {
+      title: "Searching for Reliable Information",
+      paragraphs: [
+        "Digital platforms provide access to enormous amounts of information. Search engines, digital libraries, educational websites, and online databases help learners find information on almost any subject.",
+        "Not every online source is accurate. Users should examine the author's qualifications, publication date, evidence, references, and purpose. Comparing information from multiple trustworthy sources can help identify misleading claims.",
+        "Effective searching involves choosing specific keywords, refining search terms, and checking whether information directly answers the question. Learners should also acknowledge sources when using information in assignments or publications."
+      ],
+      keyPoint: "Effective digital research requires good search techniques and careful evaluation of sources."
+    },
+    {
+      title: "Digital Communication and Collaboration",
+      paragraphs: [
+        "Digital communication allows people to exchange information through email, messaging platforms, video meetings, discussion forums, and social networks.",
+        "Collaboration tools allow groups to share documents, organize tasks, discuss ideas, and work together even when members are in different locations. These tools are useful for school projects, professional activities, and community initiatives.",
+        "Good digital communication requires clear language, respectful behaviour, appropriate sharing, and awareness of the audience. Users should respect privacy and avoid sharing another person's information without permission."
+      ],
+      keyPoint: "Digital tools make communication and teamwork easier when used respectfully and responsibly."
+    },
+    {
+      title: "Creating and Managing Digital Content",
+      paragraphs: [
+        "Digital content includes documents, presentations, spreadsheets, photographs, videos, graphics, audio recordings, and educational materials.",
+        "Creating useful content requires selecting an appropriate application, organizing information, checking accuracy, and presenting ideas clearly. Content should be suitable for its intended audience and purpose.",
+        "Good file management includes meaningful filenames, organized folders, suitable formats, and regular backups. Users should also respect copyright, acknowledge original creators, and obtain permission where required."
+      ],
+      keyPoint: "Good digital content is accurate, organized, accessible, and respectful of other people's work."
+    },
+    {
+      title: "Responsible and Safe Digital Citizenship",
+      paragraphs: [
+        "Digital citizenship means participating in online spaces responsibly, respectfully, and safely. It includes understanding online rights, responsibilities, privacy, security, and the effects of digital behaviour.",
+        "Users should protect personal information, use strong and unique passwords, enable available security features, and be cautious with unexpected messages or unfamiliar links. They should also recognize that information shared online may remain accessible for a long time.",
+        "Responsible digital citizens communicate respectfully, report harmful content through appropriate channels, verify information before sharing it, and consider how technology affects individuals and communities."
+      ],
+      keyPoint: "Responsible digital citizenship combines online safety, respect, privacy awareness, and informed participation."
+    }
+  ],
+     "coding-fundamentals": [
+    {
+      title: "Introduction to Programming",
+      paragraphs: [
+        "Programming is the process of giving instructions to a computer so that it can perform tasks. These instructions are written using programming languages that follow specific rules and structures.",
+        "Programming is used to build websites, mobile applications, business systems, educational platforms, games, and scientific tools. Languages such as JavaScript, Python, Java, and C are used for different purposes.",
+        "A programmer identifies a problem, plans a solution, writes instructions, tests the result, and improves the program when necessary. Learning programming develops logical thinking, creativity, and problem-solving skills."
+      ],
+      keyPoint: "Programming means designing and writing instructions that help computers solve problems."
+    },
+    {
+      title: "Understanding Algorithms and Logic",
+      paragraphs: [
+        "An algorithm is a clear sequence of steps used to solve a problem or complete a task. Algorithms are important because they help programmers plan what a computer should do before writing code.",
+        "For example, an algorithm for calculating the average of three marks could involve receiving the three values, adding them together, dividing the total by three, and displaying the result.",
+        "Programming logic helps determine whether instructions are correct and whether different situations have been considered. Flowcharts and pseudocode can help represent an algorithm before it is translated into a programming language."
+      ],
+      keyPoint: "Algorithms organize problem-solving into clear steps, while logic helps ensure those steps make sense."
+    },
+    {
+      title: "Variables and Data Types",
+      paragraphs: [
+        "A variable is a named place used by a program to store information that may be used or changed during execution. Variables allow programs to work with information such as names, marks, prices, and calculations.",
+        "Programming languages support different data types. Common examples include strings for text, numbers for numerical values, and Boolean values representing true or false.",
+        "For example, a studentName variable could store the text 'Aline', while a studentScore variable could store the number 85. Choosing suitable variable names and data types makes programs easier to understand and maintain."
+      ],
+      keyPoint: "Variables store information, and data types describe the kind of information being stored."
+    },
+    {
+      title: "Conditions and Decision-Making",
+      paragraphs: [
+        "Programs often need to make decisions based on information. Conditional statements allow a program to choose what to do when a particular condition is true or false.",
+        "Common conditional structures include if, else if, and else. They allow different instructions to run depending on the situation.",
+        "For example, a learning application could check whether a learner has completed all required lessons. If the condition is satisfied, the application may display a course completion message; otherwise, it can explain what remains."
+      ],
+      keyPoint: "Conditional statements help programs respond differently to different situations."
+    },
+    {
+      title: "Loops and Repetition",
+      paragraphs: [
+        "A loop is a programming structure that repeats instructions while a particular condition is satisfied or for a specified number of times. Loops reduce unnecessary repetition in source code.",
+        "Common loop structures include for loops and while loops. A for loop is useful when the number of repetitions is known, while a while loop repeats as long as its condition remains true.",
+        "For example, a program could use a loop to display a list of course topics or calculate the total of several numbers. Programmers should ensure that loops have appropriate stopping conditions."
+      ],
+      keyPoint: "Loops make programs more efficient by repeating instructions when necessary."
+    },
+    {
+      title: "Functions and Reusable Code",
+      paragraphs: [
+        "A function is a named block of code designed to perform a particular task. Functions help programmers divide large problems into smaller, manageable parts.",
+        "Functions can receive inputs called parameters and may return a result. For example, a calculateAverage function could receive several marks and return their average.",
+        "Reusable functions reduce duplication and make programs easier to test, understand, and maintain. Well-designed functions usually have a clear purpose and meaningful names."
+      ],
+      keyPoint: "Functions organize programs into reusable sections that perform specific tasks."
+    },
+    {
+      title: "Introduction to Building Simple Projects",
+      paragraphs: [
+        "Programming knowledge becomes stronger when learners apply it to practical projects. A small project combines planning, variables, conditions, loops, functions, and testing to solve a real problem.",
+        "Beginner projects may include a simple calculator, a quiz application, a student marks organizer, or a basic personal webpage. Each project should have a clear purpose and manageable requirements.",
+        "The development process includes identifying the problem, planning the solution, writing code, testing different situations, correcting errors, and documenting the result. Learners should improve projects gradually rather than trying to build everything at once."
+      ],
+      keyPoint: "Small practical projects turn programming concepts into useful problem-solving skills."
+    }
+  ],
+     "cybersecurity-awareness": [
+    {
+      title: "Introduction to Cybersecurity",
+      paragraphs: [
+        "Cybersecurity is the practice of protecting computers, mobile devices, networks, applications, and information from unauthorized access, damage, or disruption. It helps individuals and organizations use technology with greater confidence.",
+        "Digital information may include personal photographs, school records, financial details, business documents, and communication. Protecting this information is important because misuse can affect privacy, finances, reputation, and daily activities.",
+        "Cybersecurity involves technology, good policies, user awareness, and responsible behaviour. Everyone who uses digital devices has a role in protecting information."
+      ],
+      keyPoint: "Cybersecurity protects digital devices, systems, networks, and information."
+    },
+    {
+      title: "Understanding Online Threats",
+      paragraphs: [
+        "An online threat is an activity or situation that could compromise digital safety. Common examples include malicious software, unauthorized account access, identity theft, deceptive websites, and attempts to steal information.",
+        "Malware is software designed to perform harmful or unauthorized activities. Different forms may affect files, applications, devices, or networks. Suspicious downloads and untrusted software can increase exposure to these risks.",
+        "Understanding common threats helps users recognize warning signs and make safer decisions. Keeping software updated, using trusted sources, and seeking technical support when necessary are useful protective practices."
+      ],
+      keyPoint: "Knowing common digital threats helps people recognize risks and respond responsibly."
+    },
+    {
+      title: "Passwords and Account Protection",
+      paragraphs: [
+        "Passwords help control access to personal and organizational accounts. A strong password should be difficult to guess and should not be reused across important services.",
+        "A password manager can help users create and manage unique passwords. Multi-factor authentication provides an additional layer of protection by requiring another form of verification when available.",
+        "Users should never share passwords or verification codes with other people. If an account shows signs of unauthorized access, they should use the service's official recovery and security procedures."
+      ],
+      keyPoint: "Unique passwords, multi-factor authentication, and careful account management strengthen account security."
+    },
+    {
+      title: "Recognizing Phishing and Online Scams",
+      paragraphs: [
+        "Phishing is a form of deception in which someone impersonates a trusted organization or person to persuade others to reveal information or take an unsafe action.",
+        "Warning signs may include unexpected messages, unusual requests for money, suspicious attachments, spelling errors, unfamiliar website addresses, and messages that create unnecessary urgency.",
+        "Users should verify requests through official communication channels rather than relying on contact details provided in suspicious messages. Unexpected requests for passwords, financial details, or verification codes should be treated with caution."
+      ],
+      keyPoint: "Pause and verify unexpected requests before sharing information, opening attachments, or making payments."
+    },
+    {
+      title: "Protecting Personal Information",
+      paragraphs: [
+        "Personal information includes details that identify or describe an individual, such as names, contact information, photographs, school records, location information, and account details.",
+        "Sharing too much information online can create privacy risks. Users should review privacy settings, limit unnecessary public sharing, and consider who can access the information they publish.",
+        "Organizations that collect personal information should handle it responsibly, protect it appropriately, and follow applicable privacy requirements. Individuals should also respect other people's information and obtain permission before sharing it."
+      ],
+      keyPoint: "Protecting privacy means controlling what information is shared and respecting other people's data."
+    },
+    {
+      title: "Safe Internet and Device Use",
+      paragraphs: [
+        "Safe device use involves maintaining software updates, downloading applications from trusted sources, and reviewing permissions before granting access to information or device features.",
+        "Users should be careful when connecting to unfamiliar networks and should avoid entering sensitive information on websites they cannot verify. Important files should be backed up using reliable storage options.",
+        "When using shared computers, people should avoid saving passwords, sign out of accounts after use, and ensure that personal documents are not left accessible to others."
+      ],
+      keyPoint: "Regular updates, trusted applications, careful browsing, and secure file management support safer device use."
+    },
+    {
+      title: "Responsible Cybersecurity Practices",
+      paragraphs: [
+        "Cybersecurity is a continuous responsibility rather than a single action. New technologies and threats develop over time, so users and organizations need to keep learning and reviewing their practices.",
+        "Responsible users report suspicious activity through appropriate channels, follow institutional security policies, and avoid accessing accounts or information without permission.",
+        "Schools, businesses, and communities can strengthen cybersecurity through awareness programmes, clear policies, appropriate technical safeguards, and cooperation with qualified professionals when incidents occur."
+      ],
+      keyPoint: "Responsible cybersecurity depends on continuous learning, ethical behaviour, and shared protection."
+    }
+  ],
+     "ai-data-literacy": [
+    {
+      title: "Introduction to Artificial Intelligence",
+      paragraphs: [
+        "Artificial Intelligence (AI) refers to computer systems designed to perform tasks that normally require aspects of human intelligence, such as recognizing patterns, understanding language, making predictions, and supporting decisions.",
+        "AI is used in education, healthcare, agriculture, transportation, communication, and business. Examples include language translation, recommendation systems, voice assistants, and tools that help analyze information.",
+        "AI does not think or understand the world exactly as a human does. Its outputs depend on its design, training information, and the instructions it receives. Users should therefore examine important results rather than accepting every answer automatically."
+      ],
+      keyPoint: "AI enables computer systems to perform tasks such as recognizing patterns, processing language, and supporting decisions."
+    },
+    {
+      title: "Understanding Data and Information",
+      paragraphs: [
+        "Data consists of recorded facts, observations, measurements, or values. It may appear as numbers, words, images, audio, or other forms of digital content.",
+        "Information is data that has been organized or interpreted to provide meaning. For example, individual student marks are data, while a summary showing class performance is information.",
+        "Data quality matters because incomplete, inaccurate, outdated, or biased information can lead to misleading conclusions. Good data practices include checking sources, organizing records, and respecting privacy."
+      ],
+      keyPoint: "Data provides the raw material, while analysis and interpretation turn it into useful information."
+    },
+    {
+      title: "How AI Systems Learn",
+      paragraphs: [
+        "Many AI systems use machine learning, a field in which computers identify patterns in data and use those patterns to make predictions or produce outputs.",
+        "During training, a system processes examples and adjusts its internal parameters to improve its performance on a particular task. The quality and variety of training data influence what the system learns.",
+        "AI systems can make mistakes when information is limited, unclear, outdated, or unrepresentative. Testing and evaluation help developers understand limitations and improve reliability."
+      ],
+      keyPoint: "Machine learning allows systems to identify patterns from examples, but their results depend on data and evaluation."
+    },
+    {
+      title: "Everyday Applications of AI",
+      paragraphs: [
+        "AI is already part of many everyday services. Search engines use it to organize results, translation tools help people communicate across languages, and recommendation systems suggest content based on patterns in user activity.",
+        "In education, AI tools can support explanations, language practice, research organization, and personalized learning. In agriculture, AI-assisted systems may help analyze weather, crops, or soil information.",
+        "AI should support human judgement rather than replace it in every situation. Users should consider the importance of a decision and seek qualified human advice when the consequences are significant."
+      ],
+      keyPoint: "AI can assist everyday tasks across education, communication, agriculture, and many other fields."
+    },
+    {
+      title: "Data Collection and Interpretation",
+      paragraphs: [
+        "Data collection is the process of gathering information for a particular purpose. Methods include surveys, observations, interviews, measurements, experiments, and digital records.",
+        "After collection, data may be organized into tables, charts, or summaries. Interpretation involves looking for patterns, comparing results, considering possible explanations, and identifying limitations.",
+        "For example, a school may collect attendance information and summarize it to understand patterns. The results should be interpreted carefully because a pattern alone does not always explain its cause."
+      ],
+      keyPoint: "Useful data analysis requires careful collection, organization, interpretation, and awareness of limitations."
+    },
+    {
+      title: "Responsible and Ethical AI Use",
+      paragraphs: [
+        "Responsible AI use means applying artificial intelligence in ways that respect human dignity, privacy, fairness, safety, and accountability.",
+        "AI-generated information can contain errors or reflect biases present in its training data. Users should verify important facts, acknowledge AI assistance when required, and avoid presenting generated work dishonestly as entirely their own.",
+        "Personal or confidential information should not be entered into AI tools unless the service is appropriate and the user has permission to share that information. Important decisions should involve suitable human review."
+      ],
+      keyPoint: "Ethical AI use requires verification, privacy protection, fairness, transparency, and human responsibility."
+    },
+    {
+      title: "The Future of AI and Human Skills",
+      paragraphs: [
+        "Artificial intelligence continues to influence how people study, communicate, create, and work. Future developments may change many occupations and introduce new opportunities in technology and other sectors.",
+        "Human skills remain important. Creativity, critical thinking, communication, teamwork, empathy, ethical judgement, and the ability to learn continuously help people use technology effectively.",
+        "Learners can prepare by building digital foundations, exploring AI tools responsibly, understanding data, and developing knowledge in their chosen fields. The aim is to use technology to solve meaningful problems and improve people's lives."
+      ],
+      keyPoint: "The future requires people who combine digital knowledge with creativity, critical thinking, and responsible judgement."
+    }
+  ],
+     "entrepreneurship": [
+    {
+      title: "Introduction to Entrepreneurship",
+      paragraphs: [
+        "Entrepreneurship is the process of identifying opportunities, developing ideas, organizing resources, and creating an activity or enterprise that provides value. Entrepreneurs may establish businesses, social enterprises, or community initiatives.",
+        "Entrepreneurship involves creativity, planning, responsibility, decision-making, and a willingness to learn. Entrepreneurs often work with uncertainty because customers, costs, competition, and market conditions can change.",
+        "For example, a person who identifies a need for affordable educational materials may develop a small business or service to provide those materials. The idea becomes an entrepreneurial opportunity when it can offer real value to people."
+      ],
+      keyPoint: "Entrepreneurship turns useful ideas into organized activities that create value and address needs."
+    },
+    {
+      title: "Identifying Business Opportunities",
+      paragraphs: [
+        "A business opportunity exists when a product or service can meet a real need or solve a problem for a particular group of people. Opportunities may come from changes in society, technology, customer preferences, or local conditions.",
+        "Entrepreneurs can identify opportunities by observing everyday challenges, listening to potential customers, studying available services, and examining gaps in the market.",
+        "An idea should be investigated before resources are committed. Research helps determine whether people need the proposed solution, whether they can access it, and whether the business can operate responsibly."
+      ],
+      keyPoint: "Good business opportunities begin with understanding real customer needs and practical market conditions."
+    },
+    {
+      title: "Developing a Business Idea",
+      paragraphs: [
+        "A business idea describes the product or service an entrepreneur intends to provide and the value it will offer. A strong idea identifies its intended customers and explains how it addresses their needs.",
+        "Developing an idea involves considering quality, price, convenience, accessibility, and the resources required. Entrepreneurs should also think about what makes their offering useful or different from existing alternatives.",
+        "Ideas can be improved by discussing them with potential customers, collecting feedback, and testing a small version of the proposed product or service before expanding."
+      ],
+      keyPoint: "A useful business idea clearly explains what is offered, who benefits, and how the offering creates value."
+    },
+    {
+      title: "Understanding Customers and Markets",
+      paragraphs: [
+        "A market consists of people or organizations that may need or purchase a particular product or service. Understanding a market helps entrepreneurs make informed decisions about what to offer and how to reach customers.",
+        "Market research may involve surveys, interviews, observation, and reviewing publicly available information. It can help identify customer preferences, purchasing patterns, competing products, and possible changes in demand.",
+        "Customer understanding should include more than age or location. Entrepreneurs should consider people's needs, budgets, access, preferences, and the problems they want solved."
+      ],
+      keyPoint: "Understanding customers and market conditions helps businesses develop relevant products and services."
+    },
+    {
+      title: "Creating a Business Plan",
+      paragraphs: [
+        "A business plan is a document that explains how an enterprise intends to operate and achieve its objectives. It helps organize ideas and provides a reference for making decisions.",
+        "A basic plan commonly describes the business idea, target customers, products or services, marketing approach, operational arrangements, required resources, estimated costs, and financial expectations.",
+        "A business plan should be realistic and flexible. Entrepreneurs should review it when customer needs, costs, competition, or other important conditions change."
+      ],
+      keyPoint: "A business plan turns an idea into a practical roadmap for organizing and managing an enterprise."
+    },
+    {
+      title: "Business Resources and Financial Planning",
+      paragraphs: [
+        "Businesses need resources to operate. These may include money, people, equipment, materials, technology, premises, information, and time. Entrepreneurs should identify which resources are essential and how they will be obtained.",
+        "Financial planning involves estimating start-up costs, operating expenses, expected income, and the amount of money required to keep the enterprise running. A budget helps compare planned spending with available resources.",
+        "Careful record-keeping supports better decisions. Entrepreneurs should distinguish business money from personal money where possible, monitor cash flow, and understand their financial responsibilities."
+      ],
+      keyPoint: "Responsible resource and financial planning helps businesses manage costs and maintain operations."
+    },
+    {
+      title: "Starting, Managing, and Growing a Business",
+      paragraphs: [
+        "Starting a business involves preparing the necessary resources, understanding applicable registration and legal requirements, organizing operations, and introducing the product or service to customers.",
+        "Good management includes customer service, quality control, staff coordination, financial records, communication, and regular evaluation of performance. Businesses should treat customers, employees, suppliers, and communities fairly.",
+        "Growth should be planned carefully. Entrepreneurs can improve products, reach new customers, build partnerships, and adopt suitable technology while monitoring quality, costs, and long-term sustainability."
+      ],
+      keyPoint: "Successful business development requires responsible operations, customer focus, financial awareness, and continuous improvement."
+    }
+  ],
+     "business-management": [
+    {
+      title: "Introduction to Business Management",
+      paragraphs: [
+        "Business management is the process of planning, organizing, leading, and controlling resources to achieve an organization's objectives. It helps businesses coordinate their activities and provide products or services effectively.",
+        "Management involves working with people, money, equipment, information, technology, and time. Managers make decisions that influence daily operations and the long-term direction of an organization.",
+        "Good management balances business performance with responsibility toward customers, employees, suppliers, and the wider community. It also encourages communication, accountability, and continuous learning."
+      ],
+      keyPoint: "Business management coordinates people and resources to achieve organizational goals responsibly."
+    },
+    {
+      title: "Planning and Setting Business Objectives",
+      paragraphs: [
+        "Planning means deciding what an organization wants to achieve and identifying the activities and resources needed to reach its goals. It helps businesses prepare for opportunities and challenges.",
+        "Business objectives should be clear, realistic, measurable, and connected to the organization's purpose. Examples include improving customer service, increasing product quality, reducing unnecessary costs, or reaching new markets.",
+        "Managers should review progress regularly and adjust plans when circumstances change. Good planning considers available resources, possible risks, deadlines, and the needs of stakeholders."
+      ],
+      keyPoint: "Clear objectives and realistic plans give a business direction and a way to measure progress."
+    },
+    {
+      title: "Organizing People and Resources",
+      paragraphs: [
+        "Organizing involves arranging tasks, responsibilities, people, and resources so that work can be completed effectively. It helps employees understand their roles and how their activities contribute to shared goals.",
+        "A business may divide work into areas such as finance, marketing, customer service, production, and administration. The structure depends on the organization's size and purpose.",
+        "Managers should allocate resources fairly, explain responsibilities clearly, and coordinate different teams. Effective organization reduces confusion and helps prevent unnecessary duplication of work."
+      ],
+      keyPoint: "Good organization ensures that responsibilities and resources are coordinated effectively."
+    },
+    {
+      title: "Leadership and Decision-Making",
+      paragraphs: [
+        "Leadership is the ability to guide, support, and influence people toward shared objectives. Effective business leaders communicate clearly, listen to employees, encourage cooperation, and take responsibility for their decisions.",
+        "Decision-making involves identifying a problem or opportunity, gathering relevant information, considering alternatives, and selecting a suitable course of action.",
+        "Managers should consider evidence, costs, risks, fairness, and possible effects on stakeholders. Important decisions may require consultation with employees, customers, or professional advisers."
+      ],
+      keyPoint: "Responsible leadership combines clear direction, consultation, evidence, and accountability."
+    },
+    {
+      title: "Marketing and Customer Relations",
+      paragraphs: [
+        "Marketing is the process of understanding customer needs and communicating the value of a product or service. It helps businesses connect suitable offerings with the people who may benefit from them.",
+        "Marketing activities may include product development, pricing, promotion, distribution, customer research, and brand communication. Businesses should provide accurate information and avoid misleading claims.",
+        "Customer relations focus on building trust through respectful communication, reliable service, fair treatment, and effective handling of feedback or complaints."
+      ],
+      keyPoint: "Effective marketing understands customer needs, while good customer relations build trust and loyalty."
+    },
+    {
+      title: "Business Operations and Performance",
+      paragraphs: [
+        "Business operations are the daily activities involved in producing goods or delivering services. They may include purchasing materials, managing stock, serving customers, coordinating staff, and maintaining equipment.",
+        "Performance measurement helps a business understand whether its activities are achieving the intended results. Useful measures may include product quality, customer satisfaction, operating costs, delivery times, and financial performance.",
+        "Accurate records and regular reviews help managers identify problems and opportunities. Performance information should be used to improve operations rather than simply collect numbers."
+      ],
+      keyPoint: "Monitoring daily operations and measuring performance help businesses maintain quality and efficiency."
+    },
+    {
+      title: "Business Growth and Continuous Improvement",
+      paragraphs: [
+        "Business growth may involve serving more customers, introducing new products, improving services, entering new markets, or developing partnerships. Growth should match the organization's capacity and long-term objectives.",
+        "Continuous improvement means regularly reviewing processes and making changes that improve quality, efficiency, customer experience, or working conditions. Feedback from employees and customers can reveal areas that need attention.",
+        "Sustainable growth requires responsible financial management, ethical leadership, good planning, and awareness of environmental and social responsibilities."
+      ],
+      keyPoint: "Strong businesses improve continuously and pursue growth that they can manage responsibly."
+    }
+  ],
+     "accounting-basics": [
+    {
+      title: "Introduction to Accounting",
+      paragraphs: [
+        "Accounting is the process of identifying, recording, organizing, summarizing, and communicating financial information. It helps individuals and organizations understand how money and other resources are being used.",
+        "Businesses use accounting information to monitor performance, plan activities, meet financial obligations, and make informed decisions. Individuals can also use basic accounting ideas to manage personal finances.",
+        "Accounting records should be accurate, organized, and supported by reliable evidence. Examples of supporting documents include receipts, invoices, payment confirmations, and bank statements."
+      ],
+      keyPoint: "Accounting provides organized financial information that supports planning, accountability, and decision-making."
+    },
+    {
+      title: "Understanding Assets, Liabilities, and Equity",
+      paragraphs: [
+        "Assets are resources controlled by an individual or organization that have economic value. Examples include cash, equipment, buildings, inventory, and money owed by customers.",
+        "Liabilities are financial obligations that must be paid or settled. Examples include loans, unpaid supplier invoices, and other amounts owed to individuals or institutions.",
+        "Equity represents the owner's remaining interest in the assets after liabilities are deducted. The basic accounting equation is Assets = Liabilities + Equity. This relationship helps explain the financial position of a business."
+      ],
+      keyPoint: "Assets are resources, liabilities are obligations, and equity represents the owner's interest."
+    },
+    {
+      title: "Income, Expenses, and Profit",
+      paragraphs: [
+        "Income is money earned through business activities or other recognized sources. For a business, revenue commonly comes from selling products or providing services.",
+        "Expenses are the costs incurred while operating an organization. They may include rent, salaries, transport, communication, supplies, and utilities.",
+        "Profit is generally calculated by subtracting expenses from revenue for a particular period. If expenses are greater than revenue, the business records a loss. Understanding these amounts helps managers evaluate performance."
+      ],
+      keyPoint: "Comparing revenue and expenses helps determine whether an organization has made a profit or a loss."
+    },
+    {
+      title: "Recording Financial Transactions",
+      paragraphs: [
+        "A financial transaction is an event that affects the financial position or activities of an individual or organization. Examples include receiving customer payments, purchasing supplies, paying rent, and borrowing money.",
+        "Transactions should be recorded clearly and supported by appropriate documents. Records commonly include the date, description, amount, and relevant accounts affected.",
+        "The double-entry accounting system records each transaction in at least two accounts, helping maintain the accounting equation. Organized records make it easier to review activities and identify errors."
+      ],
+      keyPoint: "Accurate transaction records provide a reliable history of financial activities."
+    },
+    {
+      title: "Understanding Financial Statements",
+      paragraphs: [
+        "Financial statements summarize important accounting information and help users understand an organization's financial performance and position.",
+        "The income statement reports revenue and expenses over a period. The statement of financial position, also called the balance sheet, presents assets, liabilities, and equity at a particular date.",
+        "The cash flow statement explains how cash enters and leaves an organization through operating, investing, and financing activities. Reading these statements together provides a broader understanding of financial health."
+      ],
+      keyPoint: "Financial statements communicate an organization's performance, financial position, and cash movements."
+    },
+    {
+      title: "Budgeting and Financial Control",
+      paragraphs: [
+        "A budget is a financial plan that estimates expected income and spending over a particular period. It helps organizations allocate resources, prepare for costs, and work toward financial objectives.",
+        "Financial control involves comparing actual results with the budget, reviewing differences, and deciding whether corrective action is needed. This helps prevent unnecessary spending and identify changing financial needs.",
+        "A useful budget should be realistic, regularly reviewed, and connected to organizational priorities. Good financial control also includes authorization procedures, clear responsibilities, and appropriate record-keeping."
+      ],
+      keyPoint: "Budgets guide financial planning, while financial controls help monitor how resources are used."
+    },
+    {
+      title: "Accounting Ethics and Responsible Record-Keeping",
+      paragraphs: [
+        "Accounting ethics refers to the principles that guide honest, fair, and responsible handling of financial information. Important principles include integrity, objectivity, confidentiality, professional competence, and accountability.",
+        "Financial records should not be deliberately falsified, hidden, or manipulated to mislead other people. Errors should be investigated and corrected through appropriate procedures.",
+        "Organizations should protect confidential financial information, limit access to authorized people, retain required records, and follow applicable laws and reporting standards. Qualified accounting professionals can provide guidance on complex matters."
+      ],
+      keyPoint: "Ethical accounting depends on honesty, accuracy, confidentiality, and responsible financial reporting."
+    }
+  ],
+     "project-management": [
+    {
+      title: "Introduction to Project Management",
+      paragraphs: [
+        "Project management is the process of planning, organizing, coordinating, and controlling activities to achieve a specific objective within agreed limits of time, resources, and quality.",
+        "A project is a temporary activity designed to produce a particular result. Examples include organizing a school event, developing a website, constructing a building, or introducing a community learning programme.",
+        "Project management helps teams understand their responsibilities, use resources effectively, manage challenges, and measure results. Projects may be small or large, but all benefit from clear planning and communication."
+      ],
+      keyPoint: "Project management organizes people, activities, time, and resources to achieve a defined result."
+    },
+    {
+      title: "Defining Project Goals and Scope",
+      paragraphs: [
+        "A project goal explains what the project intends to achieve. Clear goals help everyone understand the desired result and provide a basis for evaluating success.",
+        "Project scope describes the work included in the project and the boundaries of what will be delivered. It helps prevent confusion about responsibilities and avoids adding unrelated activities without proper agreement.",
+        "A useful project definition identifies the problem, intended beneficiaries, expected deliverables, important limitations, and measures of success. Stakeholders should agree on these details before major work begins."
+      ],
+      keyPoint: "Clear goals and scope explain what a project must achieve and what work it includes."
+    },
+    {
+      title: "Project Planning and Scheduling",
+      paragraphs: [
+        "Project planning involves identifying the activities required to produce the expected results. These activities should be arranged in a logical order, with important dependencies and deadlines identified.",
+        "A project schedule shows when tasks should begin and finish, who is responsible, and which activities depend on others. Tools such as calendars, task lists, timelines, and Gantt charts can support scheduling.",
+        "Good planning includes realistic time estimates and opportunities to review progress. When delays occur, project teams should communicate early and adjust the schedule responsibly."
+      ],
+      keyPoint: "A realistic project schedule organizes tasks, responsibilities, dependencies, and deadlines."
+    },
+    {
+      title: "Managing Project Resources and Budgets",
+      paragraphs: [
+        "Projects require resources such as people, money, materials, equipment, information, and time. Resource management ensures that these are available and used appropriately.",
+        "A project budget estimates the costs associated with planned activities. It may include materials, transport, labour, communication, equipment, and other necessary expenses.",
+        "Project managers should monitor spending, keep financial records, obtain appropriate approvals, and compare actual costs with estimates. Changes to the budget should be documented and communicated to relevant stakeholders."
+      ],
+      keyPoint: "Responsible resource and budget management helps projects remain practical and financially controlled."
+    },
+    {
+      title: "Teamwork and Project Communication",
+      paragraphs: [
+        "Most projects involve people with different responsibilities, experiences, and skills. Effective teamwork requires cooperation, mutual respect, clear roles, and a shared understanding of project goals.",
+        "Project communication keeps team members and stakeholders informed about activities, decisions, deadlines, achievements, and challenges. Communication methods may include meetings, reports, emails, and shared project platforms.",
+        "Good project leaders encourage participation, listen to concerns, clarify misunderstandings, and ensure that important decisions are communicated to the right people."
+      ],
+      keyPoint: "Strong teamwork and clear communication help project participants coordinate their work effectively."
+    },
+    {
+      title: "Monitoring Risks and Project Progress",
+      paragraphs: [
+        "Project monitoring involves checking whether activities are being completed according to the plan. Teams can review milestones, deadlines, spending, quality, and completed deliverables.",
+        "A project risk is an uncertain event or condition that could affect project objectives. Examples include unexpected costs, resource shortages, technical difficulties, delays, and changes in requirements.",
+        "Risk management involves identifying possible problems, assessing their likelihood and impact, and preparing suitable responses. Teams should update stakeholders when important risks or delays arise."
+      ],
+      keyPoint: "Monitoring progress and managing risks help project teams identify problems before they become more difficult."
+    },
+    {
+      title: "Project Evaluation and Completion",
+      paragraphs: [
+        "Project completion involves confirming that agreed deliverables have been produced, outstanding activities have been addressed, and responsibilities have been properly closed.",
+        "Evaluation examines whether the project achieved its objectives, used resources responsibly, met quality expectations, and benefited its intended users. Feedback from stakeholders can reveal strengths and areas for improvement.",
+        "A final project report may summarize achievements, costs, challenges, lessons learned, and recommendations. Recording these lessons helps future teams plan and deliver better projects."
+      ],
+      keyPoint: "Project evaluation measures results, captures lessons, and supports improvement in future projects."
+    }
+  ],
+     "teamwork-collaboration": [
+    {
+      title: "Understanding Teamwork and Collaboration",
+      paragraphs: [
+        "Teamwork is the process of people working together toward a shared objective. Collaboration involves sharing ideas, knowledge, skills, and responsibilities to achieve results that may be difficult to accomplish individually.",
+        "Teams are found in schools, workplaces, businesses, sports, and community organizations. Members may have different experiences and abilities, but they contribute toward a common purpose.",
+        "Successful teamwork requires cooperation, responsibility, communication, patience, and respect. When members understand the value of working together, they can combine their strengths and achieve better results."
+      ],
+      keyPoint: "Teamwork brings people together to achieve shared goals through cooperation and combined effort."
+    },
+    {
+      title: "Roles and Responsibilities in a Team",
+      paragraphs: [
+        "Every effective team needs clear roles and responsibilities. A role explains the contribution expected from a member, while responsibilities describe the tasks that the member is expected to complete.",
+        "Team roles may include leadership, planning, communication, research, organization, record-keeping, and implementation. The exact roles depend on the team's purpose and the abilities of its members.",
+        "Clear responsibilities reduce confusion and help members remain accountable. Teams should discuss expectations, agree on deadlines, and communicate when someone needs assistance."
+      ],
+      keyPoint: "Clearly defined roles and responsibilities help every team member understand their contribution."
+    },
+    {
+      title: "Building Trust and Mutual Respect",
+      paragraphs: [
+        "Trust develops when team members demonstrate honesty, reliability, fairness, and consistency. Members should be able to depend on one another to complete agreed tasks and communicate truthfully.",
+        "Mutual respect means recognizing that people have different experiences, abilities, opinions, and backgrounds. Every member should have a fair opportunity to contribute without being ignored or unfairly treated.",
+        "Trust grows through keeping promises, listening carefully, respecting confidentiality where appropriate, admitting mistakes, and appreciating the contributions of others."
+      ],
+      keyPoint: "Trust and mutual respect create a supportive environment where team members can work confidently together."
+    },
+    {
+      title: "Effective Team Communication",
+      paragraphs: [
+        "Team communication is the exchange of information, ideas, instructions, and feedback among members. Clear communication helps everyone understand the team's objectives and the progress of assigned activities.",
+        "Good communication includes speaking clearly, listening actively, asking questions, sharing relevant updates, and choosing appropriate communication channels. Written records can help teams remember important decisions and responsibilities.",
+        "Misunderstandings should be addressed respectfully and early. Team members should avoid making assumptions and should confirm important information when instructions or expectations are unclear."
+      ],
+      keyPoint: "Effective communication keeps team members informed, connected, and focused on shared objectives."
+    },
+    {
+      title: "Cooperation and Shared Decision-Making",
+      paragraphs: [
+        "Cooperation occurs when team members support one another and coordinate their efforts. It requires willingness to share knowledge, contribute ideas, and help the team complete its responsibilities.",
+        "Shared decision-making allows members to participate in discussions before important choices are made. Teams can compare options, consider evidence, discuss possible consequences, and agree on a suitable direction.",
+        "Not every member will have the same opinion. Effective teams consider different viewpoints fairly and use agreed decision-making methods while keeping the team's objectives in focus."
+      ],
+      keyPoint: "Cooperation and shared decision-making help teams combine different perspectives and make informed choices."
+    },
+    {
+      title: "Managing Team Challenges",
+      paragraphs: [
+        "Teams may experience challenges such as disagreements, missed deadlines, unequal participation, unclear instructions, and limited resources. Recognizing these challenges early makes them easier to address.",
+        "When disagreements occur, members should listen to one another, identify the main issue, discuss possible solutions, and focus on facts rather than personal attacks. A neutral team leader may help guide the discussion.",
+        "Teams should review their working methods when problems continue. Adjusting responsibilities, improving communication, offering support, and agreeing on realistic deadlines can strengthen cooperation."
+      ],
+      keyPoint: "Team challenges can be managed through respectful discussion, practical solutions, and shared responsibility."
+    },
+    {
+      title: "Evaluating Team Performance",
+      paragraphs: [
+        "Team evaluation examines how effectively members worked together and whether they achieved their shared objectives. It helps identify successful practices and areas that need improvement.",
+        "Teams can evaluate performance by reviewing completed tasks, deadlines, the quality of results, communication, participation, and feedback from relevant people.",
+        "After evaluation, members should recognize achievements, discuss lessons learned, and agree on improvements for future activities. Constructive feedback helps teams become more organized and effective over time."
+      ],
+      keyPoint: "Regular evaluation helps teams recognize achievements, learn from challenges, and improve future performance."
+    }
+  ],
+     "conflict-resolution": [
+    {
+      title: "Understanding Conflict",
+      paragraphs: [
+        "Conflict occurs when individuals or groups have different interests, expectations, opinions, needs, or goals. It is a normal part of human interaction and can happen in families, schools, workplaces, and communities.",
+        "Conflict does not always have to produce negative results. When handled respectfully, disagreements can reveal misunderstandings, encourage new ideas, and help people improve their relationships.",
+        "Conflict resolution is the process of understanding a disagreement and finding a fair and acceptable way forward. It requires patience, communication, cooperation, and willingness to consider different perspectives."
+      ],
+      keyPoint: "Conflict is a disagreement that can be managed constructively through understanding and respectful communication."
+    },
+    {
+      title: "Common Causes of Conflict",
+      paragraphs: [
+        "Conflicts can arise from misunderstandings, poor communication, competition for limited resources, differences in values, unequal responsibilities, or unmet expectations.",
+        "In schools and workplaces, disagreements may develop when instructions are unclear, tasks are not shared fairly, deadlines are missed, or people feel that their contributions are not recognized.",
+        "Understanding the cause of a conflict is important before choosing a solution. People should examine the situation carefully rather than immediately blaming others or making assumptions."
+      ],
+      keyPoint: "Identifying the underlying causes of conflict helps people choose more appropriate solutions."
+    },
+    {
+      title: "Recognizing Different Perspectives",
+      paragraphs: [
+        "A perspective is the way a person understands or interprets a situation. People's perspectives are influenced by their experiences, knowledge, responsibilities, values, and expectations.",
+        "Two people may experience the same situation but understand it differently. Recognizing this helps prevent the assumption that only one person's interpretation is correct.",
+        "Considering different perspectives does not require agreeing with every opinion. It means examining the reasons behind each viewpoint and treating people fairly while working toward understanding."
+      ],
+      keyPoint: "Understanding different perspectives helps people approach disagreements with fairness and empathy."
+    },
+    {
+      title: "Active Listening During Disagreements",
+      paragraphs: [
+        "Active listening means giving full attention to another person's message, understanding what they are communicating, and responding thoughtfully. It is especially important when emotions or disagreements make communication difficult.",
+        "A good listener avoids interrupting, asks respectful questions, and pays attention to both the words and the main concerns being expressed. Summarizing what someone has said can help confirm understanding.",
+        "Listening does not mean automatically accepting another person's position. It creates an opportunity for everyone involved to explain their concerns and identify the actual issue."
+      ],
+      keyPoint: "Active listening reduces misunderstandings and helps people understand the concerns behind a disagreement."
+    },
+    {
+      title: "Peaceful Communication and Negotiation",
+      paragraphs: [
+        "Peaceful communication focuses on explaining concerns without insults, threats, or unnecessary accusations. People should describe the issue clearly and explain how it affects them.",
+        "Negotiation is a discussion in which people with different interests try to reach an agreement. It involves identifying priorities, considering alternatives, and finding solutions that are acceptable to the parties involved.",
+        "Successful negotiation requires honesty, patience, flexibility, and respect. Agreements should be realistic, clearly understood, and fair to everyone concerned."
+      ],
+      keyPoint: "Respectful communication and negotiation help people reach practical agreements without escalating disagreements."
+    },
+    {
+      title: "Mediation and Finding Solutions",
+      paragraphs: [
+        "Mediation is a process in which a neutral person helps people in disagreement communicate and explore possible solutions. The mediator supports the discussion without unfairly taking sides.",
+        "A constructive mediation process identifies the issue, allows each person to explain their concerns, clarifies areas of agreement and disagreement, and explores possible ways forward.",
+        "Solutions should address the main concerns and include clear responsibilities where necessary. In serious situations involving threats, intimidation, discrimination, or safety concerns, people should seek help from appropriate trusted authorities rather than attempting to manage the matter alone."
+      ],
+      keyPoint: "Mediation provides a structured and fair way to help people understand disagreements and identify possible solutions."
+    },
+    {
+      title: "Preventing Conflict and Building Peace",
+      paragraphs: [
+        "Conflict prevention involves creating conditions that reduce unnecessary disagreements. Clear communication, fair rules, shared responsibilities, transparency, and respect can help prevent many common problems.",
+        "Schools, workplaces, and communities can strengthen peaceful relationships by encouraging participation, addressing concerns early, providing fair opportunities, and establishing clear procedures for handling disagreements.",
+        "Building peace is an ongoing responsibility. People contribute by treating others fairly, respecting differences, cooperating, resolving misunderstandings, and supporting environments where everyone can participate safely."
+      ],
+      keyPoint: "Peaceful communities grow through fairness, early communication, respect, and shared responsibility."
+    }
+  ],
+     "community-development": [
+    {
+      title: "Introduction to Community Development",
+      paragraphs: [
+        "Community development is a process through which people work together to improve the social, economic, educational, environmental, and cultural conditions of the places where they live.",
+        "It focuses on helping communities identify their priorities, use available resources, develop useful skills, and create opportunities for everyone to participate in improving their shared environment.",
+        "Successful community development is not simply about providing assistance. It also involves building local knowledge, encouraging responsibility, strengthening cooperation, and supporting people to take part in decisions that affect their lives."
+      ],
+      keyPoint: "Community development empowers people to work together toward lasting improvements in their shared environment."
+    },
+    {
+      title: "Understanding Community Needs",
+      paragraphs: [
+        "A community need is an issue or condition that affects people's well-being and requires attention. Examples include limited educational opportunities, inadequate sanitation, unemployment, environmental problems, and difficulties accessing essential services.",
+        "Understanding community needs requires listening to residents and examining reliable information. Surveys, interviews, community meetings, observations, and available reports can help identify important concerns.",
+        "Needs should be assessed fairly by considering their seriousness, the number of people affected, available resources, and possible long-term consequences. This helps communities establish realistic priorities."
+      ],
+      keyPoint: "Understanding community needs begins with listening to residents and gathering reliable information."
+    },
+    {
+      title: "Community Participation and Engagement",
+      paragraphs: [
+        "Community participation means involving residents in identifying problems, discussing solutions, making decisions, and carrying out activities that affect their community.",
+        "Engagement can take place through public meetings, volunteer activities, local associations, youth groups, educational programmes, and consultations with community representatives.",
+        "Meaningful participation requires inclusion and respect. Women, young people, older people, people with disabilities, and other community members should have fair opportunities to express their views and contribute."
+      ],
+      keyPoint: "Inclusive community participation gives people a meaningful role in decisions and activities that affect them."
+    },
+    {
+      title: "Identifying Local Resources and Opportunities",
+      paragraphs: [
+        "Community resources are the people, knowledge, skills, institutions, facilities, natural assets, and financial contributions available to support development activities.",
+        "Examples include schools, health centres, libraries, local businesses, agricultural knowledge, community volunteers, cultural organizations, and environmental resources.",
+        "Identifying available resources helps communities understand what they can build upon. Partnerships between residents, organizations, public institutions, and responsible businesses can create additional opportunities."
+      ],
+      keyPoint: "Recognizing local resources helps communities make practical use of existing strengths and opportunities."
+    },
+    {
+      title: "Planning Community Projects",
+      paragraphs: [
+        "A community project is an organized activity designed to address an identified need or achieve a shared improvement. Examples include literacy programmes, environmental awareness activities, school support initiatives, and community clean-up projects.",
+        "Project planning begins by defining the problem, setting objectives, identifying beneficiaries, selecting activities, assigning responsibilities, estimating costs, and establishing a realistic schedule.",
+        "Community members should participate in planning so that proposed activities reflect actual needs. A clear plan also helps project organizers coordinate resources, communicate expectations, and evaluate results."
+      ],
+      keyPoint: "Effective community projects begin with identified needs, clear objectives, inclusive planning, and realistic resources."
+    },
+    {
+      title: "Leadership and Sustainable Development",
+      paragraphs: [
+        "Community leadership involves guiding people toward shared objectives while encouraging participation, accountability, fairness, and cooperation. Good leaders listen to residents and help create opportunities for others to contribute.",
+        "Sustainable development means improving people's lives while protecting resources and considering the needs of future generations. It connects social well-being, economic opportunities, and environmental responsibility.",
+        "Community initiatives are more likely to last when residents develop the skills to manage them, responsibilities are shared, resources are maintained, and decisions consider long-term consequences."
+      ],
+      keyPoint: "Responsible leadership and sustainable planning help community improvements continue over time."
+    },
+    {
+      title: "Monitoring Community Progress and Impact",
+      paragraphs: [
+        "Monitoring involves regularly checking whether community activities are being implemented according to their plans. It helps organizers identify achievements, delays, resource challenges, and areas requiring attention.",
+        "Evaluation examines whether an initiative achieved its objectives and produced useful changes. Communities can consider participation levels, services delivered, feedback from residents, resources used, and improvements in living conditions.",
+        "Sharing results openly builds trust and accountability. Recording lessons learned also helps community members improve future activities and make better decisions about development priorities."
+      ],
+      keyPoint: "Monitoring and evaluation help communities measure results, remain accountable, and improve future initiatives."
+    }
+  ],
+    "civic-education": [
+    {
+      title: "Understanding Citizenship and Civic Education",
+      paragraphs: [
+        "Citizenship describes the legal membership of a person in a country and the relationship between that person and the state. Citizens have rights and responsibilities established by the country's laws.",
+        "Civic education helps people understand how society is organized, how public institutions operate, and how individuals can contribute to peaceful and responsible communities.",
+        "It encourages informed participation, respect for different opinions, awareness of public issues, and understanding of the principles that support a fair society."
+      ],
+      keyPoint: "Civic education develops informed, responsible, and active members of society."
+    },
+    {
+      title: "Rights and Responsibilities of Citizens",
+      paragraphs: [
+        "Rights are freedoms and protections recognized by a country's constitution and laws, as well as applicable human rights agreements. They help protect human dignity, equality, and individual freedom.",
+        "Responsibilities are duties that individuals are expected to fulfill within society. These may include respecting the rights of others, following applicable laws, protecting public property, and contributing positively to their communities.",
+        "Rights and responsibilities are connected. People should understand their own protections while recognizing that other individuals also deserve respect, fairness, and equal treatment."
+      ],
+      keyPoint: "Responsible citizenship means understanding your rights while respecting the rights and freedoms of others."
+    },
+    {
+      title: "Democracy and Good Governance",
+      paragraphs: [
+        "Democracy is a system of government in which people have opportunities to participate in public decision-making, directly or through representatives chosen according to established procedures.",
+        "Good governance involves the responsible management of public affairs. Important principles include transparency, accountability, participation, fairness, responsiveness, and respect for the law.",
+        "Democratic institutions work best when citizens have access to reliable information, public officials perform their responsibilities, and people can express their views through peaceful and lawful channels."
+      ],
+      keyPoint: "Democracy and good governance depend on participation, transparency, accountability, and respect for the law."
+    },
+    {
+      title: "The Rule of Law and Justice",
+      paragraphs: [
+        "The rule of law means that individuals, organizations, and public authorities are subject to laws that are publicly known and applied fairly. No person should be treated as above the law.",
+        "Justice involves fairness in how rights are protected, responsibilities are enforced, disputes are resolved, and people receive equal treatment under established legal procedures.",
+        "Independent institutions, fair procedures, access to legal information, and respect for human rights help strengthen public confidence in the justice system."
+      ],
+      keyPoint: "The rule of law supports fairness by ensuring that laws apply to everyone and are administered through proper procedures."
+    },
+    {
+      title: "Public Institutions and Their Roles",
+      paragraphs: [
+        "Public institutions are organizations established to perform responsibilities that serve society. They may operate at national, regional, or local levels.",
+        "Different institutions have different responsibilities. These can include making laws, implementing public policies, providing education and health services, maintaining public infrastructure, protecting rights, and administering justice.",
+        "Understanding institutional responsibilities helps citizens know where to obtain services, ask questions, report concerns, and seek accurate information about public decisions."
+      ],
+      keyPoint: "Understanding public institutions helps citizens recognize how public services and responsibilities are organized."
+    },
+    {
+      title: "Civic Participation and Community Responsibility",
+      paragraphs: [
+        "Civic participation means taking part in activities and processes that influence public life and community development. It can include attending public meetings, volunteering, participating in consultations, and sharing informed opinions.",
+        "Responsible participation also involves checking information before sharing it, respecting different viewpoints, protecting public resources, and using peaceful and lawful methods to express concerns.",
+        "Young people can contribute through educational activities, community projects, environmental initiatives, discussions, and other constructive forms of engagement appropriate to their circumstances."
+      ],
+      keyPoint: "Civic participation allows people to contribute constructively to public life and community improvement."
+    },
+    {
+      title: "Human Rights, Peace, and National Development",
+      paragraphs: [
+        "Human rights are basic freedoms and protections that belong to every person. They are grounded in human dignity and include principles such as equality, freedom from discrimination, education, and fair treatment.",
+        "Peaceful societies are strengthened when people resolve disagreements through dialogue, respect diversity, reject discrimination, and support fair institutions.",
+        "National development depends on the participation and well-being of people across society. Education, responsible leadership, economic opportunity, social cooperation, and respect for human rights all contribute to long-term progress."
+      ],
+      keyPoint: "Respect for human rights, peaceful cooperation, and responsible participation support inclusive national development."
+    }
+  ],
+     "french-communication": [
+    {
+      title: "Introduction to French Language and Communication",
+      paragraphs: [
+        "French is an international language used in education, business, diplomacy, travel, culture, and everyday communication. Learning French can help people communicate with others in different countries and communities.",
+        "Language learning involves developing four connected skills: listening, speaking, reading, and writing. Learners should practise these skills regularly rather than focusing only on memorizing vocabulary.",
+        "Beginners can make steady progress by learning useful expressions, understanding basic pronunciation, practising short conversations, and gradually building confidence in using French."
+      ],
+      keyPoint: "Learning French involves developing listening, speaking, reading, and writing skills through regular practice."
+    },
+    {
+      title: "French Greetings and Everyday Expressions",
+      paragraphs: [
+        "Greetings are an important part of everyday communication. In French, common greetings include Bonjour (Hello or Good morning), Bonsoir (Good evening), and Salut (Hi), which is generally informal.",
+        "Polite expressions help conversations become respectful and friendly. Merci means Thank you, S'il vous plaît means Please, Excusez-moi means Excuse me, and De rien means You're welcome.",
+        "The expression Comment allez-vous ? is a polite way to ask How are you? A common response is Je vais bien, merci, meaning I am fine, thank you. Learners should practise these expressions in appropriate situations."
+      ],
+      keyPoint: "French greetings and polite expressions help learners begin conversations naturally and respectfully."
+    },
+    {
+      title: "Introducing Yourself and Others",
+      paragraphs: [
+        "Introducing yourself is a useful communication skill. The expression Je m'appelle... means My name is... For example, Je m'appelle Marie means My name is Marie.",
+        "To share where you come from, you can say Je viens du Rwanda, meaning I come from Rwanda. To explain what you do, you can say Je suis étudiant or Je suis étudiante, meaning I am a student.",
+        "To introduce another person, you can use Voici mon ami, meaning This is my friend, or Je vous présente..., meaning Let me introduce you to... Practising these expressions helps learners participate in simple conversations."
+      ],
+      keyPoint: "Simple French introductions help people share their names, backgrounds, and basic personal information."
+    },
+    {
+      title: "French Vocabulary for Daily Life",
+      paragraphs: [
+        "Vocabulary is the collection of words used in a language. Building useful vocabulary helps learners understand conversations and express their ideas more clearly.",
+        "Common daily vocabulary includes école (school), livre (book), maison (house), eau (water), nourriture (food), famille (family), travail (work), and ami (friend). These words can be used in many everyday situations.",
+        "Learners can remember new vocabulary by grouping words according to topics, using flashcards, reading simple sentences, and practising them in conversations. Learning words in context is often more effective than memorizing isolated lists."
+      ],
+      keyPoint: "Learning everyday vocabulary in meaningful groups makes French easier to understand and use."
+    },
+    {
+      title: "Basic French Grammar and Sentence Formation",
+      paragraphs: [
+        "Grammar provides the rules that help words form meaningful sentences. In basic French, a common sentence structure follows the order subject, verb, and complement.",
+        "For example, Je parle français means I speak French. Elle lit un livre means She reads a book. These sentences show how a subject and verb work together to communicate an idea.",
+        "French nouns have grammatical gender, generally classified as masculine or feminine. Articles such as un, une, le, and la help learners identify nouns and should be studied together with vocabulary."
+      ],
+      keyPoint: "Basic French grammar helps learners organize words into clear and meaningful sentences."
+    },
+    {
+      title: "Reading and Understanding Simple French Texts",
+      paragraphs: [
+        "Reading comprehension is the ability to understand information presented in written language. French learners can begin with short dialogues, simple descriptions, notices, and educational passages.",
+        "When reading, first identify familiar words and the general subject. Then examine sentence structure, look at surrounding words for clues, and use a reliable dictionary when necessary.",
+        "After reading a passage, learners should identify its main idea, important details, and unfamiliar expressions. Summarizing the passage in simple French or English can help confirm understanding."
+      ],
+      keyPoint: "Reading regularly and identifying main ideas helps learners develop French comprehension."
+    },
+    {
+      title: "Speaking and Writing in Everyday French",
+      paragraphs: [
+        "Speaking French requires practice with pronunciation, vocabulary, sentence formation, and listening. Learners can begin with short conversations about school, family, hobbies, daily activities, and familiar experiences.",
+        "Writing helps organize thoughts and apply grammar. Beginners can practise writing short introductions, simple messages, descriptions, and paragraphs using vocabulary they already understand.",
+        "Improvement comes through consistent practice and constructive feedback. Learners should review common mistakes, read their writing aloud, listen to spoken French, and gradually attempt more detailed conversations and texts."
+      ],
+      keyPoint: "Regular speaking and writing practice builds confidence and improves practical French communication."
+    }
+  ],
+     "kinyarwanda-communication": [
+    {
+      title: "Introduction to Kinyarwanda Communication",
+      paragraphs: [
+        "Kinyarwanda is the national language of Rwanda and an important means of communication in families, schools, communities, and public life. It helps people share information, express ideas, and preserve cultural knowledge.",
+        "Effective communication in Kinyarwanda involves listening, speaking, reading, and writing. These skills allow learners to participate in conversations, understand information, and communicate clearly in different situations.",
+        "Learning a language also involves understanding context, respectful expressions, pronunciation, and appropriate vocabulary. Regular practice helps learners strengthen their communication skills."
+      ],
+      keyPoint: "Kinyarwanda communication develops the skills needed to understand and express ideas clearly in everyday life."
+    },
+    {
+      title: "Greetings and Polite Expressions",
+      paragraphs: [
+        "Greetings are an important part of respectful communication. In Kinyarwanda, Muraho is a common greeting, while Mwaramutse is used for good morning and Mwiriwe is used for good afternoon or evening.",
+        "Polite expressions help people communicate respectfully. Murakoze means Thank you, Ndabinginze can be used to express a polite request, and Mbabarira means Excuse me or Sorry, depending on the context.",
+        "The expression Amakuru? means How are things? or What's the news? A common response is Ni meza, meaning They are good. Learners should practise these expressions in conversations with appropriate respect for the situation."
+      ],
+      keyPoint: "Kinyarwanda greetings and polite expressions help people communicate with courtesy and respect."
+    },
+    {
+      title: "Introducing Yourself and Others",
+      paragraphs: [
+        "Introducing yourself helps establish communication with new people. You can say Nitwa... to mean My name is... For example, Nitwa Aline means My name is Aline.",
+        "To explain where you come from, you can say Nkomoka mu Rwanda, meaning I come from Rwanda. To say that you are a student, you can use Ndi umunyeshuri.",
+        "You can introduce another person by saying Uyu ni inshuti yanjye, meaning This is my friend. Practising introductions helps learners communicate confidently in schools, workplaces, and community activities."
+      ],
+      keyPoint: "Simple introductions help people share their names, backgrounds, and relationships in Kinyarwanda."
+    },
+    {
+      title: "Everyday Vocabulary and Expressions",
+      paragraphs: [
+        "Vocabulary refers to the words and expressions people use to communicate. Learning common Kinyarwanda vocabulary helps learners understand everyday conversations and describe familiar situations.",
+        "Useful words include ishuri (school), igitabo (book), urugo (home), amazi (water), ibiryo (food), umuryango (family), akazi (work), and inshuti (friend).",
+        "Learners can improve vocabulary by grouping words into topics such as education, family, food, transport, and community life. Using new words in sentences and conversations makes them easier to remember."
+      ],
+      keyPoint: "Learning everyday Kinyarwanda vocabulary in context improves understanding and expression."
+    },
+    {
+      title: "Basic Kinyarwanda Grammar and Sentence Formation",
+      paragraphs: [
+        "Grammar refers to the rules that organize words into meaningful sentences. Understanding basic grammar helps learners express ideas accurately and understand how different parts of a sentence work together.",
+        "For example, Ndi umunyeshuri means I am a student, and Ndiga Ikinyarwanda means I study Kinyarwanda. These examples show how words combine to communicate complete ideas.",
+        "Kinyarwanda uses noun classes, which influence agreement between nouns and other words in a sentence. Learners should gradually study common noun classes, verb forms, and agreement patterns through examples and guided exercises."
+      ],
+      keyPoint: "Understanding basic grammar and noun-class agreement helps learners form clearer Kinyarwanda sentences."
+    },
+    {
+      title: "Reading and Understanding Kinyarwanda Texts",
+      paragraphs: [
+        "Reading comprehension means understanding information presented in written language. Learners can begin with short Kinyarwanda stories, conversations, notices, descriptions, and educational passages.",
+        "During reading, identify familiar words, examine sentence structure, and use the surrounding information to understand unfamiliar expressions. Reading aloud can also help learners become more familiar with written language.",
+        "After reading, identify the main idea, important details, and the purpose of the text. Summarizing what you have read helps develop understanding and improves the ability to communicate information."
+      ],
+      keyPoint: "Regular reading and comprehension practice strengthen understanding of written Kinyarwanda."
+    },
+    {
+      title: "Speaking and Writing in Everyday Kinyarwanda",
+      paragraphs: [
+        "Speaking allows learners to communicate ideas, ask questions, explain experiences, and participate in discussions. Everyday practice can begin with conversations about family, education, work, interests, and community activities.",
+        "Writing helps learners organize information and communicate messages clearly. Beginners can practise writing introductions, short descriptions, personal messages, and simple paragraphs.",
+        "Good communication improves through regular practice, reading, listening, and constructive feedback. Learners should review their sentence structure, expand their vocabulary, and practise expressing ideas in different situations."
+      ],
+      keyPoint: "Consistent speaking and writing practice develops confidence and effective everyday Kinyarwanda communication."
+    }
+  ],
+    "professional-writing": [
+    {
+      title: "Introduction to Professional Writing",
+      paragraphs: [
+        "Professional writing is the use of clear, organized, and appropriate written language in educational, workplace, business, and official situations. It helps people communicate information, explain ideas, and document important activities.",
+        "Examples include emails, reports, letters, proposals, meeting minutes, instructions, and project documents. Each type of writing serves a particular purpose and may follow specific conventions.",
+        "Good professional writing should be accurate, relevant, respectful, and easy to understand. Writers should organize information carefully and choose a tone that suits the intended reader and situation."
+      ],
+      keyPoint: "Professional writing communicates information clearly, accurately, and appropriately for a particular purpose."
+    },
+    {
+      title: "Understanding Purpose and Audience",
+      paragraphs: [
+        "The purpose of writing explains why a document is being prepared. A writer may want to inform, explain, request, persuade, record an activity, or recommend a particular action.",
+        "The audience refers to the people who will read the document. Readers may have different levels of knowledge, responsibilities, expectations, and interests, so writers should consider what information they need.",
+        "Before writing, identify the objective, the intended readers, the main message, and the appropriate tone. This preparation helps prevent unnecessary information and makes the document more useful."
+      ],
+      keyPoint: "Understanding purpose and audience helps writers choose relevant content, suitable language, and an appropriate tone."
+    },
+    {
+      title: "Building Clear and Well-Structured Sentences",
+      paragraphs: [
+        "A sentence is a group of words that expresses a complete thought. Clear sentences help readers understand information without unnecessary effort or confusion.",
+        "Professional sentences should use correct grammar, appropriate vocabulary, and logical word order. Writers should avoid unnecessary repetition, vague expressions, and overly complicated language.",
+        "Different sentence structures can be used to explain facts, ask questions, give instructions, or connect related ideas. Reviewing sentence length and punctuation helps make written communication easier to follow."
+      ],
+      keyPoint: "Clear sentences use correct grammar and precise language to communicate complete ideas."
+    },
+    {
+      title: "Writing Effective Paragraphs",
+      paragraphs: [
+        "A paragraph develops one main idea through related sentences. It usually begins with a topic sentence, continues with supporting explanations or examples, and may end with a concluding sentence.",
+        "Good paragraphs follow a logical order. Writers can arrange information chronologically, compare ideas, explain causes and effects, or present a problem followed by possible solutions.",
+        "Each paragraph should remain focused on its main idea. Appropriate transitions help connect sentences and paragraphs, creating a document that readers can follow easily."
+      ],
+      keyPoint: "Effective paragraphs develop one main idea using relevant supporting details and logical organization."
+    },
+    {
+      title: "Professional Emails and Letters",
+      paragraphs: [
+        "Professional emails and letters are used to communicate with colleagues, institutions, customers, teachers, and other contacts. They should be respectful, direct, and organized according to their purpose.",
+        "A professional email commonly includes a clear subject line, appropriate greeting, brief introduction, organized message, polite closing, and the sender's name. A formal letter may also include addresses, a date, and a formal subject or reference.",
+        "Writers should check recipient details, attachments, spelling, tone, and clarity before sending a message. Sensitive or important information should be shared carefully with the appropriate people."
+      ],
+      keyPoint: "Professional emails and letters require clear organization, respectful language, and careful review."
+    },
+    {
+      title: "Reports, Proposals, and Formal Documents",
+      paragraphs: [
+        "A report presents information about an activity, situation, investigation, or result. Reports commonly include a title, introduction, main findings, discussion, conclusion, and recommendations where appropriate.",
+        "A proposal describes a suggested project, activity, or solution. It may explain the problem, objectives, planned activities, required resources, schedule, expected outcomes, and methods of evaluation.",
+        "Formal documents should use headings, consistent formatting, reliable information, and appropriate evidence. Writers should distinguish confirmed facts from opinions and ensure that recommendations are supported by the information presented."
+      ],
+      keyPoint: "Reports and proposals organize evidence and ideas so readers can understand findings and evaluate recommendations."
+    },
+    {
+      title: "Editing, Proofreading, and Responsible Writing",
+      paragraphs: [
+        "Editing improves the quality of a document by checking organization, clarity, accuracy, tone, and relevance. It may involve rewriting sentences, removing repetition, or rearranging paragraphs.",
+        "Proofreading is the final review for spelling, grammar, punctuation, formatting, names, dates, and other small errors. Reading a document slowly or reviewing a printed copy can help identify mistakes.",
+        "Responsible writing requires honesty, respect for privacy, proper acknowledgement of sources, and avoidance of plagiarism. Writers should verify information, use quotations appropriately, and make sure their documents do not misrepresent other people's work."
+      ],
+      keyPoint: "Responsible editing and proofreading improve accuracy, readability, originality, and professional credibility."
+    }
+  ],
+     "modern-agriculture": [
+    {
+      title: "Introduction to Modern Agriculture",
+      paragraphs: [
+        "Agriculture is the practice of cultivating crops, raising animals, and managing natural resources to produce food, raw materials, and other useful products. It supports livelihoods, trade, employment, and economic development.",
+        "Modern agriculture combines traditional knowledge with scientific research, improved farming methods, technology, and better resource management. Its purpose is to improve productivity while responding to changing environmental and economic conditions.",
+        "Agriculture includes crop production, livestock farming, horticulture, agroforestry, and other activities. Understanding these areas helps learners appreciate how food and agricultural products move from farms to consumers."
+      ],
+      keyPoint: "Modern agriculture combines knowledge, technology, and responsible resource management to improve agricultural production."
+    },
+    {
+      title: "Soil Health and Land Preparation",
+      paragraphs: [
+        "Soil is a natural resource that supports plant growth by providing water, nutrients, and physical support for roots. Healthy soil contains minerals, organic matter, air, water, and living organisms.",
+        "Land preparation involves assessing the condition of a farming area and preparing it appropriately for production. Depending on the soil and farming system, activities may include clearing unwanted vegetation responsibly, preparing planting areas, and improving soil structure.",
+        "Soil health can be maintained through organic matter management, suitable crop rotation, erosion prevention, careful water management, and responsible use of agricultural inputs. Farmers should consider local soil conditions before choosing farming practices."
+      ],
+      keyPoint: "Healthy soil and appropriate land preparation provide a strong foundation for productive and sustainable farming."
+    },
+    {
+      title: "Crop Production and Farm Management",
+      paragraphs: [
+        "Crop production involves growing plants for food, animal feed, commercial products, and other uses. Common crops include cereals, vegetables, fruits, legumes, and root crops.",
+        "Successful crop management requires selecting suitable crop varieties, understanding local growing conditions, planning planting activities, monitoring plant health, and managing water and nutrients appropriately.",
+        "Farmers should also keep records of planting dates, input use, crop development, harvest quantities, and expenses. These records help evaluate performance and make informed decisions during future growing seasons."
+      ],
+      keyPoint: "Effective crop production depends on suitable crop selection, careful management, and regular monitoring."
+    },
+    {
+      title: "Livestock Production and Animal Care",
+      paragraphs: [
+        "Livestock production involves raising animals for food, income, agricultural work, and other useful products. Common livestock include cattle, goats, sheep, pigs, poultry, and other domesticated animals.",
+        "Responsible animal care requires appropriate housing, clean water, suitable nutrition, hygiene, regular health monitoring, and access to qualified veterinary support when needed.",
+        "Good livestock management also considers animal welfare, breeding decisions, disease prevention, record-keeping, and responsible waste management. Healthy animals and appropriate care contribute to reliable agricultural production."
+      ],
+      keyPoint: "Responsible livestock production combines proper nutrition, animal welfare, hygiene, and appropriate veterinary care."
+    },
+    {
+      title: "Agricultural Technology and Innovation",
+      paragraphs: [
+        "Agricultural technology includes tools, equipment, scientific methods, and digital systems that support farming activities. Examples include irrigation systems, improved storage facilities, farm machinery, weather information services, and digital farm records.",
+        "Innovation helps farmers respond to challenges such as changing weather, limited resources, crop losses, and increasing demand for food. Technology can improve efficiency, support better decisions, and reduce unnecessary resource use.",
+        "Before adopting a new technology, farmers should consider its cost, suitability, maintenance requirements, accessibility, and expected benefits. Training and reliable information help ensure that technology is used effectively."
+      ],
+      keyPoint: "Appropriate agricultural technology can improve productivity, resource management, and farming decisions."
+    },
+    {
+      title: "Harvesting, Storage, and Marketing",
+      paragraphs: [
+        "Harvesting is the process of collecting mature crops or agricultural products at an appropriate stage. Correct timing and careful handling help maintain quality and reduce losses.",
+        "Storage protects agricultural products from moisture, pests, contamination, and unnecessary damage. Suitable storage conditions depend on the type of product and may involve clean facilities, appropriate packaging, ventilation, or temperature control.",
+        "Marketing connects farmers with buyers and consumers. Farmers benefit from understanding product quality, market demand, transportation, pricing, record-keeping, and reliable sales arrangements."
+      ],
+      keyPoint: "Careful harvesting, appropriate storage, and effective marketing help protect agricultural value and reduce post-harvest losses."
+    },
+    {
+      title: "Sustainable Agriculture and Food Security",
+      paragraphs: [
+        "Sustainable agriculture aims to produce food and other agricultural products while protecting natural resources and supporting the well-being of farming communities. It considers environmental, economic, and social responsibilities.",
+        "Food security exists when people have reliable access to sufficient, safe, and nutritious food that meets their needs. Agricultural productivity, household income, food distribution, storage, and environmental conditions all influence food security.",
+        "Sustainable practices include protecting soil and water, maintaining biodiversity, reducing avoidable food waste, adapting to climate conditions, and supporting responsible farming decisions. Cooperation among farmers, researchers, institutions, and communities strengthens long-term food systems."
+      ],
+      keyPoint: "Sustainable agriculture protects resources while supporting reliable food production and food security."
+    }
+  ],
+     "sustainable-farming": [
+    {
+      title: "Understanding Sustainable Farming",
+      paragraphs: [
+        "Sustainable farming is an approach to agriculture that produces food and other useful products while protecting natural resources and supporting the long-term well-being of farmers and communities.",
+        "It considers three connected areas: environmental protection, economic viability, and social responsibility. Farming should maintain productive land, provide reasonable livelihoods, and consider the needs of present and future generations.",
+        "Sustainable farming methods depend on local conditions. Farmers should consider soil type, climate, available water, biodiversity, market opportunities, and the resources they can manage responsibly."
+      ],
+      keyPoint: "Sustainable farming balances agricultural production, environmental protection, and long-term community well-being."
+    },
+    {
+      title: "Soil Conservation and Soil Fertility",
+      paragraphs: [
+        "Soil conservation involves protecting soil from erosion, nutrient loss, compaction, and other forms of degradation. Healthy soil supports plant growth and contributes to reliable agricultural production.",
+        "Soil fertility refers to the soil's ability to provide essential nutrients for plant development. Organic matter, suitable nutrient management, soil organisms, and appropriate farming practices all contribute to fertility.",
+        "Farmers can protect soil through practices such as maintaining vegetation cover, using suitable crop rotations, applying organic matter responsibly, and minimizing unnecessary soil disturbance. The most appropriate method depends on local conditions."
+      ],
+      keyPoint: "Protecting soil structure, organic matter, and nutrients supports productive land over the long term."
+    },
+    {
+      title: "Water Conservation and Efficient Irrigation",
+      paragraphs: [
+        "Water is essential for crop growth, livestock, soil processes, and agricultural activities. Responsible water management helps farms remain productive while reducing pressure on rivers, lakes, groundwater, and other sources.",
+        "Irrigation supplies water to crops when rainfall is insufficient. Different systems, including drip and sprinkler irrigation, can help farmers manage water according to crop requirements and local conditions.",
+        "Water conservation also involves monitoring water use, maintaining irrigation equipment, collecting rainwater where appropriate, protecting water sources, and reducing unnecessary losses. Safe water management should consider both agricultural needs and community access."
+      ],
+      keyPoint: "Efficient water management supports crop production while protecting limited water resources."
+    },
+    {
+      title: "Crop Rotation and Diversified Farming",
+      paragraphs: [
+        "Crop rotation is the practice of growing different crops on the same land in a planned sequence across different growing periods. It can help maintain soil fertility and reduce the buildup of certain crop pests and diseases.",
+        "Diversified farming involves producing more than one type of crop or combining different agricultural activities. Examples include growing cereals alongside legumes, integrating suitable trees, or combining crop and livestock production.",
+        "Farmers should select crop combinations based on local climate, soil conditions, household needs, available markets, and production costs. Planning diversity carefully can improve resilience and create additional income opportunities."
+      ],
+      keyPoint: "Crop rotation and farm diversification can improve soil management, reduce production risks, and strengthen resilience."
+    },
+    {
+      title: "Organic Farming and Natural Inputs",
+      paragraphs: [
+        "Organic farming is an agricultural approach that emphasizes ecological processes, biodiversity, and responsible soil management. Its practices vary according to recognized standards and the farming system being used.",
+        "Natural agricultural inputs may include compost, properly managed animal manure, plant residues, and other approved materials. These can contribute organic matter and nutrients when selected and applied appropriately.",
+        "Organic production requires careful management of soil fertility, pests, diseases, and product quality. Farmers should understand local guidance and certification requirements before marketing products as officially organic."
+      ],
+      keyPoint: "Organic farming emphasizes ecological processes and responsible use of suitable natural inputs."
+    },
+    {
+      title: "Climate-Smart Agricultural Practices",
+      paragraphs: [
+        "Climate-smart agriculture helps farming systems respond to climate-related challenges while supporting productivity and responsible environmental management.",
+        "Useful approaches may include selecting suitable crop varieties, improving water efficiency, protecting soil, diversifying production, using reliable weather information, and planning for seasonal changes.",
+        "Farmers should assess local climate risks and seek advice from agricultural extension services and reliable research institutions. Practices that work well in one location may not be appropriate in another."
+      ],
+      keyPoint: "Climate-smart farming combines adaptation, productivity, and responsible resource management."
+    },
+    {
+      title: "Building Long-Term Sustainable Farms",
+      paragraphs: [
+        "A sustainable farm requires planning that considers production costs, income, soil and water conditions, market access, labour, and the well-being of people involved in farming.",
+        "Farm records help farmers monitor production, expenses, sales, resource use, and changes in farm performance. Reviewing these records supports informed decisions and helps identify opportunities for improvement.",
+        "Long-term sustainability also depends on learning, cooperation, responsible innovation, and passing useful knowledge to future farmers. By evaluating results regularly, farmers can improve practices while protecting the resources on which agriculture depends."
+      ],
+      keyPoint: "Long-term farm sustainability depends on careful planning, responsible resource use, reliable records, and continuous improvement."
+    }
+  ],
+     "soil-water-conservation": [
+    {
+      title: "Introduction to Soil and Water Conservation",
+      paragraphs: [
+        "Soil and water are essential natural resources that support agriculture, ecosystems, human health, and economic activities. Their responsible management is important for maintaining productive land and healthy communities.",
+        "Soil and water conservation refers to practices that protect these resources from degradation, pollution, excessive loss, and unsustainable use. It helps maintain soil fertility, protect water sources, and support reliable agricultural production.",
+        "Conservation requires cooperation among farmers, communities, institutions, and environmental professionals. Understanding local conditions helps people choose appropriate methods for protecting land and water."
+      ],
+      keyPoint: "Soil and water conservation protects essential natural resources and supports long-term environmental and agricultural sustainability."
+    },
+    {
+      title: "Understanding Soil Types and Properties",
+      paragraphs: [
+        "Soil is a natural material made up of mineral particles, organic matter, water, air, and living organisms. Its properties influence plant growth, water movement, nutrient availability, and land management.",
+        "Common soil texture groups include sandy, silty, and clay soils. Sandy soils generally have larger particles and drain quickly, while clay soils have very fine particles and can retain more water. Loamy soils contain a mixture of particle sizes.",
+        "Soil properties also include structure, depth, acidity, organic matter, and fertility. Farmers and land managers can use soil observations and appropriate testing to understand local conditions before choosing conservation practices."
+      ],
+      keyPoint: "Understanding soil texture, structure, and fertility helps people manage land according to its characteristics."
+    },
+    {
+      title: "Causes and Effects of Soil Erosion",
+      paragraphs: [
+        "Soil erosion is the movement of soil particles from one place to another through natural forces such as flowing water and wind. Human activities can increase erosion when land is not managed responsibly.",
+        "Contributing factors include the removal of vegetation, unsuitable cultivation practices, overgrazing, poorly managed drainage, and construction activities that leave soil exposed.",
+        "Erosion can reduce fertile topsoil, damage agricultural productivity, increase sediment in rivers, affect water quality, and contribute to land degradation. Understanding its causes is the first step toward prevention."
+      ],
+      keyPoint: "Soil erosion removes valuable soil and can damage farms, water systems, and surrounding ecosystems."
+    },
+    {
+      title: "Soil Protection and Erosion Prevention",
+      paragraphs: [
+        "Soil protection involves maintaining soil cover, preserving organic matter, and managing land in ways that reduce erosion and degradation. Vegetation plays an important role because plant roots help hold soil together.",
+        "Conservation practices may include maintaining grass cover, planting suitable trees, using mulch, practising crop rotation, establishing appropriate terraces, and managing livestock grazing responsibly.",
+        "The effectiveness of each method depends on slope, rainfall, soil type, vegetation, and land use. Farmers should seek appropriate local guidance before introducing major changes to their land."
+      ],
+      keyPoint: "Vegetation cover, suitable farming practices, and responsible land management help prevent soil erosion."
+    },
+    {
+      title: "Water Resources and Their Importance",
+      paragraphs: [
+        "Water resources include rivers, lakes, wetlands, groundwater, springs, rainfall, and other sources of freshwater. These resources support people, agriculture, industries, and natural ecosystems.",
+        "Freshwater is essential for drinking, sanitation, food production, livestock, and economic activities. Healthy water systems also provide habitats for plants and animals and help maintain environmental balance.",
+        "Water resources can be affected by pollution, excessive extraction, poor waste management, deforestation, and changing climate conditions. Protecting them requires responsible use and effective environmental management."
+      ],
+      keyPoint: "Healthy water resources support human well-being, agricultural production, and functioning ecosystems."
+    },
+    {
+      title: "Water Conservation and Watershed Management",
+      paragraphs: [
+        "Water conservation involves using water efficiently, reducing unnecessary waste, protecting water quality, and maintaining reliable supplies for future needs.",
+        "A watershed is an area of land where rainfall and other water flow toward a common river, lake, or water outlet. Activities across a watershed can influence water quality and availability downstream.",
+        "Watershed management may include protecting vegetation, restoring degraded areas, reducing pollution, maintaining appropriate drainage, and encouraging cooperation among communities that share water resources."
+      ],
+      keyPoint: "Water conservation and watershed protection help maintain clean and reliable water supplies."
+    },
+    {
+      title: "Integrated Soil and Water Management",
+      paragraphs: [
+        "Integrated soil and water management considers the relationship between land, vegetation, rainfall, farming, and water systems. Decisions about one resource can affect the condition of the others.",
+        "For example, maintaining vegetation can reduce soil erosion, improve water infiltration, and help protect nearby streams. Responsible farming and land-use planning can also reduce pollution and preserve productive land.",
+        "Successful integrated management requires local knowledge, environmental monitoring, community participation, and long-term planning. Reviewing results helps communities improve conservation efforts as conditions change."
+      ],
+      keyPoint: "Integrated management protects soil and water together through coordinated and responsible land-use decisions."
+    }
+  ],
+     "climate-environment": [
+    {
+      title: "Introduction to Climate and the Environment",
+      paragraphs: [
+        "Climate describes the usual weather conditions of a place over a long period, while weather refers to daily conditions such as rainfall, temperature, and wind. The environment includes the air, water, land, plants, animals, and human communities around us.",
+        "Climate and the environment are closely connected. Temperature and rainfall influence farming, water availability, ecosystems, and people's daily activities. Understanding these connections helps communities make informed decisions.",
+        "Environmental education encourages people to understand nature, recognize environmental challenges, and take responsible actions that support healthy surroundings."
+      ],
+      keyPoint: "Climate describes long-term weather patterns, while the environment includes all living and non-living surroundings."
+    },
+    {
+      title: "Understanding Weather and Climate Patterns",
+      paragraphs: [
+        "Weather conditions change from day to day. Common elements include temperature, rainfall, humidity, wind, and cloud cover. These conditions influence transport, farming, outdoor activities, and daily planning.",
+        "Climate patterns describe the usual weather conditions experienced in a region over many years. Different regions may have different rainfall seasons, temperatures, and dry periods.",
+        "Learning about weather and climate patterns helps people understand seasonal changes, prepare for different conditions, and make better decisions about natural resources."
+      ],
+      keyPoint: "Weather describes short-term atmospheric conditions, while climate describes patterns over many years."
+    },
+    {
+      title: "Understanding Climate Change",
+      paragraphs: [
+        "Climate change refers to long-term changes in Earth's temperatures and weather patterns. Some changes happen naturally, but recent global warming is mainly driven by human activities that release greenhouse gases.",
+        "Burning fossil fuels, deforestation, and certain industrial and agricultural activities contribute to greenhouse gas emissions. These gases trap additional heat in the atmosphere.",
+        "Understanding the causes of climate change helps learners recognize why responsible energy use, forest protection, and sustainable development matter."
+      ],
+      keyPoint: "Human activities that increase greenhouse gas emissions are the main cause of recent global warming."
+    },
+    {
+      title: "Environmental Pollution and Its Effects",
+      paragraphs: [
+        "Pollution occurs when harmful substances or waste enter the environment. Common forms include air pollution, water pollution, soil pollution, and excessive noise.",
+        "Pollution can affect human health, damage ecosystems, reduce soil quality, and make water unsafe. Poor waste disposal, vehicle emissions, and some industrial activities are common sources.",
+        "Preventing pollution requires responsible waste management, cleaner practices, public awareness, and cooperation between individuals, communities, businesses, and institutions."
+      ],
+      keyPoint: "Preventing pollution protects people, wildlife, natural resources, and the quality of the environment."
+    },
+    {
+      title: "Biodiversity and Ecosystem Protection",
+      paragraphs: [
+        "Biodiversity means the variety of living things, including plants, animals, and microorganisms. Ecosystems are communities of living organisms interacting with one another and with their physical surroundings.",
+        "Biodiversity supports food production, pollination, clean water, healthy soils, and ecological balance. Different species often depend on one another for survival.",
+        "Habitat destruction, pollution, overuse of natural resources, and climate change can threaten biodiversity. Protecting habitats and using resources responsibly helps conserve ecosystems."
+      ],
+      keyPoint: "Biodiversity supports healthy ecosystems and provides important benefits to people and nature."
+    },
+    {
+      title: "Environmental Conservation and Sustainable Resources",
+      paragraphs: [
+        "Environmental conservation means protecting natural resources and using them responsibly. Important resources include forests, water, soil, minerals, and wildlife.",
+        "Sustainable resource use considers both present needs and the needs of future generations. Examples include reducing unnecessary waste, saving water, protecting trees, and choosing reusable materials where practical.",
+        "Conservation works best when individuals, schools, communities, organizations, and governments cooperate to protect the environment."
+      ],
+      keyPoint: "Sustainable resource use protects nature while supporting the needs of present and future generations."
+    },
+    {
+      title: "Climate Action and Community Responsibility",
+      paragraphs: [
+        "Climate action includes efforts to reduce greenhouse gas emissions and prepare communities for climate-related challenges. These efforts can take place at household, school, community, national, and international levels.",
+        "Communities can support climate action through tree protection, responsible energy use, environmental education, proper waste management, and sustainable land practices.",
+        "Every learner can contribute by understanding environmental issues, sharing reliable information, participating in suitable community activities, and encouraging responsible decisions."
+      ],
+      keyPoint: "Climate action is a shared responsibility that combines environmental protection, informed decisions, and community cooperation."
+    }
+  ],
+     "food-systems-agribusiness": [
+    {
+      title: "Introduction to Food Systems and Agribusiness",
+      paragraphs: [
+        "A food system includes all the activities involved in producing, processing, transporting, selling, preparing, and consuming food. It also includes the people, organizations, resources, and services that support these activities.",
+        "Agribusiness refers to business activities connected to agriculture and food production. It includes farming, supplying agricultural inputs, processing products, storage, transportation, and marketing.",
+        "Understanding food systems helps learners see how agriculture supports livelihoods, nutrition, employment, trade, and community development."
+      ],
+      keyPoint: "Food systems connect agricultural production with processing, distribution, markets, and consumers."
+    },
+    {
+      title: "Agricultural Production and Food Supply",
+      paragraphs: [
+        "Agricultural production involves growing crops and raising animals to provide food and other useful products. Farmers make decisions about land, seeds, water, labour, equipment, and suitable production methods.",
+        "Food supply depends on several connected factors, including weather, soil conditions, farming knowledge, available resources, storage facilities, and transportation.",
+        "Reliable production and responsible farm management help communities maintain food availability and support stable livelihoods."
+      ],
+      keyPoint: "Good agricultural production and farm management contribute to a reliable food supply."
+    },
+    {
+      title: "Food Processing and Value Addition",
+      paragraphs: [
+        "Food processing involves changing agricultural products into forms that are easier to store, transport, prepare, or consume. Examples include milling grains, drying fruits, pasteurizing milk, and packaging food.",
+        "Value addition means improving a product so that it provides greater usefulness or market value. This may involve better processing, packaging, quality control, or presentation.",
+        "Small businesses and cooperatives can create employment and reduce post-harvest losses by processing agricultural products responsibly."
+      ],
+      keyPoint: "Food processing and value addition can improve product quality, usefulness, market opportunities, and income."
+    },
+    {
+      title: "Food Storage, Distribution, and Markets",
+      paragraphs: [
+        "Food storage helps maintain product quality between harvest and consumption. Appropriate storage conditions depend on the type of food and may involve clean facilities, suitable temperatures, and protection from pests and moisture.",
+        "Food distribution moves products from farms and processing facilities to markets, shops, institutions, and households. Transportation and reliable supply networks help connect producers with consumers.",
+        "Markets bring buyers and sellers together. Understanding customer needs, product quality, pricing, and market demand helps agricultural businesses make informed decisions."
+      ],
+      keyPoint: "Effective storage, distribution, and marketing help food reach consumers safely and efficiently."
+    },
+    {
+      title: "Agricultural Entrepreneurship and Business Planning",
+      paragraphs: [
+        "Agricultural entrepreneurship involves identifying business opportunities in farming, food processing, agricultural services, and related activities. Entrepreneurs look for ways to meet customer needs while managing available resources.",
+        "A business plan describes the product or service, target customers, resources required, expected costs, possible income, and business goals. It helps an entrepreneur organize ideas before making major decisions.",
+        "A realistic plan should consider local conditions, market demand, competition, risks, and the knowledge or support needed to operate responsibly."
+      ],
+      keyPoint: "A practical business plan helps agricultural entrepreneurs evaluate opportunities and organize resources."
+    },
+    {
+      title: "Agricultural Finance and Cooperative Development",
+      paragraphs: [
+        "Agricultural finance involves managing money used for farming and related businesses. Common financial needs include purchasing seeds, tools, equipment, animal feed, transportation, and storage services.",
+        "Cooperatives allow producers or business members to work together toward shared goals. Members may combine resources, exchange knowledge, access markets, and improve their ability to negotiate.",
+        "Responsible financial records, transparent decisions, realistic budgets, and shared accountability help agricultural businesses and cooperatives remain sustainable."
+      ],
+      keyPoint: "Sound financial management and cooperation can strengthen agricultural businesses and producer communities."
+    },
+    {
+      title: "Sustainable Food Systems and Agribusiness Growth",
+      paragraphs: [
+        "A sustainable food system provides reliable and nutritious food while protecting natural resources, supporting fair opportunities, and considering the needs of future generations.",
+        "Agribusinesses can contribute through responsible production, reduced food waste, safe processing, efficient transportation, fair business practices, and environmentally aware decisions.",
+        "Innovation, education, technology, and cooperation can help food systems respond to changing needs. Successful growth should consider economic value, community well-being, and environmental responsibility."
+      ],
+      keyPoint: "Sustainable food systems balance food availability, economic opportunity, social well-being, and environmental protection."
+    }
+  ],
+    "workplace-ethics": [
+    {
+      title: "Introduction to Workplace Ethics",
+      paragraphs: [
+        "Workplace ethics are the moral principles and values that guide how people behave in professional environments. They help individuals make responsible decisions and treat colleagues, customers, and members of the public fairly.",
+        "Important ethical values include honesty, respect, responsibility, fairness, confidentiality, and accountability. These values apply in offices, schools, businesses, organizations, and other workplaces.",
+        "Understanding workplace ethics helps learners prepare for professional responsibilities and build trust with the people they work with."
+      ],
+      keyPoint: "Workplace ethics guide responsible, respectful, honest, and fair professional behaviour."
+    },
+    {
+      title: "Professional Conduct and Responsibility",
+      paragraphs: [
+        "Professional conduct refers to the way individuals behave while carrying out their duties. It includes following appropriate rules, communicating respectfully, completing assigned work, and considering how decisions affect others.",
+        "Responsibility means understanding one's duties and taking ownership of assigned tasks. Responsible workers ask for clarification when needed, communicate difficulties early, and make reasonable efforts to complete their work.",
+        "Professional behaviour also means accepting feedback, learning from mistakes, and treating every person with dignity regardless of their position."
+      ],
+      keyPoint: "Professional conduct requires respect, responsibility, reliability, and ownership of one's duties."
+    },
+    {
+      title: "Honesty, Integrity, and Accountability",
+      paragraphs: [
+        "Honesty means communicating truthfully and presenting information accurately. Integrity means following ethical principles even when nobody is checking or when an easier but dishonest choice is available.",
+        "Accountability means accepting responsibility for decisions and their results. It includes explaining actions honestly, correcting errors, and following agreed procedures.",
+        "These values build confidence between colleagues, employers, customers, and the wider community. They also help organizations maintain reliable records and fair practices."
+      ],
+      keyPoint: "Honesty, integrity, and accountability create trust and support responsible professional decisions."
+    },
+    {
+      title: "Respect, Diversity, and Inclusion at Work",
+      paragraphs: [
+        "A respectful workplace recognizes that people have different experiences, abilities, backgrounds, opinions, and ways of communicating. Everyone deserves to be treated fairly and with dignity.",
+        "Inclusion means creating an environment where people can participate, contribute ideas, and access appropriate opportunities without unfair discrimination or exclusion.",
+        "Workers can support inclusion by listening carefully, avoiding harmful assumptions, using respectful language, and addressing unfair treatment through appropriate workplace channels."
+      ],
+      keyPoint: "Respect and inclusion help create fair workplaces where different people can contribute and succeed."
+    },
+    {
+      title: "Confidentiality and Responsible Information Use",
+      paragraphs: [
+        "Confidentiality means protecting information that should not be shared without proper permission. Workplaces may handle personal details, customer records, financial information, internal documents, and other sensitive material.",
+        "Responsible information use involves accessing only information needed for one's duties, storing records appropriately, and sharing information only with authorized people.",
+        "Digital communication also requires care. Workers should check recipients, protect account access, and avoid sharing private workplace information through unsuitable channels."
+      ],
+      keyPoint: "Protecting confidential information is an important responsibility in both physical and digital workplaces."
+    },
+    {
+      title: "Time Management, Teamwork, and Workplace Rules",
+      paragraphs: [
+        "Reliable workers manage their time, understand priorities, attend agreed activities, and communicate when delays occur. Planning tasks helps prevent unnecessary confusion and supports consistent performance.",
+        "Teamwork requires cooperation, clear communication, respect for different responsibilities, and willingness to contribute toward shared goals.",
+        "Workplace rules and policies explain expected standards, procedures, safety responsibilities, and reporting arrangements. Understanding them helps individuals work consistently and responsibly."
+      ],
+      keyPoint: "Good time management, teamwork, and respect for workplace policies support effective professional performance."
+    },
+    {
+      title: "Ethical Decision-Making and Professional Growth",
+      paragraphs: [
+        "Ethical decision-making involves recognizing a problem, identifying the people affected, considering relevant rules and values, and evaluating possible choices before acting.",
+        "When a difficult situation occurs, individuals should seek reliable guidance, use appropriate reporting channels, and avoid decisions that could unfairly harm others or misuse their responsibilities.",
+        "Professional growth involves continuing to learn, reflecting on experience, accepting constructive feedback, and improving skills. Ethical behaviour should remain part of that development throughout a person's career."
+      ],
+      keyPoint: "Ethical decisions and continuous learning help individuals build trustworthy and successful careers."
+    }
+  ],
+    "cv-job-applications": [
+    {
+      title: "Introduction to CVs and Job Applications",
+      paragraphs: [
+        "A curriculum vitae (CV) is a document that presents a person's education, skills, experience, achievements, and relevant activities. It helps employers understand whether an applicant may be suitable for an opportunity.",
+        "A job application is a formal expression of interest in a particular position. It may require a CV, application letter, completed form, certificates, or other requested documents.",
+        "A strong application is clear, honest, relevant to the opportunity, and carefully prepared. Even learners without formal employment experience can present education, projects, volunteering, and transferable skills."
+      ],
+      keyPoint: "A CV and job application communicate a person's relevant qualifications and suitability for an opportunity."
+    },
+    {
+      title: "Understanding Your Skills and Qualifications",
+      paragraphs: [
+        "Before preparing a CV, identify the knowledge, abilities, and experiences that relate to the opportunity. These may include communication, teamwork, problem-solving, digital skills, languages, and technical abilities.",
+        "Qualifications include formal education, professional training, certificates, and other relevant learning achievements. Experience may come from employment, school projects, volunteering, internships, or community activities.",
+        "Describe your abilities accurately. Avoid exaggerating qualifications or claiming experience you do not have. Employers value clear and truthful information."
+      ],
+      keyPoint: "Identify relevant skills, qualifications, and experiences before writing your application."
+    },
+    {
+      title: "Preparing a Clear and Professional CV",
+      paragraphs: [
+        "A professional CV usually contains contact information, a short professional profile, education, relevant experience, skills, and references when requested. The order may vary depending on the opportunity and local expectations.",
+        "Use clear headings, consistent formatting, readable fonts, and concise descriptions. Place the most relevant information where an employer can find it easily.",
+        "Check spelling, dates, contact details, and document layout before submitting. A well-organized CV should make your qualifications easy to understand without unnecessary information."
+      ],
+      keyPoint: "A clear, accurate, and well-organized CV helps employers understand an applicant's strengths."
+    },
+    {
+      title: "Writing Effective Application Letters",
+      paragraphs: [
+        "An application letter introduces the applicant and explains interest in a specific position or opportunity. It should connect the applicant's relevant abilities and experience to the employer's needs.",
+        "A good letter normally includes a professional greeting, the purpose of writing, relevant qualifications, a brief explanation of suitability, and a polite closing.",
+        "Avoid sending exactly the same letter to every employer without reviewing the opportunity. Use accurate details, professional language, and a clear structure."
+      ],
+      keyPoint: "An effective application letter explains why the applicant is interested and how their qualifications relate to the opportunity."
+    },
+    {
+      title: "Finding Opportunities and Understanding Job Advertisements",
+      paragraphs: [
+        "Job advertisements provide information about available positions, responsibilities, required qualifications, application procedures, and deadlines. Reading them carefully helps applicants decide whether an opportunity matches their skills and goals.",
+        "Look for the employer's identity, official contact details, required documents, eligibility conditions, location, and submission instructions. Compare these requirements with your own qualifications before applying.",
+        "Use reliable sources such as official organization websites, recognized employment services, school career offices, and trusted professional networks. Be cautious of advertisements that request unusual payments or unnecessary personal information."
+      ],
+      keyPoint: "Carefully review job requirements and verify opportunities through reliable sources before applying."
+    },
+    {
+      title: "Submitting Applications and Following Up",
+      paragraphs: [
+        "Before submitting an application, confirm that every required document is included and that files use suitable formats and clear names. Follow the employer's instructions about online portals, email, or physical submission.",
+        "When applying by email, use a professional subject line, a short respectful message, and the correct attachments. Check the recipient's address and open the attachments to confirm they are the intended documents.",
+        "After submission, keep a record of the opportunity, application date, and any communication. If appropriate, send a polite follow-up after a reasonable period without repeatedly contacting the employer."
+      ],
+      keyPoint: "Careful submission and professional follow-up help keep an application process organized."
+    },
+    {
+      title: "Building a Strong Professional Profile",
+      paragraphs: [
+        "A professional profile is the way a person presents their qualifications, interests, achievements, and professional goals. It may appear in a CV, portfolio, professional networking page, or application documents.",
+        "Keep professional information accurate and consistent across different platforms. Share suitable examples of projects, certificates, and achievements while respecting privacy and confidentiality.",
+        "A strong profile develops over time through education, practical experience, volunteering, continuous learning, and responsible professional conduct. Review it regularly as your skills and goals change."
+      ],
+      keyPoint: "A strong professional profile communicates genuine skills, achievements, and career direction."
+    }
+  ],
+    "interview-skills": [
+    {
+      title: "Introduction to Interviews and Their Purpose",
+      paragraphs: [
+        "An interview is a structured conversation used by an employer, school, organization, or institution to learn more about an applicant. It gives both sides an opportunity to discuss qualifications, expectations, and suitability.",
+        "Interviews may take place in person, by telephone, or through video calls. They can include general questions, technical questions, practical tasks, or discussions about previous experiences.",
+        "Understanding the purpose of an interview helps applicants prepare relevant examples, communicate clearly, and demonstrate their knowledge and abilities."
+      ],
+      keyPoint: "An interview allows applicants to demonstrate their suitability while learning more about an opportunity."
+    },
+    {
+      title: "Preparing for an Interview",
+      paragraphs: [
+        "Good preparation begins with understanding the organization, the opportunity, and the responsibilities involved. Review the job or programme description and identify the qualifications and skills that are most relevant.",
+        "Prepare examples that demonstrate communication, teamwork, problem-solving, responsibility, and other important abilities. Think about how your education, projects, volunteering, or previous experiences relate to the opportunity.",
+        "Plan your travel or online connection, choose appropriate professional clothing, organize requested documents, and allow enough time. Preparation can help reduce uncertainty and improve confidence."
+      ],
+      keyPoint: "Research, relevant examples, organized documents, and practical planning are important parts of interview preparation."
+    },
+    {
+      title: "Answering Common Interview Questions",
+      paragraphs: [
+        "Interviewers may ask applicants to introduce themselves, explain their interests, describe their strengths, or discuss why they applied. Answers should be relevant, truthful, and connected to the opportunity.",
+        "For questions about experience, use a clear structure: explain the situation, describe your responsibility, discuss the action you took, and share the result or lesson learned.",
+        "Avoid memorizing long speeches. Understand your main points so that you can respond naturally and adjust your answers to the question being asked."
+      ],
+      keyPoint: "Strong interview answers are clear, honest, relevant, and supported by suitable examples."
+    },
+    {
+      title: "Professional Communication and Body Language",
+      paragraphs: [
+        "Professional communication involves speaking clearly, listening carefully, using respectful language, and responding directly to questions. Organizing your thoughts before answering can make communication easier to follow.",
+        "Non-verbal communication includes facial expressions, posture, gestures, and eye contact where culturally appropriate. These signals should support respectful and attentive interaction.",
+        "During an interview, remain polite and focused. If a question is unclear, ask the interviewer to explain it rather than guessing what they mean."
+      ],
+      keyPoint: "Clear speech, attentive listening, and respectful non-verbal communication support a professional interview."
+    },
+    {
+      title: "Participating in Online and Panel Interviews",
+      paragraphs: [
+        "Online interviews require preparation of the device, internet connection, microphone, camera, and meeting platform. Choose a quiet and suitable location where interruptions are less likely.",
+        "Panel interviews involve more than one interviewer. Address the person asking the question while remaining attentive to the other panel members. Organize your answers so everyone can follow your explanation.",
+        "For either format, follow instructions, communicate respectfully, and remain calm if technical or communication difficulties occur. Ask for a question to be repeated when necessary."
+      ],
+      keyPoint: "Different interview formats require practical preparation, clear communication, and professional behaviour."
+    },
+    {
+      title: "Asking Questions and Handling Difficult Questions",
+      paragraphs: [
+        "Interviews are also an opportunity for applicants to understand the role, organization, working arrangements, expectations, and learning opportunities. Prepare a few relevant questions before the interview.",
+        "Some questions may be challenging because they involve limited experience, unfamiliar topics, or personal development areas. Respond honestly and explain how you are learning or improving.",
+        "If you do not know an answer, avoid inventing information. Explain what you understand, acknowledge what you still need to learn, and show willingness to develop."
+      ],
+      keyPoint: "Thoughtful questions and honest responses demonstrate curiosity, maturity, and a willingness to learn."
+    },
+    {
+      title: "Interview Follow-Up and Continuous Improvement",
+      paragraphs: [
+        "After an interview, thank the interviewer for the opportunity and follow any communication instructions provided. A brief professional message may be appropriate when contact details and circumstances allow.",
+        "Record questions that were difficult, areas where you communicated well, and skills you would like to improve. Use this reflection to prepare more effectively for future interviews.",
+        "An unsuccessful application does not remove the value of the experience. Feedback, practice, additional learning, and preparation can strengthen future performance."
+      ],
+      keyPoint: "Reflecting on interviews and improving through practice helps build long-term professional confidence."
+    }
+  ],
+     "research-study-skills": [
+    {
+      title: "Introduction to Research and Study Skills",
+      paragraphs: [
+        "Research and study skills help learners find information, understand ideas, organize knowledge, and communicate what they have learned. They are useful in primary and secondary education, technical training, university, professional development, and everyday life.",
+        "Research involves asking questions, gathering relevant information, examining evidence, and developing conclusions. Study skills help learners understand, remember, and apply information effectively.",
+        "Developing these skills encourages independent learning, curiosity, critical thinking, and responsible use of information."
+      ],
+      keyPoint: "Research and study skills help learners investigate questions, understand information, and develop independent knowledge."
+    },
+    {
+      title: "Setting Learning Goals and Managing Study Time",
+      paragraphs: [
+        "Learning goals describe what a learner wants to understand or achieve. Clear goals make studying more purposeful and help learners identify what to work on first.",
+        "A study timetable can organize lessons, reading, assignments, revision, and breaks. Dividing large tasks into smaller activities makes progress easier to manage.",
+        "Study plans should be realistic and flexible. Reviewing progress regularly helps learners adjust their priorities when circumstances or learning needs change."
+      ],
+      keyPoint: "Clear learning goals and realistic study schedules help learners organize their time and monitor progress."
+    },
+    {
+      title: "Effective Reading and Note-Taking",
+      paragraphs: [
+        "Effective reading involves identifying the purpose of a text, recognizing its main ideas, understanding important details, and connecting new information with existing knowledge.",
+        "Note-taking helps learners record useful information in their own words. Methods may include headings, short summaries, tables, diagrams, and concept maps.",
+        "Good notes should be organized, accurate, and easy to review. Copying everything without understanding it is less useful than identifying and explaining the most important ideas."
+      ],
+      keyPoint: "Purposeful reading and organized note-taking improve understanding and make revision more useful."
+    },
+    {
+      title: "Finding and Evaluating Reliable Information",
+      paragraphs: [
+        "Research information can come from textbooks, academic publications, educational websites, official reports, libraries, and other sources. Different questions may require different types of evidence.",
+        "Evaluate a source by considering who created it, when it was published, what evidence it provides, whether it is relevant, and whether other trustworthy sources support its claims.",
+        "Be cautious with information that has no clear author, makes exaggerated claims, or cannot be verified. Comparing multiple reliable sources helps reduce misunderstandings."
+      ],
+      keyPoint: "Reliable research depends on relevant evidence, trustworthy sources, and careful evaluation of information."
+    },
+    {
+      title: "Research Questions, Methods, and Evidence",
+      paragraphs: [
+        "A research question identifies the issue or topic a learner wants to investigate. A focused question makes it easier to decide what information is needed and which sources may be useful.",
+        "Research methods are ways of collecting information. Depending on the topic, they may include reviewing publications, observing situations, conducting interviews with appropriate permission, or using surveys.",
+        "Evidence should be recorded accurately and interpreted carefully. Learners should distinguish facts, opinions, assumptions, and personal interpretations when explaining findings."
+      ],
+      keyPoint: "Good research begins with a focused question and uses suitable methods to collect and interpret evidence."
+    },
+    {
+      title: "Academic Writing, Referencing, and Avoiding Plagiarism",
+      paragraphs: [
+        "Academic writing presents information in a clear, organized, and evidence-based way. A written assignment or report usually has an introduction, a main discussion, and a conclusion.",
+        "Referencing identifies the sources used in research. It allows readers to locate the original information and recognize the work of authors and researchers.",
+        "Plagiarism occurs when someone presents another person's words, ideas, or work as their own without appropriate acknowledgment. Use quotations, paraphrasing, and citations responsibly, and follow the referencing style required by your institution."
+      ],
+      keyPoint: "Responsible academic writing uses clear explanations, appropriate references, and proper acknowledgment of other people's work."
+    },
+    {
+      title: "Revision, Critical Thinking, and Lifelong Learning",
+      paragraphs: [
+        "Revision is the process of reviewing and practising previously studied material. Useful approaches include summarizing topics, answering practice questions, explaining concepts aloud, and revisiting areas that need more attention.",
+        "Critical thinking means examining information carefully, asking questions, comparing explanations, identifying assumptions, and reaching conclusions based on evidence rather than accepting every claim immediately.",
+        "Lifelong learning means continuing to develop knowledge and skills beyond formal education. Curiosity, reflection, reliable research, and consistent study habits help learners adapt to new challenges throughout life."
+      ],
+      keyPoint: "Regular revision, critical thinking, and continued learning support long-term educational and professional development."
+    }
+  ],
 };
 const learnLoopCourses = [
 
