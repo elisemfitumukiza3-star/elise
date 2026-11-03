@@ -1469,6 +1469,7 @@ if (view === "committeeDuty") {
   const pageIds = {
     feed: "feedView",
      posts: "postsView",
+   academy: "academyView",
     library: "libraryView",
     youtube: "youtubeCatalog",
    discussions: "discussionsView",
