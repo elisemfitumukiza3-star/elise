@@ -8306,12 +8306,10 @@ actionButton.addEventListener("click", () => {
     saveAcademyProgress(latestProgress);
   }
 
- if (isLastLesson) {
-  renderAcademyCourses();
-
-  document.querySelector("#academyQuizButton")?.click();
-  return;
-}
+  if (isLastLesson) {
+    renderAcademyCourses();
+    return;
+  }
 
   openAcademyCourse(course);
 
