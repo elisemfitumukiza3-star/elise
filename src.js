@@ -6411,9 +6411,15 @@ function openAcademyCourse(course) {
   lessonContent.replaceChildren();
 
   course.topics.forEach((topic, index) => {
+     const firstIncompleteIndex = course.topics.findIndex(
+  (_, lessonIndex) => !readTopics.includes(lessonIndex)
+);
     const button = document.createElement("button");
     button.type = "button";
     button.className = "academy-topic-item";
+     button.disabled =
+  !readTopics.includes(index) &&
+  index !== firstIncompleteIndex;
     button.textContent =
       `${readTopics.includes(index) ? "✓ " : ""}${index + 1}. ${topic} — Open topic`;
 
