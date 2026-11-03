@@ -5145,3 +5145,76 @@ a:hover,
     grid-template-columns: minmax(0, 1fr);
   }
 }
+/* LearnLoop Academy — distinct course card colors */
+
+#academyCourseGrid .academy-course-card:nth-child(1) {
+  background: #eaf3ff;
+  border-color: #bfd7f5;
+}
+
+#academyCourseGrid .academy-course-card:nth-child(2) {
+  background: #eaf8ef;
+  border-color: #bce5ca;
+}
+
+#academyCourseGrid .academy-course-card:nth-child(3) {
+  background: #f2edff;
+  border-color: #d5c5fa;
+}
+
+#academyCourseGrid .academy-course-card:nth-child(4) {
+  background: #fff2e8;
+  border-color: #f4d0b4;
+}
+
+#academyCourseGrid .academy-course-card:nth-child(5) {
+  background: #fff0f3;
+  border-color: #f3c4d0;
+}
+
+#academyCourseGrid .academy-course-card:nth-child(6) {
+  background: #e7f7f7;
+  border-color: #b6e2e2;
+}
+
+#academyCourseGrid .academy-course-card:nth-child(7) {
+  background: #fff8df;
+  border-color: #efdfa2;
+}
+
+/* Matching course icons */
+
+#academyCourseGrid .academy-course-card:nth-child(1) .academy-course-icon {
+  background: #cfe3ff;
+  color: #174a83;
+}
+
+#academyCourseGrid .academy-course-card:nth-child(2) .academy-course-icon {
+  background: #ccebd5;
+  color: #17643b;
+}
+
+#academyCourseGrid .academy-course-card:nth-child(3) .academy-course-icon {
+  background: #dfd3ff;
+  color: #5936a0;
+}
+
+#academyCourseGrid .academy-course-card:nth-child(4) .academy-course-icon {
+  background: #ffddc4;
+  color: #9a4b16;
+}
+
+#academyCourseGrid .academy-course-card:nth-child(5) .academy-course-icon {
+  background: #ffd6df;
+  color: #a52f50;
+}
+
+#academyCourseGrid .academy-course-card:nth-child(6) .academy-course-icon {
+  background: #c9eeee;
+  color: #12666a;
+}
+
+#academyCourseGrid .academy-course-card:nth-child(7) .academy-course-icon {
+  background: #f8e9ae;
+  color: #80600c;
+}
