@@ -7137,14 +7137,14 @@ const learnLoopCourses = [
     description: "Learn healthy hygiene habits and understand how common illnesses can be prevented.",
     icon: "🧼",
     educationLevels: ["Primary Education", "Secondary Education", "General Learning"],
-    topics: [
-      "Understanding Personal Hygiene",
-      "Handwashing and Cleanliness",
-      "Oral Health and Dental Care",
-      "Clean Water and Safe Sanitation",
-      "Understanding How Diseases Spread",
-      "Preventing Common Infections",
-      "Building Healthy Daily Habits"
+  topics: [
+  "Understanding Personal Hygiene",
+  "Hand Hygiene and Germ Prevention",
+  "Oral Hygiene and Dental Care",
+  "Skin, Hair, and Body Care",
+  "Clean Clothing and Personal Items",
+  "Hygiene at Home, School, and Work",
+  "Building Lifelong Hygiene Habits"
     ]
   },
   {
