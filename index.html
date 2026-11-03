@@ -410,101 +410,6 @@ the world, everyone has something to learn and something valuable to share.
     <span class="lessons-card-link">Explore Lessons →</span>
   </div>
 </a>            </div>
-<section class="academy-section" id="learnLoopAcademy">
-  <div class="academy-heading">
-    <span class="eyebrow">LEARN • GROW • ACHIEVE</span>
-    <h2>LearnLoop Academy</h2>
-    <p>
-      Build practical skills, study at your own pace, and earn a
-      certificate when you complete a course and pass its quiz.
-    </p>
-  </div>
-
-  <div class="academy-overview">
-    <div>
-      <strong>7</strong>
-      <span>Learning courses</span>
-    </div>
-    <div>
-      <strong>49+</strong>
-      <span>Learning topics</span>
-    </div>
-    <div>
-      <strong>Learn</strong>
-      <span>At your own pace</span>
-    </div>
-  </div>
-
-  <div class="academy-course-grid" id="academyCourseGrid">
-    <p>Loading LearnLoop courses...</p>
-  </div>
-
-  <section class="academy-study-panel hidden" id="academyStudyPanel">
-    <button type="button" id="closeAcademyCourse">
-      ← Back to all courses
-    </button>
-
-    <h3 id="academyCourseTitle">Course title</h3>
-    <p id="academyCourseDescription"></p>
-
-    <div class="academy-progress-track">
-      <div id="academyProgressBar"></div>
-    </div>
-    <p id="academyProgressText">0% completed</p>
-
-    <div id="academyTopicList"></div>
-
-    <div id="academyLessonContent"></div>
-<section class="card academy-reviews" id="academyReviews">
-  <h3>Course Reviews & Ratings</h3>
-  <p>Share your experience and appreciate the learning journey.</p>
-
-  <div id="academyReviewAverage">
-    No ratings yet.
-  </div>
-
-  <form id="academyReviewForm">
-    <label for="academyReviewRating">Your rating</label>
-    <select id="academyReviewRating" required>
-      <option value="">Choose stars</option>
-      <option value="1">★☆☆☆☆ — 1 star</option>
-      <option value="2">★★☆☆☆ — 2 stars</option>
-      <option value="3">★★★☆☆ — 3 stars</option>
-      <option value="4">★★★★☆ — 4 stars</option>
-      <option value="5">★★★★★ — 5 stars</option>
-    </select>
-
-    <label for="academyReviewText">Your comment</label>
-    <textarea
-      id="academyReviewText"
-      maxlength="1000"
-      placeholder="Share what you think about this course..."
-    ></textarea>
-
-    <button type="submit" id="submitAcademyReview">
-      Submit Review
-    </button>
-    <p id="academyReviewStatus" aria-live="polite"></p>
-  </form>
-
-  <div id="academyReviewList"></div>
-</section>
-   <dialog id="academyQuizDialog" class="academy-quiz-dialog">
-  <div class="academy-quiz-window">
-   <button
-  type="button"
-  id="closeAcademyQuizDialog"
-  class="dialog-close"
-  aria-label="Close quiz"
->
-  ×
-</button> 
-    <div id="academyQuizPanel"></div>
-    <div id="academyCertificatePanel"></div>
-  </div>
-</dialog>
-  </section>
-</section>
 
 <section class="discover-section">
   <div class="section-heading">
@@ -689,6 +594,116 @@ the world, everyone has something to learn and something valuable to share.
               <div class="empty-state">Loading posts…</div>
             </div>
                    </section>
+                 </section>
+        </section>
+
+        <section class="view-panel hidden" id="academyView">
+          <div class="academy-window-header">
+            <button type="button" data-view="feed">
+              ← Back to Home
+            </button>
+            <h2>LearnLoop Lessons</h2>
+            <p>Read, understand, take quizzes and earn certificates.</p>
+          </div>
+          <section class="academy-section" id="learnLoopAcademy">
+  <div class="academy-heading">
+    <span class="eyebrow">LEARN • GROW • ACHIEVE</span>
+    <h2>LearnLoop Academy</h2>
+    <p>
+      Build practical skills, study at your own pace, and earn a
+      certificate when you complete a course and pass its quiz.
+    </p>
+  </div>
+
+  <div class="academy-overview">
+    <div>
+      <strong>7</strong>
+      <span>Learning courses</span>
+    </div>
+    <div>
+      <strong>49+</strong>
+      <span>Learning topics</span>
+    </div>
+    <div>
+      <strong>Learn</strong>
+      <span>At your own pace</span>
+    </div>
+  </div>
+
+  <div class="academy-course-grid" id="academyCourseGrid">
+    <p>Loading LearnLoop courses...</p>
+  </div>
+
+  <section class="academy-study-panel hidden" id="academyStudyPanel">
+    <button type="button" id="closeAcademyCourse">
+      ← Back to all courses
+    </button>
+
+    <h3 id="academyCourseTitle">Course title</h3>
+    <p id="academyCourseDescription"></p>
+
+    <div class="academy-progress-track">
+      <div id="academyProgressBar"></div>
+    </div>
+    <p id="academyProgressText">0% completed</p>
+
+    <div id="academyTopicList"></div>
+
+    <div id="academyLessonContent"></div>
+<section class="card academy-reviews" id="academyReviews">
+  <h3>Course Reviews & Ratings</h3>
+  <p>Share your experience and appreciate the learning journey.</p>
+
+  <div id="academyReviewAverage">
+    No ratings yet.
+  </div>
+
+  <form id="academyReviewForm">
+    <label for="academyReviewRating">Your rating</label>
+    <select id="academyReviewRating" required>
+      <option value="">Choose stars</option>
+      <option value="1">★☆☆☆☆ — 1 star</option>
+      <option value="2">★★☆☆☆ — 2 stars</option>
+      <option value="3">★★★☆☆ — 3 stars</option>
+      <option value="4">★★★★☆ — 4 stars</option>
+      <option value="5">★★★★★ — 5 stars</option>
+    </select>
+
+    <label for="academyReviewText">Your comment</label>
+    <textarea
+      id="academyReviewText"
+      maxlength="1000"
+      placeholder="Share what you think about this course..."
+    ></textarea>
+
+    <button type="submit" id="submitAcademyReview">
+      Submit Review
+    </button>
+    <p id="academyReviewStatus" aria-live="polite"></p>
+  </form>
+
+  <div id="academyReviewList"></div>
+</section>
+   <dialog id="academyQuizDialog" class="academy-quiz-dialog">
+  <div class="academy-quiz-window">
+   <button
+  type="button"
+  id="closeAcademyQuizDialog"
+  class="dialog-close"
+  aria-label="Close quiz"
+>
+  ×
+</button> 
+    <div id="academyQuizPanel"></div>
+    <div id="academyCertificatePanel"></div>
+  </div>
+</dialog>
+  </section>
+</section>
+
+        </section>
+
+        <section class="view-panel hidden" id="libraryView"> 
         </section>
 
         <section class="view-panel hidden" id="libraryView">
