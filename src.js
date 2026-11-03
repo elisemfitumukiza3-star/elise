@@ -5268,9 +5268,9 @@ function getAcademyReading(course, index) {
       }
     ]
   };
-
-  const courseLessons = lessons[course.slug];
-
+const courseLessons =
+  lessons[course.slug] || academyAdditionalLessons[course.slug];
+ 
   if (courseLessons && courseLessons[index]) {
     return courseLessons[index];
   }
@@ -5287,6 +5287,71 @@ function getAcademyReading(course, index) {
   };
 }
 const academyAdditionalLessons = {
+     "nutrition-healthy-living": [
+    {
+      title: "Introduction to Nutrition and Healthy Living",
+      paragraphs: [
+        "Nutrition is the process through which the body obtains and uses nutrients from food. These nutrients provide energy, support growth, help repair tissues, and maintain normal body functions.",
+        "Healthy living combines balanced nutrition with physical activity, adequate rest, safe food practices, and positive everyday habits. These areas work together to support physical and mental wellbeing.",
+        "For example, a learner who eats regular balanced meals, drinks enough safe water, gets sufficient rest, and remains physically active supports concentration and everyday performance."
+      ],
+      keyPoint: "Healthy living depends on balanced nutrition and consistent habits, not one particular food."
+    },
+    {
+      title: "Understanding Food Groups",
+      paragraphs: [
+        "Different foods provide different nutrients. Common food groups include fruits, vegetables, grains, protein-rich foods, and dairy products or suitable alternatives.",
+        "Fruits and vegetables provide vitamins, minerals, and fibre. Grains provide energy, while foods such as beans, eggs, fish, and meat provide protein and other important nutrients. Dairy products and fortified alternatives can provide calcium and other nutrients.",
+        "A varied diet helps the body receive a wider range of nutrients. Local foods such as beans, sweet potatoes, bananas, vegetables, maize, and other available foods can contribute to balanced meals."
+      ],
+      keyPoint: "Eating a variety of foods helps provide the different nutrients the body needs."
+    },
+    {
+      title: "Essential Nutrients and Their Functions",
+      paragraphs: [
+        "The body needs several types of nutrients. Carbohydrates are an important energy source, proteins support growth and tissue repair, and fats provide energy and help the body absorb certain vitamins.",
+        "Vitamins and minerals support many body processes, including immunity, healthy bones, blood formation, and normal nerve function. Fibre supports digestion, while water helps regulate body temperature and transport substances.",
+        "No single nutrient performs every function. A balanced eating pattern combines different foods so that the body receives the nutrients required for normal development and daily activities."
+      ],
+      keyPoint: "Carbohydrates, proteins, fats, vitamins, minerals, fibre, and water all have important roles."
+    },
+    {
+      title: "Balanced Meals and Healthy Food Choices",
+      paragraphs: [
+        "A balanced meal contains a suitable variety of foods that provide energy and essential nutrients. The combination may differ depending on age, activity, availability, culture, and individual needs.",
+        "A practical meal can include vegetables or fruits, a source of protein such as beans or eggs, and an energy-providing food such as rice, potatoes, maize, or sweet potatoes.",
+        "Healthy food choices do not require expensive ingredients. Planning meals around accessible seasonal foods can help households prepare nutritious meals while respecting their budgets and preferences."
+      ],
+      keyPoint: "Balanced meals combine variety, nutritional value, and foods that are realistically available."
+    },
+    {
+      title: "Hydration and the Importance of Water",
+      paragraphs: [
+        "Water is essential for life. It helps regulate body temperature, supports digestion, transports nutrients, and assists the body in removing waste.",
+        "The amount of water a person needs varies with age, activity, climate, health, and other circumstances. Hot weather and physical activity can increase the need for fluids.",
+        "Safe drinking water should be used whenever possible. Drinking clean water regularly and paying attention to thirst are useful everyday habits."
+      ],
+      keyPoint: "Safe water is essential for normal body functions and everyday wellbeing."
+    },
+    {
+      title: "Food Safety and Healthy Preparation",
+      paragraphs: [
+        "Food safety means handling, preparing, storing, and serving food in ways that reduce the risk of illness. Unsafe food can contain harmful microorganisms or contaminants.",
+        "Important food safety habits include washing hands before food preparation, cleaning utensils and surfaces, separating raw foods from ready-to-eat foods, cooking foods thoroughly, and storing food appropriately.",
+        "Fruits and vegetables should be washed with safe water. Food should be protected from insects, animals, dust, and other possible sources of contamination."
+      ],
+      keyPoint: "Clean handling, proper preparation, and safe storage help prevent food-related illness."
+    },
+    {
+      title: "Building Lifelong Healthy Living Habits",
+      paragraphs: [
+        "Healthy living is developed through realistic habits that can be maintained over time. Nutrition is important, but physical activity, sufficient sleep, hygiene, and social wellbeing also contribute to health.",
+        "Individuals can build healthy routines by choosing varied meals, drinking safe water, participating in enjoyable physical activities, resting adequately, and seeking reliable health information.",
+        "Healthy habits should be suitable for each person's circumstances. Families, schools, and communities can support wellbeing by making nutritious foods, safe water, learning opportunities, and healthy environments more accessible."
+      ],
+      keyPoint: "Long-term wellbeing grows from practical, balanced habits that can be maintained throughout life."
+    }
+  ],
   "personal-hygiene": [
     {
       title: "Understanding Personal Hygiene",
