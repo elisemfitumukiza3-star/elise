@@ -11398,9 +11398,11 @@ downloadButton.addEventListener("click", async () => {
   }
 
   const jsPDF = window.jspdf?.jsPDF;
+const QRCodeLib = window.QRCode;
 
- if (!jsPDF || typeof QRCode === "undefined") {
-  alert("PDF or QR library could not load. Please refresh and try again.");
+if (typeof jsPDF !== "function" ||
+    typeof QRCodeLib !== "function") {
+  alert("The PDF or QR-code library could not load. Please refresh and try again.");
   return;
 }
         const pdf = new jsPDF({
