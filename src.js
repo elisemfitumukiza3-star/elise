@@ -5267,1412 +5267,7 @@ function getAcademyReading(course, index) {
         keyPoint: "Keep learning, seek useful feedback, practise new skills, and adapt your career plan as opportunities change."
       }
     ],
-      "personal-hygiene": [
-    {
-      question: "What is the main purpose of personal hygiene?",
-      options: [
-        "To prevent every illness completely",
-        "To maintain cleanliness and support good health",
-        "To avoid all physical activity",
-        "To replace medical care"
-      ],
-      answer: 1
-    },
-    {
-      question: "When should you wash your hands?",
-      options: [
-        "Only once a week",
-        "Only when they look dirty",
-        "Before eating and after using the toilet",
-        "Only before sleeping"
-      ],
-      answer: 2
-    },
-    {
-      question: "Why is brushing teeth regularly important?",
-      options: [
-        "It helps prevent tooth decay and gum problems",
-        "It replaces drinking water",
-        "It makes dental visits unnecessary",
-        "It prevents every infection"
-      ],
-      answer: 0
-    },
-    {
-      question: "Which habit supports healthy skin?",
-      options: [
-        "Sharing personal towels",
-        "Ignoring cleanliness",
-        "Using unknown chemicals",
-        "Keeping the body clean"
-      ],
-      answer: 3
-    },
-    {
-      question: "Why should clothes be washed regularly?",
-      options: [
-        "To change their colour",
-        "To remove dirt, sweat, and germs",
-        "To make them heavier",
-        "To avoid wearing clean clothes"
-      ],
-      answer: 1
-    },
-    {
-      question: "Which item should generally be personal rather than shared?",
-      options: [
-        "A classroom desk",
-        "A library book",
-        "A toothbrush",
-        "A school noticeboard"
-      ],
-      answer: 2
-    },
-    {
-      question: "What is a good hygiene practice at school?",
-      options: [
-        "Keeping shared spaces clean",
-        "Leaving rubbish on desks",
-        "Sharing used tissues",
-        "Ignoring handwashing"
-      ],
-      answer: 0
-    },
-    {
-      question: "What should you do when you cough or sneeze?",
-      options: [
-        "Cough toward other people",
-        "Use your hands and touch shared objects",
-        "Ignore basic hygiene",
-        "Cover your mouth and nose with a tissue or your elbow"
-      ],
-      answer: 3
-    },
-    {
-      question: "Why is personal hygiene important in daily life?",
-      options: [
-        "It guarantees that nobody gets sick",
-        "It supports cleanliness, comfort, and disease prevention",
-        "It replaces healthy routines",
-        "It removes the need for clean surroundings"
-      ],
-      answer: 1
-    },
-    {
-      question: "How can someone build lasting hygiene habits?",
-      options: [
-        "Practise them consistently every day",
-        "Only practise them when visitors arrive",
-        "Avoid learning about hygiene",
-        "Change routines randomly"
-      ],
-      answer: 0
-    }
-  ],
-       "nutrition-healthy-living": [
-    {
-      question: "What is a balanced diet?",
-      options: [
-        "Eating only fruits",
-        "Eating a variety of foods that provide needed nutrients",
-        "Avoiding all carbohydrates",
-        "Eating the same meal every day"
-      ],
-      answer: 1
-    },
-    {
-      question: "Which nutrient is an important source of energy?",
-      options: ["Carbohydrates", "Water", "Vitamins", "Minerals"],
-      answer: 0
-    },
-    {
-      question: "Why does the body need protein?",
-      options: [
-        "To replace water",
-        "To prevent all diseases",
-        "For growth and tissue repair",
-        "To eliminate the need for sleep"
-      ],
-      answer: 2
-    },
-    {
-      question: "Which is a healthy everyday drink?",
-      options: ["Sugary soda", "Energy drink", "Very sweet juice", "Clean drinking water"],
-      answer: 3
-    },
-    {
-      question: "What is the role of dietary fibre?",
-      options: [
-        "It supports healthy digestion",
-        "It replaces all vitamins",
-        "It prevents the need for water",
-        "It provides no nutritional benefit"
-      ],
-      answer: 0
-    },
-    {
-      question: "Which food group commonly provides vitamins and minerals?",
-      options: ["Sweets", "Fruits and vegetables", "Soft drinks", "Fried snacks"],
-      answer: 1
-    },
-    {
-      question: "Why is regular physical activity beneficial?",
-      options: [
-        "It replaces a balanced diet",
-        "It guarantees perfect health",
-        "It supports heart health and general wellbeing",
-        "It removes the need for rest"
-      ],
-      answer: 2
-    },
-    {
-      question: "Why is breakfast useful for many learners?",
-      options: [
-        "It replaces every other meal",
-        "It guarantees high examination marks",
-        "It removes the need for sleep",
-        "It can provide energy and nutrients for the morning"
-      ],
-      answer: 3
-    },
-    {
-      question: "What is food safety?",
-      options: [
-        "Handling and storing food in ways that reduce contamination",
-        "Eating food without checking its condition",
-        "Leaving cooked food uncovered for long periods",
-        "Using unclean utensils"
-      ],
-      answer: 0
-    },
-    {
-      question: "What supports healthy eating habits?",
-      options: [
-        "Skipping meals regularly",
-        "Eating a varied diet and making informed food choices",
-        "Avoiding all food groups",
-        "Following every food trend"
-      ],
-      answer: 1
-    }
-  ],
-      "public-health": [
-    {
-      question: "What is public health mainly concerned with?",
-      options: [
-        "Treating only individual patients",
-        "Protecting and improving the health of communities",
-        "Selling medical equipment",
-        "Building private hospitals only"
-      ],
-      answer: 1
-    },
-    {
-      question: "What is one purpose of vaccination programmes?",
-      options: [
-        "To replace healthy food",
-        "To treat every existing illness",
-        "To help prevent specific infectious diseases",
-        "To eliminate the need for clean water"
-      ],
-      answer: 2
-    },
-    {
-      question: "Why is access to clean water important?",
-      options: [
-        "It helps reduce waterborne diseases",
-        "It replaces all medical services",
-        "It prevents every health condition",
-        "It removes the need for sanitation"
-      ],
-      answer: 0
-    },
-    {
-      question: "What does disease prevention mean?",
-      options: [
-        "Ignoring early symptoms",
-        "Avoiding health education",
-        "Treating illness only after complications",
-        "Taking steps to reduce the risk of illness"
-      ],
-      answer: 3
-    },
-    {
-      question: "What is the purpose of health education?",
-      options: [
-        "To spread medical rumours",
-        "To help people make informed health decisions",
-        "To replace trained health workers",
-        "To discourage preventive care"
-      ],
-      answer: 1
-    },
-    {
-      question: "Which practice helps prevent the spread of infections?",
-      options: [
-        "Sharing unwashed personal items",
-        "Ignoring hygiene",
-        "Regular handwashing",
-        "Drinking unsafe water"
-      ],
-      answer: 2
-    },
-    {
-      question: "What is disease surveillance?",
-      options: [
-        "Monitoring diseases to identify patterns and possible outbreaks",
-        "Keeping health information secret from health authorities",
-        "Replacing all medical examinations",
-        "Treating patients without collecting information"
-      ],
-      answer: 0
-    },
-    {
-      question: "Why are sanitation systems important?",
-      options: [
-        "They increase environmental pollution",
-        "They replace vaccination",
-        "They make clean water unnecessary",
-        "They help manage waste and protect community health"
-      ],
-      answer: 3
-    },
-    {
-      question: "What is an outbreak?",
-      options: [
-        "A routine health examination",
-        "An increase in disease cases above what is normally expected",
-        "A community sports event",
-        "A general health education lesson"
-      ],
-      answer: 1
-    },
-    {
-      question: "Who contributes to improving public health?",
-      options: [
-        "Only doctors",
-        "Only government officials",
-        "Individuals, communities, health workers, and institutions",
-        "Only international organisations"
-      ],
-      answer: 2
-    }
-  ],
-     "workplace-safety": [
-    {
-      question: "What is workplace safety?",
-      options: [
-        "Avoiding all responsibilities",
-        "Creating conditions that reduce risks and protect people",
-        "Working without rules",
-        "Ignoring possible hazards"
-      ],
-      answer: 1
-    },
-    {
-      question: "What is a workplace hazard?",
-      options: [
-        "A daily work schedule",
-        "A completed assignment",
-        "Something that could cause harm",
-        "A staff meeting"
-      ],
-      answer: 2
-    },
-    {
-      question: "What should you do when you notice a workplace hazard?",
-      options: [
-        "Report it to the responsible person",
-        "Ignore it",
-        "Hide the information",
-        "Encourage others to approach it"
-      ],
-      answer: 0
-    },
-    {
-      question: "Why are workplace safety rules important?",
-      options: [
-        "To make work confusing",
-        "To prevent people from learning",
-        "To remove all responsibilities",
-        "To help prevent accidents and injuries"
-      ],
-      answer: 3
-    },
-    {
-      question: "What is the purpose of safety training?",
-      options: [
-        "To replace all workplace policies",
-        "To help workers understand safe practices",
-        "To increase workplace hazards",
-        "To avoid reporting incidents"
-      ],
-      answer: 1
-    },
-    {
-      question: "Why should emergency exits remain accessible?",
-      options: [
-        "To provide extra storage",
-        "To decorate the building",
-        "To support safe evacuation when necessary",
-        "To restrict movement"
-      ],
-      answer: 2
-    },
-    {
-      question: "What should happen after a workplace incident?",
-      options: [
-        "It should be reported through the appropriate procedure",
-        "It should always be hidden",
-        "Everyone should ignore it",
-        "Unverified stories should be shared"
-      ],
-      answer: 0
-    },
-    {
-      question: "What does good workplace housekeeping involve?",
-      options: [
-        "Leaving objects in walkways",
-        "Blocking emergency routes",
-        "Ignoring spills and clutter",
-        "Keeping work areas clean and organized"
-      ],
-      answer: 3
-    },
-    {
-      question: "Who is responsible for workplace safety?",
-      options: [
-        "Only visitors",
-        "Employers and workers, according to their responsibilities",
-        "Only new employees",
-        "Nobody"
-      ],
-      answer: 1
-    },
-    {
-      question: "What should workers do if they do not understand a safety procedure?",
-      options: [
-        "Guess what to do",
-        "Ignore the procedure",
-        "Ask a qualified supervisor for clarification",
-        "Follow an unverified instruction"
-      ],
-      answer: 2
-    }
-  ],
-       "digital-literacy": [
-    {
-      question: "What is digital literacy?",
-      options: [
-        "Using technology without understanding it",
-        "Avoiding digital devices",
-        "Using digital technologies effectively, safely, and responsibly",
-        "Learning only how to type"
-      ],
-      answer: 2
-    },
-    {
-      question: "Which is an example of a digital device?",
-      options: ["A smartphone", "A wooden chair", "A paper notebook", "A pencil"],
-      answer: 0
-    },
-    {
-      question: "What makes a password stronger?",
-      options: [
-        "Using your first name only",
-        "Using the word password",
-        "Sharing it with friends",
-        "Using a long, unique combination of characters"
-      ],
-      answer: 3
-    },
-    {
-      question: "What should you do before sharing information online?",
-      options: [
-        "Share it immediately",
-        "Check whether the information is reliable",
-        "Trust every message",
-        "Ignore the source"
-      ],
-      answer: 1
-    },
-    {
-      question: "What is a web browser used for?",
-      options: [
-        "Repairing computer hardware",
-        "Charging a phone",
-        "Accessing and viewing websites",
-        "Printing documents only"
-      ],
-      answer: 2
-    },
-    {
-      question: "What is cloud storage?",
-      options: [
-        "Saving files on remote internet-based servers",
-        "Keeping files only on paper",
-        "Storing files in a computer keyboard",
-        "Deleting files permanently"
-      ],
-      answer: 0
-    },
-    {
-      question: "Which action demonstrates responsible online behaviour?",
-      options: [
-        "Sharing private information without permission",
-        "Sending hurtful messages",
-        "Copying other people's work without credit",
-        "Respecting others and protecting personal information"
-      ],
-      answer: 3
-    },
-    {
-      question: "What is the purpose of a search engine?",
-      options: [
-        "To create computer hardware",
-        "To find information and resources on the internet",
-        "To replace an operating system",
-        "To prevent access to websites"
-      ],
-      answer: 1
-    },
-    {
-      question: "Why should software be updated?",
-      options: [
-        "To remove every saved document",
-        "To make devices less useful",
-        "To improve security, fix problems, and add improvements",
-        "To share passwords"
-      ],
-      answer: 2
-    },
-    {
-      question: "What should you do if an online message looks suspicious?",
-      options: [
-        "Avoid clicking its links and verify its source",
-        "Immediately provide your password",
-        "Forward it to everyone",
-        "Download every attachment"
-      ],
-      answer: 0
-    }
-  ],
-     "coding-fundamentals": [
-    {
-      question: "What is programming?",
-      options: [
-        "Repairing electronic devices",
-        "Giving a computer instructions to perform tasks",
-        "Browsing websites",
-        "Drawing pictures only"
-      ],
-      answer: 1
-    },
-    {
-      question: "What is an algorithm?",
-      options: [
-        "A computer screen",
-        "A programming language",
-        "A step-by-step procedure for solving a problem",
-        "A storage device"
-      ],
-      answer: 2
-    },
-    {
-      question: "What is a variable in programming?",
-      options: [
-        "A named place used to store a value",
-        "A computer monitor",
-        "A type of printer",
-        "An internet connection"
-      ],
-      answer: 0
-    },
-    {
-      question: "What does a loop do in programming?",
-      options: [
-        "Deletes every file",
-        "Turns off the computer",
-        "Changes the screen size",
-        "Repeats instructions"
-      ],
-      answer: 3
-    },
-    {
-      question: "What is a programming bug?",
-      options: [
-        "A computer accessory",
-        "An error or flaw in a program",
-        "A type of keyboard",
-        "A completed program"
-      ],
-      answer: 1
-    },
-    {
-      question: "What is debugging?",
-      options: [
-        "Installing a new screen",
-        "Deleting all program files",
-        "Finding and correcting errors in code",
-        "Turning off the internet"
-      ],
-      answer: 2
-    },
-    {
-      question: "What is the purpose of a conditional statement?",
-      options: [
-        "To make decisions based on conditions",
-        "To store electricity",
-        "To display every file",
-        "To connect a printer"
-      ],
-      answer: 0
-    },
-    {
-      question: "Which of these is a programming language?",
-      options: ["Microsoft Word", "Google Chrome", "Windows Explorer", "JavaScript"],
-      answer: 3
-    },
-    {
-      question: "What is the purpose of a function?",
-      options: [
-        "To damage a computer",
-        "To organize reusable instructions for a task",
-        "To replace computer memory",
-        "To disconnect a network"
-      ],
-      answer: 1
-    },
-    {
-      question: "Why should programmers test their code?",
-      options: [
-        "To make programs harder to use",
-        "To avoid documenting their work",
-        "To check that the program works as expected",
-        "To remove useful features"
-      ],
-      answer: 2
-    }
-  ],
-      "cybersecurity-awareness": [
-    {
-      question: "What is cybersecurity?",
-      options: [
-        "The study of computer games",
-        "The process of protecting digital systems and information",
-        "The design of computer furniture",
-        "The use of social media only"
-      ],
-      answer: 1
-    },
-    {
-      question: "What is phishing?",
-      options: [
-        "A computer programming method",
-        "A normal software update",
-        "A fraudulent attempt to steal sensitive information",
-        "A method of organizing files"
-      ],
-      answer: 2
-    },
-    {
-      question: "What should you do with your password?",
-      options: [
-        "Keep it private and use a unique password",
-        "Post it publicly",
-        "Share it with strangers",
-        "Use the same simple password everywhere"
-      ],
-      answer: 0
-    },
-    {
-      question: "Why is two-factor authentication useful?",
-      options: [
-        "It removes the need for passwords",
-        "It makes every account public",
-        "It prevents all possible cyberattacks",
-        "It adds another layer of account protection"
-      ],
-      answer: 3
-    },
-    {
-      question: "What should you do with an unexpected suspicious attachment?",
-      options: [
-        "Open it immediately",
-        "Avoid opening it and verify the sender",
-        "Forward it to everyone",
-        "Upload it to public websites"
-      ],
-      answer: 1
-    },
-    {
-      question: "What is malware?",
-      options: [
-        "A type of computer screen",
-        "A trusted educational website",
-        "Software designed to harm or misuse a device or system",
-        "A normal document format"
-      ],
-      answer: 2
-    },
-    {
-      question: "Why are software updates important for security?",
-      options: [
-        "They can fix security weaknesses",
-        "They reveal private passwords",
-        "They remove all internet access",
-        "They make backups unnecessary"
-      ],
-      answer: 0
-    },
-    {
-      question: "What is a secure website connection commonly indicated by?",
-      options: [
-        "A flashing advertisement",
-        "An unknown download",
-        "A spelling error in the address",
-        "HTTPS in the website address"
-      ],
-      answer: 3
-    },
-    {
-      question: "What should you do if you suspect your account has been compromised?",
-      options: [
-        "Ignore the warning",
-        "Change your password and follow the service's security guidance",
-        "Share your login details",
-        "Disable every security feature"
-      ],
-      answer: 1
-    },
-    {
-      question: "What is the safest way to use public Wi-Fi?",
-      options: [
-        "Access every unknown website",
-        "Share sensitive information freely",
-        "Avoid sensitive activities unless using a trusted secure connection",
-        "Turn off all device security"
-      ],
-      answer: 2
-    }
-  ],
-      "ai-data-literacy": [
-    {
-      question: "What is Artificial Intelligence (AI)?",
-      options: [
-        "A type of computer hardware",
-        "Technology that enables computers to perform tasks associated with human intelligence",
-        "A method of storing paper documents",
-        "A computer operating system"
-      ],
-      answer: 1
-    },
-    {
-      question: "What is data?",
-      options: [
-        "Only information written in books",
-        "A computer application",
-        "Recorded facts, observations, or measurements",
-        "A type of internet connection"
-      ],
-      answer: 2
-    },
-    {
-      question: "What is machine learning?",
-      options: [
-        "A method that allows computers to identify patterns from data",
-        "A process of repairing computer screens",
-        "A way of manually typing every answer",
-        "A method of printing documents"
-      ],
-      answer: 0
-    },
-    {
-      question: "Why should AI-generated information be checked?",
-      options: [
-        "AI always provides complete information",
-        "Checking information is unnecessary",
-        "AI cannot process language",
-        "AI can sometimes produce inaccurate information"
-      ],
-      answer: 3
-    },
-    {
-      question: "Which is an example of AI in everyday life?",
-      options: [
-        "A traditional wooden desk",
-        "A language translation application",
-        "A paper notebook",
-        "A manual wall clock"
-      ],
-      answer: 1
-    },
-    {
-      question: "What is data analysis?",
-      options: [
-        "Deleting all collected information",
-        "Copying information without examining it",
-        "Examining data to identify patterns and useful findings",
-        "Changing numbers randomly"
-      ],
-      answer: 2
-    },
-    {
-      question: "What can happen when AI systems use biased data?",
-      options: [
-        "Their results may be unfair or misleading",
-        "They become automatically perfect",
-        "They stop using electricity",
-        "They always produce identical answers"
-      ],
-      answer: 0
-    },
-    {
-      question: "Why is privacy important when using AI tools?",
-      options: [
-        "It makes information less accurate",
-        "It prevents all learning",
-        "It removes the need for passwords",
-        "It helps protect personal and confidential information"
-      ],
-      answer: 3
-    },
-    {
-      question: "What is a responsible way to use AI for learning?",
-      options: [
-        "Accept every answer without checking",
-        "Use it as a learning aid and verify important information",
-        "Submit generated work dishonestly",
-        "Share other people's private information"
-      ],
-      answer: 1
-    },
-    {
-      question: "Which human skill remains important when working with AI?",
-      options: [
-        "Avoiding all decisions",
-        "Memorizing every computer output",
-        "Critical thinking and responsible judgement",
-        "Accepting every suggestion automatically"
-      ],
-      answer: 2
-    }
-  ],
-      "entrepreneurship": [
-    {
-      question: "What is entrepreneurship?",
-      options: [
-        "Avoiding all business activities",
-        "Starting and developing a venture to create value",
-        "Working without a plan",
-        "Copying another business without permission"
-      ],
-      answer: 1
-    },
-    {
-      question: "Who is an entrepreneur?",
-      options: [
-        "A person who avoids solving problems",
-        "A person who only buys products",
-        "A person who identifies opportunities and develops ventures",
-        "A person who never makes decisions"
-      ],
-      answer: 2
-    },
-    {
-      question: "What is a business opportunity?",
-      options: [
-        "A need or problem that a product or service could address",
-        "A guaranteed profit",
-        "A business with no customers",
-        "An activity without a purpose"
-      ],
-      answer: 0
-    },
-    {
-      question: "Why is market research important?",
-      options: [
-        "It guarantees success",
-        "It removes every business risk",
-        "It replaces customer service",
-        "It helps understand customers and competitors"
-      ],
-      answer: 3
-    },
-    {
-      question: "What is a business plan?",
-      options: [
-        "A list of personal hobbies",
-        "A document describing business goals and how to achieve them",
-        "A record of unrelated activities",
-        "A guarantee that a business will succeed"
-      ],
-      answer: 1
-    },
-    {
-      question: "What is innovation in business?",
-      options: [
-        "Avoiding improvements",
-        "Repeating mistakes",
-        "Developing or improving ideas, products, or services",
-        "Ignoring customer needs"
-      ],
-      answer: 2
-    },
-    {
-      question: "Who are a business's customers?",
-      options: [
-        "People or organizations that purchase or use its products or services",
-        "Only its employees",
-        "Only its competitors",
-        "People who never use its services"
-      ],
-      answer: 0
-    },
-    {
-      question: "What does startup capital mean?",
-      options: [
-        "Money earned after closing a business",
-        "A list of competitors",
-        "The number of customers",
-        "Resources or money used to establish a business"
-      ],
-      answer: 3
-    },
-    {
-      question: "Why is customer feedback valuable?",
-      options: [
-        "It should always be ignored",
-        "It can reveal areas for improvement",
-        "It replaces financial records",
-        "It guarantees immediate profit"
-      ],
-      answer: 1
-    },
-    {
-      question: "Which quality helps entrepreneurs handle challenges?",
-      options: [
-        "Refusing to learn",
-        "Avoiding responsibility",
-        "Creativity, persistence, and willingness to learn",
-        "Ignoring problems"
-      ],
-      answer: 2
-    }
-  ],
-     "business-management": [
-    {
-      question: "What is business management?",
-      options: [
-        "Avoiding business responsibilities",
-        "Planning, organizing, leading, and controlling business activities",
-        "Selling products without planning",
-        "Working without objectives"
-      ],
-      answer: 1
-    },
-    {
-      question: "Why is planning important in a business?",
-      options: [
-        "It guarantees unlimited profit",
-        "It removes every challenge",
-        "It helps establish goals and decide how to achieve them",
-        "It replaces teamwork"
-      ],
-      answer: 2
-    },
-    {
-      question: "What is the purpose of organizing in management?",
-      options: [
-        "Arranging resources and responsibilities effectively",
-        "Creating unnecessary tasks",
-        "Avoiding communication",
-        "Ignoring business objectives"
-      ],
-      answer: 0
-    },
-    {
-      question: "What does leadership involve?",
-      options: [
-        "Making every decision without listening",
-        "Avoiding responsibility",
-        "Controlling information unfairly",
-        "Guiding and motivating people toward shared goals"
-      ],
-      answer: 3
-    },
-    {
-      question: "Why should managers monitor business performance?",
-      options: [
-        "To discourage employees",
-        "To identify progress and areas needing improvement",
-        "To avoid reviewing results",
-        "To eliminate customer feedback"
-      ],
-      answer: 1
-    },
-    {
-      question: "What is delegation?",
-      options: [
-        "Refusing to assign responsibilities",
-        "Giving every task to one person",
-        "Assigning appropriate tasks and authority to others",
-        "Avoiding teamwork"
-      ],
-      answer: 2
-    },
-    {
-      question: "Why is communication important in management?",
-      options: [
-        "It helps people understand goals and responsibilities",
-        "It prevents employees from asking questions",
-        "It replaces planning",
-        "It creates unnecessary confusion"
-      ],
-      answer: 0
-    },
-    {
-      question: "What is customer service?",
-      options: [
-        "Ignoring customer concerns",
-        "Selling products without explanation",
-        "Avoiding customer communication",
-        "Assisting customers and responding to their needs"
-      ],
-      answer: 3
-    },
-    {
-      question: "What is an operating budget?",
-      options: [
-        "A list of employee names",
-        "A financial plan for expected income and operating expenses",
-        "A record of unrelated activities",
-        "A guarantee of business success"
-      ],
-      answer: 1
-    },
-    {
-      question: "What is an important responsibility of an ethical manager?",
-      options: [
-        "Favouring selected employees unfairly",
-        "Hiding important business information",
-        "Making fair, responsible, and transparent decisions",
-        "Ignoring workplace policies"
-      ],
-      answer: 2
-    }
-  ],
-     "accounting-basics": [
-    {
-      question: "What is accounting?",
-      options: [
-        "Managing social media accounts",
-        "Recording, classifying, and reporting financial transactions",
-        "Selling products without records",
-        "Preparing employee schedules"
-      ],
-      answer: 1
-    },
-    {
-      question: "What is an asset?",
-      options: [
-        "Money owed to another person",
-        "A business expense",
-        "A resource owned or controlled by a business",
-        "A financial loss"
-      ],
-      answer: 2
-    },
-    {
-      question: "What is a liability?",
-      options: [
-        "An amount a business owes",
-        "A resource owned by a business",
-        "Money received from customers",
-        "A business owner's personal skill"
-      ],
-      answer: 0
-    },
-    {
-      question: "What is revenue?",
-      options: [
-        "Money spent on rent",
-        "An unpaid loan",
-        "The value of equipment",
-        "Income earned from business activities"
-      ],
-      answer: 3
-    },
-    {
-      question: "What is an expense?",
-      options: [
-        "A customer's payment",
-        "A cost incurred while running a business",
-        "A business asset",
-        "An owner's investment"
-      ],
-      answer: 1
-    },
-    {
-      question: "What is a balance sheet used for?",
-      options: [
-        "Recording staff attendance",
-        "Advertising products",
-        "Showing assets, liabilities, and equity at a particular date",
-        "Listing customer opinions"
-      ],
-      answer: 2
-    },
-    {
-      question: "What is profit?",
-      options: [
-        "The amount remaining when revenue exceeds expenses",
-        "All money borrowed",
-        "The total value of unpaid bills",
-        "The amount spent on equipment"
-      ],
-      answer: 0
-    },
-    {
-      question: "Why should a business keep financial records?",
-      options: [
-        "To make spending harder to understand",
-        "To avoid planning",
-        "To replace customer records",
-        "To track transactions and support decisions"
-      ],
-      answer: 3
-    },
-    {
-      question: "What is a budget?",
-      options: [
-        "A list of business competitors",
-        "A plan for expected income and expenses",
-        "A record of employee qualifications",
-        "A guarantee of profit"
-      ],
-      answer: 1
-    },
-    {
-      question: "What is the accounting equation?",
-      options: [
-        "Revenue = Expenses + Sales",
-        "Profit = Assets + Liabilities",
-        "Assets = Liabilities + Equity",
-        "Expenses = Assets + Revenue"
-      ],
-      answer: 2
-    }
-  ],
-     "project-management": [
-    {
-      question: "What is project management?",
-      options: [
-        "Working without objectives",
-        "Planning, organizing, and managing resources to achieve project goals",
-        "Avoiding teamwork",
-        "Completing tasks without deadlines"
-      ],
-      answer: 1
-    },
-    {
-      question: "What is a project objective?",
-      options: [
-        "An unrelated activity",
-        "A list of employees",
-        "A clearly defined result a project aims to achieve",
-        "An unexpected expense"
-      ],
-      answer: 2
-    },
-    {
-      question: "Why is project planning important?",
-      options: [
-        "It helps organize tasks, resources, and timelines",
-        "It guarantees there will be no challenges",
-        "It removes the need for communication",
-        "It prevents progress reviews"
-      ],
-      answer: 0
-    },
-    {
-      question: "What is a project deadline?",
-      options: [
-        "The project budget",
-        "The project manager's job title",
-        "A list of project materials",
-        "The date by which a task or project should be completed"
-      ],
-      answer: 3
-    },
-    {
-      question: "What is a project milestone?",
-      options: [
-        "An unrelated meeting",
-        "An important point or achievement in a project's progress",
-        "A personal opinion",
-        "An unexpected delay"
-      ],
-      answer: 1
-    },
-    {
-      question: "What is project risk management?",
-      options: [
-        "Ignoring possible problems",
-        "Removing every project activity",
-        "Identifying and responding to possible risks",
-        "Avoiding project communication"
-      ],
-      answer: 2
-    },
-    {
-      question: "Why should project responsibilities be assigned clearly?",
-      options: [
-        "So team members understand their tasks",
-        "So nobody knows what to do",
-        "To prevent accountability",
-        "To duplicate every task"
-      ],
-      answer: 0
-    },
-    {
-      question: "What is a project budget?",
-      options: [
-        "A list of project members",
-        "A record of meeting attendance",
-        "A description of the project title",
-        "An estimate of the money needed for project activities"
-      ],
-      answer: 3
-    },
-    {
-      question: "Why should project progress be monitored?",
-      options: [
-        "To avoid making decisions",
-        "To identify delays and check progress against objectives",
-        "To remove all deadlines",
-        "To prevent team feedback"
-      ],
-      answer: 1
-    },
-    {
-      question: "What usually happens during project closure?",
-      options: [
-        "All records are discarded",
-        "The team ignores the results",
-        "Deliverables are reviewed and lessons are documented",
-        "The project objectives are forgotten"
-      ],
-      answer: 2
-    }
-  ],
-      "teamwork-collaboration": [
-    { question: "What is teamwork?", options: ["Working alone always", "People cooperating toward a shared goal", "Competing against every colleague", "Avoiding responsibilities"], answer: 1 },
-    { question: "What makes a team effective?", options: ["Poor communication", "Unclear responsibilities", "Trust and cooperation", "Ignoring different ideas"], answer: 2 },
-    { question: "Why should team members listen to one another?", options: ["To understand ideas and concerns", "To delay every decision", "To avoid participation", "To prevent feedback"], answer: 0 },
-    { question: "What is collaboration?", options: ["Working without a goal", "Giving all work to one person", "Avoiding discussion", "Working together and contributing skills"], answer: 3 },
-    { question: "How should tasks be distributed?", options: ["Randomly without explanation", "Fairly according to skills and responsibilities", "Only to the team leader", "Without considering workload"], answer: 1 },
-    { question: "What is a constructive response to disagreement?", options: ["Insulting others", "Refusing to listen", "Discussing differences respectfully", "Ending cooperation"], answer: 2 },
-    { question: "Why are shared goals important?", options: ["They give team members a common direction", "They remove individual responsibilities", "They prevent planning", "They create unnecessary competition"], answer: 0 },
-    { question: "What should a team member do after making a mistake?", options: ["Hide it", "Blame another person", "Ignore its effects", "Accept responsibility and help correct it"], answer: 3 },
-    { question: "How can a team build trust?", options: ["By hiding information", "By being reliable, honest, and respectful", "By breaking promises", "By avoiding communication"], answer: 1 },
-    { question: "What is one benefit of evaluating team performance?", options: ["It discourages improvement", "It creates blame", "It identifies strengths and areas to improve", "It removes shared goals"], answer: 2 }
-  ],
-
-  "conflict-resolution": [
-    { question: "What is conflict?", options: ["A disagreement or clash of interests", "Always a physical fight", "A shared achievement", "A type of agreement"], answer: 0 },
-    { question: "What is the first useful step in resolving a disagreement?", options: ["Blaming someone", "Listening to understand the issue", "Spreading rumours", "Ignoring everyone"], answer: 1 },
-    { question: "What is active listening?", options: ["Interrupting frequently", "Preparing an argument", "Paying attention and clarifying what someone means", "Changing the subject"], answer: 2 },
-    { question: "What does compromise mean?", options: ["One person always wins", "Avoiding every discussion", "Refusing to change", "Finding an acceptable middle ground"], answer: 3 },
-    { question: "Why is remaining calm helpful during conflict?", options: ["It guarantees agreement", "It supports clearer and more respectful discussion", "It removes the need to listen", "It makes the other person wrong"], answer: 1 },
-    { question: "What is mediation?", options: ["Punishing everyone involved", "Ignoring the disagreement", "A neutral person helping people discuss a solution", "Making decisions without hearing anyone"], answer: 2 },
-    { question: "Which is an example of respectful communication?", options: ["Explaining concerns without insults", "Threatening the other person", "Sharing private information", "Shouting over others"], answer: 0 },
-    { question: "What should happen if a conflict involves a safety concern?", options: ["Keep it secret", "Encourage confrontation", "Ignore the concern", "Seek help from a trusted responsible person"], answer: 3 },
-    { question: "Why should people focus on the problem rather than personal attacks?", options: ["To avoid finding solutions", "To keep discussion constructive", "To make disagreements longer", "To prevent cooperation"], answer: 1 },
-    { question: "What is a useful final step after resolving a conflict?", options: ["Restart the argument", "Spread blame", "Agree on actions and responsibilities", "Avoid all future communication"], answer: 2 }
-  ],
-
-  "community-development": [
-    { question: "What is community development?", options: ["A process of improving community wellbeing and opportunities", "A plan for one person only", "A way to prevent cooperation", "A competition between neighbours"], answer: 0 },
-    { question: "Why should community members participate in development?", options: ["To avoid responsibility", "To help identify needs and contribute ideas", "To prevent local decisions", "To replace all public services"], answer: 1 },
-    { question: "What is a community needs assessment?", options: ["A list of unrelated activities", "A financial reward", "A process for identifying local needs and priorities", "A personal opinion only"], answer: 2 },
-    { question: "What is a community project?", options: ["An activity without a purpose", "A private task unrelated to residents", "A competition with no benefit", "An organized activity addressing a shared local need"], answer: 3 },
-    { question: "Why is inclusion important in community projects?", options: ["It limits participation", "It helps different groups have a voice", "It gives decisions to one person", "It prevents cooperation"], answer: 1 },
-    { question: "What is a community resource?", options: ["Only money", "Only buildings", "People, skills, facilities, and other useful local assets", "An unrelated personal possession"], answer: 2 },
-    { question: "Why should community projects have clear objectives?", options: ["To guide activities and measure progress", "To make planning impossible", "To avoid accountability", "To prevent evaluation"], answer: 0 },
-    { question: "What is volunteerism?", options: ["Working only for a salary", "Avoiding community needs", "Competing for personal rewards", "Contributing time or skills voluntarily"], answer: 3 },
-    { question: "Why is transparency important in community projects?", options: ["It hides decisions", "It helps build trust and accountability", "It prevents questions", "It removes the need for records"], answer: 1 },
-    { question: "How can a community assess project success?", options: ["By counting meetings only", "By ignoring residents", "By reviewing results against the original objectives", "By avoiding feedback"], answer: 2 }
-  ],
-
-  "civic-education": [
-    { question: "What is civic education?", options: ["Learning about citizenship, rights, responsibilities, and public life", "Learning only about business", "Studying sports rules", "Avoiding community participation"], answer: 0 },
-    { question: "What is a citizen's responsibility?", options: ["Ignoring other people's rights", "Respecting laws and the rights of others", "Spreading false information", "Avoiding all community matters"], answer: 1 },
-    { question: "Why are laws important in society?", options: ["They remove every disagreement", "They benefit only a few people", "They establish rules and help protect rights and order", "They replace personal responsibility"], answer: 2 },
-    { question: "What does equality before the law mean?", options: ["Some people have no responsibilities", "Rules apply only to visitors", "Everyone must have identical opinions", "People should receive equal legal treatment"], answer: 3 },
-    { question: "What is public participation?", options: ["Avoiding public discussions", "Taking part in decisions and activities affecting society", "Ignoring local issues", "Preventing others from speaking"], answer: 1 },
-    { question: "What is a human right?", options: ["A reward for wealthy people", "A privilege available only at school", "A basic entitlement belonging to every person", "A personal business agreement"], answer: 2 },
-    { question: "Why is respect for diversity important?", options: ["It supports peaceful coexistence", "It requires everyone to think alike", "It prevents cooperation", "It encourages discrimination"], answer: 0 },
-    { question: "What is the purpose of public institutions?", options: ["To serve only private interests", "To prevent citizens from receiving services", "To avoid public accountability", "To provide services and carry out public responsibilities"], answer: 3 },
-    { question: "What is responsible citizenship online?", options: ["Sharing rumours", "Checking information and communicating respectfully", "Publishing private details", "Harassing people with different views"], answer: 1 },
-    { question: "How can citizens contribute to peaceful communities?", options: ["By encouraging discrimination", "By ignoring community concerns", "By respecting others and resolving disagreements peacefully", "By spreading unverified accusations"], answer: 2 }
-  ],
-
-  "french-communication": [
-    { question: "What does 'Bonjour' mean in English?", options: ["Good morning / Hello", "Good night", "Goodbye", "Thank you"], answer: 0 },
-    { question: "How do you say 'Thank you' in French?", options: ["Pardon", "Merci", "Bonsoir", "Au revoir"], answer: 1 },
-    { question: "Which phrase means 'My name is...'?", options: ["Comment allez-vous?", "Où habitez-vous?", "Je m'appelle...", "À bientôt"], answer: 2 },
-    { question: "What does 'Comment allez-vous?' mean?", options: ["Where are you going?", "What is your name?", "How old are you?", "How are you?"], answer: 3 },
-    { question: "Which is the correct French word for 'book'?", options: ["Une table", "Un livre", "Une maison", "Un stylo"], answer: 1 },
-    { question: "How do you say 'Please' in French?", options: ["Jamais", "Demain", "S'il vous plaît", "Hier"], answer: 2 },
-    { question: "Which phrase is a polite greeting in the evening?", options: ["Bonsoir", "Merci", "Pardon", "Non"], answer: 0 },
-    { question: "What does 'Je ne comprends pas' mean?", options: ["I am happy", "I am ready", "I agree", "I do not understand"], answer: 3 },
-    { question: "Which word means 'today' in French?", options: ["Demain", "Aujourd'hui", "Hier", "Toujours"], answer: 1 },
-    { question: "Which sentence means 'I speak French'?", options: ["Je mange du pain.", "Je vais à l'école.", "Je parle français.", "Je lis un livre."], answer: 2 }
-  ],
-
-  "kinyarwanda-communication": [
-    { question: "What does 'Muraho' commonly mean?", options: ["Hello", "Goodbye", "Sorry", "Please"], answer: 0 },
-    { question: "What does 'Murakoze' mean?", options: ["Welcome", "Thank you", "Good night", "Good morning"], answer: 1 },
-    { question: "Which expression is commonly used to say goodbye?", options: ["Yego", "Oya", "Murabeho", "Murakoze"], answer: 2 },
-    { question: "What does 'Yego' mean?", options: ["No", "Maybe", "Please", "Yes"], answer: 3 },
-    { question: "What does 'Oya' mean?", options: ["Thank you", "No", "Hello", "Welcome"], answer: 1 },
-    { question: "Which expression means 'Good morning'?", options: ["Ijoro ryiza", "Murabeho", "Mwaramutse", "Murakoze"], answer: 2 },
-    { question: "Why is respectful language important?", options: ["It supports polite and positive communication", "It prevents people from asking questions", "It encourages insults", "It makes messages unclear"], answer: 0 },
-    { question: "What is a useful way to improve Kinyarwanda communication?", options: ["Avoid listening", "Memorize words without using them", "Never ask for clarification", "Practise speaking, reading, and listening"], answer: 3 },
-    { question: "What should you do if you do not understand a word?", options: ["Pretend you understand", "Politely ask for its meaning", "Change the subject immediately", "Criticize the speaker"], answer: 1 },
-    { question: "Which skill helps people understand spoken Kinyarwanda?", options: ["Ignoring pronunciation", "Avoiding conversations", "Listening carefully to words and context", "Speaking without listening"], answer: 2 }
-  ],
-
-  "professional-writing": [
-    { question: "What is professional writing?", options: ["Clear and appropriate writing for work or formal purposes", "Writing without considering readers", "Using slang in every document", "Copying another person's work"], answer: 0 },
-    { question: "What should a professional email subject line do?", options: ["Contain unrelated details", "Clearly describe the email's purpose", "Be left confusing", "Include the entire message"], answer: 1 },
-    { question: "Which greeting is suitable for a formal email?", options: ["Hey you!", "What's up?", "Dear Ms. / Mr. [Name],", "Listen here,"], answer: 2 },
-    { question: "Why should professional writing be proofread?", options: ["To make it longer", "To add unrelated information", "To remove every paragraph", "To correct errors and improve clarity"], answer: 3 },
-    { question: "What is the purpose of a report introduction?", options: ["To list unrelated references", "To introduce the topic and purpose", "To present only the conclusion", "To repeat the title many times"], answer: 1 },
-    { question: "What makes instructions effective?", options: ["Unclear language", "Missing steps", "Logical order and clear wording", "Unexplained abbreviations"], answer: 2 },
-    { question: "Why should writers consider their audience?", options: ["To choose suitable language and detail", "To make every text informal", "To avoid explaining ideas", "To use the same style in every situation"], answer: 0 },
-    { question: "What is plagiarism?", options: ["Checking spelling", "Writing an original summary", "Citing a source correctly", "Presenting someone else's work or ideas as your own"], answer: 3 },
-    { question: "Which feature improves readability?", options: ["Very long unstructured paragraphs", "Clear headings and organized paragraphs", "Unexplained technical terms", "Random punctuation"], answer: 1 },
-    { question: "What is a suitable professional email closing?", options: ["Whatever.", "Bye forever!", "Kind regards,", "Answer me now."], answer: 2 }
-  ],
-
-  "modern-agriculture": [
-    { question: "What is modern agriculture?", options: ["Using improved knowledge and methods to produce crops and livestock", "Farming without planning", "Avoiding all new information", "Growing crops without considering soil"], answer: 0 },
-    { question: "Why is good-quality seed important?", options: ["It guarantees every harvest", "It can support healthy crop establishment and production", "It removes the need for water", "It prevents all pests"], answer: 1 },
-    { question: "What is crop rotation?", options: ["Growing one crop forever", "Harvesting without planning", "Growing different crops in sequence on the same land", "Moving crops after every rainfall"], answer: 2 },
-    { question: "Why is soil testing useful?", options: ["It measures the weather", "It identifies market prices", "It replaces irrigation", "It helps understand soil conditions and nutrient needs"], answer: 3 },
-    { question: "What is irrigation?", options: ["Removing all plants", "Supplying water to crops when needed", "Harvesting crops", "Storing farm tools"], answer: 1 },
-    { question: "What is integrated pest management?", options: ["Using only one method in every situation", "Ignoring pest problems", "Combining suitable methods to manage pests responsibly", "Applying chemicals without guidance"], answer: 2 },
-    { question: "Why is farm recordkeeping useful?", options: ["It helps track costs, activities, and production", "It makes planning impossible", "It replaces all field observations", "It prevents learning"], answer: 0 },
-    { question: "What is post-harvest handling?", options: ["Planting seeds", "Preparing the land", "Selecting a market before planting", "Activities that protect produce after harvesting"], answer: 3 },
-    { question: "Why should farmers consider weather information?", options: ["It guarantees rainfall", "It helps plan suitable farming activities", "It replaces soil management", "It prevents every crop disease"], answer: 1 },
-    { question: "What is agricultural extension?", options: ["Selling farm equipment only", "Transporting produce only", "Sharing practical agricultural knowledge and advice with farmers", "Replacing farmers' decisions"], answer: 2 }
-  ],
-
-  "sustainable-farming": [
-    { question: "What is sustainable farming?", options: ["Producing food while protecting resources for the future", "Using resources without limits", "Ignoring soil health", "Focusing only on immediate production"], answer: 0 },
-    { question: "Why is crop diversity beneficial?", options: ["It guarantees no pests", "It can support resilience and biodiversity", "It removes the need for planning", "It makes every crop identical"], answer: 1 },
-    { question: "What is compost?", options: ["A synthetic fuel", "A type of irrigation pipe", "Organic material decomposed for use as a soil amendment", "A harvested grain"], answer: 2 },
-    { question: "Why should farmers reduce unnecessary chemical use?", options: ["To make crops less productive", "To avoid learning about pests", "To remove all farm management", "To reduce potential harm to people and the environment"], answer: 3 },
-    { question: "What is agroforestry?", options: ["Removing all trees from farmland", "Combining trees with crops or livestock systems", "Growing trees only in cities", "Replacing every crop with grass"], answer: 1 },
-    { question: "How can farmers protect soil fertility?", options: ["Leaving soil exposed continuously", "Burning all organic matter", "Using suitable rotations and organic amendments", "Removing all plant cover"], answer: 2 },
-    { question: "What is one benefit of mulching?", options: ["It can help conserve soil moisture", "It removes every weed permanently", "It replaces all nutrients", "It guarantees no crop disease"], answer: 0 },
-    { question: "Why is biodiversity important in farming?", options: ["It makes ecosystems less stable", "It prevents all weather changes", "It removes the need for soil", "It supports healthy and resilient ecosystems"], answer: 3 },
-    { question: "What does responsible water management involve?", options: ["Using unlimited water", "Using water efficiently and protecting water sources", "Ignoring leaks", "Polluting streams"], answer: 1 },
-    { question: "How can farmers assess whether a practice is sustainable?", options: ["By considering only one day's harvest", "By ignoring costs", "By reviewing environmental, economic, and social effects", "By avoiding records"], answer: 2 }
-  ],
-
-  "soil-water-conservation": [
-    { question: "What is soil conservation?", options: ["Protecting soil from degradation and erosion", "Removing all vegetation", "Increasing uncontrolled runoff", "Leaving land unmanaged"], answer: 0 },
-    { question: "What is soil erosion?", options: ["The natural formation of seeds", "The removal of topsoil by water or wind", "The storage of rainwater", "The growth of plant roots"], answer: 1 },
-    { question: "How can vegetation help protect soil?", options: ["It increases bare ground", "It removes all soil nutrients", "Roots help hold soil in place", "It prevents every rainfall"], answer: 2 },
-    { question: "What is rainwater harvesting?", options: ["Allowing water to run away", "Removing water from wells", "Polluting water sources", "Collecting and storing rainwater for later use"], answer: 3 },
-    { question: "What is contour farming?", options: ["Ploughing straight downhill", "Cultivating along the natural contour lines of a slope", "Removing all terraces", "Planting without considering the land"], answer: 1 },
-    { question: "Why are terraces used on some slopes?", options: ["To increase rapid runoff", "To remove vegetation", "To slow water flow and reduce erosion", "To prevent all crop growth"], answer: 2 },
-    { question: "What is groundwater?", options: ["Water stored beneath the Earth's surface", "Water found only in clouds", "Water in a cooking pot", "Water flowing above all land"], answer: 0 },
-    { question: "Which practice can reduce water waste in agriculture?", options: ["Leaving pipes leaking", "Irrigating without considering crop needs", "Flooding every field continuously", "Using suitable, well-managed irrigation methods"], answer: 3 },
-    { question: "Why should water sources be protected from pollution?", options: ["To make water harder to access", "To protect human health and ecosystems", "To increase waste", "To discourage sanitation"], answer: 1 },
-    { question: "What is watershed management?", options: ["Managing one household tap only", "Removing all trees", "Coordinating land and water protection within a drainage area", "Ignoring rivers and streams"], answer: 2 }
-  ],
-
-  "climate-environment": [
-    { question: "What is climate?", options: ["The long-term pattern of weather in an area", "The temperature at one moment", "A single rainstorm", "A daily weather forecast"], answer: 0 },
-    { question: "What is climate change?", options: ["A change in today's weather only", "Long-term changes in climate patterns", "The movement of clouds during one day", "A seasonal school timetable"], answer: 1 },
-    { question: "Which gas is a major greenhouse gas?", options: ["Helium", "Neon", "Carbon dioxide", "Argon"], answer: 2 },
-    { question: "What is deforestation?", options: ["Planting trees", "Protecting forests", "Restoring damaged land", "Removing forests or large areas of trees"], answer: 3 },
-    { question: "What is biodiversity?", options: ["The number of buildings in a city", "The variety of living organisms in an area", "The amount of rainfall only", "The number of roads"], answer: 1 },
-    { question: "Which action can help reduce waste?", options: ["Throwing away reusable items", "Buying unnecessary products", "Reusing and recycling suitable materials", "Burning all household waste"], answer: 2 },
-    { question: "What is renewable energy?", options: ["Energy from sources naturally replenished, such as sunlight and wind", "Energy only from coal", "Energy from disposable batteries only", "Energy that cannot be replaced"], answer: 0 },
-    { question: "Why are wetlands important?", options: ["They have no ecological value", "They increase all pollution", "They prevent all rainfall", "They support wildlife and help regulate water"], answer: 3 },
-    { question: "What is adaptation to climate change?", options: ["Ignoring environmental changes", "Adjusting to actual or expected climate impacts", "Increasing avoidable risks", "Stopping all environmental planning"], answer: 1 },
-    { question: "How can individuals support environmental protection?", options: ["Wasting water", "Littering public spaces", "Conserving resources and making responsible choices", "Destroying natural habitats"], answer: 2 }
-  ],
-
-  "food-systems-agribusiness": [
-    { question: "What is a food system?", options: ["The connected activities involved in producing, processing, distributing, and consuming food", "A list of restaurants only", "A farming tool", "A method of cooking one meal"], answer: 0 },
-    { question: "What is agribusiness?", options: ["A business unrelated to agriculture", "Business activities connected to agricultural products and services", "A type of school subject only", "A method of storing water"], answer: 1 },
-    { question: "What is food security?", options: ["Having only one food choice", "Producing food without distribution", "Reliable access to sufficient, safe, nutritious food", "Storing food without checking its condition"], answer: 2 },
-    { question: "What is value addition in agriculture?", options: ["Reducing product quality", "Discarding useful produce", "Avoiding processing", "Increasing a product's value through processing or improvement"], answer: 3 },
-    { question: "Why is food storage important?", options: ["It makes food spoil faster", "It helps maintain quality and reduce losses", "It replaces food safety", "It removes the need for transport"], answer: 1 },
-    { question: "What is a supply chain?", options: ["A list of farm tools", "A method of planting seeds", "The connected steps that move products from producers to consumers", "A household shopping list"], answer: 2 },
-    { question: "Why should agribusiness owners understand their market?", options: ["To understand customers, demand, and competition", "To avoid customer needs", "To guarantee profit", "To stop comparing costs"], answer: 0 },
-    { question: "What is food traceability?", options: ["Changing food labels", "Removing production records", "Selling without information", "Being able to follow food through stages of production and distribution"], answer: 3 },
-    { question: "What can reduce post-harvest losses?", options: ["Poor storage", "Suitable handling, storage, and transport", "Leaving produce exposed", "Delaying all sorting"], answer: 1 },
-    { question: "Why are accurate financial records useful in agribusiness?", options: ["They replace market research", "They guarantee high prices", "They help monitor costs, income, and business performance", "They make planning unnecessary"], answer: 2 }
-  ],
-
-  "workplace-ethics": [
-    { question: "What are workplace ethics?", options: ["Principles that guide responsible and fair conduct at work", "Rules for avoiding all tasks", "A method of competing unfairly", "A list of personal preferences"], answer: 0 },
-    { question: "What does honesty at work involve?", options: ["Hiding important mistakes", "Being truthful and accurate", "Changing records without permission", "Blaming others for every problem"], answer: 1 },
-    { question: "What is confidentiality?", options: ["Sharing every private document", "Discussing private matters publicly", "Protecting information that should not be disclosed", "Publishing passwords"], answer: 2 },
-    { question: "What is a conflict of interest?", options: ["A normal team meeting", "A completed work task", "A workplace training session", "A situation where personal interests may improperly affect professional decisions"], answer: 3 },
-    { question: "How should employees treat colleagues?", options: ["With favouritism", "With fairness and respect", "With deliberate disrespect", "By excluding people unfairly"], answer: 1 },
-    { question: "What should someone do if asked to falsify a work record?", options: ["Agree immediately", "Hide the request", "Refuse and use the appropriate reporting process", "Change the record secretly"], answer: 2 },
-    { question: "Why is accountability important?", options: ["It encourages people to take responsibility for their actions", "It removes responsibility", "It prevents learning", "It makes mistakes impossible"], answer: 0 },
-    { question: "What is professional integrity?", options: ["Doing only what benefits you", "Avoiding difficult decisions", "Ignoring workplace standards", "Acting consistently with ethical principles"], answer: 3 },
-    { question: "How should confidential information be handled?", options: ["Shared with everyone", "Accessed and shared only when authorized", "Posted on social media", "Stored without protection"], answer: 1 },
-    { question: "What should you do when you witness unethical conduct?", options: ["Spread rumours", "Encourage it", "Follow appropriate workplace reporting procedures", "Alter records to hide it"], answer: 2 }
-  ],
-
-  "cv-job-applications": [
-    { question: "What is the main purpose of a CV?", options: ["To summarize relevant education, skills, and experience", "To list unrelated personal details", "To guarantee employment", "To replace an interview"], answer: 0 },
-    { question: "Why should a CV be tailored to a role?", options: ["To make it longer", "To highlight relevant skills and experience", "To hide qualifications", "To include unrelated information"], answer: 1 },
-    { question: "Which information belongs in an education section?", options: ["A friend's password", "Unrelated family stories", "Relevant qualifications and institutions", "Unverified claims"], answer: 2 },
-    { question: "What is a cover letter?", options: ["A list of references only", "A copy of every certificate", "A personal diary", "A letter explaining interest and suitability for a role"], answer: 3 },
-    { question: "Why should information in a job application be accurate?", options: ["To make the application confusing", "To demonstrate honesty and reliability", "To impress through invented claims", "To avoid verification"], answer: 1 },
-    { question: "What is a transferable skill?", options: ["A skill useful in different roles or settings", "A qualification that cannot be used", "A private password", "A job title"], answer: 2 },
-    { question: "What should you do before submitting an application?", options: ["Check instructions, spelling, and required documents", "Send an incomplete application", "Ignore the deadline", "Use another person's identity"], answer: 0 },
-    { question: "What is a professional reference?", options: ["An anonymous rumour", "A random online comment", "An unrelated advertisement", "A person who can appropriately comment on your abilities or work"], answer: 3 },
-    { question: "How should employment gaps be handled in an application?", options: ["Invent a job", "Explain them honestly when relevant", "Change dates falsely", "Hide required information"], answer: 1 },
-    { question: "Why should a CV be easy to read?", options: ["To include as many fonts as possible", "To hide important information", "To help employers find relevant information quickly", "To make the document confusing"], answer: 2 }
-  ],
-
-  "interview-skills": [
-    { question: "Why should you research an organization before an interview?", options: ["To understand its work and the role", "To memorize unrelated facts", "To avoid preparing", "To guarantee selection"], answer: 0 },
-    { question: "What is appropriate interview behaviour?", options: ["Interrupting every question", "Listening carefully and responding respectfully", "Using insulting language", "Ignoring the interviewer"], answer: 1 },
-    { question: "How should you answer a question about your experience?", options: ["Invent achievements", "Avoid giving examples", "Give an honest and relevant example", "Discuss unrelated private matters"], answer: 2 },
-    { question: "Why is arriving on time important?", options: ["It replaces preparation", "It guarantees employment", "It makes questions unnecessary", "It demonstrates respect and reliability"], answer: 3 },
-    { question: "What should you do if you do not understand an interview question?", options: ["Guess without listening", "Politely ask for clarification", "Ignore the question", "Criticize the interviewer"], answer: 1 },
-    { question: "What is a useful way to prepare for common interview questions?", options: ["Memorize false answers", "Avoid learning about the role", "Practise clear answers using genuine examples", "Prepare no examples"], answer: 2 },
-    { question: "How should you discuss a weakness?", options: ["Be honest and explain steps you are taking to improve", "Claim you have no weaknesses", "Blame other people", "Avoid answering respectfully"], answer: 0 },
-    { question: "What is a suitable question to ask at the end of an interview?", options: ["Can I ignore the job duties?", "Why is everyone here?", "Can you guarantee my promotion?", "What are the main responsibilities of this role?"], answer: 3 },
-    { question: "What should you do after an interview?", options: ["Share confidential interview details", "Send a brief, polite thank-you message when appropriate", "Contact the interviewer repeatedly", "Post private information online"], answer: 1 },
-    { question: "What is the best way to present your qualifications?", options: ["Exaggerate your experience", "Claim skills you do not have", "Describe your genuine skills and relevant examples", "Avoid explaining your contribution"], answer: 2 }
-  ],
-
-  "research-study-skills": [
-    { question: "What is research?", options: ["A systematic process of investigating a question", "Copying information without checking it", "Guessing without evidence", "Collecting unrelated opinions only"], answer: 0 },
-    { question: "What is a research question?", options: ["A final grade", "A focused question that guides an investigation", "A list of unrelated facts", "A personal advertisement"], answer: 1 },
-    { question: "Why should researchers use reliable sources?", options: ["To make research longer", "To avoid checking evidence", "To support accurate and trustworthy conclusions", "To copy information without attribution"], answer: 2 },
-    { question: "What is plagiarism?", options: ["Writing a research question", "Summarizing with proper citation", "Comparing different sources", "Using someone else's work without proper acknowledgment"], answer: 3 },
-    { question: "What is a hypothesis?", options: ["A guaranteed result", "A testable proposed explanation or prediction", "A list of references", "A final report title"], answer: 1 },
-    { question: "What is the purpose of taking study notes?", options: ["To copy every page without thinking", "To avoid reviewing information", "To record and organize important ideas", "To replace understanding"], answer: 2 },
-    { question: "Which study method can support long-term learning?", options: ["Spaced practice and regular review", "Studying only once at the last minute", "Avoiding practice questions", "Reading without checking understanding"], answer: 0 },
-    { question: "What is a primary source?", options: ["A textbook summary only", "An unrelated opinion", "A general dictionary definition", "Original evidence or information from a direct source"], answer: 3 },
-    { question: "Why is time management important when studying?", options: ["It removes the need for rest", "It helps organize tasks and make steady progress", "It guarantees perfect results", "It prevents flexibility"], answer: 1 },
-    { question: "What should you do when research sources disagree?", options: ["Choose the first result automatically", "Ignore all evidence", "Compare source quality, methods, and supporting evidence", "Assume every source is equally reliable"], answer: 2 }
-  ] 
+     
   };
 const courseLessons =
   lessons[course.slug] || academyAdditionalLessons[course.slug];
@@ -11164,6 +9759,1412 @@ const academyCourseQuizzes = {
     { question: "What is a useful response to a difficult interview question?", options: ["Become insulting", "Make up an experience", "Refuse to communicate", "Answer honestly and explain your reasoning"], answer: 3 },
     { question: "Why is continuous learning important in a career?", options: ["Skills never change", "It helps people adapt and develop skills", "It removes the need for practice", "It guarantees promotion"], answer: 1 },
     { question: "What should you do after receiving constructive feedback?", options: ["Consider it and identify ways to improve", "Ignore all of it automatically", "Blame the person who gave it", "Stop learning"], answer: 0 }
+  ],
+    "personal-hygiene": [
+    {
+      question: "What is the main purpose of personal hygiene?",
+      options: [
+        "To prevent every illness completely",
+        "To maintain cleanliness and support good health",
+        "To avoid all physical activity",
+        "To replace medical care"
+      ],
+      answer: 1
+    },
+    {
+      question: "When should you wash your hands?",
+      options: [
+        "Only once a week",
+        "Only when they look dirty",
+        "Before eating and after using the toilet",
+        "Only before sleeping"
+      ],
+      answer: 2
+    },
+    {
+      question: "Why is brushing teeth regularly important?",
+      options: [
+        "It helps prevent tooth decay and gum problems",
+        "It replaces drinking water",
+        "It makes dental visits unnecessary",
+        "It prevents every infection"
+      ],
+      answer: 0
+    },
+    {
+      question: "Which habit supports healthy skin?",
+      options: [
+        "Sharing personal towels",
+        "Ignoring cleanliness",
+        "Using unknown chemicals",
+        "Keeping the body clean"
+      ],
+      answer: 3
+    },
+    {
+      question: "Why should clothes be washed regularly?",
+      options: [
+        "To change their colour",
+        "To remove dirt, sweat, and germs",
+        "To make them heavier",
+        "To avoid wearing clean clothes"
+      ],
+      answer: 1
+    },
+    {
+      question: "Which item should generally be personal rather than shared?",
+      options: [
+        "A classroom desk",
+        "A library book",
+        "A toothbrush",
+        "A school noticeboard"
+      ],
+      answer: 2
+    },
+    {
+      question: "What is a good hygiene practice at school?",
+      options: [
+        "Keeping shared spaces clean",
+        "Leaving rubbish on desks",
+        "Sharing used tissues",
+        "Ignoring handwashing"
+      ],
+      answer: 0
+    },
+    {
+      question: "What should you do when you cough or sneeze?",
+      options: [
+        "Cough toward other people",
+        "Use your hands and touch shared objects",
+        "Ignore basic hygiene",
+        "Cover your mouth and nose with a tissue or your elbow"
+      ],
+      answer: 3
+    },
+    {
+      question: "Why is personal hygiene important in daily life?",
+      options: [
+        "It guarantees that nobody gets sick",
+        "It supports cleanliness, comfort, and disease prevention",
+        "It replaces healthy routines",
+        "It removes the need for clean surroundings"
+      ],
+      answer: 1
+    },
+    {
+      question: "How can someone build lasting hygiene habits?",
+      options: [
+        "Practise them consistently every day",
+        "Only practise them when visitors arrive",
+        "Avoid learning about hygiene",
+        "Change routines randomly"
+      ],
+      answer: 0
+    }
+  ],
+       "nutrition-healthy-living": [
+    {
+      question: "What is a balanced diet?",
+      options: [
+        "Eating only fruits",
+        "Eating a variety of foods that provide needed nutrients",
+        "Avoiding all carbohydrates",
+        "Eating the same meal every day"
+      ],
+      answer: 1
+    },
+    {
+      question: "Which nutrient is an important source of energy?",
+      options: ["Carbohydrates", "Water", "Vitamins", "Minerals"],
+      answer: 0
+    },
+    {
+      question: "Why does the body need protein?",
+      options: [
+        "To replace water",
+        "To prevent all diseases",
+        "For growth and tissue repair",
+        "To eliminate the need for sleep"
+      ],
+      answer: 2
+    },
+    {
+      question: "Which is a healthy everyday drink?",
+      options: ["Sugary soda", "Energy drink", "Very sweet juice", "Clean drinking water"],
+      answer: 3
+    },
+    {
+      question: "What is the role of dietary fibre?",
+      options: [
+        "It supports healthy digestion",
+        "It replaces all vitamins",
+        "It prevents the need for water",
+        "It provides no nutritional benefit"
+      ],
+      answer: 0
+    },
+    {
+      question: "Which food group commonly provides vitamins and minerals?",
+      options: ["Sweets", "Fruits and vegetables", "Soft drinks", "Fried snacks"],
+      answer: 1
+    },
+    {
+      question: "Why is regular physical activity beneficial?",
+      options: [
+        "It replaces a balanced diet",
+        "It guarantees perfect health",
+        "It supports heart health and general wellbeing",
+        "It removes the need for rest"
+      ],
+      answer: 2
+    },
+    {
+      question: "Why is breakfast useful for many learners?",
+      options: [
+        "It replaces every other meal",
+        "It guarantees high examination marks",
+        "It removes the need for sleep",
+        "It can provide energy and nutrients for the morning"
+      ],
+      answer: 3
+    },
+    {
+      question: "What is food safety?",
+      options: [
+        "Handling and storing food in ways that reduce contamination",
+        "Eating food without checking its condition",
+        "Leaving cooked food uncovered for long periods",
+        "Using unclean utensils"
+      ],
+      answer: 0
+    },
+    {
+      question: "What supports healthy eating habits?",
+      options: [
+        "Skipping meals regularly",
+        "Eating a varied diet and making informed food choices",
+        "Avoiding all food groups",
+        "Following every food trend"
+      ],
+      answer: 1
+    }
+  ],
+      "public-health": [
+    {
+      question: "What is public health mainly concerned with?",
+      options: [
+        "Treating only individual patients",
+        "Protecting and improving the health of communities",
+        "Selling medical equipment",
+        "Building private hospitals only"
+      ],
+      answer: 1
+    },
+    {
+      question: "What is one purpose of vaccination programmes?",
+      options: [
+        "To replace healthy food",
+        "To treat every existing illness",
+        "To help prevent specific infectious diseases",
+        "To eliminate the need for clean water"
+      ],
+      answer: 2
+    },
+    {
+      question: "Why is access to clean water important?",
+      options: [
+        "It helps reduce waterborne diseases",
+        "It replaces all medical services",
+        "It prevents every health condition",
+        "It removes the need for sanitation"
+      ],
+      answer: 0
+    },
+    {
+      question: "What does disease prevention mean?",
+      options: [
+        "Ignoring early symptoms",
+        "Avoiding health education",
+        "Treating illness only after complications",
+        "Taking steps to reduce the risk of illness"
+      ],
+      answer: 3
+    },
+    {
+      question: "What is the purpose of health education?",
+      options: [
+        "To spread medical rumours",
+        "To help people make informed health decisions",
+        "To replace trained health workers",
+        "To discourage preventive care"
+      ],
+      answer: 1
+    },
+    {
+      question: "Which practice helps prevent the spread of infections?",
+      options: [
+        "Sharing unwashed personal items",
+        "Ignoring hygiene",
+        "Regular handwashing",
+        "Drinking unsafe water"
+      ],
+      answer: 2
+    },
+    {
+      question: "What is disease surveillance?",
+      options: [
+        "Monitoring diseases to identify patterns and possible outbreaks",
+        "Keeping health information secret from health authorities",
+        "Replacing all medical examinations",
+        "Treating patients without collecting information"
+      ],
+      answer: 0
+    },
+    {
+      question: "Why are sanitation systems important?",
+      options: [
+        "They increase environmental pollution",
+        "They replace vaccination",
+        "They make clean water unnecessary",
+        "They help manage waste and protect community health"
+      ],
+      answer: 3
+    },
+    {
+      question: "What is an outbreak?",
+      options: [
+        "A routine health examination",
+        "An increase in disease cases above what is normally expected",
+        "A community sports event",
+        "A general health education lesson"
+      ],
+      answer: 1
+    },
+    {
+      question: "Who contributes to improving public health?",
+      options: [
+        "Only doctors",
+        "Only government officials",
+        "Individuals, communities, health workers, and institutions",
+        "Only international organisations"
+      ],
+      answer: 2
+    }
+  ],
+     "workplace-safety": [
+    {
+      question: "What is workplace safety?",
+      options: [
+        "Avoiding all responsibilities",
+        "Creating conditions that reduce risks and protect people",
+        "Working without rules",
+        "Ignoring possible hazards"
+      ],
+      answer: 1
+    },
+    {
+      question: "What is a workplace hazard?",
+      options: [
+        "A daily work schedule",
+        "A completed assignment",
+        "Something that could cause harm",
+        "A staff meeting"
+      ],
+      answer: 2
+    },
+    {
+      question: "What should you do when you notice a workplace hazard?",
+      options: [
+        "Report it to the responsible person",
+        "Ignore it",
+        "Hide the information",
+        "Encourage others to approach it"
+      ],
+      answer: 0
+    },
+    {
+      question: "Why are workplace safety rules important?",
+      options: [
+        "To make work confusing",
+        "To prevent people from learning",
+        "To remove all responsibilities",
+        "To help prevent accidents and injuries"
+      ],
+      answer: 3
+    },
+    {
+      question: "What is the purpose of safety training?",
+      options: [
+        "To replace all workplace policies",
+        "To help workers understand safe practices",
+        "To increase workplace hazards",
+        "To avoid reporting incidents"
+      ],
+      answer: 1
+    },
+    {
+      question: "Why should emergency exits remain accessible?",
+      options: [
+        "To provide extra storage",
+        "To decorate the building",
+        "To support safe evacuation when necessary",
+        "To restrict movement"
+      ],
+      answer: 2
+    },
+    {
+      question: "What should happen after a workplace incident?",
+      options: [
+        "It should be reported through the appropriate procedure",
+        "It should always be hidden",
+        "Everyone should ignore it",
+        "Unverified stories should be shared"
+      ],
+      answer: 0
+    },
+    {
+      question: "What does good workplace housekeeping involve?",
+      options: [
+        "Leaving objects in walkways",
+        "Blocking emergency routes",
+        "Ignoring spills and clutter",
+        "Keeping work areas clean and organized"
+      ],
+      answer: 3
+    },
+    {
+      question: "Who is responsible for workplace safety?",
+      options: [
+        "Only visitors",
+        "Employers and workers, according to their responsibilities",
+        "Only new employees",
+        "Nobody"
+      ],
+      answer: 1
+    },
+    {
+      question: "What should workers do if they do not understand a safety procedure?",
+      options: [
+        "Guess what to do",
+        "Ignore the procedure",
+        "Ask a qualified supervisor for clarification",
+        "Follow an unverified instruction"
+      ],
+      answer: 2
+    }
+  ],
+       "digital-literacy": [
+    {
+      question: "What is digital literacy?",
+      options: [
+        "Using technology without understanding it",
+        "Avoiding digital devices",
+        "Using digital technologies effectively, safely, and responsibly",
+        "Learning only how to type"
+      ],
+      answer: 2
+    },
+    {
+      question: "Which is an example of a digital device?",
+      options: ["A smartphone", "A wooden chair", "A paper notebook", "A pencil"],
+      answer: 0
+    },
+    {
+      question: "What makes a password stronger?",
+      options: [
+        "Using your first name only",
+        "Using the word password",
+        "Sharing it with friends",
+        "Using a long, unique combination of characters"
+      ],
+      answer: 3
+    },
+    {
+      question: "What should you do before sharing information online?",
+      options: [
+        "Share it immediately",
+        "Check whether the information is reliable",
+        "Trust every message",
+        "Ignore the source"
+      ],
+      answer: 1
+    },
+    {
+      question: "What is a web browser used for?",
+      options: [
+        "Repairing computer hardware",
+        "Charging a phone",
+        "Accessing and viewing websites",
+        "Printing documents only"
+      ],
+      answer: 2
+    },
+    {
+      question: "What is cloud storage?",
+      options: [
+        "Saving files on remote internet-based servers",
+        "Keeping files only on paper",
+        "Storing files in a computer keyboard",
+        "Deleting files permanently"
+      ],
+      answer: 0
+    },
+    {
+      question: "Which action demonstrates responsible online behaviour?",
+      options: [
+        "Sharing private information without permission",
+        "Sending hurtful messages",
+        "Copying other people's work without credit",
+        "Respecting others and protecting personal information"
+      ],
+      answer: 3
+    },
+    {
+      question: "What is the purpose of a search engine?",
+      options: [
+        "To create computer hardware",
+        "To find information and resources on the internet",
+        "To replace an operating system",
+        "To prevent access to websites"
+      ],
+      answer: 1
+    },
+    {
+      question: "Why should software be updated?",
+      options: [
+        "To remove every saved document",
+        "To make devices less useful",
+        "To improve security, fix problems, and add improvements",
+        "To share passwords"
+      ],
+      answer: 2
+    },
+    {
+      question: "What should you do if an online message looks suspicious?",
+      options: [
+        "Avoid clicking its links and verify its source",
+        "Immediately provide your password",
+        "Forward it to everyone",
+        "Download every attachment"
+      ],
+      answer: 0
+    }
+  ],
+     "coding-fundamentals": [
+    {
+      question: "What is programming?",
+      options: [
+        "Repairing electronic devices",
+        "Giving a computer instructions to perform tasks",
+        "Browsing websites",
+        "Drawing pictures only"
+      ],
+      answer: 1
+    },
+    {
+      question: "What is an algorithm?",
+      options: [
+        "A computer screen",
+        "A programming language",
+        "A step-by-step procedure for solving a problem",
+        "A storage device"
+      ],
+      answer: 2
+    },
+    {
+      question: "What is a variable in programming?",
+      options: [
+        "A named place used to store a value",
+        "A computer monitor",
+        "A type of printer",
+        "An internet connection"
+      ],
+      answer: 0
+    },
+    {
+      question: "What does a loop do in programming?",
+      options: [
+        "Deletes every file",
+        "Turns off the computer",
+        "Changes the screen size",
+        "Repeats instructions"
+      ],
+      answer: 3
+    },
+    {
+      question: "What is a programming bug?",
+      options: [
+        "A computer accessory",
+        "An error or flaw in a program",
+        "A type of keyboard",
+        "A completed program"
+      ],
+      answer: 1
+    },
+    {
+      question: "What is debugging?",
+      options: [
+        "Installing a new screen",
+        "Deleting all program files",
+        "Finding and correcting errors in code",
+        "Turning off the internet"
+      ],
+      answer: 2
+    },
+    {
+      question: "What is the purpose of a conditional statement?",
+      options: [
+        "To make decisions based on conditions",
+        "To store electricity",
+        "To display every file",
+        "To connect a printer"
+      ],
+      answer: 0
+    },
+    {
+      question: "Which of these is a programming language?",
+      options: ["Microsoft Word", "Google Chrome", "Windows Explorer", "JavaScript"],
+      answer: 3
+    },
+    {
+      question: "What is the purpose of a function?",
+      options: [
+        "To damage a computer",
+        "To organize reusable instructions for a task",
+        "To replace computer memory",
+        "To disconnect a network"
+      ],
+      answer: 1
+    },
+    {
+      question: "Why should programmers test their code?",
+      options: [
+        "To make programs harder to use",
+        "To avoid documenting their work",
+        "To check that the program works as expected",
+        "To remove useful features"
+      ],
+      answer: 2
+    }
+  ],
+      "cybersecurity-awareness": [
+    {
+      question: "What is cybersecurity?",
+      options: [
+        "The study of computer games",
+        "The process of protecting digital systems and information",
+        "The design of computer furniture",
+        "The use of social media only"
+      ],
+      answer: 1
+    },
+    {
+      question: "What is phishing?",
+      options: [
+        "A computer programming method",
+        "A normal software update",
+        "A fraudulent attempt to steal sensitive information",
+        "A method of organizing files"
+      ],
+      answer: 2
+    },
+    {
+      question: "What should you do with your password?",
+      options: [
+        "Keep it private and use a unique password",
+        "Post it publicly",
+        "Share it with strangers",
+        "Use the same simple password everywhere"
+      ],
+      answer: 0
+    },
+    {
+      question: "Why is two-factor authentication useful?",
+      options: [
+        "It removes the need for passwords",
+        "It makes every account public",
+        "It prevents all possible cyberattacks",
+        "It adds another layer of account protection"
+      ],
+      answer: 3
+    },
+    {
+      question: "What should you do with an unexpected suspicious attachment?",
+      options: [
+        "Open it immediately",
+        "Avoid opening it and verify the sender",
+        "Forward it to everyone",
+        "Upload it to public websites"
+      ],
+      answer: 1
+    },
+    {
+      question: "What is malware?",
+      options: [
+        "A type of computer screen",
+        "A trusted educational website",
+        "Software designed to harm or misuse a device or system",
+        "A normal document format"
+      ],
+      answer: 2
+    },
+    {
+      question: "Why are software updates important for security?",
+      options: [
+        "They can fix security weaknesses",
+        "They reveal private passwords",
+        "They remove all internet access",
+        "They make backups unnecessary"
+      ],
+      answer: 0
+    },
+    {
+      question: "What is a secure website connection commonly indicated by?",
+      options: [
+        "A flashing advertisement",
+        "An unknown download",
+        "A spelling error in the address",
+        "HTTPS in the website address"
+      ],
+      answer: 3
+    },
+    {
+      question: "What should you do if you suspect your account has been compromised?",
+      options: [
+        "Ignore the warning",
+        "Change your password and follow the service's security guidance",
+        "Share your login details",
+        "Disable every security feature"
+      ],
+      answer: 1
+    },
+    {
+      question: "What is the safest way to use public Wi-Fi?",
+      options: [
+        "Access every unknown website",
+        "Share sensitive information freely",
+        "Avoid sensitive activities unless using a trusted secure connection",
+        "Turn off all device security"
+      ],
+      answer: 2
+    }
+  ],
+      "ai-data-literacy": [
+    {
+      question: "What is Artificial Intelligence (AI)?",
+      options: [
+        "A type of computer hardware",
+        "Technology that enables computers to perform tasks associated with human intelligence",
+        "A method of storing paper documents",
+        "A computer operating system"
+      ],
+      answer: 1
+    },
+    {
+      question: "What is data?",
+      options: [
+        "Only information written in books",
+        "A computer application",
+        "Recorded facts, observations, or measurements",
+        "A type of internet connection"
+      ],
+      answer: 2
+    },
+    {
+      question: "What is machine learning?",
+      options: [
+        "A method that allows computers to identify patterns from data",
+        "A process of repairing computer screens",
+        "A way of manually typing every answer",
+        "A method of printing documents"
+      ],
+      answer: 0
+    },
+    {
+      question: "Why should AI-generated information be checked?",
+      options: [
+        "AI always provides complete information",
+        "Checking information is unnecessary",
+        "AI cannot process language",
+        "AI can sometimes produce inaccurate information"
+      ],
+      answer: 3
+    },
+    {
+      question: "Which is an example of AI in everyday life?",
+      options: [
+        "A traditional wooden desk",
+        "A language translation application",
+        "A paper notebook",
+        "A manual wall clock"
+      ],
+      answer: 1
+    },
+    {
+      question: "What is data analysis?",
+      options: [
+        "Deleting all collected information",
+        "Copying information without examining it",
+        "Examining data to identify patterns and useful findings",
+        "Changing numbers randomly"
+      ],
+      answer: 2
+    },
+    {
+      question: "What can happen when AI systems use biased data?",
+      options: [
+        "Their results may be unfair or misleading",
+        "They become automatically perfect",
+        "They stop using electricity",
+        "They always produce identical answers"
+      ],
+      answer: 0
+    },
+    {
+      question: "Why is privacy important when using AI tools?",
+      options: [
+        "It makes information less accurate",
+        "It prevents all learning",
+        "It removes the need for passwords",
+        "It helps protect personal and confidential information"
+      ],
+      answer: 3
+    },
+    {
+      question: "What is a responsible way to use AI for learning?",
+      options: [
+        "Accept every answer without checking",
+        "Use it as a learning aid and verify important information",
+        "Submit generated work dishonestly",
+        "Share other people's private information"
+      ],
+      answer: 1
+    },
+    {
+      question: "Which human skill remains important when working with AI?",
+      options: [
+        "Avoiding all decisions",
+        "Memorizing every computer output",
+        "Critical thinking and responsible judgement",
+        "Accepting every suggestion automatically"
+      ],
+      answer: 2
+    }
+  ],
+      "entrepreneurship": [
+    {
+      question: "What is entrepreneurship?",
+      options: [
+        "Avoiding all business activities",
+        "Starting and developing a venture to create value",
+        "Working without a plan",
+        "Copying another business without permission"
+      ],
+      answer: 1
+    },
+    {
+      question: "Who is an entrepreneur?",
+      options: [
+        "A person who avoids solving problems",
+        "A person who only buys products",
+        "A person who identifies opportunities and develops ventures",
+        "A person who never makes decisions"
+      ],
+      answer: 2
+    },
+    {
+      question: "What is a business opportunity?",
+      options: [
+        "A need or problem that a product or service could address",
+        "A guaranteed profit",
+        "A business with no customers",
+        "An activity without a purpose"
+      ],
+      answer: 0
+    },
+    {
+      question: "Why is market research important?",
+      options: [
+        "It guarantees success",
+        "It removes every business risk",
+        "It replaces customer service",
+        "It helps understand customers and competitors"
+      ],
+      answer: 3
+    },
+    {
+      question: "What is a business plan?",
+      options: [
+        "A list of personal hobbies",
+        "A document describing business goals and how to achieve them",
+        "A record of unrelated activities",
+        "A guarantee that a business will succeed"
+      ],
+      answer: 1
+    },
+    {
+      question: "What is innovation in business?",
+      options: [
+        "Avoiding improvements",
+        "Repeating mistakes",
+        "Developing or improving ideas, products, or services",
+        "Ignoring customer needs"
+      ],
+      answer: 2
+    },
+    {
+      question: "Who are a business's customers?",
+      options: [
+        "People or organizations that purchase or use its products or services",
+        "Only its employees",
+        "Only its competitors",
+        "People who never use its services"
+      ],
+      answer: 0
+    },
+    {
+      question: "What does startup capital mean?",
+      options: [
+        "Money earned after closing a business",
+        "A list of competitors",
+        "The number of customers",
+        "Resources or money used to establish a business"
+      ],
+      answer: 3
+    },
+    {
+      question: "Why is customer feedback valuable?",
+      options: [
+        "It should always be ignored",
+        "It can reveal areas for improvement",
+        "It replaces financial records",
+        "It guarantees immediate profit"
+      ],
+      answer: 1
+    },
+    {
+      question: "Which quality helps entrepreneurs handle challenges?",
+      options: [
+        "Refusing to learn",
+        "Avoiding responsibility",
+        "Creativity, persistence, and willingness to learn",
+        "Ignoring problems"
+      ],
+      answer: 2
+    }
+  ],
+     "business-management": [
+    {
+      question: "What is business management?",
+      options: [
+        "Avoiding business responsibilities",
+        "Planning, organizing, leading, and controlling business activities",
+        "Selling products without planning",
+        "Working without objectives"
+      ],
+      answer: 1
+    },
+    {
+      question: "Why is planning important in a business?",
+      options: [
+        "It guarantees unlimited profit",
+        "It removes every challenge",
+        "It helps establish goals and decide how to achieve them",
+        "It replaces teamwork"
+      ],
+      answer: 2
+    },
+    {
+      question: "What is the purpose of organizing in management?",
+      options: [
+        "Arranging resources and responsibilities effectively",
+        "Creating unnecessary tasks",
+        "Avoiding communication",
+        "Ignoring business objectives"
+      ],
+      answer: 0
+    },
+    {
+      question: "What does leadership involve?",
+      options: [
+        "Making every decision without listening",
+        "Avoiding responsibility",
+        "Controlling information unfairly",
+        "Guiding and motivating people toward shared goals"
+      ],
+      answer: 3
+    },
+    {
+      question: "Why should managers monitor business performance?",
+      options: [
+        "To discourage employees",
+        "To identify progress and areas needing improvement",
+        "To avoid reviewing results",
+        "To eliminate customer feedback"
+      ],
+      answer: 1
+    },
+    {
+      question: "What is delegation?",
+      options: [
+        "Refusing to assign responsibilities",
+        "Giving every task to one person",
+        "Assigning appropriate tasks and authority to others",
+        "Avoiding teamwork"
+      ],
+      answer: 2
+    },
+    {
+      question: "Why is communication important in management?",
+      options: [
+        "It helps people understand goals and responsibilities",
+        "It prevents employees from asking questions",
+        "It replaces planning",
+        "It creates unnecessary confusion"
+      ],
+      answer: 0
+    },
+    {
+      question: "What is customer service?",
+      options: [
+        "Ignoring customer concerns",
+        "Selling products without explanation",
+        "Avoiding customer communication",
+        "Assisting customers and responding to their needs"
+      ],
+      answer: 3
+    },
+    {
+      question: "What is an operating budget?",
+      options: [
+        "A list of employee names",
+        "A financial plan for expected income and operating expenses",
+        "A record of unrelated activities",
+        "A guarantee of business success"
+      ],
+      answer: 1
+    },
+    {
+      question: "What is an important responsibility of an ethical manager?",
+      options: [
+        "Favouring selected employees unfairly",
+        "Hiding important business information",
+        "Making fair, responsible, and transparent decisions",
+        "Ignoring workplace policies"
+      ],
+      answer: 2
+    }
+  ],
+     "accounting-basics": [
+    {
+      question: "What is accounting?",
+      options: [
+        "Managing social media accounts",
+        "Recording, classifying, and reporting financial transactions",
+        "Selling products without records",
+        "Preparing employee schedules"
+      ],
+      answer: 1
+    },
+    {
+      question: "What is an asset?",
+      options: [
+        "Money owed to another person",
+        "A business expense",
+        "A resource owned or controlled by a business",
+        "A financial loss"
+      ],
+      answer: 2
+    },
+    {
+      question: "What is a liability?",
+      options: [
+        "An amount a business owes",
+        "A resource owned by a business",
+        "Money received from customers",
+        "A business owner's personal skill"
+      ],
+      answer: 0
+    },
+    {
+      question: "What is revenue?",
+      options: [
+        "Money spent on rent",
+        "An unpaid loan",
+        "The value of equipment",
+        "Income earned from business activities"
+      ],
+      answer: 3
+    },
+    {
+      question: "What is an expense?",
+      options: [
+        "A customer's payment",
+        "A cost incurred while running a business",
+        "A business asset",
+        "An owner's investment"
+      ],
+      answer: 1
+    },
+    {
+      question: "What is a balance sheet used for?",
+      options: [
+        "Recording staff attendance",
+        "Advertising products",
+        "Showing assets, liabilities, and equity at a particular date",
+        "Listing customer opinions"
+      ],
+      answer: 2
+    },
+    {
+      question: "What is profit?",
+      options: [
+        "The amount remaining when revenue exceeds expenses",
+        "All money borrowed",
+        "The total value of unpaid bills",
+        "The amount spent on equipment"
+      ],
+      answer: 0
+    },
+    {
+      question: "Why should a business keep financial records?",
+      options: [
+        "To make spending harder to understand",
+        "To avoid planning",
+        "To replace customer records",
+        "To track transactions and support decisions"
+      ],
+      answer: 3
+    },
+    {
+      question: "What is a budget?",
+      options: [
+        "A list of business competitors",
+        "A plan for expected income and expenses",
+        "A record of employee qualifications",
+        "A guarantee of profit"
+      ],
+      answer: 1
+    },
+    {
+      question: "What is the accounting equation?",
+      options: [
+        "Revenue = Expenses + Sales",
+        "Profit = Assets + Liabilities",
+        "Assets = Liabilities + Equity",
+        "Expenses = Assets + Revenue"
+      ],
+      answer: 2
+    }
+  ],
+     "project-management": [
+    {
+      question: "What is project management?",
+      options: [
+        "Working without objectives",
+        "Planning, organizing, and managing resources to achieve project goals",
+        "Avoiding teamwork",
+        "Completing tasks without deadlines"
+      ],
+      answer: 1
+    },
+    {
+      question: "What is a project objective?",
+      options: [
+        "An unrelated activity",
+        "A list of employees",
+        "A clearly defined result a project aims to achieve",
+        "An unexpected expense"
+      ],
+      answer: 2
+    },
+    {
+      question: "Why is project planning important?",
+      options: [
+        "It helps organize tasks, resources, and timelines",
+        "It guarantees there will be no challenges",
+        "It removes the need for communication",
+        "It prevents progress reviews"
+      ],
+      answer: 0
+    },
+    {
+      question: "What is a project deadline?",
+      options: [
+        "The project budget",
+        "The project manager's job title",
+        "A list of project materials",
+        "The date by which a task or project should be completed"
+      ],
+      answer: 3
+    },
+    {
+      question: "What is a project milestone?",
+      options: [
+        "An unrelated meeting",
+        "An important point or achievement in a project's progress",
+        "A personal opinion",
+        "An unexpected delay"
+      ],
+      answer: 1
+    },
+    {
+      question: "What is project risk management?",
+      options: [
+        "Ignoring possible problems",
+        "Removing every project activity",
+        "Identifying and responding to possible risks",
+        "Avoiding project communication"
+      ],
+      answer: 2
+    },
+    {
+      question: "Why should project responsibilities be assigned clearly?",
+      options: [
+        "So team members understand their tasks",
+        "So nobody knows what to do",
+        "To prevent accountability",
+        "To duplicate every task"
+      ],
+      answer: 0
+    },
+    {
+      question: "What is a project budget?",
+      options: [
+        "A list of project members",
+        "A record of meeting attendance",
+        "A description of the project title",
+        "An estimate of the money needed for project activities"
+      ],
+      answer: 3
+    },
+    {
+      question: "Why should project progress be monitored?",
+      options: [
+        "To avoid making decisions",
+        "To identify delays and check progress against objectives",
+        "To remove all deadlines",
+        "To prevent team feedback"
+      ],
+      answer: 1
+    },
+    {
+      question: "What usually happens during project closure?",
+      options: [
+        "All records are discarded",
+        "The team ignores the results",
+        "Deliverables are reviewed and lessons are documented",
+        "The project objectives are forgotten"
+      ],
+      answer: 2
+    }
+  ],
+      "teamwork-collaboration": [
+    { question: "What is teamwork?", options: ["Working alone always", "People cooperating toward a shared goal", "Competing against every colleague", "Avoiding responsibilities"], answer: 1 },
+    { question: "What makes a team effective?", options: ["Poor communication", "Unclear responsibilities", "Trust and cooperation", "Ignoring different ideas"], answer: 2 },
+    { question: "Why should team members listen to one another?", options: ["To understand ideas and concerns", "To delay every decision", "To avoid participation", "To prevent feedback"], answer: 0 },
+    { question: "What is collaboration?", options: ["Working without a goal", "Giving all work to one person", "Avoiding discussion", "Working together and contributing skills"], answer: 3 },
+    { question: "How should tasks be distributed?", options: ["Randomly without explanation", "Fairly according to skills and responsibilities", "Only to the team leader", "Without considering workload"], answer: 1 },
+    { question: "What is a constructive response to disagreement?", options: ["Insulting others", "Refusing to listen", "Discussing differences respectfully", "Ending cooperation"], answer: 2 },
+    { question: "Why are shared goals important?", options: ["They give team members a common direction", "They remove individual responsibilities", "They prevent planning", "They create unnecessary competition"], answer: 0 },
+    { question: "What should a team member do after making a mistake?", options: ["Hide it", "Blame another person", "Ignore its effects", "Accept responsibility and help correct it"], answer: 3 },
+    { question: "How can a team build trust?", options: ["By hiding information", "By being reliable, honest, and respectful", "By breaking promises", "By avoiding communication"], answer: 1 },
+    { question: "What is one benefit of evaluating team performance?", options: ["It discourages improvement", "It creates blame", "It identifies strengths and areas to improve", "It removes shared goals"], answer: 2 }
+  ],
+
+  "conflict-resolution": [
+    { question: "What is conflict?", options: ["A disagreement or clash of interests", "Always a physical fight", "A shared achievement", "A type of agreement"], answer: 0 },
+    { question: "What is the first useful step in resolving a disagreement?", options: ["Blaming someone", "Listening to understand the issue", "Spreading rumours", "Ignoring everyone"], answer: 1 },
+    { question: "What is active listening?", options: ["Interrupting frequently", "Preparing an argument", "Paying attention and clarifying what someone means", "Changing the subject"], answer: 2 },
+    { question: "What does compromise mean?", options: ["One person always wins", "Avoiding every discussion", "Refusing to change", "Finding an acceptable middle ground"], answer: 3 },
+    { question: "Why is remaining calm helpful during conflict?", options: ["It guarantees agreement", "It supports clearer and more respectful discussion", "It removes the need to listen", "It makes the other person wrong"], answer: 1 },
+    { question: "What is mediation?", options: ["Punishing everyone involved", "Ignoring the disagreement", "A neutral person helping people discuss a solution", "Making decisions without hearing anyone"], answer: 2 },
+    { question: "Which is an example of respectful communication?", options: ["Explaining concerns without insults", "Threatening the other person", "Sharing private information", "Shouting over others"], answer: 0 },
+    { question: "What should happen if a conflict involves a safety concern?", options: ["Keep it secret", "Encourage confrontation", "Ignore the concern", "Seek help from a trusted responsible person"], answer: 3 },
+    { question: "Why should people focus on the problem rather than personal attacks?", options: ["To avoid finding solutions", "To keep discussion constructive", "To make disagreements longer", "To prevent cooperation"], answer: 1 },
+    { question: "What is a useful final step after resolving a conflict?", options: ["Restart the argument", "Spread blame", "Agree on actions and responsibilities", "Avoid all future communication"], answer: 2 }
+  ],
+
+  "community-development": [
+    { question: "What is community development?", options: ["A process of improving community wellbeing and opportunities", "A plan for one person only", "A way to prevent cooperation", "A competition between neighbours"], answer: 0 },
+    { question: "Why should community members participate in development?", options: ["To avoid responsibility", "To help identify needs and contribute ideas", "To prevent local decisions", "To replace all public services"], answer: 1 },
+    { question: "What is a community needs assessment?", options: ["A list of unrelated activities", "A financial reward", "A process for identifying local needs and priorities", "A personal opinion only"], answer: 2 },
+    { question: "What is a community project?", options: ["An activity without a purpose", "A private task unrelated to residents", "A competition with no benefit", "An organized activity addressing a shared local need"], answer: 3 },
+    { question: "Why is inclusion important in community projects?", options: ["It limits participation", "It helps different groups have a voice", "It gives decisions to one person", "It prevents cooperation"], answer: 1 },
+    { question: "What is a community resource?", options: ["Only money", "Only buildings", "People, skills, facilities, and other useful local assets", "An unrelated personal possession"], answer: 2 },
+    { question: "Why should community projects have clear objectives?", options: ["To guide activities and measure progress", "To make planning impossible", "To avoid accountability", "To prevent evaluation"], answer: 0 },
+    { question: "What is volunteerism?", options: ["Working only for a salary", "Avoiding community needs", "Competing for personal rewards", "Contributing time or skills voluntarily"], answer: 3 },
+    { question: "Why is transparency important in community projects?", options: ["It hides decisions", "It helps build trust and accountability", "It prevents questions", "It removes the need for records"], answer: 1 },
+    { question: "How can a community assess project success?", options: ["By counting meetings only", "By ignoring residents", "By reviewing results against the original objectives", "By avoiding feedback"], answer: 2 }
+  ],
+
+  "civic-education": [
+    { question: "What is civic education?", options: ["Learning about citizenship, rights, responsibilities, and public life", "Learning only about business", "Studying sports rules", "Avoiding community participation"], answer: 0 },
+    { question: "What is a citizen's responsibility?", options: ["Ignoring other people's rights", "Respecting laws and the rights of others", "Spreading false information", "Avoiding all community matters"], answer: 1 },
+    { question: "Why are laws important in society?", options: ["They remove every disagreement", "They benefit only a few people", "They establish rules and help protect rights and order", "They replace personal responsibility"], answer: 2 },
+    { question: "What does equality before the law mean?", options: ["Some people have no responsibilities", "Rules apply only to visitors", "Everyone must have identical opinions", "People should receive equal legal treatment"], answer: 3 },
+    { question: "What is public participation?", options: ["Avoiding public discussions", "Taking part in decisions and activities affecting society", "Ignoring local issues", "Preventing others from speaking"], answer: 1 },
+    { question: "What is a human right?", options: ["A reward for wealthy people", "A privilege available only at school", "A basic entitlement belonging to every person", "A personal business agreement"], answer: 2 },
+    { question: "Why is respect for diversity important?", options: ["It supports peaceful coexistence", "It requires everyone to think alike", "It prevents cooperation", "It encourages discrimination"], answer: 0 },
+    { question: "What is the purpose of public institutions?", options: ["To serve only private interests", "To prevent citizens from receiving services", "To avoid public accountability", "To provide services and carry out public responsibilities"], answer: 3 },
+    { question: "What is responsible citizenship online?", options: ["Sharing rumours", "Checking information and communicating respectfully", "Publishing private details", "Harassing people with different views"], answer: 1 },
+    { question: "How can citizens contribute to peaceful communities?", options: ["By encouraging discrimination", "By ignoring community concerns", "By respecting others and resolving disagreements peacefully", "By spreading unverified accusations"], answer: 2 }
+  ],
+
+  "french-communication": [
+    { question: "What does 'Bonjour' mean in English?", options: ["Good morning / Hello", "Good night", "Goodbye", "Thank you"], answer: 0 },
+    { question: "How do you say 'Thank you' in French?", options: ["Pardon", "Merci", "Bonsoir", "Au revoir"], answer: 1 },
+    { question: "Which phrase means 'My name is...'?", options: ["Comment allez-vous?", "Où habitez-vous?", "Je m'appelle...", "À bientôt"], answer: 2 },
+    { question: "What does 'Comment allez-vous?' mean?", options: ["Where are you going?", "What is your name?", "How old are you?", "How are you?"], answer: 3 },
+    { question: "Which is the correct French word for 'book'?", options: ["Une table", "Un livre", "Une maison", "Un stylo"], answer: 1 },
+    { question: "How do you say 'Please' in French?", options: ["Jamais", "Demain", "S'il vous plaît", "Hier"], answer: 2 },
+    { question: "Which phrase is a polite greeting in the evening?", options: ["Bonsoir", "Merci", "Pardon", "Non"], answer: 0 },
+    { question: "What does 'Je ne comprends pas' mean?", options: ["I am happy", "I am ready", "I agree", "I do not understand"], answer: 3 },
+    { question: "Which word means 'today' in French?", options: ["Demain", "Aujourd'hui", "Hier", "Toujours"], answer: 1 },
+    { question: "Which sentence means 'I speak French'?", options: ["Je mange du pain.", "Je vais à l'école.", "Je parle français.", "Je lis un livre."], answer: 2 }
+  ],
+
+  "kinyarwanda-communication": [
+    { question: "What does 'Muraho' commonly mean?", options: ["Hello", "Goodbye", "Sorry", "Please"], answer: 0 },
+    { question: "What does 'Murakoze' mean?", options: ["Welcome", "Thank you", "Good night", "Good morning"], answer: 1 },
+    { question: "Which expression is commonly used to say goodbye?", options: ["Yego", "Oya", "Murabeho", "Murakoze"], answer: 2 },
+    { question: "What does 'Yego' mean?", options: ["No", "Maybe", "Please", "Yes"], answer: 3 },
+    { question: "What does 'Oya' mean?", options: ["Thank you", "No", "Hello", "Welcome"], answer: 1 },
+    { question: "Which expression means 'Good morning'?", options: ["Ijoro ryiza", "Murabeho", "Mwaramutse", "Murakoze"], answer: 2 },
+    { question: "Why is respectful language important?", options: ["It supports polite and positive communication", "It prevents people from asking questions", "It encourages insults", "It makes messages unclear"], answer: 0 },
+    { question: "What is a useful way to improve Kinyarwanda communication?", options: ["Avoid listening", "Memorize words without using them", "Never ask for clarification", "Practise speaking, reading, and listening"], answer: 3 },
+    { question: "What should you do if you do not understand a word?", options: ["Pretend you understand", "Politely ask for its meaning", "Change the subject immediately", "Criticize the speaker"], answer: 1 },
+    { question: "Which skill helps people understand spoken Kinyarwanda?", options: ["Ignoring pronunciation", "Avoiding conversations", "Listening carefully to words and context", "Speaking without listening"], answer: 2 }
+  ],
+
+  "professional-writing": [
+    { question: "What is professional writing?", options: ["Clear and appropriate writing for work or formal purposes", "Writing without considering readers", "Using slang in every document", "Copying another person's work"], answer: 0 },
+    { question: "What should a professional email subject line do?", options: ["Contain unrelated details", "Clearly describe the email's purpose", "Be left confusing", "Include the entire message"], answer: 1 },
+    { question: "Which greeting is suitable for a formal email?", options: ["Hey you!", "What's up?", "Dear Ms. / Mr. [Name],", "Listen here,"], answer: 2 },
+    { question: "Why should professional writing be proofread?", options: ["To make it longer", "To add unrelated information", "To remove every paragraph", "To correct errors and improve clarity"], answer: 3 },
+    { question: "What is the purpose of a report introduction?", options: ["To list unrelated references", "To introduce the topic and purpose", "To present only the conclusion", "To repeat the title many times"], answer: 1 },
+    { question: "What makes instructions effective?", options: ["Unclear language", "Missing steps", "Logical order and clear wording", "Unexplained abbreviations"], answer: 2 },
+    { question: "Why should writers consider their audience?", options: ["To choose suitable language and detail", "To make every text informal", "To avoid explaining ideas", "To use the same style in every situation"], answer: 0 },
+    { question: "What is plagiarism?", options: ["Checking spelling", "Writing an original summary", "Citing a source correctly", "Presenting someone else's work or ideas as your own"], answer: 3 },
+    { question: "Which feature improves readability?", options: ["Very long unstructured paragraphs", "Clear headings and organized paragraphs", "Unexplained technical terms", "Random punctuation"], answer: 1 },
+    { question: "What is a suitable professional email closing?", options: ["Whatever.", "Bye forever!", "Kind regards,", "Answer me now."], answer: 2 }
+  ],
+
+  "modern-agriculture": [
+    { question: "What is modern agriculture?", options: ["Using improved knowledge and methods to produce crops and livestock", "Farming without planning", "Avoiding all new information", "Growing crops without considering soil"], answer: 0 },
+    { question: "Why is good-quality seed important?", options: ["It guarantees every harvest", "It can support healthy crop establishment and production", "It removes the need for water", "It prevents all pests"], answer: 1 },
+    { question: "What is crop rotation?", options: ["Growing one crop forever", "Harvesting without planning", "Growing different crops in sequence on the same land", "Moving crops after every rainfall"], answer: 2 },
+    { question: "Why is soil testing useful?", options: ["It measures the weather", "It identifies market prices", "It replaces irrigation", "It helps understand soil conditions and nutrient needs"], answer: 3 },
+    { question: "What is irrigation?", options: ["Removing all plants", "Supplying water to crops when needed", "Harvesting crops", "Storing farm tools"], answer: 1 },
+    { question: "What is integrated pest management?", options: ["Using only one method in every situation", "Ignoring pest problems", "Combining suitable methods to manage pests responsibly", "Applying chemicals without guidance"], answer: 2 },
+    { question: "Why is farm recordkeeping useful?", options: ["It helps track costs, activities, and production", "It makes planning impossible", "It replaces all field observations", "It prevents learning"], answer: 0 },
+    { question: "What is post-harvest handling?", options: ["Planting seeds", "Preparing the land", "Selecting a market before planting", "Activities that protect produce after harvesting"], answer: 3 },
+    { question: "Why should farmers consider weather information?", options: ["It guarantees rainfall", "It helps plan suitable farming activities", "It replaces soil management", "It prevents every crop disease"], answer: 1 },
+    { question: "What is agricultural extension?", options: ["Selling farm equipment only", "Transporting produce only", "Sharing practical agricultural knowledge and advice with farmers", "Replacing farmers' decisions"], answer: 2 }
+  ],
+
+  "sustainable-farming": [
+    { question: "What is sustainable farming?", options: ["Producing food while protecting resources for the future", "Using resources without limits", "Ignoring soil health", "Focusing only on immediate production"], answer: 0 },
+    { question: "Why is crop diversity beneficial?", options: ["It guarantees no pests", "It can support resilience and biodiversity", "It removes the need for planning", "It makes every crop identical"], answer: 1 },
+    { question: "What is compost?", options: ["A synthetic fuel", "A type of irrigation pipe", "Organic material decomposed for use as a soil amendment", "A harvested grain"], answer: 2 },
+    { question: "Why should farmers reduce unnecessary chemical use?", options: ["To make crops less productive", "To avoid learning about pests", "To remove all farm management", "To reduce potential harm to people and the environment"], answer: 3 },
+    { question: "What is agroforestry?", options: ["Removing all trees from farmland", "Combining trees with crops or livestock systems", "Growing trees only in cities", "Replacing every crop with grass"], answer: 1 },
+    { question: "How can farmers protect soil fertility?", options: ["Leaving soil exposed continuously", "Burning all organic matter", "Using suitable rotations and organic amendments", "Removing all plant cover"], answer: 2 },
+    { question: "What is one benefit of mulching?", options: ["It can help conserve soil moisture", "It removes every weed permanently", "It replaces all nutrients", "It guarantees no crop disease"], answer: 0 },
+    { question: "Why is biodiversity important in farming?", options: ["It makes ecosystems less stable", "It prevents all weather changes", "It removes the need for soil", "It supports healthy and resilient ecosystems"], answer: 3 },
+    { question: "What does responsible water management involve?", options: ["Using unlimited water", "Using water efficiently and protecting water sources", "Ignoring leaks", "Polluting streams"], answer: 1 },
+    { question: "How can farmers assess whether a practice is sustainable?", options: ["By considering only one day's harvest", "By ignoring costs", "By reviewing environmental, economic, and social effects", "By avoiding records"], answer: 2 }
+  ],
+
+  "soil-water-conservation": [
+    { question: "What is soil conservation?", options: ["Protecting soil from degradation and erosion", "Removing all vegetation", "Increasing uncontrolled runoff", "Leaving land unmanaged"], answer: 0 },
+    { question: "What is soil erosion?", options: ["The natural formation of seeds", "The removal of topsoil by water or wind", "The storage of rainwater", "The growth of plant roots"], answer: 1 },
+    { question: "How can vegetation help protect soil?", options: ["It increases bare ground", "It removes all soil nutrients", "Roots help hold soil in place", "It prevents every rainfall"], answer: 2 },
+    { question: "What is rainwater harvesting?", options: ["Allowing water to run away", "Removing water from wells", "Polluting water sources", "Collecting and storing rainwater for later use"], answer: 3 },
+    { question: "What is contour farming?", options: ["Ploughing straight downhill", "Cultivating along the natural contour lines of a slope", "Removing all terraces", "Planting without considering the land"], answer: 1 },
+    { question: "Why are terraces used on some slopes?", options: ["To increase rapid runoff", "To remove vegetation", "To slow water flow and reduce erosion", "To prevent all crop growth"], answer: 2 },
+    { question: "What is groundwater?", options: ["Water stored beneath the Earth's surface", "Water found only in clouds", "Water in a cooking pot", "Water flowing above all land"], answer: 0 },
+    { question: "Which practice can reduce water waste in agriculture?", options: ["Leaving pipes leaking", "Irrigating without considering crop needs", "Flooding every field continuously", "Using suitable, well-managed irrigation methods"], answer: 3 },
+    { question: "Why should water sources be protected from pollution?", options: ["To make water harder to access", "To protect human health and ecosystems", "To increase waste", "To discourage sanitation"], answer: 1 },
+    { question: "What is watershed management?", options: ["Managing one household tap only", "Removing all trees", "Coordinating land and water protection within a drainage area", "Ignoring rivers and streams"], answer: 2 }
+  ],
+
+  "climate-environment": [
+    { question: "What is climate?", options: ["The long-term pattern of weather in an area", "The temperature at one moment", "A single rainstorm", "A daily weather forecast"], answer: 0 },
+    { question: "What is climate change?", options: ["A change in today's weather only", "Long-term changes in climate patterns", "The movement of clouds during one day", "A seasonal school timetable"], answer: 1 },
+    { question: "Which gas is a major greenhouse gas?", options: ["Helium", "Neon", "Carbon dioxide", "Argon"], answer: 2 },
+    { question: "What is deforestation?", options: ["Planting trees", "Protecting forests", "Restoring damaged land", "Removing forests or large areas of trees"], answer: 3 },
+    { question: "What is biodiversity?", options: ["The number of buildings in a city", "The variety of living organisms in an area", "The amount of rainfall only", "The number of roads"], answer: 1 },
+    { question: "Which action can help reduce waste?", options: ["Throwing away reusable items", "Buying unnecessary products", "Reusing and recycling suitable materials", "Burning all household waste"], answer: 2 },
+    { question: "What is renewable energy?", options: ["Energy from sources naturally replenished, such as sunlight and wind", "Energy only from coal", "Energy from disposable batteries only", "Energy that cannot be replaced"], answer: 0 },
+    { question: "Why are wetlands important?", options: ["They have no ecological value", "They increase all pollution", "They prevent all rainfall", "They support wildlife and help regulate water"], answer: 3 },
+    { question: "What is adaptation to climate change?", options: ["Ignoring environmental changes", "Adjusting to actual or expected climate impacts", "Increasing avoidable risks", "Stopping all environmental planning"], answer: 1 },
+    { question: "How can individuals support environmental protection?", options: ["Wasting water", "Littering public spaces", "Conserving resources and making responsible choices", "Destroying natural habitats"], answer: 2 }
+  ],
+
+  "food-systems-agribusiness": [
+    { question: "What is a food system?", options: ["The connected activities involved in producing, processing, distributing, and consuming food", "A list of restaurants only", "A farming tool", "A method of cooking one meal"], answer: 0 },
+    { question: "What is agribusiness?", options: ["A business unrelated to agriculture", "Business activities connected to agricultural products and services", "A type of school subject only", "A method of storing water"], answer: 1 },
+    { question: "What is food security?", options: ["Having only one food choice", "Producing food without distribution", "Reliable access to sufficient, safe, nutritious food", "Storing food without checking its condition"], answer: 2 },
+    { question: "What is value addition in agriculture?", options: ["Reducing product quality", "Discarding useful produce", "Avoiding processing", "Increasing a product's value through processing or improvement"], answer: 3 },
+    { question: "Why is food storage important?", options: ["It makes food spoil faster", "It helps maintain quality and reduce losses", "It replaces food safety", "It removes the need for transport"], answer: 1 },
+    { question: "What is a supply chain?", options: ["A list of farm tools", "A method of planting seeds", "The connected steps that move products from producers to consumers", "A household shopping list"], answer: 2 },
+    { question: "Why should agribusiness owners understand their market?", options: ["To understand customers, demand, and competition", "To avoid customer needs", "To guarantee profit", "To stop comparing costs"], answer: 0 },
+    { question: "What is food traceability?", options: ["Changing food labels", "Removing production records", "Selling without information", "Being able to follow food through stages of production and distribution"], answer: 3 },
+    { question: "What can reduce post-harvest losses?", options: ["Poor storage", "Suitable handling, storage, and transport", "Leaving produce exposed", "Delaying all sorting"], answer: 1 },
+    { question: "Why are accurate financial records useful in agribusiness?", options: ["They replace market research", "They guarantee high prices", "They help monitor costs, income, and business performance", "They make planning unnecessary"], answer: 2 }
+  ],
+
+  "workplace-ethics": [
+    { question: "What are workplace ethics?", options: ["Principles that guide responsible and fair conduct at work", "Rules for avoiding all tasks", "A method of competing unfairly", "A list of personal preferences"], answer: 0 },
+    { question: "What does honesty at work involve?", options: ["Hiding important mistakes", "Being truthful and accurate", "Changing records without permission", "Blaming others for every problem"], answer: 1 },
+    { question: "What is confidentiality?", options: ["Sharing every private document", "Discussing private matters publicly", "Protecting information that should not be disclosed", "Publishing passwords"], answer: 2 },
+    { question: "What is a conflict of interest?", options: ["A normal team meeting", "A completed work task", "A workplace training session", "A situation where personal interests may improperly affect professional decisions"], answer: 3 },
+    { question: "How should employees treat colleagues?", options: ["With favouritism", "With fairness and respect", "With deliberate disrespect", "By excluding people unfairly"], answer: 1 },
+    { question: "What should someone do if asked to falsify a work record?", options: ["Agree immediately", "Hide the request", "Refuse and use the appropriate reporting process", "Change the record secretly"], answer: 2 },
+    { question: "Why is accountability important?", options: ["It encourages people to take responsibility for their actions", "It removes responsibility", "It prevents learning", "It makes mistakes impossible"], answer: 0 },
+    { question: "What is professional integrity?", options: ["Doing only what benefits you", "Avoiding difficult decisions", "Ignoring workplace standards", "Acting consistently with ethical principles"], answer: 3 },
+    { question: "How should confidential information be handled?", options: ["Shared with everyone", "Accessed and shared only when authorized", "Posted on social media", "Stored without protection"], answer: 1 },
+    { question: "What should you do when you witness unethical conduct?", options: ["Spread rumours", "Encourage it", "Follow appropriate workplace reporting procedures", "Alter records to hide it"], answer: 2 }
+  ],
+
+  "cv-job-applications": [
+    { question: "What is the main purpose of a CV?", options: ["To summarize relevant education, skills, and experience", "To list unrelated personal details", "To guarantee employment", "To replace an interview"], answer: 0 },
+    { question: "Why should a CV be tailored to a role?", options: ["To make it longer", "To highlight relevant skills and experience", "To hide qualifications", "To include unrelated information"], answer: 1 },
+    { question: "Which information belongs in an education section?", options: ["A friend's password", "Unrelated family stories", "Relevant qualifications and institutions", "Unverified claims"], answer: 2 },
+    { question: "What is a cover letter?", options: ["A list of references only", "A copy of every certificate", "A personal diary", "A letter explaining interest and suitability for a role"], answer: 3 },
+    { question: "Why should information in a job application be accurate?", options: ["To make the application confusing", "To demonstrate honesty and reliability", "To impress through invented claims", "To avoid verification"], answer: 1 },
+    { question: "What is a transferable skill?", options: ["A skill useful in different roles or settings", "A qualification that cannot be used", "A private password", "A job title"], answer: 2 },
+    { question: "What should you do before submitting an application?", options: ["Check instructions, spelling, and required documents", "Send an incomplete application", "Ignore the deadline", "Use another person's identity"], answer: 0 },
+    { question: "What is a professional reference?", options: ["An anonymous rumour", "A random online comment", "An unrelated advertisement", "A person who can appropriately comment on your abilities or work"], answer: 3 },
+    { question: "How should employment gaps be handled in an application?", options: ["Invent a job", "Explain them honestly when relevant", "Change dates falsely", "Hide required information"], answer: 1 },
+    { question: "Why should a CV be easy to read?", options: ["To include as many fonts as possible", "To hide important information", "To help employers find relevant information quickly", "To make the document confusing"], answer: 2 }
+  ],
+
+  "interview-skills": [
+    { question: "Why should you research an organization before an interview?", options: ["To understand its work and the role", "To memorize unrelated facts", "To avoid preparing", "To guarantee selection"], answer: 0 },
+    { question: "What is appropriate interview behaviour?", options: ["Interrupting every question", "Listening carefully and responding respectfully", "Using insulting language", "Ignoring the interviewer"], answer: 1 },
+    { question: "How should you answer a question about your experience?", options: ["Invent achievements", "Avoid giving examples", "Give an honest and relevant example", "Discuss unrelated private matters"], answer: 2 },
+    { question: "Why is arriving on time important?", options: ["It replaces preparation", "It guarantees employment", "It makes questions unnecessary", "It demonstrates respect and reliability"], answer: 3 },
+    { question: "What should you do if you do not understand an interview question?", options: ["Guess without listening", "Politely ask for clarification", "Ignore the question", "Criticize the interviewer"], answer: 1 },
+    { question: "What is a useful way to prepare for common interview questions?", options: ["Memorize false answers", "Avoid learning about the role", "Practise clear answers using genuine examples", "Prepare no examples"], answer: 2 },
+    { question: "How should you discuss a weakness?", options: ["Be honest and explain steps you are taking to improve", "Claim you have no weaknesses", "Blame other people", "Avoid answering respectfully"], answer: 0 },
+    { question: "What is a suitable question to ask at the end of an interview?", options: ["Can I ignore the job duties?", "Why is everyone here?", "Can you guarantee my promotion?", "What are the main responsibilities of this role?"], answer: 3 },
+    { question: "What should you do after an interview?", options: ["Share confidential interview details", "Send a brief, polite thank-you message when appropriate", "Contact the interviewer repeatedly", "Post private information online"], answer: 1 },
+    { question: "What is the best way to present your qualifications?", options: ["Exaggerate your experience", "Claim skills you do not have", "Describe your genuine skills and relevant examples", "Avoid explaining your contribution"], answer: 2 }
+  ],
+
+  "research-study-skills": [
+    { question: "What is research?", options: ["A systematic process of investigating a question", "Copying information without checking it", "Guessing without evidence", "Collecting unrelated opinions only"], answer: 0 },
+    { question: "What is a research question?", options: ["A final grade", "A focused question that guides an investigation", "A list of unrelated facts", "A personal advertisement"], answer: 1 },
+    { question: "Why should researchers use reliable sources?", options: ["To make research longer", "To avoid checking evidence", "To support accurate and trustworthy conclusions", "To copy information without attribution"], answer: 2 },
+    { question: "What is plagiarism?", options: ["Writing a research question", "Summarizing with proper citation", "Comparing different sources", "Using someone else's work without proper acknowledgment"], answer: 3 },
+    { question: "What is a hypothesis?", options: ["A guaranteed result", "A testable proposed explanation or prediction", "A list of references", "A final report title"], answer: 1 },
+    { question: "What is the purpose of taking study notes?", options: ["To copy every page without thinking", "To avoid reviewing information", "To record and organize important ideas", "To replace understanding"], answer: 2 },
+    { question: "Which study method can support long-term learning?", options: ["Spaced practice and regular review", "Studying only once at the last minute", "Avoiding practice questions", "Reading without checking understanding"], answer: 0 },
+    { question: "What is a primary source?", options: ["A textbook summary only", "An unrelated opinion", "A general dictionary definition", "Original evidence or information from a direct source"], answer: 3 },
+    { question: "Why is time management important when studying?", options: ["It removes the need for rest", "It helps organize tasks and make steady progress", "It guarantees perfect results", "It prevents flexibility"], answer: 1 },
+    { question: "What should you do when research sources disagree?", options: ["Choose the first result automatically", "Ignore all evidence", "Compare source quality, methods, and supporting evidence", "Assume every source is equally reliable"], answer: 2 }
   ]
 };
 
