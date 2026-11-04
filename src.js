@@ -11400,11 +11400,10 @@ downloadButton.addEventListener("click", async () => {
 
   const jsPDF = window.jspdf?.jsPDF;
 
-  if (!jsPDF) {
-    alert("PDF library could not load. Please refresh and try again.");
-    return;
-  }
-
+ if (!jsPDF || typeof QRCode === "undefined") {
+  alert("PDF or QR library could not load. Please refresh and try again.");
+  return;
+}
         const pdf = new jsPDF({
           orientation: "landscape",
           unit: "mm",
