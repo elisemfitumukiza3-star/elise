@@ -11382,10 +11382,10 @@ quizPanel.replaceChildren();
       const downloadButton = document.createElement("button");
       downloadButton.type = "button";
       downloadButton.textContent = "Download Certificate (PDF)";
-
- 
 downloadButton.addEventListener("click", async () => {
-    try { 
+    alert("Certificate button clicked.");
+    try {
+
   const learnerName = nameInput.value.trim();
 
   if (!learnerName) {
