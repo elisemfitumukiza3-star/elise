@@ -11727,10 +11727,13 @@ if (saveCertificateError) {
   );
   return;
 }
-
 pdf.save(`LearnLoop-${course.slug}-Certificate.pdf`);
- 
-      });
+
+  } catch (error) {
+    console.error("Certificate download failed:", error);
+    alert("Certificate download failed: " + error.message);
+  }
+});
 
       certificatePanel.appendChild(downloadButton);
       certificatePanel.classList.remove("hidden");
