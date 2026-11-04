@@ -3002,7 +3002,172 @@ async function updateDashboard() {
 
 /* ---------- Host controls ---------- */
 
+function renderHostGrowthChart(profiles) {
+  const canvas = document.querySelector("#hostGrowthChart");
+  const message = document.querySelector("#hostGrowthMessage");
 
+  if (!canvas) return;
+
+  const ctx = canvas.getContext("2d");
+  const months = [];
+
+  const now = new Date();
+
+  for (let i = 5; i >= 0; i--) {
+    const date = new Date(
+      now.getFullYear(),
+      now.getMonth() - i,
+      1
+    );
+
+    months.push({
+      label: date.toLocaleDateString("en", {
+        month: "short",
+        year: "2-digit"
+      }),
+      year: date.getFullYear(),
+      month: date.getMonth(),
+      count: 0
+    });
+  }
+
+  (profiles || []).forEach(profile => {
+    if (!profile.created_at) return;
+
+    const date = new Date(profile.created_at);
+
+    const month = months.find(item =>
+      item.year === date.getFullYear() &&
+      item.month === date.getMonth()
+    );
+
+    if (month) month.count++;
+  });
+
+  const dpr = window.devicePixelRatio || 1;
+  const width = canvas.clientWidth;
+  const height = canvas.clientHeight;
+
+  if (!width || !height) return;
+
+  canvas.width = width * dpr;
+  canvas.height = height * dpr;
+
+  ctx.scale(dpr, dpr);
+  ctx.clearRect(0, 0, width, height);
+
+  const padding = { top: 25, right: 20, bottom: 40, left: 40 };
+  const chartWidth = width - padding.left - padding.right;
+  const chartHeight = height - padding.top - padding.bottom;
+
+  const maxValue = Math.max(
+    5,
+    ...months.map(item => item.count)
+  );
+
+  ctx.font = "12px Arial";
+  ctx.textAlign = "right";
+  ctx.fillStyle = "#64748b";
+
+  for (let i = 0; i <= 5; i++) {
+    const value = Math.ceil(maxValue * i / 5);
+    const y = padding.top + chartHeight -
+      (i / 5) * chartHeight;
+
+    ctx.fillText(
+      String(value),
+      padding.left - 10,
+      y + 4
+    );
+
+    ctx.beginPath();
+    ctx.strokeStyle = "#dbeafe";
+    ctx.lineWidth = 1;
+    ctx.moveTo(padding.left, y);
+    ctx.lineTo(width - padding.right, y);
+    ctx.stroke();
+  }
+
+  const points = months.map((item, index) => ({
+    x: padding.left +
+      (index / Math.max(1, months.length - 1)) * chartWidth,
+    y: padding.top + chartHeight -
+      (item.count / maxValue) * chartHeight,
+    count: item.count
+  }));
+
+  const gradient = ctx.createLinearGradient(
+    0,
+    padding.top,
+    0,
+    height - padding.bottom
+  );
+
+  gradient.addColorStop(0, "rgba(99, 102, 241, 0.30)");
+  gradient.addColorStop(1, "rgba(99, 102, 241, 0.02)");
+
+  ctx.beginPath();
+  points.forEach((point, index) => {
+    if (index === 0) {
+      ctx.moveTo(point.x, point.y);
+    } else {
+      ctx.lineTo(point.x, point.y);
+    }
+  });
+
+  ctx.lineTo(points[points.length - 1].x, height - padding.bottom);
+  ctx.lineTo(points[0].x, height - padding.bottom);
+  ctx.closePath();
+
+  ctx.fillStyle = gradient;
+  ctx.fill();
+
+  ctx.beginPath();
+  points.forEach((point, index) => {
+    if (index === 0) {
+      ctx.moveTo(point.x, point.y);
+    } else {
+      ctx.lineTo(point.x, point.y);
+    }
+  });
+
+  ctx.strokeStyle = "#6366f1";
+  ctx.lineWidth = 3;
+  ctx.lineJoin = "round";
+  ctx.stroke();
+
+  points.forEach(point => {
+    ctx.beginPath();
+    ctx.arc(point.x, point.y, 5, 0, Math.PI * 2);
+    ctx.fillStyle = "#ffffff";
+    ctx.fill();
+    ctx.strokeStyle = "#6366f1";
+    ctx.lineWidth = 3;
+    ctx.stroke();
+  });
+
+  ctx.textAlign = "center";
+  ctx.fillStyle = "#475569";
+  ctx.font = "11px Arial";
+
+  months.forEach((item, index) => {
+    ctx.fillText(
+      item.label,
+      points[index].x,
+      height - 12
+    );
+  });
+
+  if (message) {
+    const total = months.reduce(
+      (sum, item) => sum + item.count,
+      0
+    );
+
+    message.textContent =
+      `${total} new registrations in the last six calendar months.`;
+  }
+}
 async function loadHostDashboard() {
   if (!isOwner()) {
     toast("This dashboard is restricted to the platform owner.", "error");
@@ -3039,6 +3204,7 @@ console.error("Profile error code:", profiles.error?.code);
     }
   } else {
     const registeredProfiles = profiles.data || [];
+    renderHostGrowthChart(registeredProfiles); 
 
     if ($("#hostProfilesCount")) {
       $("#hostProfilesCount").textContent =
