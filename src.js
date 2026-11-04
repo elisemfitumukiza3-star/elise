@@ -3016,8 +3016,8 @@ async function loadHostDashboard() {
       .from("posts")
       .select("id", { count: "exact", head: true }),
     supabase
-     .from("profiles")
-.select("id, display_name, bio")
+.from("profiles")
+.select("id, display_name, bio, created_at", { count: "exact" })
 .order("display_name", { ascending: true })
   ]);
 
