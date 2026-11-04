@@ -5883,3 +5883,26 @@ a:hover,
   border-color: #a5b4fc;
   box-shadow: 0 12px 30px rgba(79, 70, 229, 0.12);
 }
+/* SAFETY & MODERATION ICON */
+#hostDashboardDialog .host-icon-safety {
+  background: linear-gradient(135deg, #fee2e2, #fecaca);
+  color: #b91c1c;
+  box-shadow: 0 6px 16px rgba(220, 38, 38, 0.12);
+}
+
+#hostDashboardDialog .host-window-card:nth-of-type(2) .host-window-trigger {
+  background: linear-gradient(110deg, #fff7f7, #ffffff);
+}
+/* COMMITTEE MANAGEMENT ICON */
+#hostDashboardDialog .host-icon-committee {
+  background: linear-gradient(135deg, #ede9fe, #c4b5fd);
+  color: #6d28d9;
+  box-shadow: 0 6px 16px rgba(109, 40, 217, 0.14);
+}
+
+/* LEARNER MANAGEMENT ICON */
+#hostDashboardDialog .host-icon-learners {
+  background: linear-gradient(135deg, #cffafe, #a5f3fc);
+  color: #0e7490;
+  box-shadow: 0 6px 16px rgba(14, 116, 144, 0.14);
+}
