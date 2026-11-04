@@ -11566,11 +11566,11 @@ const verificationUrl =
 
 const qrContainer = document.createElement("div");
 
-new QRCodeLib
+new QRCodeLib(qrContainer, {
   text: verificationUrl,
   width: 256,
   height: 256,
- correctLevel: QRCodeLib.CorrectLevel.M
+  correctLevel: QRCodeLib.CorrectLevel.M
 });
 
 const qrCanvas = qrContainer.querySelector("canvas");
