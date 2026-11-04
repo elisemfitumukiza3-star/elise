@@ -5815,33 +5815,457 @@ a:hover,
 #hostDashboardDialog #hostGrowthMessage {
   margin-top: 12px;
 }
-/* HOST DASHBOARD CONTROL CENTRE */
-#hostDashboardDialog .host-control-centre {
-  margin: 28px 0 18px;
+/* =====================================================
+   LEARNLOOP — COMPLETE HOST DASHBOARD DESIGN
+===================================================== */
+
+/* FULL-WIDTH DASHBOARD DIALOG */
+
+#hostDashboardDialog {
+  width: 98vw;
+  max-width: 1800px;
+  max-height: 94vh;
+  margin: auto;
+  padding: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 24px;
+  background: #f5f7fc;
+  color: #172554;
+  box-sizing: border-box;
 }
 
-#hostDashboardDialog .host-control-centre h3 {
-  font-size: 1.25rem;
-  color: #30277f;
+#hostDashboardDialog::backdrop {
+  background: rgba(15, 23, 42, 0.72);
+  backdrop-filter: blur(5px);
+}
+
+#hostDashboardDialog *,
+#hostDashboardDialog *::before,
+#hostDashboardDialog *::after {
+  box-sizing: border-box;
+}
+
+#hostDashboardDialog .host-dashboard-shell {
+  display: block;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  background: #f5f7fc;
+}
+
+/* HEADER */
+
+#hostDashboardDialog .host-dashboard-header {
+  min-height: 82px;
+  padding: 15px clamp(20px, 4vw, 64px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  background: #ffffff;
+  border-bottom: 1px solid #e8edf5;
+}
+
+#hostDashboardDialog .host-dashboard-brand {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+#hostDashboardDialog .host-brand-mark {
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border-radius: 15px;
+  background: linear-gradient(135deg, #4338ca, #2563eb);
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 900;
+  letter-spacing: -1px;
+  box-shadow: 0 6px 16px rgba(67, 56, 202, 0.22);
+}
+
+#hostDashboardDialog .host-brand-name {
+  display: block;
+  color: #172554;
+  font-size: 1.12rem;
+  font-weight: 850;
+  letter-spacing: -0.4px;
+}
+
+#hostDashboardDialog .host-brand-caption {
+  display: block;
+  margin-top: 3px;
+  color: #64748b;
+  font-size: 0.65rem;
+  font-weight: 750;
+  letter-spacing: 1.5px;
+}
+
+#hostDashboardDialog .host-dashboard-close {
+  position: static;
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 13px;
+  background: #f1f5f9;
+  color: #334155;
+  font-size: 27px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+#hostDashboardDialog .host-dashboard-close:hover {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+/* WELCOME AREA */
+
+#hostDashboardDialog .host-dashboard-welcome {
+  position: relative;
+  overflow: hidden;
+  min-height: 190px;
+  margin: 28px clamp(20px, 4vw, 64px) 30px;
+  padding: clamp(25px, 4vw, 48px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  border-radius: 24px;
+  background: linear-gradient(115deg, #1e1b4b 0%, #3730a3 48%, #2563eb 100%);
+  color: #ffffff;
+  box-shadow: 0 14px 35px rgba(37, 54, 130, 0.17);
+}
+
+#hostDashboardDialog .host-dashboard-welcome > div:first-child {
+  position: relative;
+  z-index: 2;
+  max-width: 760px;
+}
+
+#hostDashboardDialog .host-dashboard-eyebrow {
+  display: inline-block;
+  margin-bottom: 12px;
+  color: #bfdbfe;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+#hostDashboardDialog .host-dashboard-welcome h1 {
+  margin: 0 0 10px;
+  color: #ffffff;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  line-height: 1.15;
+  font-weight: 850;
+  letter-spacing: -1px;
+}
+
+#hostDashboardDialog .host-dashboard-welcome p {
+  max-width: 650px;
+  margin: 0;
+  color: #dbeafe;
+  font-size: 0.96rem;
+  line-height: 1.7;
+}
+
+#hostDashboardDialog .host-welcome-decoration {
+  position: absolute;
+  right: 8%;
+  top: 50%;
+  width: 190px;
+  height: 190px;
+  transform: translateY(-50%);
+  border: 1px solid rgba(255,255,255,0.17);
+  border-radius: 50%;
+  color: rgba(255,255,255,0.65);
+  pointer-events: none;
+}
+
+#hostDashboardDialog .host-welcome-decoration span {
+  position: absolute;
+  font-size: 28px;
+}
+
+#hostDashboardDialog .host-welcome-decoration span:nth-child(1) {
+  top: 20px;
+  left: 35px;
+}
+
+#hostDashboardDialog .host-welcome-decoration span:nth-child(2) {
+  right: 25px;
+  top: 75px;
+  font-size: 45px;
+}
+
+#hostDashboardDialog .host-welcome-decoration span:nth-child(3) {
+  bottom: 18px;
+  left: 65px;
+}
+
+/* GENERAL SECTION HEADINGS */
+
+#hostDashboardDialog .host-overview-section,
+#hostDashboardDialog .host-management-section {
+  margin: 0 clamp(20px, 4vw, 64px) 32px;
+}
+
+#hostDashboardDialog .host-section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 19px;
+}
+
+#hostDashboardDialog .host-section-kicker {
+  display: block;
+  margin-bottom: 6px;
+  color: #6366f1;
+  font-size: 0.68rem;
+  font-weight: 850;
+  letter-spacing: 1.7px;
+}
+
+#hostDashboardDialog .host-section-heading h2 {
+  margin: 0;
+  color: #172554;
+  font-size: clamp(1.25rem, 2vw, 1.65rem);
+  font-weight: 850;
+  letter-spacing: -0.6px;
+}
+
+#hostDashboardDialog .host-section-heading p {
+  margin: 6px 0 0;
+  color: #64748b;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+/* OVERVIEW STATISTICS */
+
+#hostDashboardDialog .host-live-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 13px;
+  border: 1px solid #dbeafe;
+  border-radius: 30px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-size: 0.75rem;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
+#hostDashboardDialog .host-live-indicator span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.12);
+}
+
+#hostDashboardDialog .host-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+#hostDashboardDialog .host-stat-card {
+  position: relative;
+  min-width: 0;
+  min-height: 190px;
+  padding: 24px;
+  overflow: hidden;
+  border: 1px solid #e5eaf4;
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow: 0 5px 18px rgba(30, 41, 90, 0.045);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#hostDashboardDialog .host-stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 26px rgba(30, 41, 90, 0.09);
+}
+
+#hostDashboardDialog .host-stat-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+#hostDashboardDialog .host-stat-icon {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 15px;
+  font-size: 24px;
+}
+
+#hostDashboardDialog .host-stat-label {
+  color: #94a3b8;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 1.1px;
+  text-align: right;
+}
+
+#hostDashboardDialog .host-stat-posts .host-stat-icon {
+  background: #ede9fe;
+}
+
+#hostDashboardDialog .host-stat-learners .host-stat-icon {
+  background: #cffafe;
+}
+
+#hostDashboardDialog .host-stat-name {
+  display: block;
+  margin-bottom: 5px;
+  color: #64748b;
+  font-size: 0.88rem;
+  font-weight: 650;
+}
+
+#hostDashboardDialog .host-stat-card strong {
+  display: block;
+  color: #172554;
+  font-size: clamp(2rem, 3vw, 2.65rem);
+  line-height: 1.1;
+  font-weight: 900;
+  letter-spacing: -1px;
+}
+
+#hostDashboardDialog .host-stat-note {
+  display: block;
+  margin-top: 9px;
+  color: #94a3b8;
+  font-size: 0.76rem;
+}
+
+/* GROWTH ANALYTICS */
+
+#hostDashboardDialog .host-growth-section {
+  margin: 0 clamp(20px, 4vw, 64px) 38px;
+  padding: clamp(22px, 3vw, 34px);
+  border: 1px solid #e0e7ff;
+  border-radius: 23px;
+  background: linear-gradient(135deg, #ffffff 0%, #f5f7ff 100%);
+  box-shadow: 0 7px 24px rgba(30, 41, 90, 0.055);
+}
+
+#hostDashboardDialog .host-growth-section .host-section-heading {
+  margin-bottom: 8px;
+}
+
+#hostDashboardDialog .host-growth-icon {
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  border-radius: 17px;
+  background: #e0e7ff;
+  font-size: 25px;
+}
+
+#hostDashboardDialog .host-growth-chart {
+  position: relative;
+  width: 100%;
+  height: 340px;
+  margin-top: 22px;
+}
+
+#hostDashboardDialog #hostGrowthChart {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+#hostDashboardDialog #hostGrowthMessage {
+  margin: 13px 0 0;
+  color: #64748b;
+  font-size: 0.8rem;
+}
+
+/* MANAGEMENT CENTRE */
+
+#hostDashboardDialog .host-management-section {
+  margin-bottom: 38px;
+}
+
+#hostDashboardDialog .host-management-heading {
+  margin-bottom: 20px;
+}
+
+#hostDashboardDialog .host-management-symbol {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  border-radius: 15px;
+  background: #ede9fe;
+  color: #6d28d9;
+  font-size: 27px;
+  font-weight: 800;
+}
+
+/* SIX HORIZONTAL MANAGEMENT CARDS */
+
+#hostDashboardDialog .host-window-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  align-items: start;
+  gap: 14px;
+  width: 100%;
 }
 
 #hostDashboardDialog .host-window-card {
-  margin: 14px 0;
+  min-width: 0;
+  margin: 0;
   padding: 0;
   overflow: hidden;
-  border: 1px solid #e0e7ff;
-  border-radius: 20px;
+  border: 1px solid #e2e8f0;
+  border-radius: 19px;
   background: #ffffff;
-  box-shadow: 0 8px 24px rgba(30, 41, 90, 0.07);
+  box-shadow: 0 5px 17px rgba(30, 41, 90, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+#hostDashboardDialog .host-window-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 25px rgba(30, 41, 90, 0.11);
+}
+
+#hostDashboardDialog .host-window-card[open] {
+  grid-column: 1 / -1;
+  border-color: #a5b4fc;
+  box-shadow: 0 12px 30px rgba(79, 70, 229, 0.09);
 }
 
 #hostDashboardDialog .host-window-trigger {
+  min-height: 165px;
+  padding: 18px 9px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 15px;
-  padding: 17px;
+  justify-content: center;
+  gap: 9px;
   cursor: pointer;
   list-style: none;
+  text-align: center;
 }
 
 #hostDashboardDialog .host-window-trigger::-webkit-details-marker {
@@ -5849,116 +6273,37 @@ a:hover,
 }
 
 #hostDashboardDialog .host-window-icon {
+  width: 55px;
+  height: 55px;
   display: grid;
   place-items: center;
-  width: 58px;
-  height: 58px;
   flex-shrink: 0;
   border-radius: 18px;
-  font-size: 28px;
-  background: linear-gradient(135deg, #dbeafe, #bfdbfe);
-}
-
-#hostDashboardDialog .host-icon-learners {
-  background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+  font-size: 26px;
+  box-shadow: 0 6px 14px rgba(30, 41, 90, 0.08);
 }
 
 #hostDashboardDialog .host-window-title {
-  flex: 1;
-  font-weight: 750;
-  color: #1e293b;
-}
-
-#hostDashboardDialog .host-window-arrow {
-  font-size: 22px;
-  color: #6366f1;
-}
-
-#hostDashboardDialog .host-window-content {
-  padding: 20px;
-  border-top: 1px solid #e2e8f0;
-}
-
-#hostDashboardDialog .host-window-card[open] {
-  border-color: #a5b4fc;
-  box-shadow: 0 12px 30px rgba(79, 70, 229, 0.12);
-}
-/* SAFETY & MODERATION ICON */
-#hostDashboardDialog .host-icon-safety {
-  background: linear-gradient(135deg, #fee2e2, #fecaca);
-  color: #b91c1c;
-  box-shadow: 0 6px 16px rgba(220, 38, 38, 0.12);
-}
-
-#hostDashboardDialog .host-window-card:nth-of-type(2) .host-window-trigger {
-  background: linear-gradient(110deg, #fff7f7, #ffffff);
-}
-/* COMMITTEE MANAGEMENT ICON */
-#hostDashboardDialog .host-icon-committee {
-  background: linear-gradient(135deg, #ede9fe, #c4b5fd);
-  color: #6d28d9;
-  box-shadow: 0 6px 16px rgba(109, 40, 217, 0.14);
-}
-
-/* LEARNER MANAGEMENT ICON */
-#hostDashboardDialog .host-icon-learners {
-  background: linear-gradient(135deg, #cffafe, #a5f3fc);
-  color: #0e7490;
-  box-shadow: 0 6px 16px rgba(14, 116, 144, 0.14);
-}
-/* =====================================
-   LEARNLOOP HOST MANAGEMENT CENTRE
-===================================== */
-
-#hostDashboardDialog .host-window-grid {
-  display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 14px;
-  align-items: start;
-  width: 100%;
-  margin: 18px 0 28px;
-}
-
-#hostDashboardDialog .host-window-card {
-  margin: 0;
-  min-width: 0;
-  border-radius: 18px;
-  overflow: hidden;
-}
-
-#hostDashboardDialog .host-window-trigger {
-  min-height: 145px;
-  padding: 16px 8px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  gap: 10px;
-}
-
-#hostDashboardDialog .host-window-icon {
-  width: 58px;
-  height: 58px;
-  border-radius: 19px;
-  display: grid;
-  place-items: center;
-  font-size: 27px;
-  flex-shrink: 0;
-}
-
-#hostDashboardDialog .host-window-title {
+  display: block;
   flex: none;
+  color: #1e293b;
   font-size: 0.82rem;
   line-height: 1.3;
-  text-align: center;
+  font-weight: 850;
+  overflow-wrap: anywhere;
+}
+
+#hostDashboardDialog .host-window-description {
+  color: #94a3b8;
+  font-size: 0.68rem;
+  line-height: 1.3;
 }
 
 #hostDashboardDialog .host-window-arrow {
   display: none;
 }
 
-/* Unique icon colours */
+/* UNIQUE CARD ICON COLOURS */
 
 #hostDashboardDialog .host-icon-learners {
   background: linear-gradient(135deg, #cffafe, #67e8f9);
@@ -5990,51 +6335,200 @@ a:hover,
   color: #92400e;
 }
 
-/* Hover effect */
-
-#hostDashboardDialog .host-window-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 26px rgba(30, 41, 90, 0.12);
-}
-
-#hostDashboardDialog .host-window-card {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-/* Expanded management window */
-
-#hostDashboardDialog .host-window-card[open] {
-  grid-column: 1 / -1;
-  border-color: #818cf8;
-}
+/* EXPANDED MANAGEMENT CONTENT */
 
 #hostDashboardDialog .host-window-content {
-  padding: 22px;
+  padding: clamp(18px, 3vw, 30px);
+  border-top: 1px solid #e8edf5;
+  background: #ffffff;
 }
 
-/* Tablet */
+#hostDashboardDialog .host-window-content h3 {
+  margin-top: 0;
+  color: #1e293b;
+}
 
-@media (max-width: 1100px) {
+#hostDashboardDialog .host-window-content section {
+  min-width: 0;
+}
+
+#hostDashboardDialog .host-window-content label {
+  display: block;
+  margin: 14px 0;
+  color: #334155;
+  font-weight: 650;
+}
+
+#hostDashboardDialog .host-window-content input:not([type="checkbox"]),
+#hostDashboardDialog .host-window-content select,
+#hostDashboardDialog .host-window-content textarea {
+  width: 100%;
+  max-width: 100%;
+  margin-top: 7px;
+  border: 1px solid #dbe3ef;
+  border-radius: 11px;
+  background: #f8fafc;
+}
+
+#hostDashboardDialog .host-window-content .divider {
+  margin: 25px 0;
+  border-color: #e8edf5;
+}
+
+/* TABLET */
+
+@media (max-width: 1150px) {
   #hostDashboardDialog .host-window-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
+
+  #hostDashboardDialog .host-window-trigger {
+    min-height: 150px;
+  }
 }
 
-/* Mobile */
+/* SMALL TABLETS */
 
-@media (max-width: 640px) {
+@media (max-width: 760px) {
+  #hostDashboardDialog {
+    width: 98vw;
+    max-height: 96vh;
+    border-radius: 19px;
+  }
+
+  #hostDashboardDialog .host-dashboard-welcome,
+  #hostDashboardDialog .host-overview-section,
+  #hostDashboardDialog .host-growth-section,
+  #hostDashboardDialog .host-management-section {
+    margin-left: 18px;
+    margin-right: 18px;
+  }
+
+  #hostDashboardDialog .host-stats-grid {
+    gap: 12px;
+  }
+
+  #hostDashboardDialog .host-stat-card {
+    padding: 18px;
+  }
+
+  #hostDashboardDialog .host-growth-chart {
+    height: 280px;
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 560px) {
+  #hostDashboardDialog {
+    width: 100vw;
+    max-width: none;
+    max-height: 100dvh;
+    min-height: 100dvh;
+    border-radius: 0;
+    border: 0;
+  }
+
+  #hostDashboardDialog .host-dashboard-header {
+    min-height: 68px;
+    padding: 12px 17px;
+  }
+
+  #hostDashboardDialog .host-brand-mark {
+    width: 40px;
+    height: 40px;
+  }
+
+  #hostDashboardDialog .host-dashboard-welcome {
+    min-height: 175px;
+    margin: 17px 13px 23px;
+    padding: 23px 19px;
+    border-radius: 19px;
+  }
+
+  #hostDashboardDialog .host-dashboard-welcome h1 {
+    font-size: 1.75rem;
+  }
+
+  #hostDashboardDialog .host-dashboard-welcome p {
+    font-size: 0.84rem;
+  }
+
+  #hostDashboardDialog .host-welcome-decoration {
+    right: -65px;
+    opacity: 0.5;
+  }
+
+  #hostDashboardDialog .host-overview-section,
+  #hostDashboardDialog .host-growth-section,
+  #hostDashboardDialog .host-management-section {
+    margin-left: 13px;
+    margin-right: 13px;
+  }
+
+  #hostDashboardDialog .host-section-heading {
+    align-items: flex-start;
+  }
+
+  #hostDashboardDialog .host-live-indicator {
+    font-size: 0.65rem;
+    padding: 7px 9px;
+  }
+
+  #hostDashboardDialog .host-stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  #hostDashboardDialog .host-stat-card {
+    min-height: 155px;
+  }
+
+  #hostDashboardDialog .host-growth-section {
+    padding: 19px 15px;
+    border-radius: 18px;
+  }
+
+  #hostDashboardDialog .host-growth-chart {
+    height: 235px;
+  }
+
   #hostDashboardDialog .host-window-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
   }
 
   #hostDashboardDialog .host-window-trigger {
-    min-height: 125px;
+    min-height: 137px;
+    padding: 13px 7px;
+    gap: 8px;
   }
 
   #hostDashboardDialog .host-window-icon {
-    width: 50px;
-    height: 50px;
-    font-size: 24px;
+    width: 47px;
+    height: 47px;
+    border-radius: 15px;
+    font-size: 23px;
+  }
+
+  #hostDashboardDialog .host-window-title {
+    font-size: 0.76rem;
+  }
+
+  #hostDashboardDialog .host-window-description {
+    font-size: 0.63rem;
+  }
+
+  #hostDashboardDialog .host-window-content {
+    padding: 17px 13px;
+  }
+}
+
+/* ACCESSIBILITY: REDUCED MOTION */
+
+@media (prefers-reduced-motion: reduce) {
+  #hostDashboardDialog .host-stat-card,
+  #hostDashboardDialog .host-window-card,
+  #hostDashboardDialog .host-dashboard-close {
+    transition: none;
   }
 }
