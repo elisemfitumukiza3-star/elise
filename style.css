@@ -5726,3 +5726,62 @@ a:hover,
     padding: 20px;
   }
 }
+/* LearnLoop Host Dashboard — colourful statistics */
+#hostDashboardDialog .stat-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 165px;
+  padding: 26px;
+  border-radius: 23px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+#hostDashboardDialog .stat-card:nth-child(1) {
+  background: linear-gradient(135deg, #fff0e8, #ffe0d2);
+  border: 1px solid #ffc7ad;
+  box-shadow: 0 10px 25px rgba(234, 88, 12, 0.10);
+}
+
+#hostDashboardDialog .stat-card:nth-child(2) {
+  background: linear-gradient(135deg, #e8f4ff, #d5e8ff);
+  border: 1px solid #b6d6ff;
+  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.10);
+}
+
+#hostDashboardDialog .stat-card:nth-child(1)::before {
+  content: "📊";
+  background: #ffffff;
+  color: #ea580c;
+}
+
+#hostDashboardDialog .stat-card:nth-child(2)::before {
+  content: "👥";
+  background: #ffffff;
+  color: #2563eb;
+}
+
+#hostDashboardDialog .stat-card::before {
+  position: absolute;
+  top: 20px;
+  right: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 19px;
+  font-size: 29px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+#hostDashboardDialog .stat-card strong {
+  position: relative;
+  z-index: 1;
+  color: #30277f;
+  font-size: 2.5rem;
+}
+
+#hostDashboardDialog .stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 32px rgba(50, 50, 100, 0.13);
+}
