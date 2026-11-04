@@ -3184,15 +3184,18 @@ if (reportForm && !reportForm.dataset.handlerBound) {
     const message = document.getElementById("committeeReportMessage");
     const submitButton = reportForm.querySelector('button[type="submit"]');
 
-    const report = {
-      user_id: state.session.user.id,
-      report_date: reportDateInput.value,
-      accomplishments: document.getElementById("committeeReportAccomplishments").value.trim(),
-      challenges: document.getElementById("committeeReportChallenges").value.trim(),
-      next_steps: document.getElementById("committeeReportNextSteps").value.trim()
-    };
+      const reportDate = reportDateInput.value;
+    const activities = document
+      .getElementById("committeeReportAccomplishments")
+      .value.trim();
+    const challenges = document
+      .getElementById("committeeReportChallenges")
+      .value.trim();
+    const pendingTasks = document
+      .getElementById("committeeReportNextSteps")
+      .value.trim();
 
-    if (!report.report_date || !report.accomplishments) {
+    if (!reportDate || !activities) {
       message.textContent = "Please enter the date and your accomplishments.";
       return;
     }
@@ -3200,21 +3203,47 @@ if (reportForm && !reportForm.dataset.handlerBound) {
     submitButton.disabled = true;
     message.textContent = "Submitting your report...";
 
-    const { error } = await supabase
-      .from("committee_daily_reports")
-      .upsert(report, {
-        onConflict: "user_id,report_date"
-      });
+    try {
+      const { data: member, error: memberError } = await supabase
+        .from("committee_members")
+        .select("id, role")
+        .eq("user_id", state.session.user.id)
+        .eq("active", true)
+        .maybeSingle();
 
-    submitButton.disabled = false;
+      if (memberError) throw memberError;
+      if (!member) {
+        throw new Error("Your active committee membership was not found.");
+      }
 
-    if (error) {
-      console.error("Daily report error:", error);
-      message.textContent = "Could not submit your report. Please try again.";
-      return;
+      const { error } = await supabase
+        .from("committee_reports")
+        .insert({
+          member_id: member.id,
+          user_id: state.session.user.id,
+          position: member.role || "Committee Member",
+          report_date: reportDate,
+          activities: activities,
+          challenges: challenges,
+          pending_tasks: pendingTasks
+        });
+
+      if (error) throw error;
+
+      message.textContent = "Your daily report was submitted successfully.";
+      reportForm.reset();
+
+      const now = new Date();
+      reportDateInput.value = new Date(
+        now.getTime() - now.getTimezoneOffset() * 60000
+      ).toISOString().slice(0, 10);
+
+    } catch (error) {
+      console.error("Committee report submission error:", error);
+      message.textContent = "Could not submit your report: " + error.message;
+    } finally {
+      submitButton.disabled = false;
     }
-
-    message.textContent = "Your daily report was submitted successfully.";
   });
 }
   container.textContent = "Loading your tasks...";
