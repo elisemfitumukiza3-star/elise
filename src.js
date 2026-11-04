@@ -11641,7 +11641,7 @@ pdf.lines([
   [19, 9, 23, 13, 27, 6],
   [27, 6, 31, 0, 35, 4],
   [35, 4, 39, 7, 44, 2]
-], 187, 158, 1, "S", false);
+], 187, 158, [1, 1], "S", false);
 
 // Moderator decorative signature mark
 pdf.lines([
@@ -11650,7 +11650,7 @@ pdf.lines([
   [18, 3, 22, 0, 25, 5],
   [25, 5, 29, 11, 33, 5],
   [33, 5, 38, 0, 44, 4]
-], 240, 158, 1, "S", false);
+], 240, 158, [1, 1], "S", false);
 
 // Signature lines
 pdf.setDrawColor(...gold);
