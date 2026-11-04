@@ -5815,3 +5815,71 @@ a:hover,
 #hostDashboardDialog #hostGrowthMessage {
   margin-top: 12px;
 }
+/* HOST DASHBOARD CONTROL CENTRE */
+#hostDashboardDialog .host-control-centre {
+  margin: 28px 0 18px;
+}
+
+#hostDashboardDialog .host-control-centre h3 {
+  font-size: 1.25rem;
+  color: #30277f;
+}
+
+#hostDashboardDialog .host-window-card {
+  margin: 14px 0;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid #e0e7ff;
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(30, 41, 90, 0.07);
+}
+
+#hostDashboardDialog .host-window-trigger {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 17px;
+  cursor: pointer;
+  list-style: none;
+}
+
+#hostDashboardDialog .host-window-trigger::-webkit-details-marker {
+  display: none;
+}
+
+#hostDashboardDialog .host-window-icon {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  flex-shrink: 0;
+  border-radius: 18px;
+  font-size: 28px;
+  background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+}
+
+#hostDashboardDialog .host-icon-learners {
+  background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+}
+
+#hostDashboardDialog .host-window-title {
+  flex: 1;
+  font-weight: 750;
+  color: #1e293b;
+}
+
+#hostDashboardDialog .host-window-arrow {
+  font-size: 22px;
+  color: #6366f1;
+}
+
+#hostDashboardDialog .host-window-content {
+  padding: 20px;
+  border-top: 1px solid #e2e8f0;
+}
+
+#hostDashboardDialog .host-window-card[open] {
+  border-color: #a5b4fc;
+  box-shadow: 0 12px 30px rgba(79, 70, 229, 0.12);
+}
