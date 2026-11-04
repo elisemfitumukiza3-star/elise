@@ -8307,11 +8307,10 @@ actionButton.addEventListener("click", () => {
     saveAcademyProgress(latestProgress);
   }
 
-  if (isLastLesson) {
-    renderAcademyCourses();
-    return;
-  }
-
+ if (isLastLesson) {
+  startAcademyQuiz(course);
+  return;
+}
   openAcademyCourse(course);
 
   const nextLessonButton = topicList.children[index + 1];
