@@ -3297,7 +3297,6 @@ async function loadCommitteeWeeklyReports() {
     return;
   }
 
-  // Calculate Monday and Sunday of the selected week
   const [year, week] = selectedWeek.split("-W").map(Number);
 
   const januaryFourth = new Date(Date.UTC(year, 0, 4));
@@ -3318,15 +3317,15 @@ async function loadCommitteeWeeklyReports() {
   list.textContent = "Loading weekly reports...";
 
   const { data: reports, error } = await supabase
-    .from("committee_daily_reports")
-    .select("user_id, report_date, accomplishments, challenges, next_steps")
+    .from("committee_reports")
+    .select("id, user_id, position, report_date, activities, results, challenges, pending_tasks, status, administrator_feedback")
     .gte("report_date", startDate)
     .lte("report_date", endDate)
     .order("report_date", { ascending: false });
 
   if (error) {
     console.error("Weekly reports error:", error);
-    list.textContent = "Could not load weekly reports.";
+    list.textContent = "Could not load weekly reports: " + error.message;
     return;
   }
 
@@ -3344,7 +3343,7 @@ async function loadCommitteeWeeklyReports() {
 
   list.replaceChildren();
 
-  if (!reports || !reports.length) {
+  if (!reports?.length) {
     list.textContent = "No committee reports were submitted for this week.";
     return;
   }
@@ -3356,7 +3355,7 @@ async function loadCommitteeWeeklyReports() {
     card.className = "card";
 
     const heading = document.createElement("h4");
-    heading.textContent = member?.role || "Committee Member";
+    heading.textContent = report.position || member?.role || "Committee Member";
 
     const email = document.createElement("p");
     email.textContent = member?.email || "Member details unavailable.";
@@ -3364,25 +3363,35 @@ async function loadCommitteeWeeklyReports() {
     const date = document.createElement("p");
     date.textContent = "Report date: " + report.report_date;
 
-    const accomplishments = document.createElement("p");
-    accomplishments.textContent =
-      "Accomplishments: " + report.accomplishments;
+    const activities = document.createElement("p");
+    activities.textContent = "Activities: " + report.activities;
+
+    const results = document.createElement("p");
+    results.textContent = "Results: " + (report.results || "Not provided.");
 
     const challenges = document.createElement("p");
-    challenges.textContent =
-      "Challenges: " + (report.challenges || "None reported.");
+    challenges.textContent = "Challenges: " + (report.challenges || "None reported.");
 
-    const nextSteps = document.createElement("p");
-    nextSteps.textContent =
-      "Next steps: " + (report.next_steps || "Not specified.");
+    const pendingTasks = document.createElement("p");
+    pendingTasks.textContent = "Pending tasks: " + (report.pending_tasks || "None reported.");
+
+    const status = document.createElement("p");
+    status.textContent = "Status: " + report.status.replaceAll("_", " ");
+
+    const feedback = document.createElement("p");
+    feedback.textContent = "Administrator feedback: " +
+      (report.administrator_feedback || "No feedback yet.");
 
     card.append(
       heading,
       email,
       date,
-      accomplishments,
+      activities,
+      results,
       challenges,
-      nextSteps
+      pendingTasks,
+      status,
+      feedback
     );
 
     list.append(card);
