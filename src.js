@@ -11448,12 +11448,11 @@ pdf.rect(12, 12, 273, 186);
 pdf.setDrawColor(...navy);
 pdf.setLineWidth(7);
 pdf.line(9, 42, 42, 9);
-pdf.line(255, 201, 288, 168);
+
 
 pdf.setDrawColor(...gold);
 pdf.setLineWidth(2);
 pdf.line(9, 30, 30, 9);
-pdf.line(267, 201, 288, 180);
 
 // Subtle decorative side ornaments
 pdf.setDrawColor(226, 218, 195);
