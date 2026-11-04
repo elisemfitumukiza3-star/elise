@@ -3289,7 +3289,55 @@ async function loadCommitteeWeeklyReports() {
   const weekInput = document.getElementById("committeeReportWeek");
 
   if (!list || !weekInput || !isOwner()) return;
+  if (!list.dataset.reviewHandlerBound) {
+    list.dataset.reviewHandlerBound = "true";
 
+    list.addEventListener("click", async (event) => {
+      const button = event.target.closest("[data-report-review]");
+      if (!button || !isOwner()) return;
+
+      const reportId = button.dataset.reportId;
+      const decision = button.dataset.reportReview;
+
+      if (!reportId || !["reviewed", "revision_requested"].includes(decision)) {
+        return;
+      }
+
+      const feedback = window.prompt(
+        decision === "reviewed"
+          ? "Enter feedback for this report (optional):"
+          : "Explain what needs to be revised:"
+      );
+
+      if (feedback === null) return;
+
+      if (decision === "revision_requested" && !feedback.trim()) {
+        alert("Please explain what needs to be revised.");
+        return;
+      }
+
+      button.disabled = true;
+
+      const { error } = await supabase
+        .from("committee_reports")
+        .update({
+          status: decision,
+          administrator_feedback: feedback.trim() || null,
+          reviewed_by: state.session.user.id,
+          reviewed_at: new Date().toISOString()
+        })
+        .eq("id", reportId);
+
+      if (error) {
+        console.error("Report review error:", error);
+        alert("Could not update this report: " + error.message);
+        button.disabled = false;
+        return;
+      }
+
+      await loadCommitteeWeeklyReports();
+    });
+  }
   const selectedWeek = weekInput.value;
 
   if (!selectedWeek) {
