@@ -11385,6 +11385,7 @@ quizPanel.replaceChildren();
 
  
 downloadButton.addEventListener("click", async () => {
+    try { 
   const learnerName = nameInput.value.trim();
 
   if (!learnerName) {
