@@ -1063,13 +1063,12 @@ if (logoImage) {
 
   const qrContainer = document.createElement("div");
 
-  new QRCode(qrContainer, {
-    text: verificationUrl,
-    width: 256,
-    height: 256,
-    correctLevel: QRCode.CorrectLevel.M
-  });
-
+ new QRCodeLib(qrContainer, {
+  text: verificationUrl,
+  width: 256,
+  height: 256,
+  correctLevel: QRCodeLib.CorrectLevel.M
+});
   const qrCanvas = qrContainer.querySelector("canvas");
 
   if (!qrCanvas) {
