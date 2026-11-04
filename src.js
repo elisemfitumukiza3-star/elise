@@ -1062,8 +1062,7 @@ if (logoImage) {
     encodeURIComponent(certificateNumber);
 
   const qrContainer = document.createElement("div");
-
- new QRCodeLib(qrContainer, {
+new QRCodeLib(qrContainer, {
   text: verificationUrl,
   width: 256,
   height: 256,
