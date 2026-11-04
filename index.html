@@ -1522,151 +1522,191 @@ the world, everyone has something to learn and something valuable to share.
       <p class="muted small">Choose a section to manage your platform.</p>
     </div>
 
-    <!-- 2. LEARNER AND COMMITTEE MANAGEMENT -->
+<!-- 2. LEARNER MANAGEMENT -->
 <details class="card host-window-card">
   <summary class="host-window-trigger">
-    <span class="host-window-icon host-icon-learners">👥</span>
-    <span class="host-window-title">Learner & Committee Management</span>
+    <span class="host-window-icon host-icon-learners">🎓</span>
+    <span class="host-window-title">Learner Management</span>
     <span class="host-window-arrow">↗</span>
   </summary>
+
   <div class="host-window-content">
-      <section id="hostRegisteredProfiles">
-        <h3>Registered Profiles</h3>
-        <p class="muted small">People who have registered on LearnLoop.</p>
-        <div id="hostProfilesList">
-          <p class="muted">Profiles will appear here.</p>
-        </div>
-      </section>
-
-      <div class="divider"></div>
-
-      <section class="committee-applications-section">
-        <h3>Committee Applications</h3>
-        <p class="muted small">Review applications submitted by LearnLoop members.</p>
-        <div id="committeeApplicationsList" class="post-list">
-          <div class="empty-state">Applications will appear here.</div>
-        </div>
-      </section>
-
-      <div class="divider"></div>
-
-      <section id="webCommitteeManagement">
-        <h3>Web Committee Management</h3>
-        <p class="muted small">Appoint members and assign responsibilities.</p>
-
-        <label>
-          Registered member email
-          <input id="committeeMemberEmail" type="email"
-            placeholder="Enter member's registered email" />
-        </label>
-
-        <label>
-          Committee role
-          <select id="committeeMemberRole">
-            <option value="Accountant">Accountant</option>
-            <option value="Secretary">Secretary</option>
-            <option value="Community Moderator">Community Moderator</option>
-            <option value="Technical Administrator">Technical Administrator</option>
-            <option value="Education & Community Coordinator">Education & Community Coordinator</option>
-          </select>
-        </label>
-
-        <label>
-          Responsibilities
-          <textarea id="committeeMemberResponsibilities" rows="3"
-            placeholder="Describe the member's duties"></textarea>
-        </label>
-
-        <button type="button" id="appointCommitteeMember"
-          class="button button-primary full-width">
-          Appoint Committee Member
-        </button>
-
-        <div id="committeeMembersList" class="post-list compact-list"></div>
-        <div class="divider"></div>
-
-<section id="hostWeeklyCommitteeReports">
-  <h3>Weekly Committee Reports</h3>
-  <p class="muted small">
-    Review committee members' daily reports for the selected week.
-  </p>
-
-  <label for="committeeReportWeek">Select week</label>
-  <input type="week" id="committeeReportWeek">
-
-  <button
-    type="button"
-    id="loadCommitteeWeeklyReports"
-    class="button button-primary"
-  >
-    View weekly reports
-  </button>
-
-  <div id="committeeWeeklyReportsList" class="post-list">
-    <p class="muted">Select a week to view committee reports.</p>
+    <section id="hostRegisteredProfiles">
+      <h3>Registered Profiles</h3>
+      <p class="muted small">People who have registered on LearnLoop.</p>
+      <div id="hostProfilesList">
+        <p class="muted">Profiles will appear here.</p>
+      </div>
+    </section>
   </div>
-</section>
-      </section>
-    </div>
 </details>
 
-    <!-- 3. SAFETY AND MODERATION -->
-    <details class="card">
-      <summary><strong>Safety & Moderation</strong></summary>
+<!-- 3. COMMITTEE MANAGEMENT -->
+<details class="card host-window-card">
+  <summary class="host-window-trigger">
+    <span class="host-window-icon host-icon-committee">👥</span>
+    <span class="host-window-title">Committee Management</span>
+    <span class="host-window-arrow">↗</span>
+  </summary>
 
-      <section id="hostPostReports">
-        <h3>Post Reports</h3>
-        <p class="muted small">
-          Review posts reported by LearnLoop learners.
-        </p>
-        <div id="hostReportsList">
-          <p class="muted">Reports will appear here.</p>
-        </div>
-      </section>
+  <div class="host-window-content">
+
+    <section class="committee-applications-section">
+      <h3>Committee Applications</h3>
+      <p class="muted small">Review applications submitted by LearnLoop members.</p>
+      <div id="committeeApplicationsList" class="post-list">
+        <div class="empty-state">Applications will appear here.</div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section id="webCommitteeManagement">
+      <h3>Web Committee Management</h3>
+      <p class="muted small">Appoint members and assign responsibilities.</p>
+
+      <label>
+        Registered member email
+        <input id="committeeMemberEmail" type="email"
+          placeholder="Enter member's registered email" />
+      </label>
+
+      <label>
+        Committee role
+        <select id="committeeMemberRole">
+          <option value="Accountant">Accountant</option>
+          <option value="Secretary">Secretary</option>
+          <option value="Community Moderator">Community Moderator</option>
+          <option value="Technical Administrator">Technical Administrator</option>
+          <option value="Education & Community Coordinator">Education & Community Coordinator</option>
+        </select>
+      </label>
+
+      <label>
+        Responsibilities
+        <textarea id="committeeMemberResponsibilities" rows="3"
+          placeholder="Describe the member's duties"></textarea>
+      </label>
+
+      <button type="button" id="appointCommitteeMember"
+        class="button button-primary full-width">
+        Appoint Committee Member
+      </button>
+
+      <div id="committeeMembersList" class="post-list compact-list"></div>
 
       <div class="divider"></div>
 
-      <section>
-        <h3>Moderation</h3>
+      <section id="hostWeeklyCommitteeReports">
+        <h3>Weekly Committee Reports</h3>
         <p class="muted small">
-          Secure platform-wide moderation requires owner-authorized Supabase policies.
+          Review committee members' daily reports for the selected week.
         </p>
-        <div id="hostModerationList" class="post-list compact-list"></div>
+
+        <label for="committeeReportWeek">Select week</label>
+        <input type="week" id="committeeReportWeek">
+
+        <button
+          type="button"
+          id="loadCommitteeWeeklyReports"
+          class="button button-primary"
+        >
+          View weekly reports
+        </button>
+
+        <div id="committeeWeeklyReportsList" class="post-list">
+          <p class="muted">Select a week to view committee reports.</p>
+        </div>
       </section>
-    </details>
-
-    <!-- 4. PLATFORM SETTINGS -->
-    <details class="card">
-      <summary><strong>Platform Settings & Revenue</strong></summary>
-
-      <label>
-        Revenue / support notice
-        <textarea id="revenueNotice" rows="3"
-          placeholder="Optional sponsorship or voluntary support information"></textarea>
-      </label>
-
-      <label class="check-row">
-        <input type="checkbox" id="limitedAdsEnabled">
-        Enable clearly labelled, limited sponsor notices
-      </label>
-
-      <button class="button button-primary full-width" type="submit">
-        Save host settings
-      </button>
-    </details>
-
-  </form>
- <section class="card" id="honoraryCertificateRequests">
-  <h3>Honorary Certificate Requests</h3>
-  <p>Review and approve learners nominated through five-star course reviews.</p>
-
-  <div id="honoraryCertificateRequestList">
-    Loading requests...
+    </section>
   </div>
-</section> 
-</dialog>
+</details>
 
- 
+  <!-- 4. SAFETY & MODERATION -->
+<details class="card host-window-card">
+  <summary class="host-window-trigger">
+    <span class="host-window-icon host-icon-safety">🛡️</span>
+    <span class="host-window-title">Safety & Moderation</span>
+    <span class="host-window-arrow">↗</span>
+  </summary>
+
+  <div class="host-window-content">
+    <section>
+      <h3>Moderation</h3>
+      <p class="muted small">
+        Secure platform-wide moderation requires owner-authorized Supabase policies.
+      </p>
+      <div id="hostModerationList" class="post-list compact-list"></div>
+    </section>
+  </div>
+</details>
+
+<!-- 5. POST REPORTS -->
+<details class="card host-window-card">
+  <summary class="host-window-trigger">
+    <span class="host-window-icon host-icon-reports">🚩</span>
+    <span class="host-window-title">Post Reports</span>
+    <span class="host-window-arrow">↗</span>
+  </summary>
+
+  <div class="host-window-content">
+    <section id="hostPostReports">
+      <h3>Post Reports</h3>
+      <p class="muted small">
+        Review posts reported by LearnLoop learners.
+      </p>
+      <div id="hostReportsList">
+        <p class="muted">Reports will appear here.</p>
+      </div>
+    </section>
+  </div>
+</details>
+<!-- 6. PLATFORM SETTINGS & REVENUE -->
+<details class="card host-window-card">
+  <summary class="host-window-trigger">
+    <span class="host-window-icon host-icon-settings">⚙️</span>
+    <span class="host-window-title">Platform Settings & Revenue</span>
+    <span class="host-window-arrow">↗</span>
+  </summary>
+
+  <div class="host-window-content">
+    <label>
+      Revenue / support notice
+      <textarea id="revenueNotice" rows="3"
+        placeholder="Optional sponsorship or voluntary support information"></textarea>
+    </label>
+
+    <label class="check-row">
+      <input type="checkbox" id="limitedAdsEnabled">
+      Enable clearly labelled, limited sponsor notices
+    </label>
+
+    <button class="button button-primary full-width" type="submit">
+      Save host settings
+    </button>
+  </div>
+</details>
+
+<!-- 7. HONORARY CERTIFICATE REQUESTS -->
+<details class="card host-window-card">
+  <summary class="host-window-trigger">
+    <span class="host-window-icon host-icon-honorary">🏅</span>
+    <span class="host-window-title">Honorary Certificate Requests</span>
+    <span class="host-window-arrow">↗</span>
+  </summary>
+
+  <div class="host-window-content">
+    <section id="honoraryCertificateRequests">
+      <h3>Honorary Certificate Requests</h3>
+      <p>Review and approve learners nominated through five-star course reviews.</p>
+
+      <div id="honoraryCertificateRequestList">
+        Loading requests...
+      </div>
+    </section>
+  </div>
+</details>
+   
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
   
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
