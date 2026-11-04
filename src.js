@@ -3247,7 +3247,67 @@ if (reportForm && !reportForm.dataset.handlerBound) {
   });
 }
   container.textContent = "Loading your tasks...";
+  // Load the member's submitted reports and administrator feedback.
+  const reportHistory = document.createElement("div");
+  reportHistory.className = "committee-report-history";
+  reportHistory.innerHTML = "<h3>My Submitted Reports</h3><p>Loading reports...</p>";
 
+  const existingHistory = document.getElementById("committeeReportHistory");
+
+  if (existingHistory) {
+    existingHistory.replaceWith(reportHistory);
+  } else {
+    container.parentNode.insertBefore(reportHistory, container);
+  }
+
+  reportHistory.id = "committeeReportHistory";
+
+  const { data: myReports, error: reportError } = await supabase
+    .from("committee_reports")
+    .select("report_date, activities, challenges, pending_tasks, status, administrator_feedback")
+    .eq("user_id", state.session.user.id)
+    .order("report_date", { ascending: false });
+
+  if (reportError) {
+    console.error("Could not load report history:", reportError);
+    reportHistory.textContent = "Could not load your report history.";
+  } else if (!myReports || !myReports.length) {
+    reportHistory.innerHTML =
+      "<h3>My Submitted Reports</h3><p>You have not submitted any reports yet.</p>";
+  } else {
+    reportHistory.replaceChildren();
+
+    const historyTitle = document.createElement("h3");
+    historyTitle.textContent = "My Submitted Reports";
+    reportHistory.append(historyTitle);
+
+    myReports.forEach(report => {
+      const card = document.createElement("article");
+      card.className = "card";
+
+      const date = document.createElement("h4");
+      date.textContent = "Report date: " + report.report_date;
+
+      const activities = document.createElement("p");
+      activities.textContent = "Activities: " + report.activities;
+
+      const challenges = document.createElement("p");
+      challenges.textContent = "Challenges: " + (report.challenges || "None reported.");
+
+      const pending = document.createElement("p");
+      pending.textContent = "Pending tasks: " + (report.pending_tasks || "None reported.");
+
+      const status = document.createElement("p");
+      status.textContent = "Review status: " + report.status.replaceAll("_", " ");
+
+      const feedback = document.createElement("p");
+      feedback.textContent = "Administrator feedback: " +
+        (report.administrator_feedback || "No feedback yet.");
+
+      card.append(date, activities, challenges, pending, status, feedback);
+      reportHistory.append(card);
+    });
+  }
   const { data, error } = await supabase
     .from("committee_tasks")
     .select("id, title, description, status, created_at")
