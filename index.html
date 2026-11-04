@@ -1478,243 +1478,349 @@ the world, everyone has something to learn and something valuable to share.
 </form>
  
   </dialog>
+<dialog id="hostDashboardDialog" class="dialog-card wide-dialog host-dashboard-dialog">
 
-<dialog id="hostDashboardDialog" class="dialog-card wide-dialog">
-  <form id="revenueSettingsForm" method="dialog">
+  <form id="revenueSettingsForm" method="dialog" class="host-dashboard-shell">
 
-    <button class="dialog-close" type="button" data-close="hostDashboardDialog">×</button>
+    <!-- DASHBOARD HEADER -->
+    <header class="host-dashboard-header">
+      <div class="host-dashboard-brand">
+        <div class="host-brand-mark">LL</div>
+        <div>
+          <span class="host-brand-name">LearnLoop</span>
+          <span class="host-brand-caption">ADMINISTRATION CENTRE</span>
+        </div>
+      </div>
 
-    <span class="eyebrow">PRIVATE ADMIN AREA</span>
-    <h2>Host dashboard</h2>
-    <p class="muted">Manage and oversee your LearnLoop platform.</p>
+      <button
+        class="dialog-close host-dashboard-close"
+        type="button"
+        data-close="hostDashboardDialog"
+        aria-label="Close host dashboard"
+      >×</button>
+    </header>
 
-    <!-- 1. PLATFORM OVERVIEW -->
-    <section class="card">
-      <h3>Platform Overview</h3>
-      <div class="stats-grid">
-        <article class="card stat-card">
-          <span>Published posts</span>
+    <!-- WELCOME AREA -->
+    <section class="host-dashboard-welcome">
+      <div>
+        <span class="host-dashboard-eyebrow">PRIVATE ADMIN AREA</span>
+        <h1>Welcome to your dashboard</h1>
+        <p>
+          Manage your LearnLoop community, monitor platform growth
+          and oversee important activities.
+        </p>
+      </div>
+
+      <div class="host-welcome-decoration" aria-hidden="true">
+        <span>✦</span>
+        <span>✧</span>
+        <span>✦</span>
+      </div>
+    </section>
+
+    <!-- PLATFORM OVERVIEW -->
+    <section class="host-overview-section">
+      <div class="host-section-heading">
+        <div>
+          <span class="host-section-kicker">YOUR PLATFORM</span>
+          <h2>Platform Overview</h2>
+          <p>Key figures from your LearnLoop community.</p>
+        </div>
+        <span class="host-live-indicator">
+          <span></span> Platform overview
+        </span>
+      </div>
+
+      <div class="host-stats-grid">
+
+        <article class="host-stat-card host-stat-posts">
+          <div class="host-stat-top">
+            <span class="host-stat-icon">📝</span>
+            <span class="host-stat-label">COMMUNITY CONTENT</span>
+          </div>
+          <span class="host-stat-name">Published posts</span>
           <strong id="hostPostsCount">—</strong>
+          <span class="host-stat-note">Posts shared on LearnLoop</span>
         </article>
-        <article class="card stat-card">
-          <span>Registered profiles</span>
+
+        <article class="host-stat-card host-stat-learners">
+          <div class="host-stat-top">
+            <span class="host-stat-icon">🎓</span>
+            <span class="host-stat-label">COMMUNITY MEMBERS</span>
+          </div>
+          <span class="host-stat-name">Registered profiles</span>
           <strong id="hostProfilesCount">—</strong>
+          <span class="host-stat-note">Registered LearnLoop profiles</span>
         </article>
-           </div>
 
-      <div class="host-growth-section">
-        <h3>📈 LearnLoop Growth</h3>
-        <p class="muted small">Track how the LearnLoop community grows over time.</p>
+      </div>
+    </section>
 
-        <div class="host-growth-chart">
-          <canvas id="hostGrowthChart"></canvas>
+    <!-- GROWTH ANALYTICS -->
+    <section class="host-growth-section">
+      <div class="host-section-heading">
+        <div>
+          <span class="host-section-kicker">COMMUNITY ANALYTICS</span>
+          <h2>LearnLoop Growth</h2>
+          <p>Track how your learning community grows over time.</p>
         </div>
-
-        <p id="hostGrowthMessage" class="muted small">
-          Growth statistics will appear here.
-        </p>
-           </div>
-    </section>
-
-    <!-- HOST DASHBOARD CONTROL CENTRE -->
-    <div class="host-control-centre">
-      <h3>Management Centre</h3>
-      <p class="muted small">Choose a section to manage your platform.</p>
-       </div>
-
-    <!-- SIX MANAGEMENT WINDOWS -->
-    <div class="host-window-grid">
-
-<!-- 2. LEARNER MANAGEMENT -->
-<details class="card host-window-card">
-  <summary class="host-window-trigger">
-    <span class="host-window-icon host-icon-learners">🎓</span>
-    <span class="host-window-title">Learner Management</span>
-    <span class="host-window-arrow">↗</span>
-  </summary>
-
-  <div class="host-window-content">
-    <section id="hostRegisteredProfiles">
-      <h3>Registered Profiles</h3>
-      <p class="muted small">People who have registered on LearnLoop.</p>
-      <div id="hostProfilesList">
-        <p class="muted">Profiles will appear here.</p>
+        <span class="host-growth-icon">📈</span>
       </div>
-    </section>
-  </div>
-</details>
 
-<!-- 3. COMMITTEE MANAGEMENT -->
-<details class="card host-window-card">
-  <summary class="host-window-trigger">
-    <span class="host-window-icon host-icon-committee">👥</span>
-    <span class="host-window-title">Committee Management</span>
-    <span class="host-window-arrow">↗</span>
-  </summary>
-
-  <div class="host-window-content">
-
-    <section class="committee-applications-section">
-      <h3>Committee Applications</h3>
-      <p class="muted small">Review applications submitted by LearnLoop members.</p>
-      <div id="committeeApplicationsList" class="post-list">
-        <div class="empty-state">Applications will appear here.</div>
+      <div class="host-growth-chart">
+        <canvas id="hostGrowthChart"></canvas>
       </div>
+
+      <p id="hostGrowthMessage" class="muted small">
+        Growth statistics will appear here.
+      </p>
     </section>
 
-    <div class="divider"></div>
+    <!-- MANAGEMENT CENTRE -->
+    <section class="host-management-section">
 
-    <section id="webCommitteeManagement">
-      <h3>Web Committee Management</h3>
-      <p class="muted small">Appoint members and assign responsibilities.</p>
-
-      <label>
-        Registered member email
-        <input id="committeeMemberEmail" type="email"
-          placeholder="Enter member's registered email" />
-      </label>
-
-      <label>
-        Committee role
-        <select id="committeeMemberRole">
-          <option value="Accountant">Accountant</option>
-          <option value="Secretary">Secretary</option>
-          <option value="Community Moderator">Community Moderator</option>
-          <option value="Technical Administrator">Technical Administrator</option>
-          <option value="Education & Community Coordinator">Education & Community Coordinator</option>
-        </select>
-      </label>
-
-      <label>
-        Responsibilities
-        <textarea id="committeeMemberResponsibilities" rows="3"
-          placeholder="Describe the member's duties"></textarea>
-      </label>
-
-      <button type="button" id="appointCommitteeMember"
-        class="button button-primary full-width">
-        Appoint Committee Member
-      </button>
-
-      <div id="committeeMembersList" class="post-list compact-list"></div>
-
-      <div class="divider"></div>
-
-      <section id="hostWeeklyCommitteeReports">
-        <h3>Weekly Committee Reports</h3>
-        <p class="muted small">
-          Review committee members' daily reports for the selected week.
-        </p>
-
-        <label for="committeeReportWeek">Select week</label>
-        <input type="week" id="committeeReportWeek">
-
-        <button
-          type="button"
-          id="loadCommitteeWeeklyReports"
-          class="button button-primary"
-        >
-          View weekly reports
-        </button>
-
-        <div id="committeeWeeklyReportsList" class="post-list">
-          <p class="muted">Select a week to view committee reports.</p>
+      <div class="host-section-heading host-management-heading">
+        <div>
+          <span class="host-section-kicker">PLATFORM CONTROL</span>
+          <h2>Management Centre</h2>
+          <p>Select a section to manage its activities.</p>
         </div>
-      </section>
-    </section>
-  </div>
-</details>
+        <span class="host-management-symbol">⌘</span>
+      </div>
 
-  <!-- 4. SAFETY & MODERATION -->
-<details class="card host-window-card">
-  <summary class="host-window-trigger">
-    <span class="host-window-icon host-icon-safety">🛡️</span>
-    <span class="host-window-title">Safety & Moderation</span>
-    <span class="host-window-arrow">↗</span>
-  </summary>
+      <div class="host-window-grid">
 
-  <div class="host-window-content">
-    <section>
-      <h3>Moderation</h3>
-      <p class="muted small">
-        Secure platform-wide moderation requires owner-authorized Supabase policies.
-      </p>
-      <div id="hostModerationList" class="post-list compact-list"></div>
-    </section>
-  </div>
-</details>
+        <!-- 1. LEARNER MANAGEMENT -->
+        <details class="card host-window-card">
+          <summary class="host-window-trigger">
+            <span class="host-window-icon host-icon-learners">🎓</span>
+            <span class="host-window-title">Learner Management</span>
+            <span class="host-window-description">Registered members</span>
+            <span class="host-window-arrow">↗</span>
+          </summary>
 
-<!-- 5. POST REPORTS -->
-<details class="card host-window-card">
-  <summary class="host-window-trigger">
-    <span class="host-window-icon host-icon-reports">🚩</span>
-    <span class="host-window-title">Post Reports</span>
-    <span class="host-window-arrow">↗</span>
-  </summary>
+          <div class="host-window-content">
+            <section id="hostRegisteredProfiles">
+              <h3>Registered Profiles</h3>
+              <p class="muted small">
+                People who have registered on LearnLoop.
+              </p>
+              <div id="hostProfilesList">
+                <p class="muted">Profiles will appear here.</p>
+              </div>
+            </section>
+          </div>
+        </details>
 
-  <div class="host-window-content">
-    <section id="hostPostReports">
-      <h3>Post Reports</h3>
-      <p class="muted small">
-        Review posts reported by LearnLoop learners.
-      </p>
-      <div id="hostReportsList">
-        <p class="muted">Reports will appear here.</p>
+        <!-- 2. COMMITTEE MANAGEMENT -->
+        <details class="card host-window-card">
+          <summary class="host-window-trigger">
+            <span class="host-window-icon host-icon-committee">👥</span>
+            <span class="host-window-title">Committee Management</span>
+            <span class="host-window-description">Applications and duties</span>
+            <span class="host-window-arrow">↗</span>
+          </summary>
+
+          <div class="host-window-content">
+
+            <section class="committee-applications-section">
+              <h3>Committee Applications</h3>
+              <p class="muted small">
+                Review applications submitted by LearnLoop members.
+              </p>
+              <div id="committeeApplicationsList" class="post-list">
+                <div class="empty-state">Applications will appear here.</div>
+              </div>
+            </section>
+
+            <div class="divider"></div>
+
+            <section id="webCommitteeManagement">
+              <h3>Web Committee Management</h3>
+              <p class="muted small">
+                Appoint members and assign responsibilities.
+              </p>
+
+              <label>
+                Registered member email
+                <input
+                  id="committeeMemberEmail"
+                  type="email"
+                  placeholder="Enter member's registered email"
+                />
+              </label>
+
+              <label>
+                Committee role
+                <select id="committeeMemberRole">
+                  <option value="Accountant">Accountant</option>
+                  <option value="Secretary">Secretary</option>
+                  <option value="Community Moderator">Community Moderator</option>
+                  <option value="Technical Administrator">Technical Administrator</option>
+                  <option value="Education & Community Coordinator">
+                    Education & Community Coordinator
+                  </option>
+                </select>
+              </label>
+
+              <label>
+                Responsibilities
+                <textarea
+                  id="committeeMemberResponsibilities"
+                  rows="3"
+                  placeholder="Describe the member's duties"
+                ></textarea>
+              </label>
+
+              <button
+                type="button"
+                id="appointCommitteeMember"
+                class="button button-primary full-width"
+              >
+                Appoint Committee Member
+              </button>
+
+              <div id="committeeMembersList" class="post-list compact-list"></div>
+
+              <div class="divider"></div>
+
+              <section id="hostWeeklyCommitteeReports">
+                <h3>Weekly Committee Reports</h3>
+                <p class="muted small">
+                  Review committee members' daily reports for the selected week.
+                </p>
+
+                <label for="committeeReportWeek">Select week</label>
+                <input type="week" id="committeeReportWeek" />
+
+                <button
+                  type="button"
+                  id="loadCommitteeWeeklyReports"
+                  class="button button-primary"
+                >
+                  View weekly reports
+                </button>
+
+                <div id="committeeWeeklyReportsList" class="post-list">
+                  <p class="muted">
+                    Select a week to view committee reports.
+                  </p>
+                </div>
+              </section>
+            </section>
+          </div>
+        </details>
+
+        <!-- 3. SAFETY AND MODERATION -->
+        <details class="card host-window-card">
+          <summary class="host-window-trigger">
+            <span class="host-window-icon host-icon-safety">🛡️</span>
+            <span class="host-window-title">Safety & Moderation</span>
+            <span class="host-window-description">Community protection</span>
+            <span class="host-window-arrow">↗</span>
+          </summary>
+
+          <div class="host-window-content">
+            <section>
+              <h3>Moderation</h3>
+              <p class="muted small">
+                Secure platform-wide moderation requires owner-authorized
+                Supabase policies.
+              </p>
+              <div id="hostModerationList" class="post-list compact-list"></div>
+            </section>
+          </div>
+        </details>
+
+        <!-- 4. POST REPORTS -->
+        <details class="card host-window-card">
+          <summary class="host-window-trigger">
+            <span class="host-window-icon host-icon-reports">🚩</span>
+            <span class="host-window-title">Post Reports</span>
+            <span class="host-window-description">Reported content</span>
+            <span class="host-window-arrow">↗</span>
+          </summary>
+
+          <div class="host-window-content">
+            <section id="hostPostReports">
+              <h3>Post Reports</h3>
+              <p class="muted small">
+                Review posts reported by LearnLoop learners.
+              </p>
+              <div id="hostReportsList">
+                <p class="muted">Reports will appear here.</p>
+              </div>
+            </section>
+          </div>
+        </details>
+
+        <!-- 5. PLATFORM SETTINGS AND REVENUE -->
+        <details class="card host-window-card">
+          <summary class="host-window-trigger">
+            <span class="host-window-icon host-icon-settings">⚙️</span>
+            <span class="host-window-title">Platform Settings & Revenue</span>
+            <span class="host-window-description">Platform configuration</span>
+            <span class="host-window-arrow">↗</span>
+          </summary>
+
+          <div class="host-window-content">
+            <label>
+              Revenue / support notice
+              <textarea
+                id="revenueNotice"
+                rows="3"
+                placeholder="Optional sponsorship or voluntary support information"
+              ></textarea>
+            </label>
+
+            <label class="check-row">
+              <input type="checkbox" id="limitedAdsEnabled" />
+              Enable clearly labelled, limited sponsor notices
+            </label>
+
+            <button class="button button-primary full-width" type="submit">
+              Save host settings
+            </button>
+          </div>
+        </details>
+
+        <!-- 6. HONORARY CERTIFICATE REQUESTS -->
+        <details class="card host-window-card">
+          <summary class="host-window-trigger">
+            <span class="host-window-icon host-icon-honorary">🏅</span>
+            <span class="host-window-title">Honorary Certificate Requests</span>
+            <span class="host-window-description">Recognition requests</span>
+            <span class="host-window-arrow">↗</span>
+          </summary>
+
+          <div class="host-window-content">
+            <section id="honoraryCertificateRequests">
+              <h3>Honorary Certificate Requests</h3>
+              <p>
+                Review and approve learners nominated through five-star
+                course reviews.
+              </p>
+
+              <div id="honoraryCertificateRequestList">
+                Loading requests...
+              </div>
+            </section>
+          </div>
+        </details>
+
       </div>
     </section>
-  </div>
-</details>
-<!-- 6. PLATFORM SETTINGS & REVENUE -->
-<details class="card host-window-card">
-  <summary class="host-window-trigger">
-    <span class="host-window-icon host-icon-settings">⚙️</span>
-    <span class="host-window-title">Platform Settings & Revenue</span>
-    <span class="host-window-arrow">↗</span>
-  </summary>
 
-  <div class="host-window-content">
-    <label>
-      Revenue / support notice
-      <textarea id="revenueNotice" rows="3"
-        placeholder="Optional sponsorship or voluntary support information"></textarea>
-    </label>
+  </form>
+</dialog>
 
-    <label class="check-row">
-      <input type="checkbox" id="limitedAdsEnabled">
-      Enable clearly labelled, limited sponsor notices
-    </label>
+<!-- GLOBAL TOAST -->
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-    <button class="button button-primary full-width" type="submit">
-      Save host settings
-    </button>
-  </div>
-</details>
-
-<!-- 7. HONORARY CERTIFICATE REQUESTS -->
-<details class="card host-window-card">
-  <summary class="host-window-trigger">
-    <span class="host-window-icon host-icon-honorary">🏅</span>
-    <span class="host-window-title">Honorary Certificate Requests</span>
-    <span class="host-window-arrow">↗</span>
-  </summary>
-
-  <div class="host-window-content">
-    <section id="honoraryCertificateRequests">
-      <h3>Honorary Certificate Requests</h3>
-      <p>Review and approve learners nominated through five-star course reviews.</p>
-
-      <div id="honoraryCertificateRequestList">
-        Loading requests...
-      </div>
-    </section>
-  </div>
-</details>
-       </div>
-    <!-- END SIX MANAGEMENT WINDOWS -->
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  
+<!-- PDF LIBRARY -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
 
+<!-- CERTIFICATE VERIFICATION: OUTSIDE THE DASHBOARD FORM -->
 <section id="certificateVerificationSection" class="card">
   <h2>Verify a LearnLoop Certificate</h2>
   <p>
@@ -1726,6 +1832,7 @@ the world, everyone has something to learn and something valuable to share.
     <label for="certificateVerificationNumber">
       Certificate number
     </label>
+
     <input
       id="certificateVerificationNumber"
       type="text"
@@ -1733,6 +1840,7 @@ the world, everyone has something to learn and something valuable to share.
       maxlength="100"
       required
     />
+
     <button type="submit">Verify Certificate</button>
   </form>
 
