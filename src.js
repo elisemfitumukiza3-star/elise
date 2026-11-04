@@ -3443,6 +3443,21 @@ async function loadCommitteeWeeklyReports() {
     );
 
     list.append(card);
+         if (report.status === "pending" || report.status === "revision_requested") {
+      const reviewButton = document.createElement("button");
+      reviewButton.type = "button";
+      reviewButton.textContent = "✓ Mark reviewed";
+      reviewButton.dataset.reportReview = "reviewed";
+      reviewButton.dataset.reportId = report.id;
+
+      const revisionButton = document.createElement("button");
+      revisionButton.type = "button";
+      revisionButton.textContent = "↻ Request revision";
+      revisionButton.dataset.reportReview = "revision_requested";
+      revisionButton.dataset.reportId = report.id;
+
+      card.append(reviewButton, revisionButton);
+    }
   });
 }
 async function loadCommitteeMembers() {
