@@ -6912,15 +6912,6 @@ a:hover,
    Sidebar intentionally left unchanged
 ===================================================== */
 
-/* Keep the right workspace inside its own grid column */
-#hostDashboardDialog .host-dashboard-main {
-  grid-column: 2;
-  width: auto;
-  min-width: 0;
-  max-width: 100%;
-  box-sizing: border-box;
-}
-
 /* Prevent right-side sections from exceeding their space */
 #hostDashboardDialog .host-dashboard-main > * {
   min-width: 0;
