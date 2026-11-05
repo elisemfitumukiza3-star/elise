@@ -6902,4 +6902,90 @@ a:hover,
     animation-duration: 0.01ms !important;
   }
 }
+/* =====================================================
+   HOST DASHBOARD — RIGHT WORKSPACE TEXT ALIGNMENT
+   Sidebar intentionally left unchanged
+===================================================== */
 
+/* Keep the right workspace inside its own grid column */
+#hostDashboardDialog .host-dashboard-main {
+  grid-column: 2;
+  width: auto;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Prevent right-side sections from exceeding their space */
+#hostDashboardDialog .host-dashboard-main > * {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Allow the top header content to wrap */
+#hostDashboardDialog .host-dashboard-header {
+  min-width: 0;
+  max-width: 100%;
+  flex-wrap: wrap;
+}
+
+#hostDashboardDialog .host-dashboard-brand {
+  min-width: 0;
+  max-width: 100%;
+  flex: 1 1 220px;
+  flex-wrap: wrap;
+}
+
+/* Keep welcome text inside the banner */
+#hostDashboardDialog .host-dashboard-welcome {
+  min-width: 0;
+  max-width: calc(100% - 60px);
+  flex-wrap: wrap;
+}
+
+#hostDashboardDialog .host-dashboard-welcome > div:first-child {
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+/* Allow section headings and descriptions to wrap */
+#hostDashboardDialog .host-section-heading {
+  min-width: 0;
+  flex-wrap: wrap;
+}
+
+#hostDashboardDialog .host-section-heading > * {
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* Keep statistics and management content within the workspace */
+#hostDashboardDialog .host-stats-grid,
+#hostDashboardDialog .host-window-grid,
+#hostDashboardDialog .host-growth-section,
+#hostDashboardDialog .host-window-content {
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* Prevent long text from crossing into another area */
+#hostDashboardDialog .host-dashboard-main h1,
+#hostDashboardDialog .host-dashboard-main h2,
+#hostDashboardDialog .host-dashboard-main h3,
+#hostDashboardDialog .host-dashboard-main p,
+#hostDashboardDialog .host-dashboard-main label,
+#hostDashboardDialog .host-dashboard-main strong,
+#hostDashboardDialog .host-dashboard-main span {
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+/* Keep tables inside the right workspace */
+#hostDashboardDialog .host-window-content table {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+}
