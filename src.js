@@ -9586,7 +9586,38 @@ searchBooks();
     }
   });
 
-/* HOST DASHBOARD SIDEBAR NAVIGATION */
+/* HOST DASHBOARD — SWITCH BETWEEN WORKSPACE VIEWS */
+
+function showHostDashboardView(viewId) {
+  const main = $("#hostDashboardDialog .host-dashboard-main");
+  if (!main) return;
+
+  const welcome = $(".host-dashboard-welcome", main);
+  const overview = $("#hostOverview", main);
+  const analytics = $("#hostAnalytics", main);
+  const management = $(".host-management-section", main);
+  const cards = $$(".host-window-card", main);
+
+  const isManagementView = cards.some(card => card.id === viewId);
+
+  // Show the welcome area only on Overview.
+  welcome?.classList.toggle("hidden", viewId !== "hostOverview");
+
+  // Display only the selected main section.
+  overview?.classList.toggle("hidden", viewId !== "hostOverview");
+  analytics?.classList.toggle("hidden", viewId !== "hostAnalytics");
+  management?.classList.toggle("hidden", !isManagementView);
+
+  // Within Management, display only the selected card.
+  cards.forEach(card => {
+    const selected = card.id === viewId;
+
+    card.classList.toggle("hidden", !selected);
+    card.open = selected;
+  });
+}
+
+// Handle sidebar navigation.
 $("#hostDashboardDialog")?.addEventListener("click", event => {
   const link = event.target.closest(".host-nav-link[href^='#']");
   if (!link) return;
@@ -9598,12 +9629,9 @@ $("#hostDashboardDialog")?.addEventListener("click", event => {
 
   if (!target) return;
 
-  // Open the selected management card when necessary.
-  if (target instanceof HTMLDetailsElement) {
-    target.open = true;
-  }
+  showHostDashboardView(targetId);
 
-  // Update the active sidebar navigation item.
+  // Update the selected navigation item.
   $$("#hostDashboardDialog .host-nav-link[href^='#']").forEach(item => {
     item.classList.remove("active");
     item.removeAttribute("aria-current");
@@ -9611,12 +9639,6 @@ $("#hostDashboardDialog")?.addEventListener("click", event => {
 
   link.classList.add("active");
   link.setAttribute("aria-current", "page");
-
-  // Navigate to the selected dashboard section.
-  target.scrollIntoView({
-    behavior: "smooth",
-    block: "start"
-  });
 });
 
   $("#hostDashboardButton")?.addEventListener("click", loadHostDashboard);
