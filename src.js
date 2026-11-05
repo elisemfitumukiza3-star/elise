@@ -3289,6 +3289,7 @@ console.error("Profile error code:", profiles.error?.code);
   } else {
     const registeredProfiles = profiles.data || [];
      hostDashboardProfiles = registeredProfiles;
+     renderHostLearnerSearch("");
     renderHostGrowthChart(registeredProfiles); 
 
     if ($("#hostProfilesCount")) {
