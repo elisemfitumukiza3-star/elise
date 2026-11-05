@@ -3168,6 +3168,37 @@ function renderHostGrowthChart(profiles) {
       `${total} new registrations in the last six calendar months.`;
   }
 }
+function showHostDashboardView(viewId) {
+  const main = $("#hostDashboardDialog .host-dashboard-main");
+  if (!main) return;
+
+  const welcome = $(".host-dashboard-welcome", main);
+  const overview = $("#hostOverview", main);
+  const analytics = $("#hostAnalytics", main);
+  const management = $(".host-management-section", main);
+  const cards = $$(".host-window-card", main);
+
+  const isManagementView = cards.some(card => card.id === viewId);
+
+  welcome?.classList.toggle("hidden", viewId !== "hostOverview");
+  overview?.classList.toggle("hidden", viewId !== "hostOverview");
+  analytics?.classList.toggle("hidden", viewId !== "hostAnalytics");
+  management?.classList.toggle("hidden", !isManagementView);
+
+  cards.forEach(card => {
+    const selected = card.id === viewId;
+    card.classList.toggle("hidden", !selected);
+    card.open = selected;
+  });
+
+  if (viewId === "hostAnalytics") {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        renderHostGrowthChart(hostDashboardProfiles);
+      });
+    });
+  }
+}
 async function loadHostDashboard() {
   if (!isOwner()) {
     toast("This dashboard is restricted to the platform owner.", "error");
@@ -9589,31 +9620,7 @@ searchBooks();
 
 /* HOST DASHBOARD — SWITCH BETWEEN WORKSPACE VIEWS */
 
-function showHostDashboardView(viewId) {
-  const main = $("#hostDashboardDialog .host-dashboard-main");
-  if (!main) return;
 
-  const welcome = $(".host-dashboard-welcome", main);
-  const overview = $("#hostOverview", main);
-  const analytics = $("#hostAnalytics", main);
-  const management = $(".host-management-section", main);
-  const cards = $$(".host-window-card", main);
-
-  const isManagementView = cards.some(card => card.id === viewId);
-
-  // Show the welcome area only on Overview.
-  welcome?.classList.toggle("hidden", viewId !== "hostOverview");
-
-  // Display only the selected main section.
-  overview?.classList.toggle("hidden", viewId !== "hostOverview");
-  analytics?.classList.toggle("hidden", viewId !== "hostAnalytics");
-   if (viewId === "hostAnalytics") {
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      renderHostGrowthChart(hostDashboardProfiles);
-    });
-  });
-}
   management?.classList.toggle("hidden", !isManagementView);
 
   // Within Management, display only the selected card.
