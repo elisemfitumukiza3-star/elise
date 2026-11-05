@@ -36,8 +36,8 @@ const state = {
   toastTimer: null
 };
 let postMediaObserver = null;
+let hostDashboardProfiles = [];
 const fileUrlCache = new Map();
-
 const VIEW_INFO = {
   feed: ["Home feed", "Discover what the community is learning."],
   academy: ["LearnLoop Lessons", "Read, understand, take quizzes and earn certificates."], 
