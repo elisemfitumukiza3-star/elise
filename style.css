@@ -6907,4 +6907,66 @@ a:hover,
     animation-duration: 0.01ms !important;
   }
 }
+/* =====================================================
+   LEARNLOOP HOST DASHBOARD — COLUMN SEPARATION
+   Preserve sidebar appearance and navigation
+===================================================== */
 
+@media (min-width: 761px) {
+
+  #hostDashboardDialog .host-dashboard-shell {
+    display: grid !important;
+    grid-template-columns: 265px minmax(0, 1fr) !important;
+    grid-template-rows: minmax(0, 1fr);
+    align-items: stretch;
+    width: 100%;
+    min-width: 0;
+  }
+
+  #hostDashboardDialog .host-dashboard-sidebar {
+    grid-column: 1;
+    grid-row: 1;
+    min-width: 0;
+  }
+
+  #hostDashboardDialog .host-dashboard-main {
+    grid-column: 2;
+    grid-row: 1;
+    position: relative;
+    left: auto;
+    right: auto;
+    transform: none;
+    justify-self: stretch;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    margin: 0;
+    overflow-x: hidden;
+    box-sizing: border-box;
+  }
+
+  #hostDashboardDialog .host-dashboard-header {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+/* Tablet column width */
+@media (min-width: 761px) and (max-width: 1100px) {
+  #hostDashboardDialog .host-dashboard-shell {
+    grid-template-columns: 225px minmax(0, 1fr) !important;
+  }
+}
+
+/* Keep existing mobile arrangement */
+@media (max-width: 760px) {
+  #hostDashboardDialog .host-dashboard-shell {
+    display: block !important;
+  }
+
+  #hostDashboardDialog .host-dashboard-main {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+}
