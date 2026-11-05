@@ -3175,7 +3175,7 @@ async function loadHostDashboard() {
   }
 
   openDialog("hostDashboardDialog");
-
+showHostDashboardView("hostOverview");
   const [posts, profiles] = await Promise.all([
     supabase
       .from("posts")
