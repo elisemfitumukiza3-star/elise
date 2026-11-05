@@ -9607,6 +9607,13 @@ function showHostDashboardView(viewId) {
   // Display only the selected main section.
   overview?.classList.toggle("hidden", viewId !== "hostOverview");
   analytics?.classList.toggle("hidden", viewId !== "hostAnalytics");
+   if (viewId === "hostAnalytics") {
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      renderHostGrowthChart(hostDashboardProfiles);
+    });
+  });
+}
   management?.classList.toggle("hidden", !isManagementView);
 
   // Within Management, display only the selected card.
