@@ -3204,6 +3204,7 @@ console.error("Profile error code:", profiles.error?.code);
     }
   } else {
     const registeredProfiles = profiles.data || [];
+     hostDashboardProfiles = registeredProfiles;
     renderHostGrowthChart(registeredProfiles); 
 
     if ($("#hostProfilesCount")) {
