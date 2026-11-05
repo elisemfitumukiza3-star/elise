@@ -9618,19 +9618,6 @@ searchBooks();
     }
   });
 
-/* HOST DASHBOARD — SWITCH BETWEEN WORKSPACE VIEWS */
-
-
-  management?.classList.toggle("hidden", !isManagementView);
-
-  // Within Management, display only the selected card.
-  cards.forEach(card => {
-    const selected = card.id === viewId;
-
-    card.classList.toggle("hidden", !selected);
-    card.open = selected;
-  });
-}
 
 // Handle sidebar navigation.
 $("#hostDashboardDialog")?.addEventListener("click", event => {
