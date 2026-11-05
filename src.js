@@ -3199,6 +3199,59 @@ function showHostDashboardView(viewId) {
     });
   }
 }
+function renderHostLearnerSearch(query = "") {
+  const list = $("#hostProfilesList");
+  const suggestions = $("#hostLearnerSuggestions");
+
+  if (!list || !suggestions) return;
+
+  const term = query.trim().toLowerCase();
+
+  const matches = hostDashboardProfiles.filter(profile =>
+    (profile.display_name || "LearnLoop learner")
+      .toLowerCase()
+      .includes(term)
+  );
+
+  if (!term) {
+    suggestions.innerHTML = "";
+    suggestions.classList.add("hidden");
+    list.innerHTML = hostDashboardProfiles.length
+      ? hostDashboardProfiles.map(profile => `
+          <article class="card">
+            <strong>${escapeHTML(profile.display_name || "LearnLoop learner")}</strong>
+            <p class="muted small">
+              ${escapeHTML(profile.bio || "No bio added yet.")}
+            </p>
+          </article>
+        `).join("")
+      : '<p class="muted">No profiles were returned.</p>';
+    return;
+  }
+
+  suggestions.innerHTML = matches.slice(0, 6).map(profile => `
+    <button
+      type="button"
+      class="host-learner-suggestion"
+      data-learner-name="${escapeHTML(profile.display_name || "LearnLoop learner")}"
+    >
+      ${escapeHTML(profile.display_name || "LearnLoop learner")}
+    </button>
+  `).join("");
+
+  suggestions.classList.toggle("hidden", matches.length === 0);
+
+  list.innerHTML = matches.length
+    ? matches.map(profile => `
+        <article class="card">
+          <strong>${escapeHTML(profile.display_name || "LearnLoop learner")}</strong>
+          <p class="muted small">
+            ${escapeHTML(profile.bio || "No bio added yet.")}
+          </p>
+        </article>
+      `).join("")
+    : '<p class="muted">No learners match your search.</p>';
+}
 async function loadHostDashboard() {
   if (!isOwner()) {
     toast("This dashboard is restricted to the platform owner.", "error");
