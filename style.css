@@ -6908,80 +6908,48 @@ a:hover,
   }
 }
 /* =====================================================
-   HOST DASHBOARD — RIGHT WORKSPACE TEXT ALIGNMENT
-   Sidebar intentionally left unchanged
+   HOST DASHBOARD — RIGHT WORKSPACE BOUNDARY
+   Keep all content inside the right column
 ===================================================== */
 
-/* Prevent right-side sections from exceeding their space */
+#hostDashboardDialog .host-dashboard-main {
+  grid-column: 2;
+  justify-self: stretch;
+  position: relative;
+  z-index: 0;
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: clip;
+  contain: paint;
+}
+
+/* Keep right-side sections within their available width */
 #hostDashboardDialog .host-dashboard-main > * {
   min-width: 0;
   max-width: 100%;
   box-sizing: border-box;
 }
 
-/* Allow the top header content to wrap */
-#hostDashboardDialog .host-dashboard-header {
+/* Keep grids from expanding beyond the workspace */
+#hostDashboardDialog .host-dashboard-main .host-stats-grid,
+#hostDashboardDialog .host-dashboard-main .host-window-grid {
+  width: 100%;
   min-width: 0;
-  max-width: 100%;
-  flex-wrap: wrap;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-#hostDashboardDialog .host-dashboard-brand {
-  min-width: 0;
-  max-width: 100%;
-  flex: 1 1 220px;
-  flex-wrap: wrap;
-}
-
-/* Keep welcome text inside the banner */
-#hostDashboardDialog .host-dashboard-welcome {
-  min-width: 0;
-  max-width: calc(100% - 60px);
-  flex-wrap: wrap;
-}
-
-#hostDashboardDialog .host-dashboard-welcome > div:first-child {
-  min-width: 0;
-  max-width: 100%;
-  overflow-wrap: anywhere;
-}
-
-/* Allow section headings and descriptions to wrap */
-#hostDashboardDialog .host-section-heading {
-  min-width: 0;
-  flex-wrap: wrap;
-}
-
-#hostDashboardDialog .host-section-heading > * {
-  min-width: 0;
-  max-width: 100%;
-}
-
-/* Keep statistics and management content within the workspace */
-#hostDashboardDialog .host-stats-grid,
-#hostDashboardDialog .host-window-grid,
-#hostDashboardDialog .host-growth-section,
-#hostDashboardDialog .host-window-content {
-  min-width: 0;
-  max-width: 100%;
-}
-
-/* Prevent long text from crossing into another area */
+/* Keep long text within the right workspace */
 #hostDashboardDialog .host-dashboard-main h1,
 #hostDashboardDialog .host-dashboard-main h2,
 #hostDashboardDialog .host-dashboard-main h3,
-#hostDashboardDialog .host-dashboard-main p,
-#hostDashboardDialog .host-dashboard-main label,
-#hostDashboardDialog .host-dashboard-main strong,
-#hostDashboardDialog .host-dashboard-main span {
-  overflow-wrap: anywhere;
-  word-break: normal;
+#hostDashboardDialog .host-dashboard-main p {
+  max-width: 100%;
+  overflow-wrap: break-word;
 }
 
-/* Keep tables inside the right workspace */
-#hostDashboardDialog .host-window-content table {
-  display: block;
-  width: 100%;
+/* Keep tables within their management panels */
+#hostDashboardDialog .host-dashboard-main table {
   max-width: 100%;
-  overflow-x: auto;
 }
