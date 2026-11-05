@@ -9368,7 +9368,24 @@ function bindEvents() {
       }
     });
   });
+  // Live learner search
+  const learnerSearch = $("#hostLearnerSearch");
 
+  learnerSearch?.addEventListener("input", () => {
+    renderHostLearnerSearch(learnerSearch.value);
+  });
+
+  // Select a learner suggestion
+  $("#hostLearnerSuggestions")?.addEventListener("click", event => {
+    const suggestion = event.target.closest(".host-learner-suggestion");
+    if (!suggestion) return;
+
+    const search = $("#hostLearnerSearch");
+    if (!search) return;
+
+    search.value = suggestion.dataset.learnerName;
+    renderHostLearnerSearch(search.value);
+  });
   $("#menuButton")?.addEventListener("click", openMobileMenu);
 
   $("#sidebar")?.addEventListener("click", event => {
