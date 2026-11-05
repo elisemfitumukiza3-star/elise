@@ -9586,6 +9586,39 @@ searchBooks();
     }
   });
 
+/* HOST DASHBOARD SIDEBAR NAVIGATION */
+$("#hostDashboardDialog")?.addEventListener("click", event => {
+  const link = event.target.closest(".host-nav-link[href^='#']");
+  if (!link) return;
+
+  event.preventDefault();
+
+  const targetId = link.getAttribute("href").slice(1);
+  const target = document.getElementById(targetId);
+
+  if (!target) return;
+
+  // Open the selected management card when necessary.
+  if (target instanceof HTMLDetailsElement) {
+    target.open = true;
+  }
+
+  // Update the active sidebar navigation item.
+  $$("#hostDashboardDialog .host-nav-link[href^='#']").forEach(item => {
+    item.classList.remove("active");
+    item.removeAttribute("aria-current");
+  });
+
+  link.classList.add("active");
+  link.setAttribute("aria-current", "page");
+
+  // Navigate to the selected dashboard section.
+  target.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+});
+
   $("#hostDashboardButton")?.addEventListener("click", loadHostDashboard);
   $("#revenueSettingsForm")?.addEventListener("submit", saveHostSettings);
   $("#hostModerationList")?.addEventListener("click", moderatePost);
