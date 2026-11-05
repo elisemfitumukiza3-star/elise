@@ -6131,13 +6131,18 @@ a:hover,
 /* =========================================================
    MAIN WORKSPACE
 ========================================================= */
-
+/* MAIN WORKSPACE — STAY INSIDE THE RIGHT GRID COLUMN */
 #hostDashboardDialog .host-dashboard-main {
+  grid-column: 2;
+  justify-self: stretch;
   min-width: 0;
-  width: 100%;
+  width: auto;
+  max-width: 100%;
   padding: 0 0 40px;
   background: #f3f6fc;
+  overflow-x: hidden;
 }
+
 
 /* TOP HEADER */
 #hostDashboardDialog .host-dashboard-header {
