@@ -3329,11 +3329,24 @@ showHostDashboardView("hostOverview");
     .order("issued_at", { ascending: false })
 ]);
 // Load issued certificates
+const certificateList = $("#hostCertificatesList");
+
 if (certificates.error) {
   console.error("Certificates load error:", certificates.error);
   hostDashboardCertificates = [];
+
+  if (certificateList) {
+    certificateList.textContent =
+      "Could not load certificates: " + certificates.error.message;
+  }
 } else {
   hostDashboardCertificates = certificates.data || [];
+
+  console.log(
+    "LearnLoop certificates returned:",
+    hostDashboardCertificates.length
+  );
+
   renderHostCertificateSearch(
     $("#hostCertificateSearch")?.value || ""
   );
