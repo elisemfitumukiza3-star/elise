@@ -1792,41 +1792,7 @@ async function openPrivateConversation(conversationId) {
   await loadConversations();
 }
 
-async function loadPrivateMessages(conversationId) {
-  const list = $("#messageList");
-  if (!list) return;
 
-  list.textContent = "Loading messages...";
-
-  const { data, error } = await supabase
-    .from("messages")
-    .select("id, sender_id, body, created_at")
-    .eq("conversation_id", conversationId)
-    .order("created_at", { ascending: true })
-    .limit(200);
-
-  if (error) {
-    console.error("Load messages error:", error);
-    list.textContent = "Could not load messages.";
-    return;
-  }
-
-  if (!data?.length) {
-    list.textContent = "No messages yet. Say hello!";
-    return;
-  }
-
-  list.innerHTML = data.map(message => `
-    <div class="private-message ${
-      message.sender_id === currentUserId() ? "own-message" : ""
-    }">
-      <p>${escapeHTML(message.body)}</p>
-      <small>${new Date(message.created_at).toLocaleString()}</small>
-    </div>
-  `).join("");
-
-  list.scrollTop = list.scrollHeight;
-}
 async function loadPrivateMessages(conversationId) {
   const list = $("#messageList");
   if (!list) return;
