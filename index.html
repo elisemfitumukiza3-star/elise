@@ -936,59 +936,136 @@ the world, everyone has something to learn and something valuable to share.
          
           </section>
 
-          <section class="view-panel hidden" id="messagesView">
-            <div class="page-heading">
-              <span class="eyebrow">PRIVATE CONVERSATIONS</span>
-              <h1>Messages</h1>
-              <p>Connect privately with other LearnLoop learners.</p>
+        <section class="view-panel hidden" id="messagesView">
+
+  <div class="messages-page-heading">
+    <div>
+      <span class="eyebrow">LEARNLOOP CONNECT</span>
+      <h1>Messages</h1>
+      <p>Your private space to connect and learn together.</p>
+    </div>
+    <span class="messages-secure-label">🔒 Private conversations</span>
+  </div>
+
+  <div class="messages-workspace">
+
+    <!-- CONVERSATION SIDEBAR -->
+    <aside class="messages-sidebar">
+
+      <div class="messages-sidebar-heading">
+        <h2>Chats</h2>
+        <button type="button" id="newMessageButton" aria-label="New message">＋</button>
+      </div>
+
+      <div class="messages-conversation-search">
+        <span>⌕</span>
+        <input
+          id="messageConversationSearch"
+          type="search"
+          placeholder="Search conversations..."
+        >
+      </div>
+
+      <div class="messages-sidebar-tabs">
+        <button type="button" class="active" data-message-filter="all">All</button>
+        <button type="button" data-message-filter="unread">Unread</button>
+        <button type="button" data-message-filter="archived">Archived</button>
+      </div>
+
+      <div class="messages-user-search">
+        <form id="messageUserSearchForm">
+          <input
+            id="messageUserSearch"
+            type="search"
+            placeholder="Find a LearnLoop learner..."
+            autocomplete="off"
+            aria-label="Find a learner"
+          >
+        </form>
+        <div id="messageUserResults" aria-live="polite"></div>
+      </div>
+
+      <div id="conversationList">
+        <p class="muted">Your conversations will appear here.</p>
+      </div>
+
+    </aside>
+
+    <!-- CHAT AREA -->
+    <section class="messages-chat">
+
+      <div id="chatEmptyState" class="messages-empty-state">
+        <div class="messages-empty-icon">✉</div>
+        <h2>Your conversations, all in one place</h2>
+        <p>Select a conversation or find a learner to start chatting.</p>
+      </div>
+
+      <div id="chatPanel" class="hidden">
+
+        <header class="chat-header">
+
+          <div class="chat-contact-info">
+            <div class="chat-contact-avatar" id="chatPartnerAvatar">L</div>
+            <div>
+              <h2 id="chatPartnerName">Conversation</h2>
+              <span id="chatPartnerStatus">LearnLoop learner</span>
             </div>
+          </div>
 
-            <div class="messages-layout">
-              <aside class="card messages-sidebar">
-                <h2>Your conversations</h2>
-                <p class="muted">Your private conversations will appear here.</p>
-                
-<div class="messages-user-search">
-  <form id="messageUserSearchForm">
-    <label for="messageUserSearch">Find a learner</label>
-    <input
-      id="messageUserSearch"
-      type="search"
-      placeholder="Search by name..."
-      autocomplete="off"
-    />
-    <button class="button button-primary" type="submit">
-      Search
-    </button>
-  </form>
-  <div id="messageUserResults" aria-live="polite"></div>
-</div>
+          <div class="chat-header-actions">
+            <button type="button" id="chatSearchButton" aria-label="Search messages">⌕</button>
+            <button
+              type="button"
+              id="chatActionsToggle"
+              aria-label="Conversation options"
+              aria-expanded="false"
+            >⋮</button>
+          </div>
 
-<div id="conversationList"></div>
+          <div id="chatActionsMenu" class="chat-actions-menu hidden">
+            <button type="button" data-message-action="profile">View profile</button>
+            <button type="button" data-message-action="block">Block learner</button>
+            <button type="button" data-message-action="report">Report learner</button>
+            <button type="button" data-message-action="clear">Clear conversation</button>
+            <button type="button" data-message-action="archive">Archive conversation</button>
+          </div>
 
-              </aside>
+        </header>
 
-              <div class="card messages-chat">
-                <div id="chatEmptyState">
-                  <h2>Your private messages</h2>
-                  <p>Choose a conversation to read messages, or start a conversation with another learner.</p>
-                </div>
+        <div id="chatBlockedNotice" class="chat-blocked-notice hidden">
+          Messaging is unavailable in this conversation.
+        </div>
 
-                <div id="chatPanel" class="hidden">
-                  <div class="chat-header">
-                    <h2 id="chatPartnerName">Conversation</h2>
-                  </div>
-                  <div id="messageList" aria-live="polite"></div>
-                  <form id="messageForm">
-                    <label for="messageInput">Write a message</label>
-                    <textarea id="messageInput" maxlength="5000" required placeholder="Write a private message..."></textarea>
-                    <button class="button button-primary" type="submit">Send message</button>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </section>
+        <div id="messageSearchPanel" class="message-search-panel hidden">
+          <input id="messageSearchInput" type="search" placeholder="Search in this conversation...">
+        </div>
 
+        <div id="messageList" aria-live="polite">
+          <p class="muted">Your messages will appear here.</p>
+        </div>
+
+        <form id="messageForm" class="messages-composer">
+          <textarea
+            id="messageInput"
+            maxlength="5000"
+            required
+            placeholder="Write a message..."
+            aria-label="Write a message"
+          ></textarea>
+
+          <div class="messages-composer-footer">
+            <span>Keep conversations respectful and safe.</span>
+            <button class="button button-primary" type="submit">
+              Send ➤
+            </button>
+          </div>
+        </form>
+
+      </div>
+    </section>
+
+  </div>
+</section>
           <section class="view-panel hidden" id="communityView">
 
             <div class="page-heading">
