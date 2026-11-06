@@ -1757,7 +1757,41 @@ the world, everyone has something to learn and something valuable to share.
 
             </div>
           </details>
+<!-- 2. CERTIFICATE MANAGEMENT -->
+<details id="hostCertificates" class="card host-window-card">
 
+  <summary class="host-window-trigger">
+    <span class="host-window-icon">♜</span>
+    <span class="host-window-title">Certificate Management</span>
+    <span class="host-window-description">Issued certificates</span>
+    <span class="host-window-arrow">↗</span>
+  </summary>
+
+  <div class="host-window-content">
+
+    <section id="hostIssuedCertificates">
+      <h3>Issued Certificates</h3>
+      <p class="muted small">
+        Search and manage certificates issued to LearnLoop learners.
+      </p>
+
+      <input
+        type="search"
+        id="hostCertificateSearch"
+        placeholder="Search by learner name or certificate number..."
+        autocomplete="off"
+        aria-label="Search certificates"
+      >
+
+      <div id="hostCertificateSuggestions"></div>
+
+      <div id="hostCertificatesList">
+        <p class="muted">Certificates will appear here.</p>
+      </div>
+    </section>
+
+  </div>
+</details>
           <!-- 2. COMMITTEE MANAGEMENT -->
           <details id="hostCommittee" class="card host-window-card">
 
