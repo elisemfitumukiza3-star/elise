@@ -7712,3 +7712,74 @@ body.dark-mode input::placeholder,
 body.dark-mode textarea::placeholder {
   color: #cbd5e1 !important;
 }
+/* LEARNLOOP PROFESSIONAL LEARNER PROFILE */
+#chatPartnerProfileDialog {
+  position: relative;
+  width: min(440px, calc(100% - 28px));
+  padding: 42px 30px 34px;
+  border: 1px solid #dce7f8;
+  border-radius: 25px;
+  background: linear-gradient(180deg, #edf5ff 0%, #ffffff 45%);
+  box-shadow: 0 25px 80px rgba(15, 45, 90, .22);
+  text-align: center;
+}
+
+#chatPartnerProfileDialog .dialog-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 50%;
+  background: #e2edff;
+  color: #174d91;
+  font-size: 23px;
+}
+
+#chatPartnerProfileDialog .chat-partner-profile {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#chatPartnerProfileDialog .chat-profile-avatar {
+  display: grid;
+  place-items: center;
+  width: 112px;
+  height: 112px;
+  overflow: hidden;
+  border: 5px solid #fff;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1764bd, #62a9f5);
+  color: #fff;
+  font-size: 32px;
+  font-weight: 800;
+  box-shadow: 0 8px 25px rgba(23, 100, 189, .2);
+}
+
+#chatPartnerProfileDialog .chat-profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#chatPartnerProfileDialog #chatProfileName {
+  margin: 8px 0 0;
+  color: #173d70;
+  font-size: 24px;
+}
+
+#chatPartnerProfileDialog .eyebrow {
+  color: #2875c8;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+#chatPartnerProfileDialog #chatProfileBio {
+  max-width: 320px;
+  color: #61738b;
+  line-height: 1.7;
+}
