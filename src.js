@@ -37,6 +37,7 @@ const state = {
 };
 let postMediaObserver = null;
 let hostDashboardProfiles = [];
+let hostDashboardCertificates = [];
 const fileUrlCache = new Map();
 const VIEW_INFO = {
   feed: ["Home feed", "Discover what the community is learning."],
