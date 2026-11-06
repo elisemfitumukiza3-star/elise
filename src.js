@@ -9439,6 +9439,41 @@ function bindEvents() {
     search.value = suggestion.dataset.learnerName;
     renderHostLearnerSearch(search.value);
   });
+     // Select a learner suggestion
+  $("#hostLearnerSuggestions")?.addEventListener("click", event => {
+    const suggestion = event.target.closest(".host-learner-suggestion");
+    if (!suggestion) return;
+
+    const search = $("#hostLearnerSearch");
+    if (!search) return;
+
+    search.value = suggestion.dataset.learnerName;
+    renderHostLearnerSearch(search.value);
+  });
+
+  // Live certificate search
+  const certificateSearch = $("#hostCertificateSearch");
+
+  certificateSearch?.addEventListener("input", () => {
+    renderHostCertificateSearch(certificateSearch.value);
+  });
+
+  // Select certificate suggestion
+  $("#hostCertificateSuggestions")?.addEventListener("click", event => {
+    const suggestion = event.target.closest(".host-certificate-suggestion");
+    if (!suggestion) return;
+
+    const certificate = hostDashboardCertificates.find(
+      cert => cert.id === suggestion.dataset.certificateId
+    );
+
+    if (!certificate) return;
+
+    certificateSearch.value = certificate.certificate_number;
+    renderHostCertificateSearch(certificateSearch.value);
+  });
+
+  $("#menuButton")?.addEventListener("click", openMobileMenu);
   $("#menuButton")?.addEventListener("click", openMobileMenu);
 
   $("#sidebar")?.addEventListener("click", event => {
