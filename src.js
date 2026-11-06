@@ -3451,9 +3451,11 @@ function renderHostCertificateSearch(query = "") {
         </div>
       </article>
     `).join("")
-  : `<p class="muted">${
+   : `<p class="muted">${
       term ? "No matching certificates found." : "No issued certificates found."
     }</p>`;
+}
+
 async function loadHostDashboard() {
   if (!isOwner()) {
     toast("This dashboard is restricted to the platform owner.", "error");
