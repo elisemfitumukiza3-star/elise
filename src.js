@@ -3207,7 +3207,20 @@ function renderHostLearnerSearch(query = "") {
   if (!list || !suggestions) return;
 
   const term = query.trim().toLowerCase();
-
+if (!term) {
+  suggestions.innerHTML = "";
+  suggestions.classList.add("hidden");
+  list.innerHTML = hostDashboardCertificates.length
+    ? hostDashboardCertificates.map(cert => `
+        <article class="card">
+          <strong>${escapeHTML(cert.learner_name)}</strong>
+          <p>Certificate: ${escapeHTML(cert.certificate_number)}</p>
+          <p>Course: ${escapeHTML(cert.course_title)}</p>
+        </article>
+      `).join("")
+    : '<p class="muted">No issued certificates found.</p>';
+  return;
+}
   const matches = hostDashboardProfiles.filter(profile =>
     (profile.display_name || "LearnLoop learner")
       .toLowerCase()
