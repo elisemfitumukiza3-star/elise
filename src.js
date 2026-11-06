@@ -1723,11 +1723,8 @@ async function loadConversations() {
     `;
   }).join("");
 }
-
 async function openPrivateConversation(conversationId) {
   if (!conversationId || !currentUserId()) return;
-
-  activeConversationId = conversationId;
 
   const { data: membership, error: membershipError } = await supabase
     .from("conversation_participants")
@@ -1755,26 +1752,44 @@ async function openPrivateConversation(conversationId) {
     member => member.user_id !== currentUserId()
   )?.user_id;
 
-  let partnerName = "Private conversation";
+  if (!otherId) return;
 
-  if (otherId) {
-    const { data: partner } = await supabase
-      .from("profiles")
-      .select("display_name")
-      .eq("id", otherId)
-      .maybeSingle();
+  const { data: partner, error: partnerError } = await supabase
+    .from("profiles")
+    .select("id, display_name, avatar_url")
+    .eq("id", otherId)
+    .maybeSingle();
 
-    if (partner?.display_name) partnerName = partner.display_name;
+  if (partnerError) {
+    setStatus("Could not load learner profile.", "error");
+    return;
   }
 
-  if ($("#chatPartnerName")) {
-    $("#chatPartnerName").textContent = partnerName;
+  activeConversationId = conversationId;
+
+  const partnerName = partner?.display_name || "LearnLoop learner";
+  const avatar = $("#chatPartnerAvatar");
+
+  $("#chatPartnerName").textContent = partnerName;
+  $("#chatPartnerStatus").textContent = "LearnLoop learner";
+
+  if (avatar) {
+    if (partner?.avatar_url) {
+      avatar.innerHTML = `<img src="${escapeHTML(partner.avatar_url)}"
+        alt="${escapeHTML(partnerName)}">`;
+    } else {
+      avatar.textContent = initials(partnerName);
+    }
   }
 
   $("#chatEmptyState")?.classList.add("hidden");
   $("#chatPanel")?.classList.remove("hidden");
 
+  $(".messages-workspace")?.classList.add("chat-open");
+  $("#chatActionsMenu")?.classList.add("hidden");
+
   await loadPrivateMessages(conversationId);
+  await loadConversations();
 }
 
 async function loadPrivateMessages(conversationId) {
