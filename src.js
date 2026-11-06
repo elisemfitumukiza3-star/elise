@@ -3275,6 +3275,7 @@ function renderHostCertificateSearch(query = "") {
   const term = query.trim().toLowerCase();
 
   const matches = hostDashboardCertificates.filter(cert =>
+    !term ||
     (cert.learner_name || "").toLowerCase().includes(term) ||
     (cert.certificate_number || "").toLowerCase().includes(term)
   );
@@ -3300,7 +3301,9 @@ function renderHostCertificateSearch(query = "") {
           <p>Course: ${escapeHTML(cert.course_title)}</p>
         </article>
       `).join("")
-    : '<p class="muted">No matching certificates found.</p>';
+    : `<p class="muted">${
+        term ? "No matching certificates found." : "No issued certificates found."
+      }</p>`;
 }
 async function loadHostDashboard() {
   if (!isOwner()) {
