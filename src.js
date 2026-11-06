@@ -3293,18 +3293,57 @@ function renderHostCertificateSearch(query = "") {
 
   suggestions.classList.toggle("hidden", !term || !matches.length);
 
-  list.innerHTML = matches.length
-    ? matches.map(cert => `
-        <article class="card">
+ list.innerHTML = matches.length
+  ? matches.map(cert => `
+      <article class="card host-certificate-card">
+        <div>
           <strong>${escapeHTML(cert.learner_name)}</strong>
           <p>Certificate: ${escapeHTML(cert.certificate_number)}</p>
           <p>Course: ${escapeHTML(cert.course_title)}</p>
-        </article>
-      `).join("")
-    : `<p class="muted">${
-        term ? "No matching certificates found." : "No issued certificates found."
-      }</p>`;
-}
+        </div>
+
+        <div class="host-certificate-actions">
+          <button type="button"
+            class="host-certificate-menu-toggle"
+            data-certificate-menu="${escapeHTML(cert.id)}"
+            aria-label="Certificate actions">
+            ⋮
+          </button>
+
+          <div class="host-certificate-menu hidden"
+            id="certificate-menu-${escapeHTML(cert.id)}">
+
+            <button type="button" data-certificate-action="view"
+              data-certificate-id="${escapeHTML(cert.id)}">
+              View Certificate
+            </button>
+
+            <button type="button" data-certificate-action="download"
+              data-certificate-id="${escapeHTML(cert.id)}">
+              Download Certificate
+            </button>
+
+            <button type="button" data-certificate-action="delete"
+              data-certificate-id="${escapeHTML(cert.id)}">
+              Delete Certificate
+            </button>
+
+            <button type="button" data-certificate-action="report"
+              data-certificate-id="${escapeHTML(cert.id)}">
+              Report Improper Usage
+            </button>
+
+            <button type="button" data-certificate-action="history"
+              data-certificate-id="${escapeHTML(cert.id)}">
+              View Warning History
+            </button>
+          </div>
+        </div>
+      </article>
+    `).join("")
+  : `<p class="muted">${
+      term ? "No matching certificates found." : "No issued certificates found."
+    }</p>`;
 async function loadHostDashboard() {
   if (!isOwner()) {
     toast("This dashboard is restricted to the platform owner.", "error");
@@ -9486,7 +9525,24 @@ function bindEvents() {
   certificateSearch?.addEventListener("input", () => {
     renderHostCertificateSearch(certificateSearch.value);
   });
+// Toggle certificate action menus
+$("#hostCertificatesList")?.addEventListener("click", event => {
+  const toggle = event.target.closest("[data-certificate-menu]");
+  if (!toggle) return;
 
+  const certificateId = toggle.dataset.certificateMenu;
+  const menu = document.getElementById(
+    `certificate-menu-${certificateId}`
+  );
+
+  if (!menu) return;
+
+  document.querySelectorAll(".host-certificate-menu").forEach(item => {
+    if (item !== menu) item.classList.add("hidden");
+  });
+
+  menu.classList.toggle("hidden");
+});
   // Select certificate suggestion
   $("#hostCertificateSuggestions")?.addEventListener("click", event => {
     const suggestion = event.target.closest(".host-certificate-suggestion");
