@@ -1622,13 +1622,18 @@ async function loadConversations() {
   }
 
   if (!memberships?.length) {
-    list.textContent = "No conversations yet. Search for a learner to start one.";
+    list.innerHTML = `
+      <div class="messages-list-empty">
+        <span>💬</span>
+        <strong>No conversations yet</strong>
+        <p>Find a learner to start chatting.</p>
+      </div>`;
     return;
   }
 
-  const conversationIds = [...new Set(
-    memberships.map(item => item.conversation_id)
-  )];
+  const conversationIds = [
+    ...new Set(memberships.map(item => item.conversation_id))
+  ];
 
   const { data: members, error: memberError } = await supabase
     .from("conversation_participants")
@@ -1636,48 +1641,85 @@ async function loadConversations() {
     .in("conversation_id", conversationIds);
 
   if (memberError) {
-    console.error("Conversation members error:", memberError);
     list.textContent = "Could not load conversation members.";
     return;
   }
 
-  const otherUserIds = [...new Set(
-    (members || [])
-      .filter(item => item.user_id !== currentUserId())
-      .map(item => item.user_id)
-  )];
+  const otherUserIds = [
+    ...new Set(
+      (members || [])
+        .filter(item => item.user_id !== currentUserId())
+        .map(item => item.user_id)
+    )
+  ];
 
   const { data: profiles, error: profileError } = await supabase
     .from("profiles")
-    .select("id, display_name")
+    .select("id, display_name, avatar_url")
     .in("id", otherUserIds);
 
   if (profileError) {
-    console.error("Conversation profiles error:", profileError);
-    list.textContent = "Could not load learner names.";
+    list.textContent = "Could not load learner profiles.";
     return;
   }
 
-  const names = new Map(
-    (profiles || []).map(profile => [
-      profile.id,
-      profile.display_name || "Learner"
-    ])
+  const { data: messages } = await supabase
+    .from("messages")
+    .select("conversation_id, sender_id, body, created_at")
+    .in("conversation_id", conversationIds)
+    .order("created_at", { ascending: false })
+    .limit(300);
+
+  const profileMap = new Map(
+    (profiles || []).map(profile => [profile.id, profile])
   );
 
+  const latestMessages = new Map();
+
+  (messages || []).forEach(message => {
+    if (!latestMessages.has(message.conversation_id)) {
+      latestMessages.set(message.conversation_id, message);
+    }
+  });
+
   list.innerHTML = conversationIds.map(id => {
-    const member = (members || []).find(item =>
+    const member = members?.find(item =>
       item.conversation_id === id &&
       item.user_id !== currentUserId()
     );
 
-    const name = names.get(member?.user_id) || "Learner";
+    const profile = profileMap.get(member?.user_id);
+    const name = profile?.display_name || "LearnLoop learner";
+    const latest = latestMessages.get(id);
+
+    const avatar = profile?.avatar_url
+      ? `<img src="${escapeHTML(profile.avatar_url)}"
+          alt="${escapeHTML(name)}">`
+      : `<span>${escapeHTML(initials(name))}</span>`;
+
+    const preview = latest
+      ? `${latest.sender_id === currentUserId() ? "You: " : ""}${escapeHTML(latest.body)}`
+      : "Start a conversation";
+
     return `
       <button
         type="button"
-        class="message-conversation-item"
+        class="message-conversation-item ${
+          activeConversationId === id ? "active" : ""
+        }"
         data-open-conversation="${escapeHTML(id)}"
-      >${escapeHTML(name)}</button>
+      >
+        <span class="message-list-avatar">${avatar}</span>
+
+        <span class="message-list-details">
+          <strong>${escapeHTML(name)}</strong>
+          <span>${preview}</span>
+        </span>
+
+        <span class="message-list-time">
+          ${latest ? escapeHTML(relativeTime(latest.created_at)) : ""}
+        </span>
+      </button>
     `;
   }).join("");
 }
