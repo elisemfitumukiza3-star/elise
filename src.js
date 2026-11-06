@@ -1827,40 +1827,68 @@ async function loadPrivateMessages(conversationId) {
 
   list.scrollTop = list.scrollHeight;
 }
+async function loadPrivateMessages(conversationId) {
+  const list = $("#messageList");
+  if (!list) return;
 
-async function sendPrivateMessage(event) {
-  event.preventDefault();
+  list.textContent = "Loading messages...";
 
-  if (!requireLogin()) return;
-  if (!activeConversationId) {
-    setStatus("Choose a conversation first.", "error");
-    return;
-  }
-
-  const input = $("#messageInput");
-  const body = input?.value.trim();
-
-  if (!body) return;
-
-  const button = $("#messageForm button[type='submit']");
-  if (button) button.disabled = true;
-
-  const { error } = await supabase.from("messages").insert({
-    conversation_id: activeConversationId,
-    sender_id: currentUserId(),
-    body
-  });
-
-  if (button) button.disabled = false;
+  const { data, error } = await supabase
+    .from("messages")
+    .select("id, sender_id, body, created_at")
+    .eq("conversation_id", conversationId)
+    .order("created_at", { ascending: true })
+    .limit(200);
 
   if (error) {
-    console.error("Send message error:", error);
-    setStatus("Message could not be sent.", "error");
+    console.error("Load messages error:", error);
+    list.textContent = "Could not load messages.";
     return;
   }
 
-  input.value = "";
-  await loadPrivateMessages(activeConversationId);
+  if (!data?.length) {
+    list.innerHTML = `
+      <div class="messages-empty-state">
+        <div class="messages-empty-icon">✉</div>
+        <h2>Start the conversation</h2>
+        <p>Send your first message and connect with this learner.</p>
+      </div>`;
+    return;
+  }
+
+  let previousDate = "";
+
+  list.innerHTML = data.map(message => {
+    const date = new Date(message.created_at);
+    const day = date.toLocaleDateString();
+    const showDate = day !== previousDate;
+    previousDate = day;
+
+    const own = message.sender_id === currentUserId();
+
+    return `
+      ${showDate ? `
+        <div class="message-date-divider">
+          <span>${escapeHTML(day)}</span>
+        </div>
+      ` : ""}
+
+      <article class="private-message ${
+        own ? "own-message" : "received-message"
+      }">
+        <p>${escapeHTML(message.body)}</p>
+        <small>
+          ${escapeHTML(date.toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit"
+          }))}
+          ${own ? " · Sent" : ""}
+        </small>
+      </article>
+    `;
+  }).join("");
+
+  list.scrollTop = list.scrollHeight;
 }
 
 async function loadPosts() {
