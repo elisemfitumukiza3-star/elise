@@ -1766,7 +1766,7 @@ async function openPrivateConversation(conversationId) {
   }
 
   activeConversationId = conversationId;
-
+activeChatPartnerId = otherId;
   const partnerName = partner?.display_name || "LearnLoop learner";
   const avatar = $("#chatPartnerAvatar");
 
