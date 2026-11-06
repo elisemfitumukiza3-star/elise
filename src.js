@@ -9513,6 +9513,36 @@ async function leaveStudyGroup() {
 }
 
 function bindEvents() {
+    // Toggle private message conversation options
+  const chatActionsToggle = $("#chatActionsToggle");
+  const chatActionsMenu = $("#chatActionsMenu");
+
+  if (chatActionsToggle && chatActionsMenu &&
+      !chatActionsToggle.dataset.connected) {
+    chatActionsToggle.dataset.connected = "true";
+
+    chatActionsToggle.addEventListener("click", event => {
+      event.stopPropagation();
+
+      const isOpen = !chatActionsMenu.classList.contains("hidden");
+
+      chatActionsMenu.classList.toggle("hidden");
+      chatActionsToggle.setAttribute(
+        "aria-expanded",
+        String(!isOpen)
+      );
+    });
+
+    document.addEventListener("click", event => {
+      if (
+        !chatActionsMenu.contains(event.target) &&
+        !chatActionsToggle.contains(event.target)
+      ) {
+        chatActionsMenu.classList.add("hidden");
+        chatActionsToggle.setAttribute("aria-expanded", "false");
+      }
+    });
+  } 
   Promise.resolve()
   .then(() => loadHonoraryCertificateRequests())
   .catch(error => {
