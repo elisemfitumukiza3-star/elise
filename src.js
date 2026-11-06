@@ -4496,16 +4496,12 @@ function openProfile() {
 }
 
 /* ---------- YouTube Learning ---------- */
-
 async function searchYouTubeVideos() {
   const input = document.getElementById("youtubeSearchInput");
   const results = document.getElementById("youtubeResults");
   const status = document.getElementById("youtubeStatus");
 
-  if (!input || !results || !status) {
-    console.error("LearnLoop: YouTube search elements are missing.");
-    return;
-  }
+  if (!input || !results || !status) return;
 
   const query = input.value.trim();
 
@@ -4517,8 +4513,7 @@ async function searchYouTubeVideos() {
   const apiKey = import.meta.env.VITE_YOUTUBE_API_KEY;
 
   if (!apiKey) {
-    status.textContent =
-      "YouTube API key is missing from this deployment. Check Vercel Environment Variables.";
+    status.textContent = "YouTube API key is missing.";
     return;
   }
 
@@ -4543,11 +4538,8 @@ async function searchYouTubeVideos() {
     const data = await response.json();
 
     if (!response.ok) {
-      const message =
-        data.error?.message || `YouTube request failed (${response.status}).`;
-
-      console.error("YouTube API response:", response.status, data);
-      status.textContent = `YouTube error: ${message}`;
+      status.textContent =
+        data.error?.message || "YouTube search failed.";
       return;
     }
 
@@ -4556,8 +4548,7 @@ async function searchYouTubeVideos() {
     );
 
     if (!videos.length) {
-      status.textContent =
-        "No videos found for this search. Try Mathematics, Biology, or English.";
+      status.textContent = "No videos found. Try another subject.";
       return;
     }
 
@@ -4565,10 +4556,10 @@ async function searchYouTubeVideos() {
       const videoId = video.id.videoId;
       const title = video.snippet.title;
       const channel = video.snippet.channelTitle;
+
       const thumbnail =
         video.snippet.thumbnails?.medium?.url ||
-        video.snippet.thumbnails?.default?.url ||
-        "";
+        video.snippet.thumbnails?.default?.url || "";
 
       const card = document.createElement("article");
       card.className = "youtube-card";
@@ -4584,25 +4575,40 @@ async function searchYouTubeVideos() {
       const channelText = document.createElement("p");
       channelText.textContent = channel;
 
-     
-   function openVideo() {
-  const panel = document.getElementById("youtubePlayerPanel");
-  const player = document.getElementById("youtubePlayer");
-  const playerTitle = document.getElementById("youtubePlayerTitle");
+      card.append(image, heading, channelText);
 
-  if (!panel || !player || !playerTitle) {
-    status.textContent = "The video player is missing from index.html.";
-    return;
+      card.style.cursor = "pointer";
+      card.addEventListener("click", () => {
+        const panel = document.getElementById("youtubePlayerPanel");
+        const player = document.getElementById("youtubePlayer");
+        const playerTitle = document.getElementById("youtubePlayerTitle");
+
+        if (!panel || !player || !playerTitle) return;
+
+        playerTitle.textContent = title;
+        player.src =
+          `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?autoplay=1&mute=1&playsinline=1`;
+
+        panel.classList.remove("hidden");
+        panel.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      });
+
+      results.append(card);
+    });
+
+    status.textContent =
+      `Found ${videos.length} videos. Choose a lesson to watch.`;
+
+  } catch (error) {
+    console.error("LearnLoop YouTube search error:", error);
+    status.textContent =
+      `Could not load videos: ${error.message}.`;
   }
+}
 
-  playerTitle.textContent = title;
-
-  player.src =
-    `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?autoplay=1&mute=1&playsinline=1`;
-
-  panel.classList.remove("hidden");
-  panel.scrollIntoView({ behavior: "smooth", block: "start" });
-}  
 
 /* ---------- Event wiring ---------- */
 
