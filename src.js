@@ -9696,7 +9696,6 @@ $("#hostCertificatesList")?.addEventListener("click", async event => {
   });
 
   $("#menuButton")?.addEventListener("click", openMobileMenu);
-  $("#menuButton")?.addEventListener("click", openMobileMenu);
 
   $("#sidebar")?.addEventListener("click", event => {
     const clickedNav = event.target.closest("[data-view]");
