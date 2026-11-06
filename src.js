@@ -3253,6 +3253,42 @@ function renderHostLearnerSearch(query = "") {
       `).join("")
     : '<p class="muted">No learners match your search.</p>';
 }
+function renderHostCertificateSearch(query = "") {
+  const list = $("#hostCertificatesList");
+  const suggestions = $("#hostCertificateSuggestions");
+
+  if (!list || !suggestions) return;
+
+  const term = query.trim().toLowerCase();
+
+  const matches = hostDashboardCertificates.filter(cert =>
+    (cert.learner_name || "").toLowerCase().includes(term) ||
+    (cert.certificate_number || "").toLowerCase().includes(term)
+  );
+
+  suggestions.innerHTML = term
+    ? matches.slice(0, 8).map(cert => `
+        <button type="button"
+          class="host-certificate-suggestion"
+          data-certificate-id="${escapeHTML(cert.id)}">
+          ${escapeHTML(cert.learner_name)}
+          — ${escapeHTML(cert.certificate_number)}
+        </button>
+      `).join("")
+    : "";
+
+  suggestions.classList.toggle("hidden", !term || !matches.length);
+
+  list.innerHTML = matches.length
+    ? matches.map(cert => `
+        <article class="card">
+          <strong>${escapeHTML(cert.learner_name)}</strong>
+          <p>Certificate: ${escapeHTML(cert.certificate_number)}</p>
+          <p>Course: ${escapeHTML(cert.course_title)}</p>
+        </article>
+      `).join("")
+    : '<p class="muted">No matching certificates found.</p>';
+}
 async function loadHostDashboard() {
   if (!isOwner()) {
     toast("This dashboard is restricted to the platform owner.", "error");
@@ -3261,16 +3297,31 @@ async function loadHostDashboard() {
 
   openDialog("hostDashboardDialog");
 showHostDashboardView("hostOverview");
-  const [posts, profiles] = await Promise.all([
-    supabase
-      .from("posts")
-      .select("id", { count: "exact", head: true }),
-    supabase
-.from("profiles")
-.select("id, display_name, bio, created_at", { count: "exact" })
-.order("display_name", { ascending: true })
-  ]);
+ const [posts, profiles, certificates] = await Promise.all([
+  supabase
+    .from("posts")
+    .select("id", { count: "exact", head: true }),
 
+  supabase
+    .from("profiles")
+    .select("id, display_name, bio, created_at", { count: "exact" })
+    .order("display_name", { ascending: true }),
+
+  supabase
+    .from("certificates")
+    .select("id, user_id, learner_name, course_title, score, certificate_number, completion_date, issued_at")
+    .order("issued_at", { ascending: false })
+]);
+// Load issued certificates
+if (certificates.error) {
+  console.error("Certificates load error:", certificates.error);
+  hostDashboardCertificates = [];
+} else {
+  hostDashboardCertificates = certificates.data || [];
+  renderHostCertificateSearch(
+    $("#hostCertificateSearch")?.value || ""
+  );
+}
   if ($("#hostPostsCount")) {
     $("#hostPostsCount").textContent = String(posts.count ?? "—");
   }
