@@ -3266,6 +3266,116 @@ if (!term) {
       `).join("")
     : '<p class="muted">No learners match your search.</p>';
 }
+async function downloadHostCertificate(cert) {
+  try {
+    const jsPDF = window.jspdf?.jsPDF;
+    const QRCodeLib = window.QRCode;
+
+    if (!jsPDF || !QRCodeLib) {
+      toast("PDF or QR library could not load.", "error");
+      return;
+    }
+
+    const verificationUrl =
+      window.location.origin +
+      window.location.pathname +
+      "?certificate=" +
+      encodeURIComponent(cert.certificate_number);
+
+    const qrContainer = document.createElement("div");
+
+    new QRCodeLib(qrContainer, {
+      text: verificationUrl,
+      width: 256,
+      height: 256
+    });
+
+    const qrCanvas = qrContainer.querySelector("canvas");
+
+    if (!qrCanvas) throw new Error("QR code could not be generated.");
+
+    const pdf = new jsPDF({
+      orientation: "landscape",
+      unit: "mm",
+      format: "a4"
+    });
+
+    pdf.setFillColor(20, 39, 77);
+    pdf.rect(0, 0, 297, 210, "F");
+
+    pdf.setFillColor(250, 248, 241);
+    pdf.rect(5, 5, 287, 200, "F");
+
+    pdf.setDrawColor(198, 158, 64);
+    pdf.setLineWidth(1);
+    pdf.rect(9, 9, 279, 192);
+
+    pdf.setTextColor(20, 39, 77);
+    pdf.setFont("helvetica", "bold");
+    pdf.setFontSize(27);
+    pdf.text("LearnLoop", 148.5, 30, { align: "center" });
+
+    pdf.setFont("times", "bold");
+    pdf.setFontSize(25);
+    pdf.text("CERTIFICATE OF COMPLETION", 148.5, 58, {
+      align: "center"
+    });
+
+    pdf.setFont("helvetica", "normal");
+    pdf.setFontSize(12);
+    pdf.text("THIS CERTIFICATE IS PROUDLY PRESENTED TO", 148.5, 75, {
+      align: "center"
+    });
+
+    pdf.setFont("times", "italic");
+    pdf.setFontSize(25);
+    pdf.text(cert.learner_name, 148.5, 92, {
+      align: "center",
+      maxWidth: 210
+    });
+
+    pdf.setFont("helvetica", "normal");
+    pdf.setFontSize(12);
+    pdf.text("has successfully completed the learning programme", 148.5, 108, {
+      align: "center"
+    });
+
+    pdf.setFillColor(20, 39, 77);
+    pdf.roundedRect(48, 115, 201, 20, 2, 2, "F");
+
+    pdf.setTextColor(255, 255, 255);
+    pdf.setFont("times", "bold");
+    pdf.setFontSize(20);
+    pdf.text(cert.course_title, 148.5, 128, {
+      align: "center",
+      maxWidth: 190
+    });
+
+    pdf.setTextColor(20, 39, 77);
+    pdf.setFont("helvetica", "normal");
+    pdf.setFontSize(10);
+    pdf.text(`Score: ${cert.score}/20`, 148.5, 148, {
+      align: "center"
+    });
+
+    pdf.text(`Completion date: ${cert.completion_date}`, 148.5, 157, {
+      align: "center"
+    });
+
+    pdf.addImage(qrCanvas.toDataURL("image/png"), "PNG", 20, 163, 25, 25);
+
+    pdf.setFontSize(9);
+    pdf.text(`Certificate number: ${cert.certificate_number}`, 148.5, 178, {
+      align: "center"
+    });
+
+    pdf.save(`LearnLoop-${safeFileName(cert.certificate_number)}.pdf`);
+    toast("Certificate downloaded.");
+  } catch (error) {
+    console.error("Certificate PDF error:", error);
+    toast("Could not download this certificate.", "error");
+  }
+}
 function renderHostCertificateSearch(query = "") {
   const list = $("#hostCertificatesList");
   const suggestions = $("#hostCertificateSuggestions");
@@ -9543,6 +9653,33 @@ $("#hostCertificatesList")?.addEventListener("click", event => {
 
   menu.classList.toggle("hidden");
 });
+ // Handle certificate menu actions
+$("#hostCertificatesList")?.addEventListener("click", async event => {
+  const actionButton = event.target.closest("[data-certificate-action]");
+  if (!actionButton) return;
+
+  const certificate = hostDashboardCertificates.find(
+    cert => cert.id === actionButton.dataset.certificateId
+  );
+
+  if (!certificate) return;
+
+  const action = actionButton.dataset.certificateAction;
+
+  document.querySelectorAll(".host-certificate-menu").forEach(menu => {
+    menu.classList.add("hidden");
+  });
+
+  if (action === "download") {
+    await downloadHostCertificate(certificate);
+  }
+
+  if (action === "view") {
+    const url = new URL(window.location.href);
+    url.searchParams.set("certificate", certificate.certificate_number);
+    window.open(url.toString(), "_blank", "noopener");
+  }
+});  
   // Select certificate suggestion
   $("#hostCertificateSuggestions")?.addEventListener("click", event => {
     const suggestion = event.target.closest(".host-certificate-suggestion");
