@@ -7701,3 +7701,14 @@ a:hover,
   background: #edf4ff;
   color: #1556a5;
 }
+/* GLOBAL WHITE TEXT IN DARK MODE */
+body.dark-mode,
+body.dark-mode * {
+  color: #f3f4f6 !important;
+}
+
+/* Keep input hints readable */
+body.dark-mode input::placeholder,
+body.dark-mode textarea::placeholder {
+  color: #cbd5e1 !important;
+}
