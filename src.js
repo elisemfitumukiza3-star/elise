@@ -1535,6 +1535,7 @@ function closeMobileMenu() {
 /* ---------- LearnLoop private messaging ---------- */
 
 let activeConversationId = null;
+let activeChatPartnerId = null;
 let messageUserSearchTimer = null;
 
 async function searchMessageUsers(event) {
