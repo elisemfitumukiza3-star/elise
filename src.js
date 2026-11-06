@@ -9544,6 +9544,45 @@ function bindEvents() {
       }
     });
   } 
+     // Open selected learner's profile
+  $("#chatActionsMenu")?.addEventListener("click", async event => {
+    const action = event.target.closest("[data-message-action]");
+    if (!action) return;
+
+    if (action.dataset.messageAction !== "profile") return;
+
+    if (!activeChatPartnerId) {
+      toast("No learner selected.", "error");
+      return;
+    }
+
+    const { data: profile, error } = await supabase
+      .from("profiles")
+      .select("id, display_name, avatar_url, bio")
+      .eq("id", activeChatPartnerId)
+      .maybeSingle();
+
+    if (error || !profile) {
+      toast("Could not load learner profile.", "error");
+      return;
+    }
+
+    const name = profile.display_name || "LearnLoop learner";
+    const avatar = $("#chatProfileAvatar");
+
+    $("#chatProfileName").textContent = name;
+    $("#chatProfileBio").textContent =
+      profile.bio || "No biography available.";
+
+    if (avatar) {
+      avatar.innerHTML = profile.avatar_url
+        ? `<img src="${escapeHTML(profile.avatar_url)}" alt="${escapeHTML(name)}">`
+        : escapeHTML(initials(name));
+    }
+
+    $("#chatActionsMenu").classList.add("hidden");
+    $("#chatPartnerProfileDialog")?.showModal();
+  });
   Promise.resolve()
   .then(() => loadHonoraryCertificateRequests())
   .catch(error => {
