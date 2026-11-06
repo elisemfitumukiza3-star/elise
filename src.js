@@ -4585,46 +4585,24 @@ async function searchYouTubeVideos() {
       channelText.textContent = channel;
 
      
-      function openVideo() {
-        const panel = document.getElementById("youtubePlayerPanel");
-        const player = document.getElementById("youtubePlayer");
-        const playerTitle = document.getElementById("youtubePlayerTitle");
+   function openVideo() {
+  const panel = document.getElementById("youtubePlayerPanel");
+  const player = document.getElementById("youtubePlayer");
+  const playerTitle = document.getElementById("youtubePlayerTitle");
 
-        if (!panel || !player || !playerTitle) {
-          status.textContent = "The video player is missing from index.html.";
-          return;
-        }
-
-        playerTitle.textContent = title;
-        player.src =
-          `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}`;
-        panel.classList.remove("hidden");
-        panel.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-
-      image.style.cursor = "pointer";
-      image.title = "Click to play this video";
-      image.addEventListener("click", openVideo);
-       
-     
-      heading.style.cursor = "pointer";
-      heading.addEventListener("click", openVideo);
-card.append(image, heading, channelText);
-card.style.cursor = "pointer";
-card.addEventListener("click", openVideo);
-results.append(card);
-    });
-
-    status.textContent =
-      `Found ${videos.length} videos. Choose a lesson to watch.`;
-  } catch (error) {
-    console.error("LearnLoop YouTube search error:", error);
-    status.textContent =
-      `Could not load videos: ${error.message}. Check your connection and API settings.`;
+  if (!panel || !player || !playerTitle) {
+    status.textContent = "The video player is missing from index.html.";
+    return;
   }
-}
 
+  playerTitle.textContent = title;
 
+  player.src =
+    `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?autoplay=1&mute=1&playsinline=1`;
+
+  panel.classList.remove("hidden");
+  panel.scrollIntoView({ behavior: "smooth", block: "start" });
+}  
 
 /* ---------- Event wiring ---------- */
 
