@@ -7371,3 +7371,144 @@ a:hover,
     display: none;
   }
 }
+/* PRIVATE MESSAGE BUBBLES */
+
+.private-message {
+  width: fit-content;
+  max-width: min(75%, 520px);
+  padding: 11px 14px 8px;
+  margin: 9px 0;
+  border-radius: 15px;
+  background: var(--card-bg, #fff);
+  border: 1px solid var(--border, #e5eaf0);
+  box-shadow: 0 2px 6px rgba(20, 35, 60, .04);
+  overflow-wrap: anywhere;
+}
+
+.private-message p {
+  margin: 0;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.private-message small {
+  display: block;
+  margin-top: 6px;
+  text-align: right;
+  color: var(--muted, #8993a3);
+  font-size: 10px;
+}
+
+.private-message.own-message {
+  margin-left: auto;
+  background: #e8f0ff;
+  border-color: #dce7ff;
+  border-bottom-right-radius: 4px;
+  color: #203c68;
+}
+
+.private-message.received-message {
+  margin-right: auto;
+  border-bottom-left-radius: 4px;
+}
+
+.message-date-divider {
+  display: flex;
+  justify-content: center;
+  margin: 18px 0;
+}
+
+.message-date-divider span {
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: var(--card-bg, #fff);
+  color: var(--muted, #718096);
+  font-size: 11px;
+}
+
+.message-list-avatar img,
+.chat-contact-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.message-list-avatar {
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 50%;
+  background: #e8efff;
+  color: #2455a4;
+  font-weight: 800;
+}
+
+.message-conversation-item {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  width: 100%;
+  padding: 11px 9px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  color: var(--text, #263449);
+}
+
+.message-conversation-item:hover,
+.message-conversation-item.active {
+  background: var(--input-bg, #f0f4fa);
+}
+
+.message-list-details {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.message-list-details strong,
+.message-list-details span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.message-list-details strong {
+  font-size: 13px;
+}
+
+.message-list-details span,
+.message-list-time {
+  color: var(--muted, #8490a1);
+  font-size: 11px;
+}
+
+.message-list-time {
+  align-self: flex-start;
+}
+
+.messages-list-empty {
+  padding: 30px 15px;
+  text-align: center;
+  color: var(--muted, #718096);
+}
+
+.messages-list-empty > span {
+  display: block;
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 600px) {
+  .private-message {
+    max-width: 88%;
+  }
+}
