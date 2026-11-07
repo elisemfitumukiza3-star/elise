@@ -8228,3 +8228,41 @@ body.dark-mode :where(
 ):focus-visible {
   outline-color: #60a5fa;
 }
+
+/* LearnLoop: Home Feed dark-mode card corrections */
+
+body.dark-mode #learnLoopLessonsButton,
+body.dark-mode #featuredLesson,
+body.dark-mode #learningDashboard {
+  background-color: #1f2937;
+  color: #f3f4f6;
+  border-color: #374151;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+}
+
+/* Readable headings and ordinary text inside these cards */
+body.dark-mode :is(
+  #learnLoopLessonsButton,
+  #featuredLesson,
+  #learningDashboard
+) :is(h1, h2, h3, h4, p, label, small) {
+  color: #f3f4f6;
+}
+
+/* Keep links and buttons recognizable */
+body.dark-mode :is(
+  #learnLoopLessonsButton,
+  #featuredLesson,
+  #learningDashboard
+) a {
+  color: #93c5fd;
+}
+
+/* Keep colored buttons and their labels intact */
+body.dark-mode :is(
+  #learnLoopLessonsButton,
+  #featuredLesson,
+  #learningDashboard
+) button {
+  color: inherit;
+}
