@@ -7951,3 +7951,280 @@ body.dark-mode #chatPartnerProfileDialog .dialog-close {
   color: #ffffff;
   border-color: #4b5563;
 }
+
+/* =====================================================
+   LEARNLOOP — CONSOLIDATED DARK MODE
+   Visual styling only: no layout or mobile changes
+===================================================== */
+
+body.dark-mode {
+  color-scheme: dark;
+  --ink: #f3f4f6;
+  --muted: #cbd5e1;
+  --line: #374151;
+  --surface: #1f2937;
+  --canvas: #111827;
+  --text: #f3f4f6;
+  --page-bg: #111827;
+  --card-bg: #1f2937;
+  --input-bg: #172033;
+  --border: #374151;
+
+  background: #111827;
+  color: #f3f4f6;
+}
+
+/* Main page surfaces */
+body.dark-mode :where(
+  .view-panel,
+  .card,
+  .panel,
+  .post-card,
+  .resource-card,
+  .feed-card,
+  .profile-card,
+  .composer,
+  #postForm,
+  .account-document-library,
+  .dialog-card,
+  .modal-content,
+  .dropdown-menu,
+  .popover,
+  article,
+  [role="dialog"]
+) {
+  background-color: #1f2937;
+  border-color: #374151;
+  color: #f3f4f6;
+}
+
+/* General text */
+body.dark-mode :where(
+  h1, h2, h3, h4, h5, h6,
+  p, label, li, td, th,
+  small, strong, b,
+  .post-body,
+  .description,
+  .subtitle,
+  .muted,
+  .eyebrow,
+  .empty-state,
+  .help-text
+) {
+  color: #f3f4f6;
+}
+
+/* Links and recognizable accent colors */
+body.dark-mode a {
+  color: #93c5fd;
+}
+
+body.dark-mode :where(
+  .accent,
+  .accent-text,
+  .brand span,
+  .logo span,
+  .text-success,
+  .text-warning,
+  .text-danger,
+  .text-info
+) {
+  color: inherit;
+}
+
+/* Keep branded banners, gradients and colored buttons */
+body.dark-mode :where(
+  .hero,
+  .hero-section,
+  .welcome-banner,
+  .messages-page-heading,
+  .private-message.own-message,
+  .primary,
+  .btn-primary,
+  .accent-button,
+  .orange-button,
+  button[type="submit"]
+) {
+  color: #ffffff;
+}
+
+/* Inputs, search fields and dropdown controls */
+body.dark-mode :where(
+  input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+  textarea,
+  select
+) {
+  background-color: #111827;
+  color: #f9fafb;
+  border-color: #4b5563;
+}
+
+body.dark-mode :where(input, textarea)::placeholder {
+  color: #cbd5e1;
+  opacity: 1;
+}
+
+body.dark-mode :where(input, textarea, select):focus {
+  border-color: #60a5fa;
+}
+
+/* Neutral buttons */
+body.dark-mode :where(
+  .secondary,
+  .btn-secondary,
+  .icon-button
+) {
+  background-color: #293449;
+  color: #f3f4f6;
+  border-color: #4b5563;
+}
+
+/* Tables and separators */
+body.dark-mode :where(th, td) {
+  border-color: #374151;
+}
+
+body.dark-mode hr {
+  border-color: #374151;
+}
+
+/* Sidebar */
+body.dark-mode #sidebar {
+  background: #1f2937;
+  border-color: #374151;
+}
+
+body.dark-mode #sidebar :where(
+  a, button, .nav-item, [data-view]
+) {
+  color: #e5e7eb;
+}
+
+body.dark-mode #sidebar :where(
+  .active, [aria-current="page"]
+) {
+  background-color: #373078;
+  color: #ffffff;
+}
+
+/* Notifications — retain purple identity */
+body.dark-mode #notificationsView {
+  background: #17152a;
+  color: #f3f4f6;
+}
+
+body.dark-mode #notificationsView .page-heading h1 {
+  color: #c4b5fd;
+}
+
+body.dark-mode #notificationsList .notification-item {
+  background: #29243b;
+  border-color: #51436f;
+  border-left-color: #a78bfa;
+  color: #f3f4f6;
+}
+
+body.dark-mode #notificationsList .notification-item.unread {
+  background: #332b4a;
+}
+
+body.dark-mode #notificationsList .notification-time {
+  color: #c4b5fd;
+}
+
+/* Private messages — retain blue identity */
+body.dark-mode #messagesView {
+  background: #111c30;
+  color: #f3f4f6;
+}
+
+body.dark-mode #messagesView .messages-workspace,
+body.dark-mode #messagesView .messages-sidebar,
+body.dark-mode #messagesView .messages-chat,
+body.dark-mode #messagesView .chat-header,
+body.dark-mode #messagesView .messages-composer,
+body.dark-mode #messagesView .chat-actions-menu {
+  background-color: #1f2937;
+  border-color: #374151;
+  color: #f3f4f6;
+}
+
+body.dark-mode #messagesView :where(
+  .messages-sidebar-heading h2,
+  .chat-header h2,
+  .message-conversation-item,
+  .message-conversation-item strong,
+  .chat-actions-menu button
+) {
+  color: #f3f4f6;
+}
+
+body.dark-mode #messagesView .private-message {
+  background: #293449;
+  border-color: #475569;
+  color: #f3f4f6;
+}
+
+body.dark-mode #messagesView .private-message.own-message {
+  background: linear-gradient(135deg, #1764bd, #287fe0);
+  color: #ffffff;
+  border: none;
+}
+
+body.dark-mode #messagesView .private-message.own-message :where(p, small) {
+  color: #ffffff;
+}
+
+body.dark-mode #messagesView .private-message small {
+  color: #cbd5e1;
+}
+
+/* Learner profile popup */
+body.dark-mode #chatPartnerProfileDialog {
+  background: linear-gradient(180deg, #293449, #1f2937);
+  border-color: #475569;
+  color: #f3f4f6;
+}
+
+body.dark-mode #chatPartnerProfileDialog #chatProfileName {
+  color: #bfdbfe;
+}
+
+body.dark-mode #chatPartnerProfileDialog #chatProfileBio {
+  color: #cbd5e1;
+}
+
+body.dark-mode #chatPartnerProfileDialog .dialog-close {
+  background: #374151;
+  color: #ffffff;
+  border-color: #4b5563;
+}
+
+/* Keep readable text on colored banners */
+body.dark-mode :where(
+  .hero,
+  .hero-section,
+  .welcome-banner,
+  .messages-page-heading
+) :where(h1, h2, h3, p, span, strong, small) {
+  color: #ffffff;
+}
+
+/* Academy and course content */
+body.dark-mode :where(
+  .academy-section,
+  .academy-course-card,
+  .academy-topic-item,
+  .learning-stat
+) {
+  background-color: #1f2937;
+  border-color: #374151;
+  color: #f3f4f6;
+}
+
+/* Focus visibility */
+body.dark-mode :where(
+  button, a, input, textarea, select
+):focus-visible {
+  outline-color: #60a5fa;
+}
