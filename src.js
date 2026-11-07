@@ -4609,7 +4609,8 @@ function playYouTubePlaylistItem(index) {
   youtubeCurrentIndex = index;
   playerTitle.textContent = video.snippet.title;
   panel.classList.remove("hidden");
-
+document.getElementById("youtubeWatchLayout")
+  ?.classList.add("youtube-watch-active");
   loadYouTubeIframeAPI().then(YT => {
     const host = prepareYouTubePlayerHost();
     if (!host) return;
@@ -4808,6 +4809,7 @@ async function loadNextYouTubePage() {
 
     if (videos.length) {
       renderYouTubeVideos(videos, startIndex);
+       setupYouTubePagination();
     }
 
     if (status) {
