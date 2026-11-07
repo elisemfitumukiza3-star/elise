@@ -8348,3 +8348,79 @@ body.dark-mode #learningDashboard .learning-stat span {
 body.dark-mode #learningDashboard .learning-stat strong {
   color: #93c5fd !important;
 }
+
+/* LEARNLOOP POSTS — FULL DARK MODE READABILITY */
+
+body.dark-mode #postsView {
+  color: #f3f4f6;
+}
+
+body.dark-mode #postsView .page-heading h1,
+body.dark-mode #postsView .page-heading p,
+body.dark-mode #postsView .page-heading .eyebrow {
+  color: #f3f4f6 !important;
+}
+
+/* Post cards */
+body.dark-mode #postsFeed > .post-card {
+  background: #1f2937 !important;
+  border-color: #374151 !important;
+  color: #f3f4f6 !important;
+}
+
+/* All ordinary text around posted content */
+body.dark-mode #postsFeed .post-card :is(
+  h1, h2, h3, h4, p, span, small,
+  label, strong, b, time, .muted,
+  .post-body, .post-meta, .post-author,
+  .post-date, .post-type, .post-subject
+) {
+  color: #e5e7eb !important;
+}
+
+/* Post titles and author names */
+body.dark-mode #postsFeed .post-card :is(
+  .post-author, .post-card h3, .post-card h4
+) {
+  color: #ffffff !important;
+}
+
+/* Links retain blue accent */
+body.dark-mode #postsFeed .post-card a {
+  color: #93c5fd !important;
+}
+
+/* Action buttons */
+body.dark-mode #postsFeed .post-actions {
+  border-top-color: #475569 !important;
+}
+
+body.dark-mode #postsFeed .post-actions button {
+  background: #293449 !important;
+  color: #e5e7eb !important;
+  border-color: #475569 !important;
+}
+
+body.dark-mode #postsFeed .post-actions button:hover {
+  background: #374151 !important;
+}
+
+/* Keep reaction and colored action accents */
+body.dark-mode #postsFeed .post-actions button :is(
+  .reaction-icon, .like-icon
+) {
+  color: inherit;
+}
+
+/* Attachment information */
+body.dark-mode #postsFeed :is(
+  .post-attachment, .post-pdf-card, .post-video-card
+) {
+  background: #172033 !important;
+  border-color: #475569 !important;
+  color: #f3f4f6 !important;
+}
+
+body.dark-mode #postsFeed .post-image-card {
+  background: #111827 !important;
+}
