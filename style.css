@@ -8442,3 +8442,122 @@ body.dark-mode #postsFeed > .post-card .post-body a {
   color: #93c5fd !important;
   text-decoration: underline;
 }
+
+/* LEARNLOOP LIBRARY — COMPLETE DARK MODE FIX */
+
+/* Main library background */
+body.dark-mode #libraryView .library-page {
+  background: #111827 !important;
+  color: #f3f4f6 !important;
+  border-color: #374151 !important;
+}
+
+/* Library header */
+body.dark-mode #libraryView .library-topbar {
+  border-color: #374151 !important;
+}
+
+body.dark-mode #libraryView .library-brand strong,
+body.dark-mode #libraryView .library-brand small,
+body.dark-mode #libraryView .library-categories h2,
+body.dark-mode #libraryView .library-section-heading h2,
+body.dark-mode #libraryView .library-section-heading p,
+body.dark-mode #libraryView #googleBooksStatus {
+  color: #f3f4f6 !important;
+}
+
+body.dark-mode #libraryView .library-open-label,
+body.dark-mode #libraryView .library-eyebrow {
+  color: #93c5fd !important;
+}
+
+/* Subject cards */
+body.dark-mode #libraryView .subject-card {
+  background: #1f2937 !important;
+  color: #f3f4f6 !important;
+  border-color: #374151 !important;
+}
+
+body.dark-mode #libraryView .subject-card strong {
+  color: #f9fafb !important;
+}
+
+body.dark-mode #libraryView .subject-card small {
+  color: #cbd5e1 !important;
+}
+
+/* Book result cards */
+body.dark-mode #libraryView #googleBooksResults .book-card {
+  background: #1f2937 !important;
+  color: #f3f4f6 !important;
+  border-color: #374151 !important;
+}
+
+body.dark-mode #libraryView #googleBooksResults .book-card h3 {
+  color: #f9fafb !important;
+}
+
+body.dark-mode #libraryView #googleBooksResults .book-card p {
+  color: #cbd5e1 !important;
+}
+
+/* Search and education-level controls */
+body.dark-mode #libraryView .library-search input,
+body.dark-mode #libraryView .library-level-filter select {
+  background: #111827 !important;
+  color: #f9fafb !important;
+  border-color: #4b5563 !important;
+}
+
+body.dark-mode #libraryView .library-level-filter label {
+  color: #f3f4f6 !important;
+}
+
+body.dark-mode #libraryView input::placeholder {
+  color: #9ca3af !important;
+}
+
+/* Home and reader buttons */
+body.dark-mode #libraryView .library-home-button,
+body.dark-mode #libraryView #libraryBackButton {
+  background: #293449 !important;
+  color: #f9fafb !important;
+  border-color: #4b5563 !important;
+}
+
+/* Reader panel */
+body.dark-mode #libraryView .library-reader {
+  background: #1f2937 !important;
+  color: #f3f4f6 !important;
+  border-color: #374151 !important;
+}
+
+body.dark-mode #libraryView .library-reader-toolbar,
+body.dark-mode #libraryView #libraryReaderTitle,
+body.dark-mode #libraryView #libraryReaderMessage {
+  color: #f3f4f6 !important;
+}
+
+body.dark-mode #libraryView .library-reader-frame {
+  background: #111827 !important;
+  border-color: #374151 !important;
+}
+
+/* Preserve colored badges */
+body.dark-mode #libraryView .lesson-badge {
+  background: #1e3a5f !important;
+  color: #93c5fd !important;
+  border-color: #315b91 !important;
+}
+
+body.dark-mode #libraryView .preview-badge {
+  background: #123b2d !important;
+  color: #86efac !important;
+  border-color: #28634d !important;
+}
+
+/* Keep the blue welcome banner and its white text */
+body.dark-mode #libraryView .library-welcome {
+  background: linear-gradient(130deg, #153c82, #2868d7 65%, #78a8ff) !important;
+  color: #ffffff !important;
+}
