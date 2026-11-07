@@ -3074,7 +3074,7 @@ async function updateDashboard() {
       .eq("status", "published"),
 
     supabase.from("reactions")
-      .select("id", { count: "exact", head: true })
+     .select("post_id", { count: "exact", head: true })
       .eq("user_id", currentUserId())
   ]);
 
