@@ -4536,7 +4536,110 @@ function openProfile() {
   openDialog("profileDialog");
 }
 
+
 /* ---------- YouTube Learning ---------- */
+
+let youtubePlaylist = [];
+let youtubeCurrentIndex = -1;
+let youtubePlayerInstance = null;
+let youtubeIframeApiPromise = null;
+
+function loadYouTubeIframeAPI() {
+  if (window.YT?.Player) {
+    return Promise.resolve(window.YT);
+  }
+
+  if (youtubeIframeApiPromise) {
+    return youtubeIframeApiPromise;
+  }
+
+  youtubeIframeApiPromise = new Promise((resolve, reject) => {
+    window.onYouTubeIframeAPIReady = () => {
+      resolve(window.YT);
+    };
+
+    let script = document.querySelector(
+      'script[src="https://www.youtube.com/iframe_api"]'
+    );
+
+    if (!script) {
+      script = document.createElement("script");
+      script.src = "https://www.youtube.com/iframe_api";
+      script.onerror = reject;
+      document.head.appendChild(script);
+    }
+  });
+
+  return youtubeIframeApiPromise;
+}
+
+/* Load the player API before a learner selects a video */
+loadYouTubeIframeAPI().catch(error => {
+  console.warn("YouTube player API could not load:", error);
+});
+
+/* Play a selected video and automatically continue the playlist */
+function playYouTubePlaylistItem(index) {
+  if (index < 0 || index >= youtubePlaylist.length) return;
+
+  const panel = document.getElementById("youtubePlayerPanel");
+  const playerTitle = document.getElementById("youtubePlayerTitle");
+
+  if (!panel || !playerTitle) return;
+
+  youtubeCurrentIndex = index;
+
+  const video = youtubePlaylist[index];
+  const videoId = video.id.videoId;
+
+  playerTitle.textContent = video.snippet.title;
+  panel.classList.remove("hidden");
+
+  loadYouTubeIframeAPI().then(YT => {
+    if (!youtubePlayerInstance) {
+      youtubePlayerInstance = new YT.Player("youtubePlayer", {
+        videoId,
+
+        playerVars: {
+          autoplay: 1,
+          playsinline: 1,
+          rel: 0,
+          controls: 1
+        },
+
+        events: {
+          onReady(event) {
+            event.target.unMute();
+            event.target.setVolume(100);
+            event.target.playVideo();
+          },
+
+          onStateChange(event) {
+            if (event.data === YT.PlayerState.ENDED) {
+              const nextIndex = youtubeCurrentIndex + 1;
+
+              if (nextIndex < youtubePlaylist.length) {
+                playYouTubePlaylistItem(nextIndex);
+              }
+            }
+          }
+        }
+      });
+    } else {
+      youtubePlayerInstance.loadVideoById(videoId);
+      youtubePlayerInstance.unMute();
+      youtubePlayerInstance.setVolume(100);
+    }
+  }).catch(error => {
+    console.error("YouTube playback error:", error);
+  });
+
+  panel.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+}
+
 async function searchYouTubeVideos() {
   const input = document.getElementById("youtubeSearchInput");
   const results = document.getElementById("youtubeResults");
@@ -4560,6 +4663,8 @@ async function searchYouTubeVideos() {
 
   status.textContent = "Searching for educational videos...";
   results.replaceChildren();
+  youtubePlaylist = [];
+  youtubeCurrentIndex = -1;
 
   try {
     const params = new URLSearchParams({
@@ -4593,8 +4698,9 @@ async function searchYouTubeVideos() {
       return;
     }
 
-    videos.forEach(video => {
-      const videoId = video.id.videoId;
+    youtubePlaylist = videos;
+
+    videos.forEach((video, index) => {
       const title = video.snippet.title;
       const channel = video.snippet.channelTitle;
 
@@ -4617,24 +4723,10 @@ async function searchYouTubeVideos() {
       channelText.textContent = channel;
 
       card.append(image, heading, channelText);
-
       card.style.cursor = "pointer";
+
       card.addEventListener("click", () => {
-        const panel = document.getElementById("youtubePlayerPanel");
-        const player = document.getElementById("youtubePlayer");
-        const playerTitle = document.getElementById("youtubePlayerTitle");
-
-        if (!panel || !player || !playerTitle) return;
-
-        playerTitle.textContent = title;
-        player.src =
-          `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?autoplay=1&mute=1&playsinline=1`;
-
-        panel.classList.remove("hidden");
-        panel.scrollIntoView({
-          behavior: "smooth",
-          block: "start"
-        });
+        playYouTubePlaylistItem(index);
       });
 
       results.append(card);
@@ -4645,11 +4737,11 @@ async function searchYouTubeVideos() {
 
   } catch (error) {
     console.error("LearnLoop YouTube search error:", error);
+
     status.textContent =
       `Could not load videos: ${error.message}.`;
   }
 }
-
 
 /* ---------- Event wiring ---------- */
 
