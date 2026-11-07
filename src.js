@@ -1448,6 +1448,17 @@ if (view === "committeeDuty") {
    await loadMyCommitteeTasks();
 }
   state.currentView = view;
+   // Highlight the currently open page in the sidebar.
+document.querySelectorAll("#sidebar [data-view]").forEach(button => {
+  const selected = button.dataset.view === view;
+  button.classList.toggle("active", selected);
+
+  if (selected) {
+    button.setAttribute("aria-current", "page");
+  } else {
+    button.removeAttribute("aria-current");
+  }
+});
    if (view === "people") {
   await loadFollowingIds();
   await loadPeople();
@@ -10083,11 +10094,15 @@ $("#menuButton")?.addEventListener("click", () => {
     openMobileMenu();
   }
 });
-  $("#sidebar")?.addEventListener("click", event => {
-    const clickedNav = event.target.closest("[data-view]");
-    if (clickedNav) closeMobileMenu();
-  });
+ // Navigate when any LearnLoop page button is clicked.
+document.addEventListener("click", event => {
+  const navButton = event.target.closest("[data-view]");
+  if (!navButton) return;
 
+  event.preventDefault();
+  navigate(navButton.dataset.view);
+  closeMobileMenu();
+});
   $("#accountButton")?.addEventListener("click", () => {
     if (state.session) openProfile();
     else {
