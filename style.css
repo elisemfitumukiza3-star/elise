@@ -7848,3 +7848,106 @@ body.dark-mode textarea::placeholder {
     grid-column: 1;
   }
 }
+
+/* LearnLoop: finish dark-mode styling for remaining sections */
+
+/* PRIVATE MESSAGES */
+body.dark-mode #messagesView {
+  background: #111827;
+  color: #f3f4f6;
+}
+
+body.dark-mode #messagesView .messages-workspace,
+body.dark-mode #messagesView .messages-sidebar,
+body.dark-mode #messagesView .messages-chat,
+body.dark-mode #messagesView .chat-header,
+body.dark-mode #messagesView .messages-composer,
+body.dark-mode #messagesView .chat-actions-menu {
+  background: #1f2937;
+  border-color: #374151;
+  color: #f3f4f6;
+}
+
+body.dark-mode #messagesView .messages-sidebar-heading h2,
+body.dark-mode #messagesView .chat-header h2,
+body.dark-mode #messagesView .message-conversation-item,
+body.dark-mode #messagesView .message-conversation-item strong,
+body.dark-mode #messagesView .chat-actions-menu button {
+  color: #f3f4f6;
+}
+
+body.dark-mode #messagesView input,
+body.dark-mode #messagesView textarea {
+  background: #111827;
+  color: #f9fafb;
+  border-color: #4b5563;
+}
+
+body.dark-mode #messagesView .private-message {
+  background: #293449;
+  color: #f3f4f6;
+  border-color: #475569;
+}
+
+body.dark-mode #messagesView .private-message.own-message {
+  background: linear-gradient(135deg, #1764bd, #287fe0);
+  color: #ffffff;
+  border: none;
+}
+
+body.dark-mode #messagesView .private-message.own-message p,
+body.dark-mode #messagesView .private-message.own-message small {
+  color: #ffffff;
+}
+
+body.dark-mode #messagesView .private-message small,
+body.dark-mode #messagesView .messages-composer-footer span {
+  color: #cbd5e1;
+}
+
+/* NOTIFICATIONS */
+body.dark-mode #notificationsView {
+  background: #1f2937;
+  color: #f3f4f6;
+}
+
+body.dark-mode #notificationsView .page-heading h1 {
+  color: #c4b5fd;
+}
+
+body.dark-mode #notificationsList .notification-item,
+body.dark-mode #notificationsList .notification-empty {
+  background: #293449;
+  color: #f3f4f6;
+  border-color: #475569;
+}
+
+body.dark-mode #notificationsList .notification-item.unread {
+  background: #332b4a;
+  border-left-color: #a78bfa;
+}
+
+body.dark-mode #notificationsList .notification-time {
+  color: #cbd5e1;
+}
+
+/* LEARNER PROFILE POPUP */
+body.dark-mode #chatPartnerProfileDialog {
+  background: linear-gradient(180deg, #293449, #1f2937);
+  border-color: #475569;
+  color: #f3f4f6;
+}
+
+body.dark-mode #chatPartnerProfileDialog #chatProfileName {
+  color: #bfdbfe;
+}
+
+body.dark-mode #chatPartnerProfileDialog #chatProfileBio {
+  color: #cbd5e1;
+}
+
+body.dark-mode #chatPartnerProfileDialog .dialog-close {
+  background: #374151;
+  color: #ffffff;
+  border-color: #4b5563;
+}
