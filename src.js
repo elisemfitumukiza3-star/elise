@@ -1511,7 +1511,14 @@ closeMobileMenu();
   if (view === "notifications") loadNotifications(); 
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
+// Restore navigation for all sidebar items.
+document.addEventListener("click", event => {
+  const button = event.target.closest("[data-view]");
+  if (!button) return;
 
+  event.preventDefault();
+  navigate(button.dataset.view);
+});
 function openMobileMenu() {
   $("#sidebar")?.classList.add("open");
 }
