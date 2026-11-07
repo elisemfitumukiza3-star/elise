@@ -9137,3 +9137,9 @@ body.dark-mode #libraryView .library-welcome input::placeholder {
 .app-shell.hidden {
   display: none !important;
 }
+/* Keep the app shell hidden while signed out, including desktop. */
+@media (min-width: 769px) {
+  .app-shell.hidden {
+    display: none !important;
+  }
+}
