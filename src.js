@@ -1484,9 +1484,9 @@ if (view === "committeeDuty") {
   };
 
   // Hide every page, including the Library, before showing the chosen page.
-  Object.values(pageIds).forEach(id => {
-    document.getElementById(id)?.classList.add("hidden");
-  });
+document.querySelectorAll(".view-panel").forEach(panel => {
+  panel.classList.add("hidden");
+});
 
   const selectedPage = document.getElementById(pageIds[view]);
 
