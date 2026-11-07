@@ -7783,3 +7783,50 @@ body.dark-mode textarea::placeholder {
   color: #61738b;
   line-height: 1.7;
 }
+
+/* LearnLoop: fixed desktop sidebar and adjustable workspace */
+@media (min-width: 769px) {
+  .app-shell {
+    display: grid !important;
+    grid-template-columns: 245px minmax(0, 1fr) !important;
+    align-items: start;
+    gap: 26px;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 18px 22px;
+  }
+
+  #sidebar {
+    position: fixed !important;
+    top: 18px;
+    left: 22px;
+    width: 245px !important;
+    height: calc(100vh - 36px);
+    min-height: 0;
+    max-height: calc(100vh - 36px);
+    margin: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    z-index: 1000;
+  }
+
+  .app-shell > .main-area {
+    grid-column: 2;
+    width: 100%;
+    min-width: 0;
+  }
+
+  /* Give the whole window to the content when sidebar is closed */
+  .app-shell.sidebar-collapsed {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .app-shell.sidebar-collapsed #sidebar {
+    display: none !important;
+  }
+
+  .app-shell.sidebar-collapsed > .main-area {
+    grid-column: 1;
+  }
+}
