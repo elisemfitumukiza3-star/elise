@@ -10016,21 +10016,6 @@ const miniButton = document.getElementById(
 if (miniButton && !miniButton.dataset.connected) {
   miniButton.dataset.connected = "true";
 
-  miniButton.addEventListener("click", () => {
-    const panel = document.getElementById("youtubePlayerPanel");
-
-    if (!panel || panel.classList.contains("hidden")) return;
-
-    const isMini = panel.classList.toggle("youtube-mini-player");
-
-    miniButton.textContent = isMini ? "↗" : "▣";
-    miniButton.title = isMini ? "Restore player" : "Mini-player";
-    miniButton.setAttribute(
-      "aria-label",
-      isMini ? "Restore full player" : "Open mini-player"
-    );
-  });
-}
   // YouTube-style mini-player controls.
   const miniButton = document.getElementById("youtubeMiniPlayerButton");
   const playerPanel = document.getElementById("youtubePlayerPanel");
