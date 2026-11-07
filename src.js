@@ -9823,22 +9823,12 @@ function bindEvents() {
       searchYouTubeVideos();
     }
   });
- 
-  $$("[data-view]").forEach(button => {
-    button.addEventListener("click", () => {
-      navigate(button.dataset.view);
-
-      if (button.dataset.view === "youtube") {
-        const input = $("#youtubeSearchInput");
-
-        if (input && !input.value.trim()) {
-          input.value = "educational videos";
-        }
-
-        searchYouTubeVideos();
-      }
-    });
+ $$("[data-view]").forEach(button => {
+  button.addEventListener("click", () => {
+    navigate(button.dataset.view);
   });
+});
+ 
   // Live learner search
   const learnerSearch = $("#hostLearnerSearch");
 
