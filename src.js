@@ -9981,7 +9981,7 @@ function bindEvents() {
   }
 
   renderLessonCards();
-});
+
  
   // Live learner search
   const learnerSearch = $("#hostLearnerSearch");
@@ -9990,28 +9990,17 @@ function bindEvents() {
     renderHostLearnerSearch(learnerSearch.value);
   });
 
-  // Select a learner suggestion
-  $("#hostLearnerSuggestions")?.addEventListener("click", event => {
-    const suggestion = event.target.closest(".host-learner-suggestion");
-    if (!suggestion) return;
+// Select a learner suggestion
+$("#hostLearnerSuggestions")?.addEventListener("click", event => {
+  const suggestion = event.target.closest(".host-learner-suggestion");
+  if (!suggestion) return;
 
-    const search = $("#hostLearnerSearch");
-    if (!search) return;
+  const search = $("#hostLearnerSearch");
+  if (!search) return;
 
-    search.value = suggestion.dataset.learnerName;
-    renderHostLearnerSearch(search.value);
-  
-     // Select a learner suggestion
-  $("#hostLearnerSuggestions")?.addEventListener("click", event => {
-    const suggestion = event.target.closest(".host-learner-suggestion");
-    if (!suggestion) return;
-
-    const search = $("#hostLearnerSearch");
-    if (!search) return;
-
-    search.value = suggestion.dataset.learnerName;
-    renderHostLearnerSearch(search.value);
-  });
+  search.value = suggestion.dataset.learnerName;
+  renderHostLearnerSearch(search.value);
+});
 
   // Live certificate search
   const certificateSearch = $("#hostCertificateSearch");
