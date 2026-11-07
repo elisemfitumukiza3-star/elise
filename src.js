@@ -10000,7 +10000,7 @@ function bindEvents() {
 
     search.value = suggestion.dataset.learnerName;
     renderHostLearnerSearch(search.value);
-  });
+  
      // Select a learner suggestion
   $("#hostLearnerSuggestions")?.addEventListener("click", event => {
     const suggestion = event.target.closest(".host-learner-suggestion");
