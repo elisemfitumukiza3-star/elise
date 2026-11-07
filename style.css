@@ -8424,3 +8424,21 @@ body.dark-mode #postsFeed :is(
 body.dark-mode #postsFeed .post-image-card {
   background: #111827 !important;
 }
+
+/* Fix colorful text-post visibility in dark mode */
+body.dark-mode #postsFeed > .post-card .post-body {
+  background: #111827 !important;
+  color: #f9fafb !important;
+  border: 1px solid #475569;
+}
+
+/* Keep every part of the text readable */
+body.dark-mode #postsFeed > .post-card .post-body * {
+  color: #f9fafb !important;
+}
+
+/* Preserve readable links */
+body.dark-mode #postsFeed > .post-card .post-body a {
+  color: #93c5fd !important;
+  text-decoration: underline;
+}
