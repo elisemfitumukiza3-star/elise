@@ -4,190 +4,669 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="LearnLoop Rwanda Privacy Policy explains how we collect, use and protect information.">
+  <meta name="description" content="Read the LearnLoop Rwanda Privacy Policy to understand how personal information, account data, educational activity and YouTube services are handled.">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#075c43">
+
   <title>Privacy Policy | LearnLoop Rwanda</title>
+
   <style>
-    * { box-sizing: border-box; }
+    :root {
+      --primary: #075c43;
+      --primary-dark: #064632;
+      --accent: #0b9870;
+      --text: #26352f;
+      --muted: #687970;
+      --background: #f3f7f5;
+      --surface: #ffffff;
+      --border: #e2ebe6;
+      --soft: #edf6f1;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 24px;
+    }
+
     body {
       margin: 0;
-      padding: 30px 16px;
-      font-family: Arial, sans-serif;
-      line-height: 1.7;
-      color: #17251f;
-      background: #f5f8f5;
+      background: var(--background);
+      color: var(--text);
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      line-height: 1.75;
     }
+
+    a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .topbar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar-inner {
+      max-width: 1120px;
+      margin: auto;
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      color: var(--primary);
+      font-weight: 800;
+      font-size: 19px;
+      letter-spacing: -.4px;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: var(--primary);
+      color: white;
+      font-weight: 800;
+      font-size: 20px;
+    }
+
+    .top-link {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #064632, #087b59);
+      color: white;
+      padding: 65px 22px 58px;
+    }
+
+    .hero-inner {
+      max-width: 920px;
+      margin: auto;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 6px 12px;
+      border: 1px solid rgba(255,255,255,.3);
+      border-radius: 30px;
+      color: #e1f6eb;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      margin: 18px 0 10px;
+      font-size: clamp(34px, 6vw, 50px);
+      line-height: 1.15;
+      letter-spacing: -1.5px;
+    }
+
+    .hero p {
+      max-width: 680px;
+      margin: 0;
+      color: #e4f2eb;
+      font-size: 16px;
+    }
+
+    .updated {
+      margin-top: 22px;
+      color: #d0e8dc;
+      font-size: 13px;
+    }
+
+    .page-layout {
+      max-width: 1120px;
+      margin: 42px auto 70px;
+      padding: 0 22px;
+      display: grid;
+      grid-template-columns: 245px minmax(0, 1fr);
+      gap: 28px;
+      align-items: start;
+    }
+
+    .contents {
+      position: sticky;
+      top: 22px;
+      padding: 22px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 15px;
+    }
+
+    .contents h2 {
+      margin: 0 0 13px;
+      color: var(--primary);
+      font-size: 15px;
+    }
+
+    .contents a {
+      display: block;
+      padding: 7px 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .contents a:hover {
+      color: var(--primary);
+    }
+
     main {
-      max-width: 850px;
-      margin: 25px auto;
-      padding: 35px;
-      background: white;
-      border: 1px solid #e4ebe5;
-      border-radius: 18px;
-      box-shadow: 0 8px 28px rgba(25,65,45,.06);
+      min-width: 0;
+      padding: 38px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      box-shadow: 0 10px 35px rgba(25, 65, 45, .045);
     }
-    h1, h2 { color: #075c43; }
-    h1 { font-size: 2rem; }
-    h2 { margin-top: 28px; font-size: 1.2rem; }
-    a { color: #087f5b; }
-    .brand { font-weight: bold; color: #087f5b; }
-    @media(max-width:600px) {
-      main { padding: 22px; }
+
+    .intro {
+      margin-top: 0;
+      padding: 20px 22px;
+      background: var(--soft);
+      border-left: 4px solid var(--accent);
+      border-radius: 9px;
+    }
+
+    section {
+      padding-top: 27px;
+      margin-top: 27px;
+      border-top: 1px solid var(--border);
+      scroll-margin-top: 20px;
+    }
+
+    section h2 {
+      margin: 0 0 12px;
+      color: var(--primary);
+      font-size: 21px;
+      line-height: 1.4;
+    }
+
+    section p {
+      margin: 10px 0;
+    }
+
+    ul {
+      padding-left: 23px;
+    }
+
+    li {
+      padding-left: 4px;
+      margin: 7px 0;
+    }
+
+    .notice {
+      margin: 17px 0;
+      padding: 16px 18px;
+      background: #f5f8f6;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+
+    .notice strong {
+      color: var(--primary);
+    }
+
+    .contact-card {
+      padding: 22px;
+      margin-top: 16px;
+      background: var(--soft);
+      border: 1px solid #d8eae0;
+      border-radius: 12px;
+    }
+
+    .contact-card p {
+      margin: 5px 0;
+    }
+
+    .footer {
+      padding: 27px 20px;
+      background: #073e2f;
+      color: #dcece4;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    .footer a {
+      color: white;
+      font-weight: 700;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-bottom: 12px;
+    }
+
+    @media (max-width: 800px) {
+      .page-layout {
+        grid-template-columns: 1fr;
+        margin-top: 24px;
+      }
+
+      .contents {
+        position: static;
+      }
+
+      .contents nav {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        column-gap: 15px;
+      }
+
+      main {
+        padding: 26px 22px;
+      }
+
+      .hero {
+        padding: 48px 22px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .topbar-inner {
+        padding: 14px 16px;
+      }
+
+      .brand {
+        font-size: 16px;
+      }
+
+      .top-link {
+        font-size: 12px;
+      }
+
+      .page-layout {
+        padding: 0 13px;
+      }
+
+      .contents nav {
+        grid-template-columns: 1fr;
+      }
+
+      main {
+        padding: 23px 18px;
+      }
     }
   </style>
 </head>
+
 <body>
-<main>
-  <p class="brand">LearnLoop Rwanda</p>
-  <h1>Privacy Policy</h1>
-  <p>Effective date: 7 November 2026</p>
 
-  <p>
-    LearnLoop Rwanda ("LearnLoop", "we", "our" or "us") is an
-    educational learning platform that helps learners discover
-    educational resources, take courses, share knowledge and
-    connect with other learners.
-  </p>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="/" aria-label="LearnLoop Rwanda home">
+        <span class="brand-mark">L</span>
+        <span>LearnLoop Rwanda</span>
+      </a>
+      <a class="top-link" href="/">Return to LearnLoop →</a>
+    </div>
+  </header>
 
-  <p>
-    This Privacy Policy explains what information we collect,
-    how we use it, and the choices available to users when
-    using our website.
-  </p>
+  <div class="hero">
+    <div class="hero-inner">
+      <span class="eyebrow">Trust & Transparency</span>
+      <h1>Privacy Policy</h1>
+      <p>
+        Your privacy matters. This policy explains how LearnLoop Rwanda
+        handles information when you use our educational platform,
+        learning resources and community features.
+      </p>
+      <div class="updated">Effective date: 7 November 2026</div>
+    </div>
+  </div>
 
-  <h2>1. Information We Collect</h2>
-  <p>Depending on how you use LearnLoop, we may collect:</p>
-  <ul>
-    <li>Account information, including email address and account credentials.</li>
-    <li>Profile information, such as display name, biography and profile picture.</li>
-    <li>Optional phone number and country calling code.</li>
-    <li>Posts, comments, discussions and private messages you submit.</li>
-    <li>Files, images and other materials you upload.</li>
-    <li>Learning activity, course progress and certificate information.</li>
-    <li>Saved items, preferences and other information stored in your browser.</li>
-  </ul>
+  <div class="page-layout">
 
-  <h2>2. How We Use Information</h2>
-  <p>We use information to:</p>
-  <ul>
-    <li>Create and manage learner accounts.</li>
-    <li>Provide educational resources and learning services.</li>
-    <li>Display profiles and community contributions.</li>
-    <li>Enable messaging and community interactions.</li>
-    <li>Track course progress and issue or verify certificates.</li>
-    <li>Maintain website security and improve LearnLoop.</li>
-    <li>Respond to questions and support requests.</li>
-  </ul>
+    <aside class="contents">
+      <h2>On this page</h2>
+      <nav aria-label="Privacy policy contents">
+        <a href="#introduction">Introduction</a>
+        <a href="#information">Information collected</a>
+        <a href="#use">How information is used</a>
+        <a href="#sharing">Information sharing</a>
+        <a href="#youtube">YouTube services</a>
+        <a href="#public">Public and private information</a>
+        <a href="#storage">Cookies and browser storage</a>
+        <a href="#security">Data security</a>
+        <a href="#retention">Retention and deletion</a>
+        <a href="#rights">Your choices and rights</a>
+        <a href="#children">Children and minors</a>
+        <a href="#international">International processing</a>
+        <a href="#changes">Policy updates</a>
+        <a href="#contact">Contact us</a>
+      </nav>
+    </aside>
 
-  <h2>3. Third-Party Services</h2>
-  <p>
-    LearnLoop uses third-party services to operate its features.
-    These currently include:
-  </p>
-  <ul>
-    <li>
-      <strong>Supabase:</strong> Used for authentication,
-      database services and file storage.
-    </li>
-    <li>
-      <strong>YouTube Data API and YouTube:</strong> Used to
-      search for educational videos and display selected videos
-      through YouTube's embedded player.
-    </li>
-    <li>
-      <strong>Vercel:</strong> Used to host the LearnLoop website.
-    </li>
-  </ul>
-<p>
-  These providers may process information according to their
-  own privacy policies and terms. When you use embedded
-  YouTube content, YouTube may collect information according
-  to Google's privacy practices.
-</p>
+    <main>
 
-<p>
-  Learn more:
-  <a href="https://policies.google.com/privacy"
-     target="_blank" rel="noopener noreferrer">
-    Google Privacy Policy
-  </a>
-  |
-  <a href="https://www.youtube.com/t/terms"
-     target="_blank" rel="noopener noreferrer">
-    YouTube Terms of Service
-  </a>
-</p>
-  <h2>4. Public and Private Information</h2>
-  <p>
-    Information you choose to publish, such as posts, comments
-    and profile details, may be visible to other LearnLoop users
-    or visitors.
-  </p>
-  <p>
-    Private messages are intended for the participants in the
-    conversation. Account information and private contact
-    details are not intended to be displayed publicly.
-  </p>
-  <p>
-    Please avoid sharing sensitive personal information in
-    public posts or discussions.
-  </p>
+      <section id="introduction" style="padding-top:0;margin-top:0;border:0">
+        <h2>1. Introduction</h2>
+        <p>
+          LearnLoop Rwanda ("LearnLoop", "we", "our" or "us") is an
+          educational learning platform designed to help learners,
+          educators and knowledge-sharing communities discover
+          educational resources, take courses and share knowledge.
+        </p>
+        <p>
+          This Privacy Policy describes the types of information that
+          may be collected when you use our website, how that information
+          may be used, and the choices available to you.
+        </p>
+        <p class="intro">
+          By using LearnLoop, you acknowledge that you have had an
+          opportunity to read this policy. Where applicable law requires
+          consent, we will seek it through the appropriate process.
+        </p>
+      </section>
 
-  <h2>5. Browser Storage</h2>
-  <p>
-    LearnLoop uses browser storage, including local storage,
-    to remember certain preferences, saved items and learning
-    progress. You can clear this information through your
-    browser settings, although some features may no longer
-    remember your previous activity.
-  </p>
+      <section id="information">
+        <h2>2. Information We Collect</h2>
+        <p>
+          The information involved depends on the features you choose
+          to use. It may include:
+        </p>
+        <ul>
+          <li><strong>Account information:</strong> email address and information needed to create and manage your account.</li>
+          <li><strong>Profile information:</strong> display name, biography, profile picture and other details you choose to provide.</li>
+          <li><strong>Optional contact information:</strong> phone number and country calling code, where provided.</li>
+          <li><strong>Community content:</strong> posts, comments, discussions, messages and other contributions you submit.</li>
+          <li><strong>Uploaded materials:</strong> documents, images and other files you choose to upload.</li>
+          <li><strong>Learning information:</strong> course progress, completed lessons, quiz results and certificate-related information.</li>
+          <li><strong>Preferences:</strong> saved items, settings and certain information stored in your browser.</li>
+          <li><strong>Technical information:</strong> limited technical information may be processed by the hosting and service providers supporting the website.</li>
+        </ul>
+        <p>
+          Please provide only information that is appropriate and
+          necessary for your use of LearnLoop.
+        </p>
+      </section>
 
-  <h2>6. Data Security</h2>
-  <p>
-    We use third-party infrastructure and reasonable technical
-    measures intended to protect information. However, no
-    online service can guarantee absolute security.
-  </p>
+      <section id="use">
+        <h2>3. How We Use Information</h2>
+        <p>Information may be used for the following purposes:</p>
+        <ul>
+          <li>Creating, authenticating and managing learner accounts.</li>
+          <li>Providing educational resources, courses and learning features.</li>
+          <li>Displaying profiles and community contributions according to their settings.</li>
+          <li>Supporting discussions, messaging and community interactions.</li>
+          <li>Recording learning progress and supporting certificate issuance and verification.</li>
+          <li>Storing and displaying files that users choose to upload.</li>
+          <li>Maintaining platform functionality, safety and security.</li>
+          <li>Responding to questions, requests and support enquiries.</li>
+          <li>Improving the usability and reliability of LearnLoop.</li>
+        </ul>
+      </section>
 
-  <h2>7. Data Retention and Deletion</h2>
-  <p>
-    Information may be retained while an account is active or
-    as needed to provide services, maintain records, resolve
-    disputes and meet applicable obligations.
-  </p>
-  <p>
-    If you want to request access to, correction of, or deletion
-    of your personal information, contact us using the email
-    address below. We will review and respond to requests
-    subject to applicable requirements.
-  </p>
+      <section id="sharing">
+        <h2>4. How Information May Be Shared</h2>
+        <p>
+          LearnLoop does not make every piece of account information
+          public. Information may be processed or shared in limited
+          circumstances, including:
+        </p>
+        <ul>
+          <li><strong>With other users:</strong> content and profile details you choose to make public may be visible to other users and visitors.</li>
+          <li><strong>With service providers:</strong> providers that support hosting, authentication, databases and file storage may process information to provide their services.</li>
+          <li><strong>For safety and legal reasons:</strong> information may be handled where reasonably necessary to address security concerns, enforce platform rules or meet applicable legal obligations.</li>
+        </ul>
+        <p>
+          We do not describe these providers as having permission to use
+          your information for unrelated purposes. Their own terms and
+          privacy policies also apply to services they operate.
+        </p>
+      </section>
 
-  <h2>8. Your Choices</h2>
-  <p>
-    You can choose what information to include in your profile
-    and public contributions. You may also contact us with
-    questions or requests concerning your personal information.
-  </p>
+      <section id="youtube">
+        <h2>5. YouTube API Services and Embedded Content</h2>
+        <p>
+          LearnLoop uses YouTube Data API Services to support the
+          discovery of educational videos and may display selected
+          videos through YouTube's embedded player.
+        </p>
+        <p>
+          When you use YouTube-related features:
+        </p>
+        <ul>
+          <li>Your search terms may be sent to YouTube to retrieve relevant video results.</li>
+          <li>Video information such as titles, thumbnails and other available metadata may be displayed.</li>
+          <li>When you play an embedded video, YouTube may process information through its player and related technologies.</li>
+          <li>Your use of YouTube content is also subject to Google's and YouTube's applicable terms and privacy practices.</li>
+        </ul>
+        <p>
+          LearnLoop does not claim ownership of third-party YouTube
+          videos. We do not intend to download or re-upload YouTube
+          videos as part of the video discovery feature.
+        </p>
+        <div class="notice">
+          <strong>Google and YouTube policies</strong>
+          <p>
+            Learn more about how Google handles information:
+            <a href="https://policies.google.com/privacy"
+               target="_blank" rel="noopener noreferrer">
+              Google Privacy Policy
+            </a>.
+          </p>
+          <p>
+            Review the applicable
+            <a href="https://www.youtube.com/t/terms"
+               target="_blank" rel="noopener noreferrer">
+              YouTube Terms of Service
+            </a>
+            and
+            <a href="https://developers.google.com/youtube/terms/api-services-terms-of-service"
+               target="_blank" rel="noopener noreferrer">
+              YouTube API Services Terms of Service
+            </a>.
+          </p>
+        </div>
+      </section>
 
-  <h2>9. Changes to This Policy</h2>
-  <p>
-    We may update this Privacy Policy as LearnLoop develops.
-    Changes will be published on this page with an updated
-    effective date.
-  </p>
+      <section id="public">
+        <h2>6. Public and Private Information</h2>
+        <p>
+          Some LearnLoop features allow you to share information with
+          other people. Posts, comments, public profile details and
+          other contributions may be visible to users or visitors,
+          depending on the feature and its settings.
+        </p>
+        <p>
+          Private messages are intended for the participants in the
+          conversation. However, users should understand that no
+          online communication system can guarantee absolute
+          confidentiality.
+        </p>
+        <p>
+          Avoid publishing passwords, financial details, private
+          contact information or other sensitive personal information
+          in public areas of the platform.
+        </p>
+      </section>
 
-  <h2>10. Contact Us</h2>
-  <p>
-    For privacy questions, requests or concerns, contact:
-  </p>
-  <p>
-    <strong>LearnLoop Rwanda</strong><br>
-    Email:
-    <a href="mailto:elisemfitumukiza3@gmail.com">
-      elisemfitumukiza3@gmail.com
-    </a>
-  </p>
+      <section id="storage">
+        <h2>7. Cookies and Browser Storage</h2>
+        <p>
+          LearnLoop may use browser storage, including local storage,
+          to remember certain preferences, saved items and learning
+          activity.
+        </p>
+        <p>
+          Your browser may also process cookies or similar technologies
+          used by LearnLoop or third-party services. Embedded YouTube
+          content may use technologies controlled by YouTube.
+        </p>
+        <p>
+          You can manage or clear browser storage and cookies through
+          your browser settings. Doing so may affect features that
+          depend on saved preferences or previous activity.
+        </p>
+      </section>
 
-  <p><a href="/">← Return to LearnLoop</a></p>
-</main>
+      <section id="security">
+        <h2>8. Data Security</h2>
+        <p>
+          LearnLoop uses third-party infrastructure and reasonable
+          technical measures intended to protect information handled
+          through the platform.
+        </p>
+        <p>
+          No website, storage system or method of transmitting
+          information over the internet can guarantee complete
+          security. Users should protect their account credentials
+          and avoid sharing passwords with others.
+        </p>
+      </section>
+
+      <section id="retention">
+        <h2>9. Data Retention and Deletion</h2>
+        <p>
+          Information may be retained for as long as needed to provide
+          the relevant features, maintain account and learning records,
+          address support requests, protect platform security or meet
+          applicable obligations.
+        </p>
+        <p>
+          If you want to request access to, correction of or deletion
+          of personal information associated with your LearnLoop
+          account, contact us using the email address in the
+          <a href="#contact">Contact Us</a> section.
+        </p>
+        <p>
+          Please use the email address associated with your account
+          where possible and explain what information or account
+          you are referring to. We may need to verify a request
+          before acting on it.
+        </p>
+        <p>
+          We will review requests and explain if any information
+          must be retained for a legitimate or applicable legal
+          reason.
+        </p>
+      </section>
+
+      <section id="rights">
+        <h2>10. Your Choices and Privacy Rights</h2>
+        <p>
+          Depending on applicable law and the circumstances, you may
+          have rights to request access to, correction of or deletion
+          of personal information, or to raise concerns about how it
+          is handled.
+        </p>
+        <p>
+          You can also make choices about the profile information
+          and content you submit to LearnLoop. Contact us if you
+          need help with a privacy-related request.
+        </p>
+      </section>
+
+      <section id="children">
+        <h2>11. Children and Minors</h2>
+        <p>
+          LearnLoop is an educational platform intended for learners
+          and educational communities. Children and young people
+          should use online services with appropriate guidance from
+          a parent or legal guardian where required.
+        </p>
+        <p>
+          We do not intend this policy to replace any consent or
+          protection required by applicable law. A parent or legal
+          guardian who has a concern about a child's information
+          may contact us using the details below.
+        </p>
+      </section>
+
+      <section id="international">
+        <h2>12. Third-Party Providers and International Processing</h2>
+        <p>
+          LearnLoop currently uses the following services to support
+          website operations:
+        </p>
+        <ul>
+          <li><strong>Supabase:</strong> authentication, database services and file storage.</li>
+          <li><strong>Vercel:</strong> website hosting and deployment infrastructure.</li>
+          <li><strong>YouTube and Google:</strong> educational video search and embedded video playback.</li>
+        </ul>
+        <p>
+          These providers operate under their own service terms and
+          privacy policies. Depending on their infrastructure and
+          operations, information may be processed in locations
+          outside the country where you access LearnLoop.
+        </p>
+      </section>
+
+      <section id="changes">
+        <h2>13. Changes to This Privacy Policy</h2>
+        <p>
+          LearnLoop may update this Privacy Policy as the platform,
+          its features or applicable requirements develop.
+        </p>
+        <p>
+          The latest version will be published on this page. The
+          effective date at the top will be updated when material
+          changes are made. We encourage users to review this page
+          periodically.
+        </p>
+      </section>
+
+      <section id="contact">
+        <h2>14. Contact Us</h2>
+        <p>
+          If you have a question, privacy concern, or request
+          concerning personal information handled through LearnLoop,
+          contact us:
+        </p>
+
+        <div class="contact-card">
+          <p><strong>LearnLoop Rwanda</strong></p>
+          <p>Privacy enquiries and data requests</p>
+          <p>
+            Email:
+            <a href="mailto:elisemfitumukiza3@gmail.com">
+              elisemfitumukiza3@gmail.com
+            </a>
+          </p>
+          <p>
+            Website:
+            <a href="https://elise-neon.vercel.app/">
+              https://elise-neon.vercel.app/
+            </a>
+          </p>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="/">Home</a>
+      <a href="/about.html">About LearnLoop</a>
+      <a href="/terms.html">Terms of Service</a>
+    </div>
+    <p>© 2026 LearnLoop Rwanda. Learn • Share • Grow.</p>
+  </footer>
+
 </body>
 </html>
