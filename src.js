@@ -4543,18 +4543,23 @@ let youtubePlaylist = [];
 let youtubeCurrentIndex = -1;
 let youtubePlayerInstance = null;
 let youtubeIframeApiPromise = null;
+let youtubeNextPageToken = "";
+let youtubeHasMore = false;
+let youtubeLoadingMore = false;
+let youtubeCurrentQuery = "";
+let youtubeRequestId = 0;
+let youtubePageObserver = null;
 
 function loadYouTubeIframeAPI() {
-  if (window.YT?.Player) {
-    return Promise.resolve(window.YT);
-  }
+  if (window.YT?.Player) return Promise.resolve(window.YT);
 
-  if (youtubeIframeApiPromise) {
-    return youtubeIframeApiPromise;
-  }
+  if (youtubeIframeApiPromise) return youtubeIframeApiPromise;
 
   youtubeIframeApiPromise = new Promise((resolve, reject) => {
+    const previousReady = window.onYouTubeIframeAPIReady;
+
     window.onYouTubeIframeAPIReady = () => {
+      if (typeof previousReady === "function") previousReady();
       resolve(window.YT);
     };
 
@@ -4565,7 +4570,10 @@ function loadYouTubeIframeAPI() {
     if (!script) {
       script = document.createElement("script");
       script.src = "https://www.youtube.com/iframe_api";
-      script.onerror = reject;
+      script.onerror = () => {
+        youtubeIframeApiPromise = null;
+        reject(new Error("YouTube player API could not load."));
+      };
       document.head.appendChild(script);
     }
   });
@@ -4573,40 +4581,49 @@ function loadYouTubeIframeAPI() {
   return youtubeIframeApiPromise;
 }
 
-/* Load the player API before a learner selects a video */
-loadYouTubeIframeAPI().catch(error => {
-  console.warn("YouTube player API could not load:", error);
-});
+function prepareYouTubePlayerHost() {
+  let host = document.getElementById("youtubePlayer");
+  if (!host) return null;
 
-/* Play a selected video and automatically continue the playlist */
+  // Support both the old iframe and the newer div placeholder.
+  if (host.tagName === "IFRAME") {
+    const replacement = document.createElement("div");
+    replacement.id = "youtubePlayer";
+    host.replaceWith(replacement);
+    host = replacement;
+  }
+
+  return host;
+}
+
 function playYouTubePlaylistItem(index) {
   if (index < 0 || index >= youtubePlaylist.length) return;
 
   const panel = document.getElementById("youtubePlayerPanel");
   const playerTitle = document.getElementById("youtubePlayerTitle");
+  const video = youtubePlaylist[index];
+  const videoId = video?.id?.videoId;
 
-  if (!panel || !playerTitle) return;
+  if (!panel || !playerTitle || !videoId) return;
 
   youtubeCurrentIndex = index;
-
-  const video = youtubePlaylist[index];
-  const videoId = video.id.videoId;
-
   playerTitle.textContent = video.snippet.title;
   panel.classList.remove("hidden");
 
   loadYouTubeIframeAPI().then(YT => {
-    if (!youtubePlayerInstance) {
-      youtubePlayerInstance = new YT.Player("youtubePlayer", {
-        videoId,
+    const host = prepareYouTubePlayerHost();
+    if (!host) return;
 
+    if (!youtubePlayerInstance) {
+      youtubePlayerInstance = new YT.Player(host, {
+        videoId,
         playerVars: {
           autoplay: 1,
           playsinline: 1,
           rel: 0,
-          controls: 1
+          controls: 1,
+          origin: window.location.origin
         },
-
         events: {
           onReady(event) {
             event.target.unMute();
@@ -4615,12 +4632,18 @@ function playYouTubePlaylistItem(index) {
           },
 
           onStateChange(event) {
-            if (event.data === YT.PlayerState.ENDED) {
-              const nextIndex = youtubeCurrentIndex + 1;
+            if (event.data !== YT.PlayerState.ENDED) return;
 
-              if (nextIndex < youtubePlaylist.length) {
-                playYouTubePlaylistItem(nextIndex);
-              }
+            const nextIndex = youtubeCurrentIndex + 1;
+
+            if (nextIndex < youtubePlaylist.length) {
+              playYouTubePlaylistItem(nextIndex);
+            } else if (youtubeHasMore && !youtubeLoadingMore) {
+              loadNextYouTubePage().then(() => {
+                if (nextIndex < youtubePlaylist.length) {
+                  playYouTubePlaylistItem(nextIndex);
+                }
+              });
             }
           }
         }
@@ -4629,15 +4652,180 @@ function playYouTubePlaylistItem(index) {
       youtubePlayerInstance.loadVideoById(videoId);
       youtubePlayerInstance.unMute();
       youtubePlayerInstance.setVolume(100);
+      youtubePlayerInstance.playVideo();
     }
   }).catch(error => {
     console.error("YouTube playback error:", error);
+    const status = document.getElementById("youtubeStatus");
+    if (status) status.textContent = "The video player could not start. Please try again.";
+  });
+}
+
+function renderYouTubeVideoCard(video, index) {
+  const title = video.snippet?.title || "Educational video";
+  const channel = video.snippet?.channelTitle || "YouTube";
+  const thumbnail =
+    video.snippet?.thumbnails?.medium?.url ||
+    video.snippet?.thumbnails?.high?.url ||
+    video.snippet?.thumbnails?.default?.url || "";
+
+  const card = document.createElement("article");
+  card.className = "youtube-card";
+  card.tabIndex = 0;
+  card.setAttribute("role", "button");
+  card.setAttribute("aria-label", `Play ${title}`);
+
+  const image = document.createElement("img");
+  image.src = thumbnail;
+  image.alt = `Thumbnail for ${title}`;
+  image.loading = "lazy";
+
+  const details = document.createElement("div");
+  details.className = "youtube-card-details";
+
+  const heading = document.createElement("h3");
+  heading.textContent = title;
+
+  const channelText = document.createElement("p");
+  channelText.textContent = channel;
+
+  details.append(heading, channelText);
+  card.append(image, details);
+
+  const play = () => playYouTubePlaylistItem(index);
+
+  card.addEventListener("click", play);
+  card.addEventListener("keydown", event => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      play();
+    }
   });
 
-  panel.scrollIntoView({
-    behavior: "smooth",
-    block: "start"
+  return card;
+}
+
+function renderYouTubeVideos(videos, startIndex) {
+  const results = document.getElementById("youtubeResults");
+  if (!results) return;
+
+  videos.forEach((video, offset) => {
+    results.append(
+      renderYouTubeVideoCard(video, startIndex + offset)
+    );
   });
+}
+
+function setupYouTubePagination() {
+  const results = document.getElementById("youtubeResults");
+  if (!results) return;
+
+  if (youtubePageObserver) youtubePageObserver.disconnect();
+
+  let sentinel = document.getElementById("youtubeLoadMoreSentinel");
+
+  if (!sentinel) {
+    sentinel = document.createElement("div");
+    sentinel.id = "youtubeLoadMoreSentinel";
+    sentinel.className = "youtube-load-more";
+    sentinel.textContent = "Scroll for more videos";
+    results.append(sentinel);
+  } else {
+    results.append(sentinel);
+  }
+
+  if (!("IntersectionObserver" in window)) return;
+
+  youtubePageObserver = new IntersectionObserver(entries => {
+    if (entries.some(entry => entry.isIntersecting)) {
+      loadNextYouTubePage();
+    }
+  }, {
+    root: null,
+    rootMargin: "700px 0px",
+    threshold: 0
+  });
+
+  youtubePageObserver.observe(sentinel);
+}
+
+async function loadNextYouTubePage() {
+  const results = document.getElementById("youtubeResults");
+  const status = document.getElementById("youtubeStatus");
+  const apiKey = import.meta.env.VITE_YOUTUBE_API_KEY;
+
+  if (
+    !results ||
+    !apiKey ||
+    youtubeLoadingMore ||
+    !youtubeHasMore ||
+    !youtubeNextPageToken
+  ) return;
+
+  youtubeLoadingMore = true;
+  const requestId = youtubeRequestId;
+  const sentinel = document.getElementById("youtubeLoadMoreSentinel");
+
+  if (sentinel) sentinel.textContent = "Loading more videos…";
+
+  try {
+    const params = new URLSearchParams({
+      part: "snippet",
+      type: "video",
+      videoEmbeddable: "true",
+      safeSearch: "strict",
+      maxResults: "50",
+      q: youtubeCurrentQuery,
+      pageToken: youtubeNextPageToken,
+      key: apiKey
+    });
+
+    const response = await fetch(
+      `https://www.googleapis.com/youtube/v3/search?${params}`
+    );
+    const data = await response.json();
+
+    if (requestId !== youtubeRequestId) return;
+
+    if (!response.ok) {
+      youtubeHasMore = false;
+      if (status) {
+        status.textContent =
+          data.error?.message || "Could not load more videos.";
+      }
+      if (sentinel) sentinel.textContent = "No more videos could be loaded.";
+      return;
+    }
+
+    const videos = (data.items || []).filter(
+      video => video.id?.videoId && video.snippet
+    );
+
+    const startIndex = youtubePlaylist.length;
+    youtubePlaylist.push(...videos);
+    youtubeNextPageToken = data.nextPageToken || "";
+    youtubeHasMore = Boolean(youtubeNextPageToken);
+
+    if (videos.length) {
+      renderYouTubeVideos(videos, startIndex);
+    }
+
+    if (status) {
+      status.textContent = `${youtubePlaylist.length} videos loaded. Keep scrolling to discover more.`;
+    }
+
+    if (sentinel) {
+      sentinel.textContent = youtubeHasMore
+        ? "Scroll for more videos"
+        : "You've reached the end of these results.";
+    }
+  } catch (error) {
+    console.error("YouTube pagination error:", error);
+    if (status) status.textContent = "Could not load more videos. Please try again.";
+    if (sentinel) sentinel.textContent = "More videos could not be loaded.";
+  } finally {
+    youtubeLoadingMore = false;
+  }
 }
 
 async function searchYouTubeVideos() {
@@ -4661,10 +4849,22 @@ async function searchYouTubeVideos() {
     return;
   }
 
-  status.textContent = "Searching for educational videos...";
-  results.replaceChildren();
+  youtubeRequestId++;
+  youtubeCurrentQuery = query;
   youtubePlaylist = [];
   youtubeCurrentIndex = -1;
+  youtubeNextPageToken = "";
+  youtubeHasMore = false;
+  youtubeLoadingMore = false;
+
+  if (youtubePageObserver) youtubePageObserver.disconnect();
+
+  if (youtubePlayerInstance?.pauseVideo) {
+    youtubePlayerInstance.pauseVideo();
+  }
+
+  results.replaceChildren();
+  status.textContent = "Loading educational videos…";
 
   try {
     const params = new URLSearchParams({
@@ -4672,16 +4872,18 @@ async function searchYouTubeVideos() {
       type: "video",
       videoEmbeddable: "true",
       safeSearch: "strict",
-      maxResults: "12",
+      maxResults: "50",
       q: query,
       key: apiKey
     });
 
+    const requestId = youtubeRequestId;
     const response = await fetch(
       `https://www.googleapis.com/youtube/v3/search?${params}`
     );
-
     const data = await response.json();
+
+    if (requestId !== youtubeRequestId) return;
 
     if (!response.ok) {
       status.textContent =
@@ -4699,49 +4901,21 @@ async function searchYouTubeVideos() {
     }
 
     youtubePlaylist = videos;
+    youtubeNextPageToken = data.nextPageToken || "";
+    youtubeHasMore = Boolean(youtubeNextPageToken);
 
-    videos.forEach((video, index) => {
-      const title = video.snippet.title;
-      const channel = video.snippet.channelTitle;
-
-      const thumbnail =
-        video.snippet.thumbnails?.medium?.url ||
-        video.snippet.thumbnails?.default?.url || "";
-
-      const card = document.createElement("article");
-      card.className = "youtube-card";
-
-      const image = document.createElement("img");
-      image.src = thumbnail;
-      image.alt = `Thumbnail for ${title}`;
-      image.loading = "lazy";
-
-      const heading = document.createElement("h3");
-      heading.textContent = title;
-
-      const channelText = document.createElement("p");
-      channelText.textContent = channel;
-
-      card.append(image, heading, channelText);
-      card.style.cursor = "pointer";
-
-      card.addEventListener("click", () => {
-        playYouTubePlaylistItem(index);
-      });
-
-      results.append(card);
-    });
+    renderYouTubeVideos(videos, 0);
+    setupYouTubePagination();
 
     status.textContent =
-      `Found ${videos.length} videos. Choose a lesson to watch.`;
-
+      `${videos.length} videos loaded. Scroll down to discover more.`;
   } catch (error) {
     console.error("LearnLoop YouTube search error:", error);
-
-    status.textContent =
-      `Could not load videos: ${error.message}.`;
+    status.textContent = `Could not load videos: ${error.message}`;
   }
 }
+
+
 
 /* ---------- Event wiring ---------- */
 
