@@ -8582,3 +8582,30 @@ body.dark-mode #libraryView .library-welcome a {
 body.dark-mode #libraryView .library-welcome button {
   color: #ffffff !important;
 }
+
+/* FINAL FIX — LIBRARY WELCOME CARD */
+body.dark-mode #libraryView section.library-welcome {
+  background-color: #1f2937 !important;
+  background-image: none !important;
+  color: #f9fafb !important;
+  border: 1px solid #374151 !important;
+  box-shadow: none !important;
+}
+
+body.dark-mode #libraryView section.library-welcome h1,
+body.dark-mode #libraryView section.library-welcome p,
+body.dark-mode #libraryView section.library-welcome span {
+  color: #f9fafb !important;
+}
+
+body.dark-mode #libraryView section.library-welcome input {
+  background: #111827 !important;
+  color: #ffffff !important;
+  border-color: #4b5563 !important;
+}
+
+body.dark-mode #libraryView section.library-welcome .library-search button {
+  background: #2563eb !important;
+  color: #ffffff !important;
+  border-color: #2563eb !important;
+}
