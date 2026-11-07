@@ -8864,3 +8864,210 @@ body.dark-mode #libraryView .library-welcome input::placeholder {
     overflow: visible;
   }
 }
+
+/* LEARNLOOP YOUTUBE — NATURAL FULL-PAGE LAYOUT */
+
+#youtubeCatalog {
+  width: 100%;
+  min-width: 0;
+  height: auto;
+  overflow: visible;
+}
+
+#youtubeWatchLayout {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  align-items: start;
+  gap: 22px;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+#youtubeCatalog #youtubeResults {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  align-items: start;
+  gap: 22px 16px;
+  width: 100%;
+  min-width: 0;
+  height: auto;
+  max-height: none;
+  overflow: visible;
+}
+
+#youtubeCatalog .youtube-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  width: 100%;
+  min-width: 0;
+  height: auto;
+  padding: 0;
+  overflow: visible;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  cursor: pointer;
+}
+
+#youtubeCatalog .youtube-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.youtube-card-details {
+  min-width: 0;
+  padding: 11px 12px;
+}
+
+#youtubeCatalog .youtube-card h3 {
+  margin: 0 0 7px;
+  font-size: 14px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+#youtubeCatalog .youtube-card p {
+  margin: 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+#youtubeCatalog .youtube-card:hover {
+  border-color: var(--green);
+}
+
+/* WATCH MODE: player left, playlist right */
+@media (min-width: 901px) {
+  #youtubeWatchLayout.youtube-watch-active {
+    grid-template-columns: minmax(0, 1.65fr) minmax(300px, 1fr);
+    gap: 24px;
+  }
+
+  #youtubeWatchLayout.youtube-watch-active #youtubePlayerPanel {
+    grid-column: 1;
+    grid-row: 1;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    align-self: start;
+  }
+
+  #youtubeWatchLayout.youtube-watch-active #youtubeResults {
+    grid-column: 2;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+    width: 100%;
+    min-width: 0;
+    height: auto;
+    max-height: none;
+    overflow: visible;
+  }
+
+  #youtubeWatchLayout.youtube-watch-active .youtube-card {
+    display: grid;
+    grid-template-columns: minmax(110px, 40%) minmax(0, 1fr);
+    align-items: start;
+    gap: 0 12px;
+    padding: 8px;
+  }
+
+  #youtubeWatchLayout.youtube-watch-active .youtube-card img {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: start;
+  }
+
+  #youtubeWatchLayout.youtube-watch-active .youtube-card-details {
+    grid-column: 2;
+    grid-row: 1;
+    padding: 2px 0;
+  }
+
+  #youtubeWatchLayout.youtube-watch-active .youtube-card h3 {
+    font-size: 13px;
+  }
+
+  #youtubeWatchLayout.youtube-watch-active .youtube-card p {
+    font-size: 12px;
+  }
+}
+
+/* Player sizing */
+#youtubePlayerPanel {
+  min-width: 0;
+  width: 100%;
+  margin: 0;
+}
+
+.youtube-player {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.youtube-player iframe,
+.youtube-player #youtubePlayer {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* Load-more marker */
+.youtube-load-more {
+  grid-column: 1 / -1;
+  width: 100%;
+  padding: 20px;
+  text-align: center;
+  color: var(--muted);
+}
+
+/* Smaller screens: player first, playlist underneath */
+@media (max-width: 900px) {
+  #youtubeWatchLayout,
+  #youtubeWatchLayout.youtube-watch-active {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+
+  #youtubeWatchLayout.youtube-watch-active #youtubePlayerPanel {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  #youtubeWatchLayout.youtube-watch-active #youtubeResults {
+    grid-column: 1;
+    grid-row: 2;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    max-height: none;
+    overflow: visible;
+  }
+
+  #youtubeWatchLayout.youtube-watch-active .youtube-card {
+    display: grid;
+    grid-template-columns: minmax(110px, 38%) minmax(0, 1fr);
+    gap: 0 12px;
+  }
+}
+
+@media (max-width: 520px) {
+  #youtubeCatalog #youtubeResults {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  #youtubeWatchLayout.youtube-watch-active .youtube-card {
+    grid-template-columns: minmax(100px, 38%) minmax(0, 1fr);
+  }
+}
