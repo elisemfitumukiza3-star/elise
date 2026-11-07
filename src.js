@@ -1453,14 +1453,6 @@ if (view === "committeeDuty") {
   await loadPeople();
 }
 
-  $$("[data-view]").forEach(button => {
-    button.classList.toggle("active", button.dataset.view === view);
-    button.setAttribute(
-      "aria-current",
-      button.dataset.view === view ? "page" : "false"
-    );
-  });
-
   const info = VIEW_INFO[view];
   if ($("#topbarTitle")) $("#topbarTitle").textContent = info[0];
   if ($("#topbarSubtitle")) $("#topbarSubtitle").textContent = info[1];
