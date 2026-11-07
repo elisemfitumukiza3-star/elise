@@ -9979,6 +9979,7 @@ function bindEvents() {
     });
   }
   // LearnLoop YouTube search and subject buttons
+   
   const youtubeForm = document.querySelector("#youtubeSearchForm");
   const youtubeButton = document.querySelector("#youtubeSearchButton");
   const youtubeInput = document.querySelector("#youtubeSearchInput");
