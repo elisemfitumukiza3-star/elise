@@ -4552,6 +4552,9 @@ function openProfile() {
 let youtubePlaylist = [];
 let youtubeCurrentIndex = -1;
 let youtubePlayerInstance = null;
+let youtubePlayerInitializing = false;
+let youtubePendingVideoId = "";
+let youtubePlayerReady = false;
 let youtubeIframeApiPromise = null;
 let youtubeNextPageToken = "";
 let youtubeHasMore = false;
@@ -4611,66 +4614,103 @@ function playYouTubePlaylistItem(index) {
 
   const panel = document.getElementById("youtubePlayerPanel");
   const playerTitle = document.getElementById("youtubePlayerTitle");
+
   const video = youtubePlaylist[index];
   const videoId = video?.id?.videoId;
 
   if (!panel || !playerTitle || !videoId) return;
 
   youtubeCurrentIndex = index;
+  youtubePendingVideoId = videoId;
   playerTitle.textContent = video.snippet.title;
+
   panel.classList.remove("hidden");
-document.getElementById("youtubeWatchLayout")
-  ?.classList.add("youtube-watch-active");
+  document.getElementById("youtubeWatchLayout")
+    ?.classList.add("youtube-watch-active");
+
+  // Start loading the video immediately from the learner's click.
+  let iframe = document.getElementById("youtubePlayer");
+
+  if (!iframe) return;
+
+  if (youtubePlayerInstance && youtubePlayerReady) {
+    youtubePlayerInstance.loadVideoById(videoId);
+    youtubePlayerInstance.unMute();
+    youtubePlayerInstance.setVolume(100);
+    youtubePlayerInstance.playVideo();
+    return;
+  }
+
+  if (iframe.tagName !== "IFRAME") {
+    const newIframe = document.createElement("iframe");
+    newIframe.id = "youtubePlayer";
+    newIframe.title = "LearnLoop educational video";
+    newIframe.allow =
+      "autoplay; encrypted-media; picture-in-picture; web-share";
+    newIframe.allowFullscreen = true;
+    newIframe.referrerPolicy = "strict-origin-when-cross-origin";
+    iframe.replaceWith(newIframe);
+    iframe = newIframe;
+  }
+
+  iframe.src =
+    `https://www.youtube.com/embed/${encodeURIComponent(videoId)}` +
+    `?autoplay=1&enablejsapi=1&playsinline=1&rel=0` +
+    `&origin=${encodeURIComponent(window.location.origin)}`;
+
+  // Wait for the API to control the player and playlist.
+  if (youtubePlayerInitializing) return;
+
+  youtubePlayerInitializing = true;
+
   loadYouTubeIframeAPI().then(YT => {
-    const host = prepareYouTubePlayerHost();
-    if (!host) return;
+    const currentIframe = document.getElementById("youtubePlayer");
 
-    if (!youtubePlayerInstance) {
-      youtubePlayerInstance = new YT.Player(host, {
-        videoId,
-        playerVars: {
-          autoplay: 1,
-          playsinline: 1,
-          rel: 0,
-          controls: 1,
-          origin: window.location.origin
+    if (!currentIframe) {
+      youtubePlayerInitializing = false;
+      return;
+    }
+
+    youtubePlayerInstance = new YT.Player(currentIframe, {
+      events: {
+        onReady(event) {
+          youtubePlayerInitializing = false;
+          youtubePlayerReady = true;
+
+          event.target.unMute();
+          event.target.setVolume(100);
+          event.target.playVideo();
         },
-        events: {
-          onReady(event) {
-            event.target.unMute();
-            event.target.setVolume(100);
-            event.target.playVideo();
-          },
 
-          onStateChange(event) {
-            if (event.data !== YT.PlayerState.ENDED) return;
+        onStateChange(event) {
+          if (event.data !== YT.PlayerState.ENDED) return;
 
-            const nextIndex = youtubeCurrentIndex + 1;
+          const nextIndex = youtubeCurrentIndex + 1;
 
-            if (nextIndex < youtubePlaylist.length) {
-              playYouTubePlaylistItem(nextIndex);
-            } else if (youtubeHasMore && !youtubeLoadingMore) {
-              loadNextYouTubePage().then(() => {
-                if (nextIndex < youtubePlaylist.length) {
-                  playYouTubePlaylistItem(nextIndex);
-                }
-              });
-            }
+          if (nextIndex < youtubePlaylist.length) {
+            playYouTubePlaylistItem(nextIndex);
+          } else if (youtubeHasMore && !youtubeLoadingMore) {
+            loadNextYouTubePage().then(() => {
+              if (nextIndex < youtubePlaylist.length) {
+                playYouTubePlaylistItem(nextIndex);
+              }
+            });
           }
         }
-      });
-    } else {
-      youtubePlayerInstance.loadVideoById(videoId);
-      youtubePlayerInstance.unMute();
-      youtubePlayerInstance.setVolume(100);
-      youtubePlayerInstance.playVideo();
-    }
+      }
+    });
   }).catch(error => {
-    console.error("YouTube playback error:", error);
+    youtubePlayerInitializing = false;
+    console.error("YouTube player error:", error);
+
     const status = document.getElementById("youtubeStatus");
-    if (status) status.textContent = "The video player could not start. Please try again.";
+    if (status) {
+      status.textContent =
+        "The video could not load. Please try again.";
+    }
   });
 }
+
 
 function renderYouTubeVideoCard(video, index) {
   const title = video.snippet?.title || "Educational video";
