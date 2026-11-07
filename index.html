@@ -130,7 +130,34 @@ the world, everyone has something to learn and something valuable to share.
       </p>
       <a href="/about.html">Learn more about LearnLoop →</a>
     </section>
+ <section id="certificateVerificationSection" class="card">
+  <h2>Verify a LearnLoop Certificate</h2>
+  <p>
+    Enter the certificate number to check whether it was officially
+    issued by LearnLoop.
+  </p>
 
+  <form id="certificateVerificationForm">
+    <label for="certificateVerificationNumber">
+      Certificate number
+    </label>
+    <input
+      id="certificateVerificationNumber"
+      type="text"
+      placeholder="Example: LL-ABC123"
+      maxlength="100"
+      required
+    />
+
+    <button type="submit">Verify Certificate</button>
+  </form>
+
+  <div
+    id="certificateVerificationResult"
+    role="status"
+    aria-live="polite"
+  ></div>
+</section>
     <footer class="public-welcome-footer">
       LearnLoop Rwanda · LEARN · SHARE · GROW
     </footer>
