@@ -9133,3 +9133,7 @@ body.dark-mode #libraryView .library-welcome input::placeholder {
     width: min(300px, calc(100vw - 24px)) !important;
   }
 }
+/* Keep the authenticated app hidden until a user signs in. */
+.app-shell.hidden {
+  display: none !important;
+}
