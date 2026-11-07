@@ -4908,21 +4908,20 @@ async function searchYouTubeVideos() {
   }
 
   youtubeRequestId++;
+  const requestId = youtubeRequestId;
+
   youtubeCurrentQuery = query;
-  youtubePlaylist = [];
-  youtubeCurrentIndex = -1;
   youtubeNextPageToken = "";
   youtubeHasMore = false;
   youtubeLoadingMore = false;
 
-  if (youtubePageObserver) youtubePageObserver.disconnect();
-
-  if (youtubePlayerInstance?.pauseVideo) {
-    youtubePlayerInstance.pauseVideo();
+  if (youtubePageObserver) {
+    youtubePageObserver.disconnect();
   }
 
+  // Keep the currently playing video running.
   results.replaceChildren();
-  status.textContent = "Loading educational videos…";
+  status.textContent = "Searching for educational videos…";
 
   try {
     const params = new URLSearchParams({
@@ -4935,10 +4934,10 @@ async function searchYouTubeVideos() {
       key: apiKey
     });
 
-    const requestId = youtubeRequestId;
     const response = await fetch(
       `https://www.googleapis.com/youtube/v3/search?${params}`
     );
+
     const data = await response.json();
 
     if (requestId !== youtubeRequestId) return;
@@ -4958,7 +4957,10 @@ async function searchYouTubeVideos() {
       return;
     }
 
+    // Replace the queue only after new results arrive.
     youtubePlaylist = videos;
+    youtubeCurrentIndex = -1;
+
     youtubeNextPageToken = data.nextPageToken || "";
     youtubeHasMore = Boolean(youtubeNextPageToken);
 
@@ -4966,14 +4968,14 @@ async function searchYouTubeVideos() {
     setupYouTubePagination();
 
     status.textContent =
-      `${videos.length} videos loaded. Scroll down to discover more.`;
+      `${videos.length} videos found. Scroll to explore more.`;
+
   } catch (error) {
     console.error("LearnLoop YouTube search error:", error);
-    status.textContent = `Could not load videos: ${error.message}`;
+    status.textContent =
+      `Could not load videos: ${error.message}`;
   }
 }
-
-
 
 /* ---------- Event wiring ---------- */
 
