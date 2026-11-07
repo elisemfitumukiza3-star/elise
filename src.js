@@ -4624,10 +4624,16 @@ function playYouTubePlaylistItem(index) {
   youtubePendingVideoId = videoId;
   playerTitle.textContent = video.snippet.title;
 
-  panel.classList.remove("hidden");
-  document.getElementById("youtubeWatchLayout")
-    ?.classList.add("youtube-watch-active");
+panel.classList.remove("hidden");
 
+const watchLayout = document.getElementById("youtubeWatchLayout");
+
+if (watchLayout) {
+  watchLayout.classList.toggle(
+    "youtube-watch-active",
+    !panel.classList.contains("youtube-mini-player")
+  );
+}
   // Start loading the video immediately from the learner's click.
   let iframe = document.getElementById("youtubePlayer");
 
