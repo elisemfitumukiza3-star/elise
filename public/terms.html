@@ -4,223 +4,520 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="LearnLoop Rwanda Terms of Service explain the rules for using our educational platform.">
+  <meta name="theme-color" content="#075c43">
+  <meta name="description" content="Read the LearnLoop Rwanda Terms of Service, including account responsibilities, community guidelines, educational content and YouTube services.">
   <title>Terms of Service | LearnLoop Rwanda</title>
+
   <style>
     * { box-sizing: border-box; }
+
+    :root {
+      --green: #075c43;
+      --green-dark: #064632;
+      --green-light: #eaf5ef;
+      --ink: #1c3028;
+      --muted: #65756d;
+      --line: #e4ece7;
+      --background: #f4f8f5;
+    }
+
     body {
       margin: 0;
-      padding: 30px 16px;
-      font-family: Arial, sans-serif;
-      line-height: 1.7;
-      color: #17251f;
-      background: #f5f8f5;
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      line-height: 1.75;
+      color: var(--ink);
+      background: var(--background);
     }
-    main {
-      max-width: 850px;
-      margin: 25px auto;
-      padding: 35px;
+
+    a {
+      color: var(--green);
+      text-decoration: none;
+    }
+
+    a:hover { text-decoration: underline; }
+
+    .topbar {
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .topbar-inner {
+      max-width: 1120px;
+      margin: auto;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      color: var(--green-dark);
+      font-weight: 800;
+      font-size: 1.05rem;
+    }
+
+    .brand img {
+      width: 43px;
+      height: 43px;
+      object-fit: contain;
+      border-radius: 11px;
+    }
+
+    .top-links {
+      display: flex;
+      gap: 22px;
+      flex-wrap: wrap;
+      font-size: .92rem;
+      font-weight: 600;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #064632, #087b57);
+      color: white;
+      padding: 58px 20px 65px;
+      text-align: center;
+    }
+
+    .hero-inner {
+      max-width: 760px;
+      margin: auto;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 7px 13px;
+      border: 1px solid rgba(255,255,255,.28);
+      border-radius: 30px;
+      color: #e1f5e9;
+      font-size: .76rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+    }
+
+    .hero h1 {
+      margin: 18px 0 10px;
+      font-size: clamp(2rem, 5vw, 3.15rem);
+      line-height: 1.15;
+      letter-spacing: -.8px;
+    }
+
+    .hero p {
+      max-width: 620px;
+      margin: 0 auto;
+      color: #e3f1e9;
+      font-size: 1.03rem;
+    }
+
+    .effective {
+      margin-top: 20px;
+      color: #d0e8da;
+      font-size: .9rem;
+    }
+
+    .page-layout {
+      max-width: 1120px;
+      margin: 38px auto 65px;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: 245px minmax(0, 1fr);
+      gap: 28px;
+      align-items: start;
+    }
+
+    .contents {
+      position: sticky;
+      top: 22px;
+      padding: 23px;
       background: white;
-      border: 1px solid #e4ebe5;
-      border-radius: 18px;
-      box-shadow: 0 8px 28px rgba(25,65,45,.06);
+      border: 1px solid var(--line);
+      border-radius: 15px;
     }
-    h1, h2 { color: #075c43; }
-    h1 { font-size: 2rem; }
-    h2 { margin-top: 28px; font-size: 1.2rem; }
-    a { color: #087f5b; }
-    .brand { font-weight: bold; color: #087f5b; }
-    @media(max-width:600px) {
-      main { padding: 22px; }
+
+    .contents h2 {
+      margin: 0 0 14px;
+      color: var(--green-dark);
+      font-size: .95rem;
+    }
+
+    .contents a {
+      display: block;
+      padding: 7px 0;
+      color: var(--muted);
+      font-size: .87rem;
+    }
+
+    .contents a:hover { color: var(--green); }
+
+    .policy {
+      min-width: 0;
+      padding: 38px 42px;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      box-shadow: 0 12px 35px rgba(20,60,40,.045);
+    }
+
+    .policy section {
+      padding: 0 0 25px;
+      margin-bottom: 26px;
+      border-bottom: 1px solid var(--line);
+      scroll-margin-top: 25px;
+    }
+
+    .policy section:last-child {
+      border-bottom: 0;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .policy h2 {
+      margin: 0 0 12px;
+      color: var(--green-dark);
+      font-size: 1.23rem;
+      line-height: 1.4;
+    }
+
+    .policy p { margin: 9px 0; }
+
+    .policy ul {
+      padding-left: 23px;
+      margin: 12px 0;
+    }
+
+    .policy li { margin: 7px 0; }
+
+    .note {
+      margin: 20px 0;
+      padding: 16px 18px;
+      background: var(--green-light);
+      border-left: 4px solid var(--green);
+      border-radius: 8px;
+    }
+
+    .site-footer {
+      padding: 28px 20px;
+      background: #063d2d;
+      color: #d9e9df;
+      text-align: center;
+      font-size: .9rem;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 22px;
+      margin-bottom: 12px;
+    }
+
+    .site-footer a { color: white; }
+
+    @media (max-width: 760px) {
+      .topbar-inner {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .top-links { gap: 15px; }
+
+      .hero { padding: 44px 20px; }
+
+      .page-layout {
+        grid-template-columns: 1fr;
+        margin-top: 22px;
+        padding: 0 14px;
+      }
+
+      .contents {
+        position: static;
+      }
+
+      .policy { padding: 26px 21px; }
     }
   </style>
 </head>
+
 <body>
-<main>
-  <p class="brand">LearnLoop Rwanda</p>
-  <h1>Terms of Service</h1>
-  <p>Effective date: 7 November 2026</p>
 
-  <p>
-    Welcome to LearnLoop Rwanda ("LearnLoop", "we", "our"
-    or "us"). These Terms of Service explain the rules for
-    accessing and using our educational website and services.
-  </p>
-
-  <p>
-    By accessing or using LearnLoop, you agree to these terms.
-    If you do not agree, please do not use the platform.
-  </p>
-
-  <h2>1. About LearnLoop</h2>
-  <p>
-    LearnLoop is an educational learning community designed
-    to help learners discover educational resources, access
-    learning materials, participate in discussions, share
-    knowledge and connect with other learners.
-  </p>
-
-  <h2>2. Accounts and Registration</h2>
-  <ul>
-    <li>Provide accurate information when creating an account.</li>
-    <li>Keep your account login information secure.</li>
-    <li>Do not impersonate another person or create accounts for deceptive purposes.</li>
-    <li>Notify us if you believe your account has been accessed without permission.</li>
-    <li>You are responsible for activity carried out through your account, subject to applicable law.</li>
-  </ul>
-
-  <h2>3. Acceptable Use</h2>
-  <p>
-    You agree to use LearnLoop responsibly and respectfully.
-    You must not:
-  </p>
-  <ul>
-    <li>Use the platform for unlawful activities.</li>
-    <li>Harass, threaten, bully or deliberately harm other users.</li>
-    <li>Post fraudulent, misleading or harmful material.</li>
-    <li>Attempt to access another user's account or private information without permission.</li>
-    <li>Disrupt, damage or interfere with the operation or security of the platform.</li>
-    <li>Upload malicious software or content that violates others' rights.</li>
-    <li>Abuse platform features, including messaging, comments and reporting tools.</li>
-  </ul>
-
-  <h2>4. User-Generated Content</h2>
-  <p>
-    Users may share posts, comments, discussions, images,
-    documents and other educational materials.
-  </p>
-  <ul>
-    <li>You remain responsible for the content you submit.</li>
-    <li>Only upload content that you have permission to share.</li>
-    <li>Do not publish content that infringes copyright, privacy or other rights.</li>
-    <li>Do not share another person's confidential information without permission.</li>
-  </ul>
-  <p>
-    By submitting content, you give LearnLoop permission to
-    host, store, display and distribute that content within
-    the platform as necessary to provide the features you use.
-    You retain ownership of your content.
-  </p>
-
-  <h2>5. Educational Resources and Certificates</h2>
-  <p>
-    LearnLoop provides educational materials, courses,
-    learning activities and certificate features.
-  </p>
-  <p>
-    Educational content is provided for learning and
-    informational purposes. It is not a substitute for
-    professional advice where such advice is required.
-  </p>
-  <p>
-    Certificates are issued according to the applicable
-    course or certificate requirements. Users must not
-    falsify, alter or misrepresent certificates.
-  </p>
-
-  <h2>6. YouTube and Third-Party Services</h2>
-  <p>
-    LearnLoop uses the YouTube Data API to help users discover
-    educational videos and may display videos through
-    YouTube's embedded player.
-  </p>
-  <p>
-    YouTube content remains subject to YouTube's own terms,
-    policies and copyright rules. LearnLoop does not claim
-    ownership of videos provided by YouTube.
-  </p>
-  <p>
-    Your use of YouTube features is also subject to:
-  </p>
-  <ul>
-    <li>
-      <a href="https://www.youtube.com/t/terms"
-         target="_blank" rel="noopener noreferrer">
-        YouTube Terms of Service
-      </a>
-    </li>
-    <li>
-      <a href="https://policies.google.com/privacy"
-         target="_blank" rel="noopener noreferrer">
-        Google Privacy Policy
-      </a>
-    </li>
-  </ul>
-  <p>
-    Other third-party services may have their own terms and
-    privacy policies. LearnLoop is not responsible for
-    independent third-party services.
-  </p>
-
-  <h2>7. Intellectual Property</h2>
-  <p>
-    The LearnLoop name, branding, website design and original
-    platform materials belong to their respective owners or
-    licensors.
-  </p>
-  <p>
-    Users must respect applicable intellectual property
-    rights. If you believe content on LearnLoop infringes
-    your rights, contact us with relevant information.
-  </p>
-
-  <h2>8. Moderation and Enforcement</h2>
-  <p>
-    LearnLoop may review reported content and take reasonable
-    action when content or user activity violates these terms
-    or threatens the safety and proper operation of the
-    community.
-  </p>
-  <p>
-    Actions may include removing content, restricting
-    features or suspending or terminating accounts, where
-    appropriate and subject to applicable law.
-  </p>
-
-  <h2>9. Availability and Changes</h2>
-  <p>
-    We aim to keep LearnLoop available and functioning, but
-    uninterrupted access cannot be guaranteed. Features may
-    change, be temporarily unavailable or be discontinued.
-  </p>
-  <p>
-    We may update these terms as the platform develops.
-    Updated terms will be published on this page with a
-    revised effective date.
-  </p>
-
-  <h2>10. Disclaimers and Limitation</h2>
-  <p>
-    LearnLoop is provided on an available basis. To the
-    extent permitted by applicable law, we do not guarantee
-    that all information, resources or services will always
-    be accurate, complete, uninterrupted or error-free.
-  </p>
-  <p>
-    Nothing in these terms excludes rights or protections
-    that cannot legally be excluded under applicable law.
-  </p>
-
-  <h2>11. Privacy</h2>
-  <p>
-    Your use of LearnLoop is also governed by our
-    <a href="/privacy.html">Privacy Policy</a>, which explains
-    how information is collected, used and handled.
-  </p>
-
-  <h2>12. Contact</h2>
-  <p>
-    For questions about these Terms of Service, contact:
-  </p>
-  <p>
-    <strong>LearnLoop Rwanda</strong><br>
-    Email:
-    <a href="mailto:elisemfitumukiza3@gmail.com">
-      elisemfitumukiza3@gmail.com
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="/">
+      <img src="/learnloop-icon.png.png" alt="LearnLoop logo">
+      <span>LearnLoop Rwanda</span>
     </a>
-  </p>
 
-  <p><a href="/">← Return to LearnLoop</a></p>
-</main>
+    <nav class="top-links" aria-label="Main navigation">
+      <a href="/">Home</a>
+      <a href="/about.html">About</a>
+      <a href="/privacy.html">Privacy Policy</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <span class="eyebrow">TRUST &amp; TRANSPARENCY</span>
+    <h1>Terms of Service</h1>
+    <p>
+      The guidelines and responsibilities that help make
+      LearnLoop a respectful, safe and valuable learning community.
+    </p>
+    <div class="effective">Effective date: 7 November 2026</div>
+  </div>
+</section>
+
+<div class="page-layout">
+
+  <aside class="contents">
+    <h2>On this page</h2>
+    <a href="#about">1. About LearnLoop</a>
+    <a href="#accounts">2. Accounts</a>
+    <a href="#acceptable-use">3. Acceptable Use</a>
+    <a href="#content">4. User Content</a>
+    <a href="#education">5. Learning &amp; Certificates</a>
+    <a href="#youtube">6. YouTube Services</a>
+    <a href="#property">7. Intellectual Property</a>
+    <a href="#moderation">8. Moderation</a>
+    <a href="#availability">9. Availability</a>
+    <a href="#disclaimers">10. Disclaimers</a>
+    <a href="#privacy">11. Privacy</a>
+    <a href="#contact">12. Contact</a>
+  </aside>
+
+  <main class="policy">
+
+    <p>
+      Welcome to <strong>LearnLoop Rwanda</strong> ("LearnLoop",
+      "we", "our" or "us"). These Terms of Service explain the
+      conditions for accessing and using our educational website
+      and community services.
+    </p>
+
+    <p>
+      By accessing or using LearnLoop, you agree to these terms.
+      If you do not agree, please discontinue use of the platform.
+    </p>
+
+    <div class="note">
+      <strong>Our purpose:</strong> LearnLoop exists to support
+      learning, knowledge sharing and respectful connections
+      between learners and educators.
+    </div>
+
+    <section id="about">
+      <h2>1. About LearnLoop</h2>
+      <p>
+        LearnLoop is an educational learning community designed
+        to help people discover learning resources, access courses,
+        explore educational videos, participate in discussions,
+        share knowledge and connect with other learners.
+      </p>
+      <p>
+        The platform is developed with a global learning community
+        in mind, beginning in Rwanda.
+      </p>
+    </section>
+
+    <section id="accounts">
+      <h2>2. Accounts and Registration</h2>
+      <p>When creating and using an account, you agree to:</p>
+      <ul>
+        <li>Provide accurate information during registration.</li>
+        <li>Keep your login details secure.</li>
+        <li>Use your own account and not impersonate another person.</li>
+        <li>Notify us if you believe your account has been accessed without permission.</li>
+        <li>Use the platform in accordance with these terms and applicable laws.</li>
+      </ul>
+      <p>
+        You are responsible for activity carried out through your
+        account, subject to applicable law.
+      </p>
+    </section>
+
+    <section id="acceptable-use">
+      <h2>3. Acceptable Use and Community Conduct</h2>
+      <p>
+        Every member is expected to contribute to a respectful
+        learning environment. You must not:
+      </p>
+      <ul>
+        <li>Use LearnLoop for unlawful or fraudulent activities.</li>
+        <li>Harass, bully, threaten or deliberately harm other users.</li>
+        <li>Publish deceptive, abusive or harmful material.</li>
+        <li>Access another person's account or private information without permission.</li>
+        <li>Interfere with the platform's security or normal operation.</li>
+        <li>Upload malicious software or content that violates another person's rights.</li>
+        <li>Abuse messaging, comments, reporting or other community features.</li>
+      </ul>
+    </section>
+
+    <section id="content">
+      <h2>4. User-Generated Content</h2>
+      <p>
+        LearnLoop allows users to share educational posts,
+        comments, discussions, images, documents and other materials.
+      </p>
+      <ul>
+        <li>You remain responsible for content you submit.</li>
+        <li>Only share material you own or have permission to use.</li>
+        <li>Respect copyright, privacy and other people's rights.</li>
+        <li>Do not publish another person's confidential information without permission.</li>
+      </ul>
+      <p>
+        You retain ownership of your content. By submitting it,
+        you give LearnLoop permission to host, store and display it
+        as needed to provide the platform features you choose to use.
+      </p>
+    </section>
+
+    <section id="education">
+      <h2>5. Educational Resources and Certificates</h2>
+      <p>
+        LearnLoop provides learning resources, courses, educational
+        activities and certificate features.
+      </p>
+      <p>
+        Educational materials are provided for learning and
+        informational purposes. They should not be treated as a
+        substitute for professional advice where such advice is needed.
+      </p>
+      <p>
+        Certificates are issued according to the relevant course
+        or certificate requirements. Users must not falsify,
+        alter or misrepresent certificates.
+      </p>
+    </section>
+
+    <section id="youtube">
+      <h2>6. YouTube and Third-Party Services</h2>
+      <p>
+        LearnLoop uses the YouTube Data API to help users discover
+        educational videos and may display selected videos through
+        YouTube's embedded player.
+      </p>
+      <p>
+        YouTube videos and related content remain subject to
+        YouTube's terms, policies and copyright rules. LearnLoop
+        does not claim ownership of third-party YouTube content.
+      </p>
+      <p>Use of YouTube features is also subject to:</p>
+      <ul>
+        <li>
+          <a href="https://www.youtube.com/t/terms"
+             target="_blank" rel="noopener noreferrer">
+            YouTube Terms of Service
+          </a>
+        </li>
+        <li>
+          <a href="https://policies.google.com/privacy"
+             target="_blank" rel="noopener noreferrer">
+            Google Privacy Policy
+          </a>
+        </li>
+      </ul>
+      <p>
+        Other third-party services may have separate terms and
+        privacy policies that apply when you use them.
+      </p>
+    </section>
+
+    <section id="property">
+      <h2>7. Intellectual Property</h2>
+      <p>
+        The LearnLoop name, logo, branding, website design and
+        original platform materials belong to their respective
+        owners or licensors.
+      </p>
+      <p>
+        Users must respect applicable intellectual property rights.
+        If you believe material on LearnLoop infringes your rights,
+        contact us with relevant information.
+      </p>
+    </section>
+
+    <section id="moderation">
+      <h2>8. Moderation and Enforcement</h2>
+      <p>
+        LearnLoop may review reported content and take reasonable
+        action when content or user activity violates these terms
+        or threatens the safety and proper operation of the community.
+      </p>
+      <p>
+        Depending on the circumstances, actions may include
+        removing content, restricting features, or suspending
+        or terminating accounts, subject to applicable law.
+      </p>
+    </section>
+
+    <section id="availability">
+      <h2>9. Platform Availability and Changes</h2>
+      <p>
+        We aim to keep LearnLoop available and functioning.
+        However, uninterrupted access cannot be guaranteed.
+        Features may change, be temporarily unavailable or be discontinued.
+      </p>
+      <p>
+        We may update these terms as the platform develops.
+        Updated terms will be published on this page with a
+        revised effective date.
+      </p>
+    </section>
+
+    <section id="disclaimers">
+      <h2>10. Disclaimers and Limitation</h2>
+      <p>
+        LearnLoop is provided on an available basis. To the extent
+        permitted by applicable law, we do not guarantee that all
+        information, resources or services will always be accurate,
+        complete, uninterrupted or error-free.
+      </p>
+      <p>
+        Nothing in these terms excludes rights or protections
+        that cannot legally be excluded under applicable law.
+      </p>
+    </section>
+
+    <section id="privacy">
+      <h2>11. Privacy and Personal Information</h2>
+      <p>
+        Your use of LearnLoop is also governed by our
+        <a href="/privacy.html">Privacy Policy</a>.
+        It explains what information may be collected, how it is
+        used and the choices available to users.
+      </p>
+    </section>
+
+    <section id="contact">
+      <h2>12. Contact LearnLoop</h2>
+      <p>
+        For questions or concerns about these Terms of Service,
+        please contact us:
+      </p>
+      <p>
+        <strong>LearnLoop Rwanda</strong><br>
+        Email:
+        <a href="mailto:elisemfitumukiza3@gmail.com">
+          elisemfitumukiza3@gmail.com
+        </a>
+      </p>
+    </section>
+
+  </main>
+</div>
+
+<footer class="site-footer">
+  <nav class="footer-links" aria-label="Footer navigation">
+    <a href="/">Home</a>
+    <a href="/about.html">About LearnLoop</a>
+    <a href="/privacy.html">Privacy Policy</a>
+    <a href="/terms.html">Terms of Service</a>
+  </nav>
+  <div>© 2026 LearnLoop Rwanda · LEARN · SHARE · GROW</div>
+</footer>
+
 </body>
 </html>
