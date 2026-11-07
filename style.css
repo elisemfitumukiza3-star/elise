@@ -9143,3 +9143,46 @@ body.dark-mode #libraryView .library-welcome input::placeholder {
     display: none !important;
   }
 }
+/* MINI-PLAYER: restore the normal full-width search-results layout */
+#youtubeCatalog .youtube-watch-layout:has(
+  #youtubePlayerPanel.youtube-mini-player
+) {
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+
+#youtubeCatalog .youtube-watch-layout:has(
+  #youtubePlayerPanel.youtube-mini-player
+) #youtubeResults {
+  grid-column: 1 / -1 !important;
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)) !important;
+  max-height: none !important;
+  overflow: visible !important;
+  padding: 0 !important;
+}
+
+#youtubeCatalog .youtube-watch-layout:has(
+  #youtubePlayerPanel.youtube-mini-player
+) .youtube-card {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  grid-template-rows: auto !important;
+  padding: 0 !important;
+}
+
+#youtubeCatalog .youtube-watch-layout:has(
+  #youtubePlayerPanel.youtube-mini-player
+) .youtube-card img {
+  grid-column: 1 !important;
+  grid-row: auto !important;
+}
+
+#youtubeCatalog .youtube-watch-layout:has(
+  #youtubePlayerPanel.youtube-mini-player
+) .youtube-card h3,
+#youtubeCatalog .youtube-watch-layout:has(
+  #youtubePlayerPanel.youtube-mini-player
+) .youtube-card p {
+  grid-column: 1 !important;
+  grid-row: auto !important;
+}
