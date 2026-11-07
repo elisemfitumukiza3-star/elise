@@ -9843,8 +9843,14 @@ $("#hostCertificatesList")?.addEventListener("click", async event => {
     renderHostCertificateSearch(certificateSearch.value);
   });
 
-  $("#menuButton")?.addEventListener("click", openMobileMenu);
-
+$("#menuButton")?.addEventListener("click", () => {
+  if (window.matchMedia("(min-width: 769px)").matches) {
+    document.querySelector(".app-shell")
+      ?.classList.toggle("sidebar-collapsed");
+  } else {
+    openMobileMenu();
+  }
+});
   $("#sidebar")?.addEventListener("click", event => {
     const clickedNav = event.target.closest("[data-view]");
     if (clickedNav) closeMobileMenu();
