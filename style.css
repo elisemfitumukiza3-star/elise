@@ -8266,3 +8266,85 @@ body.dark-mode :is(
 ) button {
   color: inherit;
 }
+
+/* LEARNLOOP HOME FEED — COMPLETE DARK MODE CARD FIX */
+
+/* 1. Explore Lessons card */
+body.dark-mode #learnLoopLessonsButton,
+body.dark-mode #learnLoopLessonsButton:hover,
+body.dark-mode #learnLoopLessonsButton:focus {
+  background: #1f2937 !important;
+  border-color: #374151 !important;
+  color: #f3f4f6 !important;
+  box-shadow: 0 7px 22px rgba(0, 0, 0, 0.25);
+}
+
+body.dark-mode #learnLoopLessonsButton .lessons-card-content h2,
+body.dark-mode #learnLoopLessonsButton .lessons-card-content h3,
+body.dark-mode #learnLoopLessonsButton .lessons-card-content p {
+  color: #f3f4f6 !important;
+}
+
+body.dark-mode #learnLoopLessonsButton .lessons-card-label {
+  color: #e5bd65 !important;
+}
+
+body.dark-mode #learnLoopLessonsButton .lessons-card-link,
+body.dark-mode #learnLoopLessonsButton:hover .lessons-card-link {
+  color: #93c5fd !important;
+}
+
+/* Preserve the blue icon background */
+body.dark-mode #learnLoopLessonsButton .lessons-card-icon {
+  background: #173b70 !important;
+  color: #ffffff !important;
+}
+
+/* 2. Lesson of the Day — entire card */
+body.dark-mode #featuredLesson,
+body.dark-mode #featuredLesson:hover {
+  background: #1f2937 !important;
+  border-color: #374151 !important;
+  color: #f3f4f6 !important;
+}
+
+body.dark-mode #featuredLesson h3,
+body.dark-mode #featuredLesson p {
+  color: #f3f4f6 !important;
+}
+
+body.dark-mode #featuredLesson .featured-badge {
+  color: #93c5fd !important;
+}
+
+body.dark-mode #featuredLesson a {
+  color: #93c5fd !important;
+}
+
+/* 3. Keep growing with LearnLoop — entire card */
+body.dark-mode #learningDashboard,
+body.dark-mode #learningDashboard:hover {
+  background: #1f2937 !important;
+  border-color: #374151 !important;
+  color: #f3f4f6 !important;
+}
+
+body.dark-mode #learningDashboard .learning-dashboard-heading h2,
+body.dark-mode #learningDashboard .learning-dashboard-heading p {
+  color: #f3f4f6 !important;
+}
+
+/* Its three statistics cards */
+body.dark-mode #learningDashboard .learning-stat {
+  background: #111827 !important;
+  border-color: #374151 !important;
+  color: #f3f4f6 !important;
+}
+
+body.dark-mode #learningDashboard .learning-stat span {
+  color: #e5e7eb !important;
+}
+
+body.dark-mode #learningDashboard .learning-stat strong {
+  color: #93c5fd !important;
+}
