@@ -9989,20 +9989,6 @@ function bindEvents() {
   }
 
   renderLessonCards();
-
- 
-
-
-  $("#youtubeSearchInput")?.addEventListener("keydown", event => {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      searchYouTubeVideos();
-    }
-  });
- $$("[data-view]").forEach(button => {
-  button.addEventListener("click", () => {
-    navigate(button.dataset.view);
-  });
 });
  
   // Live learner search
