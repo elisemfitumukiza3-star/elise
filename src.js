@@ -10021,18 +10021,20 @@ const miniButton = document.getElementById("youtubeMiniPlayerButton");
 const playerPanel = document.getElementById("youtubePlayerPanel");
 const watchLayout = document.getElementById("youtubeWatchLayout");
 
-if (miniButton && playerPanel && !miniButton.dataset.connected) {
+if (miniButton && playerPanel && watchLayout &&
+    !miniButton.dataset.connected) {
+
   miniButton.dataset.connected = "true";
 
   const setMiniPlayer = mini => {
     playerPanel.classList.toggle("youtube-mini-player", mini);
 
-    if (watchLayout) {
-      watchLayout.classList.toggle(
-        "youtube-watch-active",
-        !mini && !playerPanel.classList.contains("hidden")
-      );
-    }
+    watchLayout.classList.toggle("youtube-mini-active", mini);
+
+    watchLayout.classList.toggle(
+      "youtube-watch-active",
+      !mini && !playerPanel.classList.contains("hidden")
+    );
 
     miniButton.textContent = mini ? "↗" : "▣";
     miniButton.title = mini ? "Return to video and queue" : "Mini-player";
