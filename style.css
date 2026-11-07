@@ -8561,3 +8561,24 @@ body.dark-mode #libraryView .library-welcome {
   background: linear-gradient(130deg, #153c82, #2868d7 65%, #78a8ff) !important;
   color: #ffffff !important;
 }
+
+/* Library — Discover your next book card */
+body.dark-mode #libraryView .library-welcome,
+body.dark-mode #libraryView .library-welcome * {
+  color: #ffffff !important;
+}
+
+body.dark-mode #libraryView .library-welcome {
+  background: #1f2937 !important;
+  border: 1px solid #374151 !important;
+  box-shadow: none !important;
+}
+
+/* Keep links and buttons readable */
+body.dark-mode #libraryView .library-welcome a {
+  color: #93c5fd !important;
+}
+
+body.dark-mode #libraryView .library-welcome button {
+  color: #ffffff !important;
+}
