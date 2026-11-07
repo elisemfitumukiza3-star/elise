@@ -10008,7 +10008,29 @@ function bindEvents() {
       searchYouTubeVideos();
     });
   });
+// Toggle floating YouTube mini-player.
+const miniButton = document.getElementById(
+  "youtubeMiniPlayerButton"
+);
 
+if (miniButton && !miniButton.dataset.connected) {
+  miniButton.dataset.connected = "true";
+
+  miniButton.addEventListener("click", () => {
+    const panel = document.getElementById("youtubePlayerPanel");
+
+    if (!panel || panel.classList.contains("hidden")) return;
+
+    const isMini = panel.classList.toggle("youtube-mini-player");
+
+    miniButton.textContent = isMini ? "↗" : "▣";
+    miniButton.title = isMini ? "Restore player" : "Mini-player";
+    miniButton.setAttribute(
+      "aria-label",
+      isMini ? "Restore full player" : "Open mini-player"
+    );
+  });
+}
 
   // LearnLoop lesson library controls
   const lessonSearch = document.querySelector("#lessonSearch");
