@@ -10017,22 +10017,33 @@ function bindEvents() {
 // YouTube-style mini-player controls.
 const miniButton = document.getElementById("youtubeMiniPlayerButton");
 const playerPanel = document.getElementById("youtubePlayerPanel");
+const watchLayout = document.getElementById("youtubeWatchLayout");
 
 if (miniButton && playerPanel && !miniButton.dataset.connected) {
   miniButton.dataset.connected = "true";
 
   const setMiniPlayer = mini => {
     playerPanel.classList.toggle("youtube-mini-player", mini);
+
+    if (watchLayout) {
+      watchLayout.classList.toggle(
+        "youtube-watch-active",
+        !mini && !playerPanel.classList.contains("hidden")
+      );
+    }
+
     miniButton.textContent = mini ? "↗" : "▣";
-    miniButton.title = mini ? "Return to full player" : "Mini-player";
+    miniButton.title = mini ? "Return to video and queue" : "Mini-player";
+
     miniButton.setAttribute(
       "aria-label",
-      mini ? "Return to full player and playlist" : "Open mini-player"
+      mini ? "Return to video and queue" : "Open mini-player"
     );
   };
 
   miniButton.addEventListener("click", event => {
     event.stopPropagation();
+
     setMiniPlayer(
       !playerPanel.classList.contains("youtube-mini-player")
     );
