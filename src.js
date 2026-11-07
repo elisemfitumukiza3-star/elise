@@ -1858,6 +1858,47 @@ async function loadPrivateMessages(conversationId) {
   list.scrollTop = list.scrollHeight;
 }
 
+async function sendPrivateMessage(event) {
+  event.preventDefault();
+
+  if (!requireLogin() || !activeConversationId) {
+    toast("Please open a conversation first.", "error");
+    return;
+  }
+
+  const input = $("#messageInput");
+  const body = input?.value.trim();
+
+  if (!body) return;
+
+  const button = $("#messageForm button[type='submit']");
+  setButtonBusy(button, true, "Sending...");
+
+  try {
+    const { error } = await supabase
+      .from("messages")
+      .insert({
+        conversation_id: activeConversationId,
+        sender_id: currentUserId(),
+        body
+      });
+
+    if (error) throw error;
+
+    input.value = "";
+
+    await loadPrivateMessages(activeConversationId);
+    await loadConversations();
+
+    toast("Message sent successfully.");
+  } catch (error) {
+    console.error("Send private message error:", error);
+    toast(`Could not send message: ${error.message}`, "error");
+  } finally {
+    setButtonBusy(button, false);
+  }
+}
+
 async function loadPosts() {
   if (state.loadingPosts) return;
   state.loadingPosts = true;
