@@ -10031,7 +10031,37 @@ if (miniButton && !miniButton.dataset.connected) {
     );
   });
 }
+  // YouTube-style mini-player controls.
+  const miniButton = document.getElementById("youtubeMiniPlayerButton");
+  const playerPanel = document.getElementById("youtubePlayerPanel");
 
+  if (miniButton && playerPanel && !miniButton.dataset.connected) {
+    miniButton.dataset.connected = "true";
+
+    const setMiniPlayer = mini => {
+      playerPanel.classList.toggle("youtube-mini-player", mini);
+      miniButton.textContent = mini ? "↗" : "▣";
+      miniButton.title = mini ? "Return to full player" : "Mini-player";
+      miniButton.setAttribute(
+        "aria-label",
+        mini ? "Return to full player and playlist" : "Open mini-player"
+      );
+    };
+
+    miniButton.addEventListener("click", event => {
+      event.stopPropagation();
+      setMiniPlayer(
+        !playerPanel.classList.contains("youtube-mini-player")
+      );
+    });
+
+    document.getElementById("youtubePlayerTitle")
+      ?.addEventListener("click", () => {
+        if (playerPanel.classList.contains("youtube-mini-player")) {
+          setMiniPlayer(false);
+        }
+      });
+  }
   // LearnLoop lesson library controls
   const lessonSearch = document.querySelector("#lessonSearch");
   const lessonSubject = document.querySelector("#lessonSubject");
