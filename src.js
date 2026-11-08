@@ -4850,7 +4850,9 @@ async function loadLatestEducationalVideos() {
       status.textContent = "YouTube API key is missing.";
       return;
     }
-
+if (window.learnLoopYoutubeFeedState) {
+  window.learnLoopYoutubeFeedState.active = false;
+}
     const requestId = ++youtubeRequestId;
 
     youtubePlaylist = [];
