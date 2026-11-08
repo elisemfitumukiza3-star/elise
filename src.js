@@ -4772,7 +4772,339 @@ function renderYouTubeVideos(videos, startIndex) {
     );
   });
 }
+// ---------- LearnLoop latest educational video feed ----------
 
+async function loadLatestEducationalVideos() {
+  const results = document.getElementById("youtubeResults");
+  const status = document.getElementById("youtubeStatus");
+
+  if (!results || !status) return;
+
+  const state = window.learnLoopYoutubeFeedState ||= {
+    active: false,
+    loading: false,
+    pageTokens: {},
+    seenIds: new Set()
+  };
+
+  if (state.loading) return;
+
+  state.active = true;
+  state.loading = true;
+
+  const channels = [
+    {
+      name: "Khan Academy",
+      playlistId: "UU4a-Gbdw7vOaccHmFo40b9g"
+    },
+    {
+      name: "TED-Ed",
+      playlistId: "UUsooa4yRKGN_zEE8iknghZA"
+    },
+    {
+      name: "CrashCourse",
+      playlistId: "UUX6b17PVsYBQ0ip5gyeme-Q"
+    },
+    {
+      name: "BBC Learning English",
+      playlistId: "UUHaHD477h-FeBbVh9Sh7syA"
+    }
+  ];
+
+  const cacheKey = "learnloop_youtube_education_feed_v1";
+  const apiKey = import.meta.env.VITE_YOUTUBE_API_KEY;
+
+  try {
+    // Reuse a recent feed to avoid unnecessary API requests.
+    let cached = null;
+
+    try {
+      cached = JSON.parse(localStorage.getItem(cacheKey) || "null");
+    } catch (_) {}
+
+    if (
+      cached &&
+      Date.now() - cached.savedAt < 30 * 60 * 1000 &&
+      cached.videos?.length
+    ) {
+      youtubePlaylist = cached.videos;
+      state.pageTokens = cached.pageTokens || {};
+      state.seenIds = new Set(
+        youtubePlaylist.map(video => video.id.videoId)
+      );
+
+      youtubeCurrentIndex = -1;
+      youtubeHasMore = Object.values(state.pageTokens).some(Boolean);
+      youtubeNextPageToken = "";
+
+      results.replaceChildren();
+      renderYouTubeVideos(youtubePlaylist, 0);
+      setupYouTubePagination();
+
+      status.textContent = "Latest educational videos. Keep scrolling to explore.";
+
+      return;
+    }
+
+    if (!apiKey) {
+      status.textContent = "YouTube API key is missing.";
+      return;
+    }
+
+    const requestId = ++youtubeRequestId;
+
+    youtubePlaylist = [];
+    youtubeCurrentIndex = -1;
+    state.pageTokens = {};
+    state.seenIds = new Set();
+
+    results.replaceChildren();
+    status.textContent = "Loading the latest educational videos...";
+
+    const requests = await Promise.allSettled(
+      channels.map(async channel => {
+        const params = new URLSearchParams({
+          part: "snippet,contentDetails",
+          playlistId: channel.playlistId,
+          maxResults: "15",
+          key: apiKey
+        });
+
+        const response = await fetch(
+          `https://www.googleapis.com/youtube/v3/playlistItems?${params}`
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error?.message || "Could not load channel videos.");
+        }
+
+        return {
+          channel,
+          data
+        };
+      })
+    );
+
+    if (requestId !== youtubeRequestId) return;
+
+    const videos = [];
+
+    requests.forEach(result => {
+      if (result.status !== "fulfilled") {
+        console.warn("Educational channel could not load:", result.reason);
+        return;
+      }
+
+      const { channel, data } = result.value;
+
+      state.pageTokens[channel.playlistId] =
+        data.nextPageToken || "";
+
+      (data.items || []).forEach(item => {
+        const videoId = item.contentDetails?.videoId;
+
+        if (!videoId || !item.snippet) return;
+
+        videos.push({
+          id: {
+            videoId
+          },
+          snippet: {
+            ...item.snippet,
+            channelTitle: channel.name
+          }
+        });
+      });
+    });
+
+    videos.sort((a, b) =>
+      new Date(b.snippet.publishedAt || 0) -
+      new Date(a.snippet.publishedAt || 0)
+    );
+
+    if (!videos.length) {
+      status.textContent =
+        "Educational videos could not load. Please try again.";
+      return;
+    }
+
+    youtubePlaylist = videos;
+
+    videos.forEach(video => {
+      state.seenIds.add(video.id.videoId);
+    });
+
+    youtubeHasMore = Object.values(state.pageTokens).some(Boolean);
+    youtubeNextPageToken = "";
+
+    renderYouTubeVideos(videos, 0);
+    setupYouTubePagination();
+
+    status.textContent =
+      "Latest educational videos. Keep scrolling to discover more.";
+
+    try {
+      localStorage.setItem(cacheKey, JSON.stringify({
+        savedAt: Date.now(),
+        videos: youtubePlaylist,
+        pageTokens: state.pageTokens
+      }));
+    } catch (_) {}
+
+  } catch (error) {
+    console.error("Latest educational feed error:", error);
+    status.textContent = "Could not load educational videos. Please try again.";
+  } finally {
+    state.loading = false;
+  }
+}
+
+
+// Load more videos from the educational channels.
+
+async function loadMoreLatestEducationalVideos() {
+  const state = window.learnLoopYoutubeFeedState;
+  const results = document.getElementById("youtubeResults");
+  const status = document.getElementById("youtubeStatus");
+  const sentinel = document.getElementById("youtubeLoadMoreSentinel");
+  const apiKey = import.meta.env.VITE_YOUTUBE_API_KEY;
+
+  if (!state || !state.active || state.loading || !apiKey) return;
+
+  const channels = [
+    {
+      name: "Khan Academy",
+      playlistId: "UU4a-Gbdw7vOaccHmFo40b9g"
+    },
+    {
+      name: "TED-Ed",
+      playlistId: "UUsooa4yRKGN_zEE8iknghZA"
+    },
+    {
+      name: "CrashCourse",
+      playlistId: "UUX6b17PVsYBQ0ip5gyeme-Q"
+    },
+    {
+      name: "BBC Learning English",
+      playlistId: "UUHaHD477h-FeBbVh9Sh7syA"
+    }
+  ];
+
+  const available = channels.filter(
+    channel => state.pageTokens[channel.playlistId]
+  );
+
+  if (!available.length) {
+    youtubeHasMore = false;
+    if (sentinel) sentinel.textContent = "You've reached the end of the feed.";
+    return;
+  }
+
+  state.loading = true;
+  youtubeLoadingMore = true;
+
+  if (sentinel) sentinel.textContent = "Loading more videos...";
+
+  try {
+    const requests = await Promise.allSettled(
+      available.map(async channel => {
+        const params = new URLSearchParams({
+          part: "snippet,contentDetails",
+          playlistId: channel.playlistId,
+          maxResults: "15",
+          pageToken: state.pageTokens[channel.playlistId],
+          key: apiKey
+        });
+
+        const response = await fetch(
+          `https://www.googleapis.com/youtube/v3/playlistItems?${params}`
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error?.message || "Could not load more videos.");
+        }
+
+        return { channel, data };
+      })
+    );
+
+    const newVideos = [];
+
+    requests.forEach(result => {
+      if (result.status !== "fulfilled") return;
+
+      const { channel, data } = result.value;
+
+      state.pageTokens[channel.playlistId] =
+        data.nextPageToken || "";
+
+      (data.items || []).forEach(item => {
+        const videoId = item.contentDetails?.videoId;
+
+        if (!videoId || !item.snippet || state.seenIds.has(videoId)) return;
+
+        state.seenIds.add(videoId);
+
+        newVideos.push({
+          id: { videoId },
+          snippet: {
+            ...item.snippet,
+            channelTitle: channel.name
+          }
+        });
+      });
+    });
+
+    newVideos.sort((a, b) =>
+      new Date(b.snippet.publishedAt || 0) -
+      new Date(a.snippet.publishedAt || 0)
+    );
+
+    const startIndex = youtubePlaylist.length;
+
+    youtubePlaylist.push(...newVideos);
+
+    youtubeHasMore = Object.values(state.pageTokens).some(Boolean);
+
+    if (newVideos.length) {
+      renderYouTubeVideos(newVideos, startIndex);
+    }
+
+    if (results && newVideos.length) {
+      setupYouTubePagination();
+    }
+
+    if (status) {
+      status.textContent =
+        `${youtubePlaylist.length} educational videos loaded.`;
+    }
+
+    if (sentinel) {
+      sentinel.textContent = youtubeHasMore
+        ? "Scroll for more videos"
+        : "You've reached the end of the feed.";
+    }
+
+    try {
+      localStorage.setItem("learnloop_youtube_education_feed_v1", JSON.stringify({
+        savedAt: Date.now(),
+        videos: youtubePlaylist,
+        pageTokens: state.pageTokens
+      }));
+    } catch (_) {}
+
+  } catch (error) {
+    console.error("Educational feed pagination error:", error);
+    if (status) status.textContent = "Could not load more videos.";
+  } finally {
+    state.loading = false;
+    youtubeLoadingMore = false;
+  }
+}
 function setupYouTubePagination() {
   const results = document.getElementById("youtubeResults");
   if (!results) return;
