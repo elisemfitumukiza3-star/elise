@@ -10066,3 +10066,501 @@ body.dark-mode .main-area textarea::placeholder {
     width: 100% !important;
   }
 }
+
+/* =====================================================
+   LEARNLOOP — PREMIUM VISUAL DESIGN
+   Visual styling only. Keeps existing functionality.
+   ===================================================== */
+
+:root {
+  --ll-green: #087f5b;
+  --ll-green-dark: #075c43;
+  --ll-green-soft: #e9f6ef;
+  --ll-ink: #17251f;
+  --ll-muted: #718078;
+  --ll-border: #e5ece7;
+  --ll-white: #ffffff;
+  --ll-shadow: 0 8px 28px rgba(20, 55, 38, .055);
+  --ll-shadow-hover: 0 16px 36px rgba(20, 55, 38, .10);
+}
+
+/* General cards */
+.card,
+.panel,
+.profile-card,
+.resource-card,
+.stat-card,
+.learning-stat,
+.people-user-card,
+.discover-card,
+.featured-lesson,
+#postForm {
+  border: 1px solid var(--ll-border);
+  border-radius: 20px;
+  box-shadow: var(--ll-shadow);
+  transition: border-color .2s ease, box-shadow .2s ease,
+              transform .2s ease;
+}
+
+.card:hover,
+.panel:hover,
+.resource-card:hover,
+.discover-card:hover,
+.people-user-card:hover {
+  border-color: #c9e3d3;
+  box-shadow: var(--ll-shadow-hover);
+}
+
+/* Page headings */
+.page-heading {
+  margin-bottom: 26px;
+}
+
+.page-heading h1 {
+  color: var(--ll-ink);
+  font-weight: 700;
+  letter-spacing: -1.2px;
+}
+
+.page-heading p {
+  color: var(--ll-muted);
+}
+
+/* Home welcome section */
+.welcome-card {
+  border-radius: 24px;
+  border: 1px solid #dcece2;
+  box-shadow: var(--ll-shadow);
+  overflow: hidden;
+}
+
+.welcome-card h1 {
+  letter-spacing: -1.5px;
+}
+
+/* Learning dashboard */
+.learning-dashboard {
+  padding: 25px;
+  border: 1px solid var(--ll-border);
+  border-radius: 22px;
+  background: #ffffff;
+  box-shadow: var(--ll-shadow);
+}
+
+.learning-dashboard-heading {
+  margin-bottom: 22px;
+}
+
+.learning-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 15px;
+}
+
+.learning-stat {
+  padding: 20px;
+  background: #f8fbf9;
+  border-radius: 17px;
+  box-shadow: none;
+}
+
+.learning-stat strong {
+  display: block;
+  margin: 8px 0 3px;
+  color: var(--ll-green-dark);
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.learning-stat-icon {
+  font-size: 23px;
+}
+
+/* Featured lesson */
+.featured-lesson {
+  overflow: hidden;
+  border-radius: 22px;
+  background: #ffffff;
+  box-shadow: var(--ll-shadow);
+}
+
+.featured-lesson-content {
+  padding: 25px;
+}
+
+.featured-lesson h3 {
+  color: var(--ll-ink);
+  font-size: 1.35rem;
+}
+
+.featured-lesson img {
+  object-fit: cover;
+}
+
+/* Learning resource cards */
+.discover-grid {
+  gap: 20px;
+}
+
+.discover-card {
+  overflow: hidden;
+  background: #ffffff;
+  border-radius: 19px;
+}
+
+.discover-image {
+  width: 100%;
+  object-fit: cover;
+}
+
+.discover-card-content {
+  padding: 19px;
+}
+
+.discover-card h3 {
+  color: var(--ll-ink);
+  font-weight: 700;
+}
+
+/* Posts gallery */
+#postsFeed {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: start;
+  gap: 20px;
+}
+
+#postsFeed > .post-card {
+  min-width: 0;
+  padding: 19px;
+  border: 1px solid var(--ll-border);
+  border-radius: 20px;
+  background: #ffffff !important;
+  box-shadow: var(--ll-shadow);
+  overflow: hidden;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+#postsFeed > .post-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--ll-shadow-hover);
+}
+
+/* Post author area */
+.post-header {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-bottom: 12px;
+}
+
+.post-author {
+  min-width: 0;
+  flex: 1;
+}
+
+.post-author strong {
+  color: #17251f;
+  font-weight: 700;
+}
+
+.post-author small {
+  color: var(--ll-muted);
+}
+
+.post-badge {
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: var(--ll-green-soft);
+  color: var(--ll-green-dark);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.post-meta {
+  color: var(--ll-muted);
+  font-size: 12px;
+}
+
+/* Post content — consistent readable background */
+#postsFeed .post-body {
+  margin: 12px 0;
+  padding: 13px 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent !important;
+  color: #26352d !important;
+  line-height: 1.75;
+  overflow-wrap: anywhere;
+}
+
+#postsFeed .post-body * {
+  color: inherit;
+}
+
+/* Post media */
+.post-image-card,
+.post-video-card,
+.post-pdf-card,
+.post-attachment {
+  margin-top: 13px;
+  overflow: hidden;
+  border: 1px solid var(--ll-border);
+  border-radius: 15px;
+  background: #f8fbf9;
+}
+
+.post-image-preview {
+  display: block;
+  width: 100%;
+  max-height: 360px;
+  object-fit: cover;
+  border-radius: 14px;
+}
+
+.post-video-preview {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 14px;
+}
+
+.post-video-thumbnail {
+  width: 100%;
+  display: block;
+}
+
+.post-attachment {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+}
+
+.post-attachment-info {
+  min-width: 0;
+  flex: 1;
+}
+
+.post-attachment-info strong {
+  overflow-wrap: anywhere;
+}
+
+/* Post actions */
+.post-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 16px;
+  padding-top: 13px;
+  border-top: 1px solid var(--ll-border);
+}
+
+.post-action {
+  padding: 8px 11px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: #f5f8f6;
+  color: #52635a;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.post-action:hover,
+.post-action.active {
+  background: var(--ll-green-soft);
+  color: var(--ll-green-dark);
+  border-color: #d4eadc;
+}
+
+/* Comments */
+.post-comments {
+  margin-top: 14px;
+  padding: 14px;
+  border-radius: 14px;
+  background: #f7faf8;
+}
+
+.comment-item {
+  padding: 11px 0;
+  border-bottom: 1px solid var(--ll-border);
+}
+
+.comment-form {
+  display: flex;
+  gap: 9px;
+  margin-top: 12px;
+}
+
+.comment-form input {
+  min-width: 0;
+  flex: 1;
+}
+
+/* Post composer */
+#postForm {
+  padding: 22px;
+  background: #ffffff;
+}
+
+#postText {
+  min-height: 125px;
+  border: 1px solid var(--ll-border);
+  border-radius: 15px;
+  background: #fafcfb;
+  line-height: 1.7;
+}
+
+#postText:focus {
+  border-color: var(--ll-green);
+  box-shadow: 0 0 0 3px rgba(8, 127, 91, .10);
+}
+
+/* People cards */
+.people-user-card {
+  padding: 22px;
+  background: #ffffff;
+  text-align: center;
+}
+
+.people-user-card h3 {
+  margin: 12px 0 5px;
+  color: var(--ll-ink);
+}
+
+.people-user-card p {
+  color: var(--ll-muted);
+}
+
+/* Inputs and search */
+input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+textarea,
+select {
+  border-radius: 12px;
+  border-color: var(--ll-border);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--ll-green);
+  box-shadow: 0 0 0 3px rgba(8, 127, 91, .09);
+}
+
+/* Main buttons */
+.button-primary,
+button[type="submit"],
+#publishButton {
+  border-radius: 12px;
+  font-weight: 700;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.button-primary:hover,
+button[type="submit"]:hover,
+#publishButton:hover {
+  box-shadow: 0 7px 18px rgba(8, 127, 91, .18);
+}
+
+/* Dashboard statistic cards */
+.stat-card {
+  padding: 22px;
+  background: linear-gradient(145deg, #ffffff, #f3faf5);
+}
+
+.stat-card strong {
+  color: var(--ll-green-dark);
+  font-size: 1.9rem;
+}
+
+/* Mobile and tablet */
+@media (max-width: 1050px) {
+  #postsFeed {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  #postsFeed {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 15px;
+  }
+
+  .learning-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .learning-dashboard {
+    padding: 18px;
+  }
+
+  .featured-lesson-content {
+    padding: 19px;
+  }
+
+  #postForm {
+    padding: 16px;
+  }
+
+  .post-actions {
+    gap: 5px;
+  }
+
+  .post-action {
+    padding: 8px 9px;
+  }
+}
+
+/* Dark mode — preserve colored accents */
+body.dark-mode .card,
+body.dark-mode .panel,
+body.dark-mode .profile-card,
+body.dark-mode .resource-card,
+body.dark-mode .stat-card,
+body.dark-mode .learning-stat,
+body.dark-mode .people-user-card,
+body.dark-mode .discover-card,
+body.dark-mode .featured-lesson,
+body.dark-mode #postForm,
+body.dark-mode #postsFeed > .post-card,
+body.dark-mode .learning-dashboard {
+  background: #1b2923 !important;
+  border-color: #34483d !important;
+  color: #f1f5f2;
+}
+
+body.dark-mode #postsFeed .post-body,
+body.dark-mode .post-author strong,
+body.dark-mode .featured-lesson h3,
+body.dark-mode .discover-card h3 {
+  color: #f1f5f2 !important;
+}
+
+body.dark-mode .post-actions {
+  border-top-color: #34483d;
+}
+
+body.dark-mode .post-action,
+body.dark-mode .post-comments,
+body.dark-mode .post-attachment,
+body.dark-mode .post-image-card,
+body.dark-mode .post-video-card,
+body.dark-mode .post-pdf-card {
+  background: #24352c;
+  border-color: #3b5145;
+  color: #f1f5f2;
+}
+
+body.dark-mode .learning-stat {
+  background: #24352c;
+}
+
+body.dark-mode .learning-stat strong {
+  color: #79d5a7;
+}
+
+body.dark-mode #postText {
+  background: #17231d;
+  color: #f1f5f2;
+  border-color: #3b5145;
+}
