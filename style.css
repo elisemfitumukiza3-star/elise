@@ -9189,284 +9189,69 @@ body.dark-mode #libraryView .library-welcome input::placeholder {
     grid-template-columns: minmax(0, 1fr) !important;
   }
 }
-/* ==========================================
-   LEARNLOOP — YOCARD-INSPIRED DESIGN REFRESH
-   ========================================== */
-
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700;800&display=swap');
-
-:root {
-  --green: #087f5b;
-  --green-dark: #075c43;
-  --green-light: #e8f3ed;
-  --ink: #18231e;
-  --muted: #748078;
-  --line: #e5e9e5;
-  --surface: #ffffff;
-  --canvas: #f4f6f2;
-  --radius: 12px;
-  --shadow: 0 3px 14px rgba(24, 35, 30, .045);
-}
-
-body {
-  font-family: 'DM Sans', sans-serif !important;
-  background: var(--canvas) !important;
-  color: var(--ink);
-  letter-spacing: -.01em;
-}
-
-h1, h2, h3, h4, button, nav {
-  font-family: 'DM Sans', sans-serif !important;
-  letter-spacing: -.025em;
-}
-
-/* Main application */
-.app-shell {
-  max-width: 1600px !important;
-  grid-template-columns: 248px minmax(0, 1fr) !important;
-  gap: 24px !important;
-  padding: 18px 24px !important;
-}
-
-/* Sidebar */
-#sidebar {
-  background: #fff !important;
-  border: 1px solid var(--line) !important;
-  border-radius: 14px !important;
-  box-shadow: none !important;
-  padding: 20px 14px !important;
-}
-
-#sidebar .brand {
-  font-size: 21px !important;
-  font-weight: 800 !important;
-  letter-spacing: -1px !important;
-  padding: 4px 10px 22px !important;
-}
-
-#sidebar .nav-item,
-#sidebar nav a,
-#sidebar nav button,
-#sidebar [data-view] {
-  border-radius: 9px !important;
-  padding: 11px 12px !important;
-  font-size: 13px !important;
-  font-weight: 600 !important;
-  transition: background .18s ease, color .18s ease !important;
-}
-
-#sidebar .nav-item:hover,
-#sidebar nav a:hover,
-#sidebar nav button:hover,
-#sidebar [data-view]:hover {
-  background: #f2f6f2 !important;
-  color: var(--green) !important;
-}
-
-#sidebar .nav-item.active,
-#sidebar [data-view].active {
-  background: #eaf3ed !important;
-  color: var(--green-dark) !important;
-  border-color: transparent !important;
-}
-
-/* Top navigation */
-.topbar,
-#topbar {
-  background: rgba(255,255,255,.96) !important;
-  border: 1px solid var(--line) !important;
-  border-radius: 12px !important;
-  box-shadow: none !important;
-  padding: 13px 18px !important;
-}
-
-/* Main headings */
-.view-panel h1,
-.view-panel h2,
-.view-panel h3 {
-  color: var(--ink);
-  font-weight: 700;
-}
-
-.view-panel h1 {
-  font-size: clamp(25px, 3vw, 34px) !important;
-}
-
-.view-panel h2 {
-  font-size: 21px !important;
-}
-
-/* Cards and panels */
-.card,
-.panel,
-.post-card,
-.resource-card,
-.feed-card,
-.profile-card,
-.composer,
-#postForm,
-#feed > *,
-#discussionsFeed > *,
-#communityFeed > *,
-#followingFeed > *,
-#savedList > *,
-#myUploadsList > *,
-#notificationsList > * {
-  background: #fff !important;
-  border: 1px solid var(--line) !important;
-  border-radius: 12px !important;
-  box-shadow: var(--shadow) !important;
-}
-
-#feed,
-#discussionsFeed,
-#communityFeed,
-#followingFeed,
-#savedList,
-#myUploadsList,
-#notificationsList {
-  gap: 13px !important;
-}
-
-/* Welcome banners */
-.hero,
-.hero-section,
-.welcome-banner {
-  border-radius: 14px !important;
-  box-shadow: none !important;
-}
-
-/* Buttons */
-button,
-.button,
-.btn {
-  border-radius: 9px !important;
-  font-weight: 700 !important;
-  box-shadow: none;
-}
-
-button[type="submit"],
-.primary,
-.btn-primary,
-#publishButton,
-#newPostTop,
-#authSubmit {
-  background: var(--green) !important;
-  border-color: var(--green) !important;
-  color: #fff !important;
-}
-
-button[type="submit"]:hover,
-.primary:hover,
-.btn-primary:hover,
-#publishButton:hover {
-  background: var(--green-dark) !important;
-}
-
-/* Inputs */
-input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
-textarea,
-select {
-  border: 1px solid #dfe5df !important;
-  border-radius: 9px !important;
-  background: #fff !important;
-  color: var(--ink) !important;
-  box-shadow: none !important;
-}
-
-input:focus,
-textarea:focus,
-select:focus {
-  border-color: var(--green) !important;
-  outline: 2px solid rgba(8,127,91,.10) !important;
-}
-
-/* Small labels and metadata */
-.badge,
-.tag,
-.pill {
-  border-radius: 6px !important;
-  font-family: 'DM Mono', monospace !important;
-  font-size: 11px !important;
-  letter-spacing: .01em;
-}
-
-/* Tables */
-table {
-  border-collapse: collapse !important;
-  background: #fff;
-}
-
-th {
-  background: #f7f9f6;
-  color: #657169;
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: .04em;
-}
-
-td, th {
-  border-bottom: 1px solid var(--line) !important;
-}
-
-/* Dialogs */
-dialog {
-  border: 1px solid var(--line) !important;
-  border-radius: 14px !important;
-  box-shadow: 0 24px 80px rgba(0,0,0,.16) !important;
-}
-
-/* YouTube learning cards */
-#youtubeCatalog .youtube-card {
-  border: 1px solid var(--line) !important;
-  border-radius: 11px !important;
-  box-shadow: none !important;
-  overflow: hidden;
-}
-
-#youtubeCatalog .youtube-card:hover {
-  border-color: var(--green) !important;
-  transform: translateY(-2px);
-}
-
-/* Keep dark mode intact */
-body.dark-mode {
-  color: #f3f4f6;
-}
-
-/* Responsive layout */
-@media (max-width: 900px) {
+/* LEARNLOOP — FULL-WIDTH YOCARD LAYOUT */
+@media (min-width: 901px) {
   .app-shell {
-    grid-template-columns: minmax(0, 1fr) !important;
-    padding: 12px !important;
+    display: grid !important;
+    grid-template-columns: 225px minmax(0, 1fr) !important;
+    gap: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+    min-height: 100vh !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
   #sidebar {
-    position: static !important;
+    position: sticky !important;
+    top: 0 !important;
+    width: 225px !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+    min-height: 100vh !important;
+    padding: 20px 14px !important;
+    background: #ffffff !important;
+    color: #18231e !important;
+    border: 0 !important;
+    border-right: 1px solid #e5e9e5 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  #sidebar .brand,
+  #sidebar .logo {
+    color: #087f5b !important;
+  }
+
+  #sidebar .side-label {
+    color: #87928b !important;
+  }
+
+  #sidebar nav a,
+  #sidebar nav button,
+  #sidebar .nav-item,
+  #sidebar [data-view] {
+    color: #536159 !important;
+    border-radius: 8px !important;
+  }
+
+  #sidebar .nav-item.active,
+  #sidebar [data-view].active,
+  #sidebar .active {
+    background: #e5f3ec !important;
+    color: #087f5b !important;
+    border-color: transparent !important;
+  }
+
+  #sidebar .sidebar-bottom {
+    border-color: #e5e9e5 !important;
+  }
+
+  .main-area {
     width: 100% !important;
-    height: auto !important;
-    max-height: none !important;
-  }
-}
-
-@media (max-width: 600px) {
-  .app-shell {
-    padding: 8px !important;
-  }
-
-  .topbar,
-  #topbar {
-    border-radius: 10px !important;
-    padding: 11px !important;
-  }
-
-  .card,
-  .panel,
-  .post-card,
-  .resource-card,
-  .feed-card,
-  .profile-card {
-    border-radius: 10px !important;
+    min-width: 0 !important;
+    min-height: 100vh !important;
+    padding: 28px 38px !important;
+    background: #f4f6f2 !important;
   }
 }
