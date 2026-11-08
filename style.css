@@ -9255,3 +9255,21 @@ body.dark-mode #libraryView .library-welcome input::placeholder {
     background: #f4f6f2 !important;
   }
 }
+@media (min-width: 901px) {
+  #sidebar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    width: 225px !important;
+    height: 100vh !important;
+    overflow-y: auto !important;
+    z-index: 1000 !important;
+  }
+
+  .main-area {
+    margin-left: 225px !important;
+    width: calc(100% - 225px) !important;
+    min-width: 0 !important;
+  }
+}
