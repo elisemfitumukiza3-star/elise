@@ -1505,7 +1505,7 @@ closeMobileMenu();
   if (view === "dashboard") updateDashboard();
    if (view === "community") renderCommunityAchievements();
   if (view === "library") searchBooks();
- if (view === "youtube") {
+if (view === "youtube") {
   const youtubeInput = document.getElementById("youtubeSearchInput");
   const youtubeStatus = document.getElementById("youtubeStatus");
 
@@ -1513,14 +1513,10 @@ closeMobileMenu();
     youtubeInput.value = "";
   }
 
- if (youtubeStatus) {
-  youtubeStatus.textContent = "Loading educational videos...";
+  if (youtubeStatus) {
+    youtubeStatus.textContent = "";
+  }
 }
-
-loadLatestEducationalVideos();
-
-  // Do not automatically call searchYouTubeVideos().
-}  
 
   if (view === "messages") loadConversations();
   if (view === "notifications") loadNotifications(); 
