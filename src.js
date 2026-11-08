@@ -1508,13 +1508,18 @@ closeMobileMenu();
 if (view === "youtube") {
   const youtubeInput = document.getElementById("youtubeSearchInput");
   const youtubeStatus = document.getElementById("youtubeStatus");
+  const youtubeResults = document.getElementById("youtubeResults");
 
   if (youtubeInput) {
     youtubeInput.value = "";
   }
 
-  if (youtubeStatus) {
-    youtubeStatus.textContent = "";
+  if (youtubeResults && !youtubeResults.children.length) {
+    if (youtubeStatus) {
+      youtubeStatus.textContent = "Loading educational videos...";
+    }
+
+    loadLatestEducationalVideos();
   }
 }
 
