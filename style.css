@@ -11767,3 +11767,214 @@ body.dark-mode .post-body {
     padding: 7px 9px;
   }
 }
+
+/* =========================================
+   LEARNLOOP — FINAL THEME CONSISTENCY FIX
+   ========================================= */
+
+/* LIGHT MODE */
+:root {
+  --ll-bg: #f4f7f5;
+  --ll-surface: #ffffff;
+  --ll-surface-soft: #f7faf8;
+  --ll-text: #192820;
+  --ll-muted: #64746a;
+  --ll-border: #e1e9e3;
+}
+
+body:not(.dark-mode) {
+  background: var(--ll-bg) !important;
+  color: var(--ll-text) !important;
+}
+
+body:not(.dark-mode) :is(
+  #sidebar,
+  .sidebar,
+  .main-area,
+  .topbar,
+  .search-wrap,
+  .card,
+  .panel,
+  .post-card,
+  .resource-card,
+  .profile-card,
+  .composer,
+  #postForm,
+  .academy-section,
+  .academy-course-card,
+  .academy-topic-item,
+  .messages-workspace,
+  .messages-sidebar,
+  .messages-chat,
+  .youtube-card,
+  #youtubePlayerPanel,
+  .library-page,
+  .stat-card,
+  .metric-card,
+  .dashboard-card,
+  dialog
+) {
+  color: var(--ll-text);
+  border-color: var(--ll-border);
+}
+
+/* DARK MODE */
+body.dark-mode {
+  --ll-bg: #101a15;
+  --ll-surface: #1b2922;
+  --ll-surface-soft: #24362b;
+  --ll-text: #f1f5f2;
+  --ll-muted: #b1beb5;
+  --ll-border: #3a5143;
+
+  background: var(--ll-bg) !important;
+  color: var(--ll-text) !important;
+  color-scheme: dark;
+}
+
+body.dark-mode :is(
+  #sidebar,
+  .sidebar,
+  .main-area,
+  .topbar,
+  .search-wrap,
+  .card,
+  .panel,
+  .post-card,
+  .resource-card,
+  .profile-card,
+  .composer,
+  #postForm,
+  #feed > *,
+  #postsFeed > *,
+  .academy-section,
+  .academy-course-card,
+  .academy-topic-item,
+  .messages-workspace,
+  .messages-sidebar,
+  .messages-chat,
+  .messages-composer,
+  .youtube-card,
+  #youtubePlayerPanel,
+  .library-page,
+  .library-book-card,
+  .book-card,
+  .stat-card,
+  .metric-card,
+  .analytics-card,
+  .dashboard-card,
+  .empty-state,
+  dialog
+) {
+  background-color: var(--ll-surface) !important;
+  color: var(--ll-text) !important;
+  border-color: var(--ll-border) !important;
+}
+
+/* Readable text */
+body.dark-mode :is(
+  h1, h2, h3, h4, h5, h6,
+  p, label, li, small, strong,
+  td, th, .post-meta, .post-date,
+  .post-author, .description,
+  .subtitle, .muted
+) {
+  color: var(--ll-text);
+}
+
+/* Secondary surfaces */
+body.dark-mode :is(
+  .post-comments,
+  .comments-section,
+  .learning-stat,
+  .academy-topic-item,
+  .empty-state,
+  .messages-empty-state
+) {
+  background-color: var(--ll-surface-soft) !important;
+}
+
+/* Form fields */
+body.dark-mode :is(
+  input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+  textarea,
+  select
+) {
+  background-color: #17231c !important;
+  color: #f1f5f2 !important;
+  border-color: var(--ll-border) !important;
+}
+
+body.dark-mode :is(input, textarea)::placeholder {
+  color: #aebdb3 !important;
+}
+
+/* Neutral buttons only — preserve colored buttons */
+body.dark-mode :is(
+  .secondary,
+  .btn-secondary,
+  .icon-button,
+  .post-actions button
+) {
+  background-color: #293a30;
+  color: #f1f5f2;
+  border-color: #455b4b;
+}
+
+/* Links */
+body.dark-mode a {
+  color: #8fc9ff;
+}
+
+/* Keep colored banners and primary actions recognizable */
+body.dark-mode :is(
+  .hero,
+  .hero-section,
+  .welcome-banner,
+  .public-hero,
+  .messages-page-heading
+) {
+  color: #ffffff;
+}
+
+body.dark-mode :is(
+  .hero,
+  .hero-section,
+  .welcome-banner,
+  .public-hero,
+  .messages-page-heading
+) :is(h1, h2, h3, p, span, strong) {
+  color: #ffffff;
+}
+
+body.dark-mode :is(
+  button[type="submit"],
+  .primary,
+  .btn-primary,
+  .button-primary,
+  #publishButton,
+  #authSubmit
+) {
+  color: #ffffff;
+}
+
+/* Tables */
+body.dark-mode th {
+  background-color: #24362b;
+  color: #f1f5f2;
+}
+
+body.dark-mode td {
+  color: #f1f5f2;
+  border-color: var(--ll-border);
+}
+
+/* Dialogs */
+body.dark-mode dialog {
+  background-color: #1b2922;
+  color: #f1f5f2;
+}
+
+body.dark-mode dialog::backdrop {
+  background: rgba(0, 0, 0, 0.72);
+}
