@@ -1348,7 +1348,6 @@ async function afterLogin() {
   await fetchProfile();
   updateAccountUI();
    await updateCommitteeDutyNav();
-  await loadFollowingIds();
   await loadPosts();
   await updateDashboard();
 }
