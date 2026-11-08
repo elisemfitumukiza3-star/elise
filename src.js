@@ -5145,14 +5145,12 @@ function setupYouTubePagination() {
   youtubePageObserver.observe(sentinel);
 }
 
-async function loadNextYouTubePage() {
+
   async function loadNextYouTubePage() {
 
   if (window.learnLoopYoutubeFeedState?.active) {
     return loadMoreLatestEducationalVideos();
   }
-
-  const results = document.getElementById("youtubeResults"); 
   const results = document.getElementById("youtubeResults");
   const status = document.getElementById("youtubeStatus");
   const apiKey = import.meta.env.VITE_YOUTUBE_API_KEY;
