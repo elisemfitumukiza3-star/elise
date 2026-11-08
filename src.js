@@ -1455,11 +1455,9 @@ document.querySelectorAll("#sidebar [data-view]").forEach(button => {
     button.removeAttribute("aria-current");
   }
 });
-   if (view === "people") {
-  await loadFollowingIds();
+ if (view === "people") {
   await loadPeople();
-}
-
+} 
   const info = VIEW_INFO[view];
   if ($("#topbarTitle")) $("#topbarTitle").textContent = info[0];
   if ($("#topbarSubtitle")) $("#topbarSubtitle").textContent = info[1];
