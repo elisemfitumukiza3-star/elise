@@ -9273,3 +9273,257 @@ body.dark-mode #libraryView .library-welcome input::placeholder {
     min-width: 0 !important;
   }
 }
+/* =====================================================
+   LEARNLOOP — PREMIUM WORKSPACE DESIGN
+   Fixed sidebar • Full-width workspace • Responsive
+===================================================== */
+
+@media (min-width: 901px) {
+
+  /* Main application frame */
+  .app-shell {
+    display: grid !important;
+    grid-template-columns: 252px minmax(0, 1fr) !important;
+    align-items: start !important;
+    gap: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+    min-height: 100vh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: var(--canvas, #f5f8f5) !important;
+  }
+
+  /* Fixed navigation sidebar */
+  #sidebar {
+    position: fixed !important;
+    inset: 0 auto 0 0 !important;
+    z-index: 1000 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    width: 252px !important;
+    height: 100vh !important;
+    min-height: 100vh !important;
+    max-height: 100vh !important;
+    padding: 25px 17px 18px !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    background: #ffffff !important;
+    border: 0 !important;
+    border-right: 1px solid #e8ede9 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  /* Brand */
+  #sidebar .brand {
+    display: flex !important;
+    align-items: center !important;
+    gap: 11px !important;
+    margin: 0 0 30px !important;
+    padding: 4px 8px !important;
+    color: #087f5b !important;
+    font-size: 22px !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.8px !important;
+  }
+
+  #sidebar .brand-mark {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 38px !important;
+    height: 38px !important;
+    flex: 0 0 38px !important;
+    overflow: hidden !important;
+    border-radius: 11px !important;
+  }
+
+  #sidebar .brand-mark img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+  }
+
+  /* Sidebar section labels */
+  #sidebar .side-label {
+    margin: 17px 9px 9px !important;
+    color: #929d96 !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    letter-spacing: 1.25px !important;
+  }
+
+  /* Navigation groups */
+  #sidebar .nav-list {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 4px !important;
+    width: 100% !important;
+  }
+
+  #sidebar .nav-item {
+    display: flex !important;
+    align-items: center !important;
+    gap: 11px !important;
+    width: 100% !important;
+    min-height: 43px !important;
+    padding: 10px 12px !important;
+    border: 1px solid transparent !important;
+    border-radius: 9px !important;
+    background: transparent !important;
+    color: #59675f !important;
+    font-family: 'DM Sans', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    text-align: left !important;
+    transition: background .18s ease, color .18s ease !important;
+  }
+
+  #sidebar .nav-item:hover {
+    background: #f2f7f3 !important;
+    color: #087f5b !important;
+    transform: none !important;
+  }
+
+  #sidebar .nav-item.active {
+    background: #e8f4ed !important;
+    color: #087f5b !important;
+    border-color: #dceee2 !important;
+  }
+
+  /* Account area at the bottom */
+  #sidebar .sidebar-bottom {
+    margin-top: auto !important;
+    padding-top: 16px !important;
+    border-top: 1px solid #e8ede9 !important;
+  }
+
+  /* Workspace occupies the remaining screen */
+  .main-area {
+    grid-column: 2 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 100vh !important;
+    margin: 0 !important;
+    padding: 27px 36px 48px !important;
+    background: #f5f7f5 !important;
+  }
+
+  /* Clean top navigation */
+  .main-area .topbar {
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 18px !important;
+    min-height: 68px !important;
+    margin: 0 0 25px !important;
+    padding: 13px 19px !important;
+    background: #ffffff !important;
+    border: 1px solid #e8ede9 !important;
+    border-radius: 13px !important;
+    box-shadow: 0 2px 8px rgba(25, 55, 38, .035) !important;
+  }
+
+  .topbar-title {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2px !important;
+  }
+
+  .topbar-title strong {
+    color: #1c2b22 !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+  }
+
+  .topbar-title span {
+    color: #89958d !important;
+    font-size: 12px !important;
+  }
+
+  /* Main content width */
+  .content-layout,
+  .content-column {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+  }
+
+  /* Search field */
+  #searchInput {
+    max-width: 100% !important;
+    min-height: 46px !important;
+    padding: 12px 16px !important;
+    background: #ffffff !important;
+    border: 1px solid #e4eae5 !important;
+    border-radius: 10px !important;
+  }
+
+  /* Content cards */
+  .main-area .card,
+  .main-area .panel,
+  .main-area .composer,
+  .main-area .post-card,
+  .main-area .resource-card,
+  .main-area .feed-card {
+    border: 1px solid #e7ece8 !important;
+    border-radius: 13px !important;
+    box-shadow: 0 2px 9px rgba(25, 55, 38, .035) !important;
+  }
+
+  /* Section headings */
+  .main-area .section-heading {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 15px !important;
+    margin: 25px 0 15px !important;
+  }
+
+  .main-area .section-heading h2 {
+    color: #1d2b22 !important;
+    font-size: 21px !important;
+    font-weight: 700 !important;
+  }
+
+  .main-area .section-heading p {
+    color: #87938b !important;
+    font-size: 13px !important;
+  }
+
+  /* Feed spacing */
+  #feed,
+  #postsFeed {
+    display: grid !important;
+    gap: 15px !important;
+    width: 100% !important;
+  }
+
+  /* Buttons */
+  .main-area .button-primary,
+  .main-area .btn-primary {
+    border-radius: 9px !important;
+    font-weight: 700 !important;
+    box-shadow: none !important;
+  }
+
+  /* Hide mobile menu on desktop */
+  .main-area .mobile-menu {
+    display: none !important;
+  }
+}
+
+/* Preserve the existing mobile/tablet navigation behavior */
+@media (max-width: 900px) {
+  .app-shell {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .main-area {
+    min-width: 0 !important;
+    width: 100% !important;
+  }
+}
