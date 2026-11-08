@@ -1513,10 +1513,11 @@ closeMobileMenu();
     youtubeInput.value = "";
   }
 
-  if (youtubeStatus) {
-    youtubeStatus.textContent =
-      "Explore the latest educational videos or search for a subject.";
-  }
+ if (youtubeStatus) {
+  youtubeStatus.textContent = "Loading educational videos...";
+}
+
+loadLatestEducationalVideos();
 
   // Do not automatically call searchYouTubeVideos().
 }  
