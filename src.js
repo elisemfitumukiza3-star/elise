@@ -1495,7 +1495,6 @@ document.querySelectorAll(".view-panel").forEach(panel => {
 
 closeMobileMenu();
   if (view === "dashboard") updateDashboard();
-   if (view === "community") renderCommunityAchievements();
   if (view === "library") searchBooks();
 if (view === "youtube") {
   const youtubeInput = document.getElementById("youtubeSearchInput");
