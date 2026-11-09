@@ -12509,3 +12509,87 @@ body.dark-mode .learning-stat {
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+/* =================================================
+   LEARNLOOP ACADEMY — EXTENDED COURSE COLOR SYSTEM
+   Preserve courses 1–7; extend colors to all others.
+   ================================================= */
+
+/* Course 8 — Indigo */
+#academyCourseGrid .academy-course-card:nth-child(8n + 8) {
+  --course-color: #5261c9;
+  background: linear-gradient(145deg, #edf0ff, #dce2ff) !important;
+  border-color: #bdc7ff !important;
+}
+
+/* Course 9 — Emerald */
+#academyCourseGrid .academy-course-card:nth-child(8n + 9) {
+  --course-color: #087f68;
+  background: linear-gradient(145deg, #e4faf3, #c9f1e5) !important;
+  border-color: #a6e5d3 !important;
+}
+
+/* Course 10 — Rose */
+#academyCourseGrid .academy-course-card:nth-child(8n + 10) {
+  --course-color: #c13d79;
+  background: linear-gradient(145deg, #fff0f6, #fbd9e9) !important;
+  border-color: #f0b8d2 !important;
+}
+
+/* Course 11 — Sky blue */
+#academyCourseGrid .academy-course-card:nth-child(8n + 11) {
+  --course-color: #087eaa;
+  background: linear-gradient(145deg, #e8f8ff, #cceeff) !important;
+  border-color: #a9def3 !important;
+}
+
+/* Course 12 — Coral */
+#academyCourseGrid .academy-course-card:nth-child(8n + 12) {
+  --course-color: #c65336;
+  background: linear-gradient(145deg, #fff0e9, #ffdbcf) !important;
+  border-color: #f2bda9 !important;
+}
+
+/* Course 13 — Teal */
+#academyCourseGrid .academy-course-card:nth-child(8n + 13) {
+  --course-color: #087f86;
+  background: linear-gradient(145deg, #e6fbfc, #c9f4f5) !important;
+  border-color: #9ce5e9 !important;
+}
+
+/* Course 14 — Violet */
+#academyCourseGrid .academy-course-card:nth-child(8n + 14) {
+  --course-color: #7543b8;
+  background: linear-gradient(145deg, #f4edff, #e5d7ff) !important;
+  border-color: #d0b9f2 !important;
+}
+
+/* Course 15 — Gold */
+#academyCourseGrid .academy-course-card:nth-child(8n + 15) {
+  --course-color: #997000;
+  background: linear-gradient(145deg, #fff9df, #ffedb5) !important;
+  border-color: #efda94 !important;
+}
+
+/* Matching icons, badges and buttons */
+#academyCourseGrid .academy-course-card .academy-course-icon {
+  background: var(--course-color) !important;
+  color: #ffffff !important;
+}
+
+#academyCourseGrid .academy-course-card .academy-topic-count {
+  background: rgba(255,255,255,.78) !important;
+  border-color: rgba(255,255,255,.95) !important;
+  color: var(--course-color) !important;
+}
+
+#academyCourseGrid .academy-course-card .academy-open-course {
+  background: var(--course-color) !important;
+  color: #ffffff !important;
+  border-color: transparent !important;
+}
+
+#academyCourseGrid .academy-course-card .academy-open-course:disabled {
+  background: #94a3b8 !important;
+  color: #ffffff !important;
+}
