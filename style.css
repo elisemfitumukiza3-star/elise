@@ -12112,3 +12112,33 @@ body.dark-mode #featuredLesson a {
     padding: 16px 18px;
   }
 }
+/* FIX: LESSONS & ACADEMY CARD LIGHT-MODE TEXT */
+body:not(.dark-mode) #learnLoopLessonsButton,
+body:not(.dark-mode) .learnloop-lessons-card {
+  color: #192820 !important;
+}
+
+body:not(.dark-mode) #learnLoopLessonsButton
+.lessons-card-content p,
+body:not(.dark-mode) .learnloop-lessons-card
+.lessons-card-content p {
+  color: #52665a !important;
+  opacity: 1 !important;
+}
+
+body:not(.dark-mode) #learnLoopLessonsButton
+.lessons-card-content h2,
+body:not(.dark-mode) #learnLoopLessonsButton
+.lessons-card-content h3 {
+  color: #192820 !important;
+}
+
+body:not(.dark-mode) #learnLoopLessonsButton
+.lessons-card-label {
+  color: #087f5b !important;
+}
+
+body:not(.dark-mode) #learnLoopLessonsButton
+.lessons-card-link {
+  color: #075c43 !important;
+}
