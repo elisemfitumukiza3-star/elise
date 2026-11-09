@@ -13215,64 +13215,135 @@ pdf.text(completionDate, 148, 173, {
   align: "center"
 });
 
-// LearnLoop certificate signatory areas
-// Decorative digital marks — not substitutes for verified personal signatures.
+// ================================================
+// LEARNLOOP OFFICIAL CERTIFICATE SIGNATURES + MEDAL
+// Regular certificates only
+// ================================================
+
+// Signature areas: leave space for genuine approved
+// signature images to be inserted later.
 pdf.setDrawColor(...navy);
-pdf.setLineWidth(0.75);
-
-// Administrator decorative signature mark
-pdf.lines([
-  [4, 9, 4, -8, 5, 2, 4, 2, 2, 4, 4, 4, 4, -7, 4, -6, 4, 4, 4, 3, 5, -5]
-], 187, 158, [1, 1], "S", false);
-
-// Moderator decorative signature mark
-pdf.lines([
-  [3, 8, 4, -6, 4, 3, 4, 3, 3, -5, 4, -3, 3, 5, 4, 6, 4, -6, 5, -5, 6, 4]
-], 240, 158, [1, 1], "S", false);
-       
-// Signature lines
-pdf.setDrawColor(...gold);
 pdf.setLineWidth(0.6);
+
+pdf.setDrawColor(...gold);
 pdf.line(186, 174, 236, 174);
 pdf.line(239, 174, 287, 174);
 
-// Names below the lines
+// Signatory names
 pdf.setTextColor(...navy);
 pdf.setFont("times", "bold");
 pdf.setFontSize(9);
+
 pdf.text("MFITUMUKIZA Elise", 211, 181, {
   align: "center"
 });
+
 pdf.text("NAHIMANA Moise", 263, 181, {
-  align: "center",
-  maxWidth: 46
-});
-// Official titles
-pdf.setFont("helvetica", "bold");
-pdf.setFontSize(6.2);
-pdf.text("DIRECTOR & PLATFORM ADMINISTRATOR", 211, 187, {
-  align: "center",
-  maxWidth: 50
-});
-pdf.text("EDUCATION & COMMUNITY MODERATOR", 263, 187, {
-  align: "center",
-  maxWidth: 50
-});
-
-// LearnLoop award seal
-pdf.setFillColor(...gold);
-pdf.circle(148.5, 181, 8, "F");
-
-pdf.setDrawColor(...navy);
-pdf.setLineWidth(0.8);
-pdf.circle(148.5, 181, 6.5, "S");
-
-pdf.setTextColor(...navy);
-pdf.setFont("helvetica", "bold");
-pdf.setFontSize(8);
-pdf.text("LL", 148.5, 183.5, {
   align: "center"
 });
+
+// Correct official titles
+pdf.setFont("helvetica", "bold");
+pdf.setFontSize(6.2);
+
+pdf.text("PLATFORM ADMINISTRATOR", 211, 187, {
+  align: "center"
+});
+
+pdf.text("ACADEMIC COORDINATOR", 263, 187, {
+  align: "center"
+});
+
+// ================================================
+// PREMIUM GOLD ACHIEVEMENT MEDAL
+// Same original position as the double-LL emblem
+// ================================================
+
+// Outer gold medal
+pdf.setFillColor(218, 177, 78);
+pdf.setDrawColor(151, 109, 32);
+pdf.setLineWidth(0.8);
+pdf.circle(148.5, 181, 8.5, "FD");
+
+// Inner embossed ring
+pdf.setDrawColor(255, 239, 184);
+pdf.setLineWidth(0.7);
+pdf.circle(148.5, 181, 7.1, "S");
+
+// Inner gold face
+pdf.setFillColor(250, 224, 151);
+pdf.circle(148.5, 181, 5.8, "F");
+
+// Fine inner border
+pdf.setDrawColor(172, 126, 42);
+pdf.setLineWidth(0.4);
+pdf.circle(148.5, 181, 5.2, "S");
+
+// Laurel wreath
+pdf.setDrawColor(120, 88, 30);
+pdf.setLineWidth(0.55);
+
+for (let i = 0; i < 5; i++) {
+  const offset = i * 1.8;
+
+  // Left laurel leaves
+  pdf.ellipse(
+    145.5 - offset * 0.18,
+    177.8 + offset,
+    0.65,
+    1.15,
+    "S"
+  );
+
+  // Right laurel leaves
+  pdf.ellipse(
+    151.5 + offset * 0.18,
+    177.8 + offset,
+    0.65,
+    1.15,
+    "S"
+  );
+}
+
+// Central achievement star
+pdf.setFillColor(151, 109, 32);
+pdf.setDrawColor(151, 109, 32);
+
+pdf.triangle(
+  148.5, 177.5,
+  149.4, 180,
+  151.8, 180,
+  "F"
+);
+
+pdf.triangle(
+  148.5, 177.5,
+  145.2, 180,
+  147.6, 180,
+  "F"
+);
+
+pdf.setFillColor(255, 248, 220);
+pdf.circle(148.5, 181.2, 1.15, "F");
+
+// Small decorative ribbon tails
+pdf.setFillColor(177, 43, 39);
+pdf.setDrawColor(130, 35, 30);
+
+pdf.triangle(
+  144.5, 188,
+  147, 188,
+  146.2, 192,
+  "FD"
+);
+
+pdf.triangle(
+  150, 188,
+  152.5, 188,
+  150.8, 192,
+  "FD"
+);
+
 
 // Website footer
 pdf.setDrawColor(...gold);
