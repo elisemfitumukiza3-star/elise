@@ -12794,17 +12794,18 @@ quizPanel.textContent = "Checking your course completion...";
 certificatePanel.replaceChildren();
 
 try {
-  const { data: existingCertificate, error: certificateError } =
-    await supabase
-      .from("certificates")
-      .select("certificate_number, learner_name, course_title, completion_date")
-      .eq("user_id", learnerId)
-     .eq("course_title", course.title) 
-      .maybeSingle();
-
-  if (certificateError) throw certificateError;
-
  
+const { data: existingCertificate, error: certificateError } =
+  await supabase
+    .from("certificates")
+    .select("certificate_number, learner_name, course_title, completion_date")
+    .eq("user_id", learnerId)
+    .eq("course_title", course.title)
+    .limit(1)
+    .maybeSingle();
+
+if (certificateError) throw certificateError;
+
 if (existingCertificate) {
   quizPanel.replaceChildren();
 
