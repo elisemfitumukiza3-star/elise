@@ -13217,16 +13217,14 @@ pdf.text(completionDate, 148, 173, {
 });
 
 // ================================================
-// LEARNLOOP OFFICIAL CERTIFICATE SIGNATURES + MEDAL
+// LEARNLOOP OFFICIAL CERTIFICATE SIGNATURES
 // Regular certificates only
 // ================================================
 
-// Signature areas: leave space for genuine approved
-// signature images to be inserted later.
-pdf.setDrawColor(...navy);
+// Two signature lines
+pdf.setDrawColor(...gold);
 pdf.setLineWidth(0.6);
 
-pdf.setDrawColor(...gold);
 pdf.line(186, 174, 236, 174);
 pdf.line(239, 174, 287, 174);
 
@@ -13243,7 +13241,7 @@ pdf.text("NAHIMANA Moise", 263, 181, {
   align: "center"
 });
 
-// Correct official titles
+// Official titles
 pdf.setFont("helvetica", "bold");
 pdf.setFontSize(6.2);
 
@@ -13254,7 +13252,6 @@ pdf.text("PLATFORM ADMINISTRATOR", 211, 187, {
 pdf.text("ACADEMIC COORDINATOR", 263, 187, {
   align: "center"
 });
-
 
 
 // Website footer
