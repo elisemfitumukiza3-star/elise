@@ -11978,3 +11978,137 @@ body.dark-mode dialog {
 body.dark-mode dialog::backdrop {
   background: rgba(0, 0, 0, 0.72);
 }
+/* ==========================================
+   LEARNLOOP FINAL POSTS + LESSON FIX
+   ========================================== */
+
+/* POSTS: RESPONSIVE THREE-COLUMN GRID */
+#postsFeed {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: start;
+  gap: 22px;
+  width: 100%;
+  min-width: 0;
+}
+
+#postsFeed > .post-card {
+  min-width: 0;
+  height: auto;
+  align-self: start;
+  overflow: hidden;
+}
+
+#postsFeed .post-image-preview {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 340px;
+  object-fit: contain;
+}
+
+#postsFeed .post-body {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* TABLET: TWO COLUMNS */
+@media (max-width: 1000px) {
+  #postsFeed {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+}
+
+/* MOBILE: ONE COLUMN */
+@media (max-width: 650px) {
+  #postsFeed {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+}
+
+/* LESSON OF THE DAY: COMPACT LAYOUT */
+#featuredLesson {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(150px, 30%);
+  align-items: center;
+  gap: 16px;
+  min-height: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+#featuredLesson .featured-lesson-content {
+  min-width: 0;
+  padding: 18px 20px;
+}
+
+#featuredLesson h3 {
+  margin: 8px 0;
+  font-size: 20px;
+  line-height: 1.3;
+}
+
+#featuredLesson p {
+  margin: 0 0 10px;
+  line-height: 1.5;
+}
+
+#featuredLessonImage {
+  display: block;
+  width: 100%;
+  height: 155px;
+  min-height: 0;
+  max-height: 155px;
+  object-fit: cover;
+}
+
+/* LIGHT MODE: RESTORE TEXT VISIBILITY */
+body:not(.dark-mode) #featuredLesson h3 {
+  color: #192820 !important;
+}
+
+body:not(.dark-mode) #featuredLesson p {
+  color: #64746a !important;
+}
+
+body:not(.dark-mode) #featuredLesson .featured-badge {
+  color: #9b641b !important;
+}
+
+body:not(.dark-mode) #featuredLesson a {
+  color: #087f5b !important;
+}
+
+/* DARK MODE: PRESERVE READABILITY */
+body.dark-mode #featuredLesson h3,
+body.dark-mode #featuredLesson p {
+  color: #f1f5f2 !important;
+}
+
+body.dark-mode #featuredLesson .featured-badge {
+  color: #f3c879 !important;
+}
+
+body.dark-mode #featuredLesson a {
+  color: #8fc9ff !important;
+}
+
+/* SMALL SCREENS: COMPACT STACKED LESSON */
+@media (max-width: 760px) {
+  #featuredLesson {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  #featuredLessonImage {
+    grid-row: 1;
+    height: 135px;
+    max-height: 135px;
+  }
+
+  #featuredLesson .featured-lesson-content {
+    padding: 16px 18px;
+  }
+}
