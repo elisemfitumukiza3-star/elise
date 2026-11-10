@@ -1,0 +1,210 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LearnLoop | Teacher Workspace</title>
+<style>
+:root{
+--ink:#18334d;--green:#176b58;--green2:#238a70;
+--gold:#d5a94e;--bg:#f3f7f6;--white:#fff;
+--muted:#81918f;--line:#e5ece9
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,"Segoe UI",Arial,sans-serif}
+button,input{font:inherit}
+button{cursor:pointer}
+.app{display:flex;min-height:100vh}
+.sidebar{
+width:260px;flex-shrink:0;background:#103d36;color:white;
+padding:25px 17px;display:flex;flex-direction:column
+}
+.brand{font-size:24px;font-weight:850;padding:5px 12px 28px}
+.brand span{color:#e5c477}
+.brand small{display:block;font-size:10px;letter-spacing:2px;color:#a9c8be;margin-top:7px}
+.nav-label{font-size:10px;letter-spacing:1.8px;color:#91b5a9;padding:15px 13px 8px}
+.nav button{
+display:flex;align-items:center;gap:13px;width:100%;
+padding:13px;border:0;border-radius:9px;margin:3px 0;
+background:transparent;color:#dcece6;text-align:left;font-size:13px
+}
+.nav button:hover{background:#ffffff12}
+.nav button.active{background:#e3c477;color:#173b35;font-weight:750}
+.nav .ico{width:22px;text-align:center;font-size:17px}
+.sidebar-foot{margin-top:auto;padding:20px 12px 5px;border-top:1px solid #ffffff25;color:#b7d0c7;font-size:12px;line-height:1.7}
+.main{flex:1;min-width:0}
+.topbar{
+height:74px;background:white;border-bottom:1px solid var(--line);
+display:flex;align-items:center;padding:0 25px;gap:20px
+}
+.menu{border:0;background:none;color:var(--green);font-size:24px}
+.search{flex:1;max-width:580px}
+.search input{width:100%;padding:12px 16px;border:1px solid var(--line);border-radius:25px;background:#f8fbfa;outline:none}
+.top-right{margin-left:auto;display:flex;align-items:center;gap:20px}
+.top-right button{border:0;background:none;color:var(--green);font-size:19px}
+.profile{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:700}
+.avatar{width:38px;height:38px;border-radius:50%;background:#e5f0eb;display:grid;place-items:center;font-size:20px}
+.content{max-width:1600px;margin:auto;padding:24px}
+.hero{
+border-radius:17px;padding:32px;color:white;min-height:220px;
+background:linear-gradient(110deg,#103d36,#176b58 68%,#3b8a72);
+position:relative;overflow:hidden
+}
+.hero:after{content:"✎";position:absolute;right:8%;top:20px;font-size:145px;color:#ffffff15}
+.hero-content{position:relative;z-index:1;max-width:650px}
+.eyebrow{font-size:11px;letter-spacing:2px;color:#ead18e;font-weight:800}
+.hero h1{font-size:30px;margin:13px 0}
+.hero p{font-size:14px;line-height:1.7;color:#e0eee8}
+.hero button{padding:11px 18px;border:0;border-radius:8px;background:#e5c477;color:#173d35;font-weight:750}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:19px 0}
+.metric,.panel{background:white;border:1px solid var(--line);border-radius:14px;box-shadow:0 4px 14px #173b3508}
+.metric{padding:19px;display:flex;gap:13px;align-items:center}
+.metric-icon{width:49px;height:49px;border-radius:13px;background:#eaf5f0;display:grid;place-items:center;font-size:23px}
+.metric:nth-child(2) .metric-icon{background:#f4f0ff}
+.metric:nth-child(3) .metric-icon{background:#fff5e4}
+.metric:nth-child(4) .metric-icon{background:#eaf3fb}
+.metric strong{font-size:24px;display:block}
+.metric small{color:var(--muted);font-size:12px}
+.grid{display:grid;grid-template-columns:1.1fr 1fr;gap:17px}
+.panel{padding:21px;min-width:0}
+.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:17px;gap:10px}
+.panel h2{font-size:16px;margin:0}
+.panel-head a{font-size:12px;color:var(--green);text-decoration:none}
+.action-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}
+.action{
+border:1px solid var(--line);background:#f1f7f4;
+border-radius:12px;min-height:105px;padding:13px 7px;
+display:flex;flex-direction:column;align-items:center;justify-content:center;
+gap:9px;color:var(--green);font-size:12px;font-weight:700
+}
+.action:nth-child(3n){background:#fff7e9}
+.action span{font-size:25px}
+.action:hover{border-color:#d7b96e;transform:translateY(-2px)}
+.lesson{display:flex;align-items:center;gap:13px;padding:13px 0;border-bottom:1px solid var(--line)}
+.lesson:last-child{border:0}
+.lesson-icon{width:40px;height:40px;background:#eaf5f0;border-radius:11px;display:grid;place-items:center;font-size:19px}
+.lesson strong{font-size:13px}
+.lesson small{display:block;color:var(--muted);font-size:11px;margin-top:5px}
+.status{margin-left:auto;font-size:10px;background:#e9f5ed;color:#27734d;padding:6px 9px;border-radius:20px}
+.lower{display:grid;grid-template-columns:1fr 1fr;gap:17px;margin-top:17px}
+.progress-row{padding:12px 0;border-bottom:1px solid var(--line);font-size:12px}
+.progress-row:last-child{border:0}
+.track{height:7px;background:#edf2ef;border-radius:10px;margin-top:9px;overflow:hidden}
+.track span{height:100%;display:block;background:var(--green2);border-radius:10px}
+.footer{padding:23px 5px;color:#82918d;font-size:11px;display:flex;justify-content:space-between;gap:10px}
+.mobile{display:none}
+@media(max-width:1050px){.sidebar{width:225px}.metrics{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:760px){
+.sidebar{position:fixed;z-index:10;top:0;bottom:0;left:-270px;width:260px;transition:left .2s}
+.sidebar.open{left:0}
+.mobile{display:block}
+.topbar{padding:0 12px;gap:10px}
+.top-right{gap:10px}.profile .profile-name{display:none}
+.content{padding:14px}
+.hero{padding:24px}.hero h1{font-size:25px}
+.grid,.lower{grid-template-columns:1fr}
+.action-grid{grid-template-columns:repeat(2,1fr)}
+.footer{flex-direction:column}
+}
+@media(max-width:390px){.metrics{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar" id="sidebar">
+ <div class="brand">LearnLoop<span>®</span><small>TEACHER WORKSPACE</small></div>
+ <div class="nav-label">TEACHING CENTRE</div>
+ <nav class="nav">
+  <button class="active" data-page="Dashboard"><span class="ico">⌂</span>Dashboard</button>
+  <button data-page="My Classes"><span class="ico">▦</span>My Classes</button>
+  <button data-page="My Students"><span class="ico">♧</span>My Students</button>
+  <button data-page="Lessons & Courses"><span class="ico">▤</span>Lessons & Courses</button>
+  <button data-page="Assignments"><span class="ico">✎</span>Assignments</button>
+  <button data-page="Quizzes & Tests"><span class="ico">☑</span>Quizzes & Tests</button>
+  <button data-page="Examinations"><span class="ico">▣</span>Examinations</button>
+  <button data-page="Live Classes"><span class="ico">◉</span>Live Classes</button>
+  <button data-page="Learning Materials"><span class="ico">▧</span>Learning Materials</button>
+  <button data-page="Student Progress"><span class="ico">▥</span>Student Progress</button>
+  <button data-page="Messages"><span class="ico">✉</span>Messages</button>
+  <button data-page="My Profile"><span class="ico">⚙</span>My Profile</button>
+ </nav>
+ <div class="sidebar-foot">Your Teaching Workspace<br>Prepare · Teach · Assess · Inspire</div>
+</aside>
+<main class="main">
+<header class="topbar">
+ <button class="menu mobile" id="menuButton">☰</button>
+ <div class="search"><input placeholder="⌕  Search classes, students, lessons..."></div>
+ <div class="top-right">
+  <button aria-label="Notifications">♧</button>
+  <button aria-label="Messages">✉</button>
+  <div class="profile"><div class="avatar">👩‍🏫</div><div class="profile-name">Teacher Account<small style="display:block;color:#84918e;font-weight:400">Teaching workspace</small></div></div>
+ </div>
+</header>
+<div class="content">
+<section class="hero">
+ <div class="hero-content">
+  <div class="eyebrow">LEARNLOOP EDUCATION NETWORK</div>
+  <h1>Teach with purpose. Inspire progress.</h1>
+  <p>Your dedicated teaching environment for preparing lessons, managing classes, assessing learning and following every student's progress.</p>
+  <button data-page="Lessons & Courses">＋ Create a lesson</button>
+ </div>
+</section>
+<section class="metrics">
+ <div class="metric"><div class="metric-icon">▦</div><div><strong>—</strong><small>Assigned classes</small></div></div>
+ <div class="metric"><div class="metric-icon">♧</div><div><strong>—</strong><small>My students</small></div></div>
+ <div class="metric"><div class="metric-icon">▤</div><div><strong>—</strong><small>Published lessons</small></div></div>
+ <div class="metric"><div class="metric-icon">☑</div><div><strong>—</strong><small>Active assessments</small></div></div>
+</section>
+<section class="grid">
+ <div class="panel">
+  <div class="panel-head"><h2>✦ Teaching Quick Actions</h2></div>
+  <div class="action-grid">
+   <button class="action" data-page="Lessons & Courses"><span>▤</span>Create Lesson</button>
+   <button class="action" data-page="Assignments"><span>✎</span>Give Assignment</button>
+   <button class="action" data-page="Quizzes & Tests"><span>☑</span>Create Quiz</button>
+   <button class="action" data-page="Examinations"><span>▣</span>Prepare Test</button>
+   <button class="action" data-page="Live Classes"><span>◉</span>Schedule Live Class</button>
+   <button class="action" data-page="Learning Materials"><span>⇧</span>Upload Material</button>
+  </div>
+ </div>
+ <div class="panel">
+  <div class="panel-head"><h2>▦ My Teaching Schedule</h2><a href="#" data-page="My Classes">View classes</a></div>
+  <div class="lesson"><div class="lesson-icon">📘</div><div><strong>Assigned classes</strong><small>Your school-assigned teaching groups</small></div><span class="status">Workspace</span></div>
+  <div class="lesson"><div class="lesson-icon">🕒</div><div><strong>Upcoming lessons</strong><small>Your teaching schedule will appear here</small></div></div>
+  <div class="lesson"><div class="lesson-icon">🎥</div><div><strong>Live teaching</strong><small>Manage class links and meeting codes</small></div></div>
+ </div>
+</section>
+<section class="lower">
+ <div class="panel">
+  <div class="panel-head"><h2>♧ Student Learning Progress</h2><a href="#" data-page="Student Progress">View details</a></div>
+  <div class="progress-row">Lesson completion overview<div class="track"><span style="width:0%"></span></div></div>
+  <div class="progress-row">Assignment participation<div class="track"><span style="width:0%"></span></div></div>
+  <div class="progress-row">Quiz participation<div class="track"><span style="width:0%"></span></div></div>
+  <p style="font-size:11px;color:#82918d">Progress indicators will use actual student activity.</p>
+ </div>
+ <div class="panel">
+  <div class="panel-head"><h2>✉ Teaching Updates</h2></div>
+  <div class="lesson"><div class="lesson-icon">📚</div><div><strong>Learning materials</strong><small>Organize resources for your students</small></div></div>
+  <div class="lesson"><div class="lesson-icon">📝</div><div><strong>Assessment centre</strong><small>Monitor quiz and test participation</small></div></div>
+  <div class="lesson"><div class="lesson-icon">🎓</div><div><strong>Student development</strong><small>Focus on progress and learning completion</small></div></div>
+ </div>
+</section>
+<footer class="footer"><span>© 2026 LearnLoop Teacher Workspace</span><span>Prepare · Teach · Assess · Inspire</span></footer>
+</div>
+</main>
+</div>
+<script>
+const sidebar=document.getElementById("sidebar");
+document.getElementById("menuButton").addEventListener("click",()=>sidebar.classList.toggle("open"));
+document.querySelectorAll("[data-page]").forEach(button=>{
+ button.addEventListener("click",()=>{
+  document.querySelectorAll(".nav button").forEach(item=>item.classList.remove("active"));
+  const target=document.querySelector('.nav button[data-page="'+button.dataset.page+'"]');
+  if(target)target.classList.add("active");
+  sidebar.classList.remove("open");
+ });
+});
+</script>
+</body>
+</html>
