@@ -1,0 +1,240 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LearnLoop | School Management Portal</title>
+<style>
+:root {
+  --navy:#06284b;
+  --navy2:#0b3965;
+  --gold:#e9b957;
+  --blue:#2878df;
+  --bg:#f2f6fc;
+  --white:#fff;
+  --text:#142c4c;
+  --muted:#75849a;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,"Segoe UI",Arial,sans-serif}
+button,input{font:inherit}
+button{cursor:pointer}
+.app{display:flex;min-height:100vh}
+.sidebar{
+ width:270px;flex-shrink:0;background:linear-gradient(180deg,#062b50,#031c38);
+ color:white;padding:25px 17px;display:flex;flex-direction:column;
+}
+.brand{font-size:25px;font-weight:850;padding:5px 12px 30px}
+.brand span{color:var(--gold)}
+.brand small{display:block;font-size:10px;letter-spacing:2px;color:#a9bdd2;margin-top:6px}
+.nav-label{font-size:10px;color:#819ab5;letter-spacing:1.7px;padding:15px 13px 8px}
+.nav button{
+ display:flex;align-items:center;gap:13px;width:100%;border:0;
+ background:transparent;color:#dce7f4;text-align:left;
+ padding:13px;border-radius:9px;margin:3px 0;font-size:13px;
+}
+.nav button:hover{background:#ffffff13}
+.nav button.active{background:linear-gradient(90deg,#f4d28b,#e9b957);color:#08294c;font-weight:750}
+.nav .ico{width:21px;text-align:center;font-size:17px}
+.sidebar-bottom{margin-top:auto;border-top:1px solid #ffffff25;padding:20px 12px 5px;color:#bdcce0;font-size:12px;line-height:1.7}
+.main{flex:1;min-width:0}
+.topbar{
+ height:76px;background:#fff;border-bottom:1px solid #e7edf5;
+ display:flex;align-items:center;padding:0 27px;gap:22px;
+}
+.menu{border:0;background:none;color:var(--navy);font-size:24px}
+.search{flex:1;max-width:590px}
+.search input{width:100%;padding:13px 17px;border:1px solid #e2eaf4;border-radius:30px;background:#f6f9fd;outline:none}
+.top-actions{margin-left:auto;display:flex;align-items:center;gap:22px}
+.top-actions button{border:0;background:none;color:var(--navy);font-size:19px}
+.admin{display:flex;align-items:center;gap:11px;font-size:12px;font-weight:700}
+.avatar{width:38px;height:38px;border-radius:50%;background:#e9eff8;display:grid;place-items:center;font-size:20px}
+.content{padding:24px 25px;max-width:1700px;margin:auto}
+.hero{
+ min-height:260px;border-radius:18px;overflow:hidden;padding:30px 36px;
+ background:linear-gradient(100deg,#06284b 0%,#0b3965 55%,#28608a 100%);
+ color:white;position:relative;display:flex;align-items:center;
+}
+.hero:after{content:"🏫";position:absolute;right:7%;bottom:8px;font-size:145px;opacity:.23}
+.hero-content{position:relative;z-index:1;max-width:650px}
+.hero .eyebrow{color:#f5d48f;font-size:12px;letter-spacing:2px;font-weight:800}
+.hero h1{font-size:32px;line-height:1.2;margin:13px 0}
+.hero p{color:#e1eaf4;line-height:1.6;font-size:14px}
+.school-meta{display:flex;flex-wrap:wrap;gap:25px;margin-top:24px;font-size:12px;color:#d5e2f0}
+.school-meta strong{display:block;color:white;margin-top:5px}
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin:20px 0}
+.metric,.panel{background:white;border:1px solid #e8edf5;border-radius:15px;box-shadow:0 4px 15px #18365b09}
+.metric{padding:20px;display:flex;align-items:center;gap:15px}
+.metric-icon{width:55px;height:55px;border-radius:14px;display:grid;place-items:center;font-size:25px;background:#edf4ff}
+.metric:nth-child(2) .metric-icon{background:#f2edff}
+.metric:nth-child(3) .metric-icon{background:#fff5e5}
+.metric:nth-child(4) .metric-icon{background:#f1edff}
+.metric strong{font-size:25px;display:block;color:var(--navy)}
+.metric small{color:var(--muted);font-size:12px}
+.metric .value{color:#8a96a8;font-size:11px;margin-top:5px}
+.dashboard-grid{display:grid;grid-template-columns:1.15fr 1fr;gap:18px}
+.panel{padding:22px;min-width:0}
+.panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:20px}
+.panel h2{font-size:17px;margin:0;color:var(--navy)}
+.panel-head select{padding:9px;border:1px solid #e6edf5;border-radius:9px;background:#f7f9fc;color:var(--text)}
+.chart{height:220px;display:flex;align-items:end;gap:7%;padding:12px 10px 25px;border-bottom:1px solid #e7edf5;position:relative}
+.chart:before,.chart:after{content:"";position:absolute;left:0;right:0;border-top:1px dashed #e5ebf3}
+.chart:before{top:28%}.chart:after{top:62%}
+.bar{flex:1;min-width:10px;background:linear-gradient(180deg,#65a6f4,#2878df);border-radius:7px 7px 0 0;position:relative;z-index:1}
+.bar span{position:absolute;bottom:-23px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--muted)}
+.quick-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.quick{
+ min-height:108px;border:1px solid #e8edf5;border-radius:13px;
+ background:#f1f6fd;color:var(--navy);display:flex;
+ flex-direction:column;align-items:center;justify-content:center;gap:10px;
+ font-size:12px;font-weight:700;padding:12px;
+}
+.quick:nth-child(3n){background:#fff6e9}
+.quick:hover{border-color:#d5b66e;transform:translateY(-2px)}
+.quick span{font-size:25px}
+.lower-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+.activity{display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid #edf1f6;font-size:12px}
+.activity:last-child{border:0}
+.activity-icon{width:35px;height:35px;border-radius:50%;background:#edf4ff;display:grid;place-items:center}
+.activity small{display:block;color:var(--muted);margin-top:4px}
+.footer{padding:24px 5px;color:#8190a4;font-size:11px;display:flex;justify-content:space-between;gap:10px}
+.mobile-only{display:none}
+@media(max-width:1100px){
+ .sidebar{width:225px}.metrics{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:760px){
+ .sidebar{position:fixed;z-index:10;top:0;bottom:0;left:-280px;width:260px;transition:left .2s}
+ .sidebar.open{left:0}
+ .mobile-only{display:block}
+ .topbar{padding:0 13px;gap:10px}
+ .top-actions{gap:10px}.admin .admin-name{display:none}
+ .content{padding:14px}
+ .hero{padding:24px;min-height:270px}
+ .hero h1{font-size:25px}
+ .dashboard-grid,.lower-grid{grid-template-columns:1fr}
+ .metrics{gap:10px}.metric{padding:13px;gap:9px}
+ .metric-icon{width:40px;height:40px;font-size:19px}
+ .metric strong{font-size:20px}
+ .quick-grid{grid-template-columns:repeat(2,1fr)}
+ .footer{flex-direction:column}
+}
+@media(max-width:390px){.metrics{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar" id="sidebar">
+ <div class="brand">✦ LearnLoop<span>®</span><small>SCHOOL MANAGEMENT PORTAL</small></div>
+ <div class="nav-label">INSTITUTIONAL WORKSPACE</div>
+ <nav class="nav">
+  <button class="active" data-page="Dashboard"><span class="ico">⌂</span>Dashboard</button>
+  <button data-page="School Profile"><span class="ico">🏫</span>School Profile</button>
+  <button data-page="Staff & Teachers"><span class="ico">♙</span>Staff & Teachers</button>
+  <button data-page="Students"><span class="ico">♧</span>Students</button>
+  <button data-page="Classes & Streams"><span class="ico">▦</span>Classes & Streams</button>
+  <button data-page="Academic Management"><span class="ico">▤</span>Academic Management</button>
+  <button data-page="Examinations & Assessments"><span class="ico">☑</span>Examinations & Assessments</button>
+  <button data-page="Learning Resources"><span class="ico">▣</span>Learning Resources</button>
+  <button data-page="Reports & Analytics"><span class="ico">▥</span>Reports & Analytics</button>
+  <button data-page="Communication"><span class="ico">✉</span>Communication</button>
+  <button data-page="Settings"><span class="ico">⚙</span>Settings</button>
+ </nav>
+ <div class="sidebar-bottom">✧ Your School, Digitally<br>Manage · Teach · Track · Grow</div>
+</aside>
+
+<main class="main">
+ <header class="topbar">
+  <button class="menu mobile-only" id="menuButton">☰</button>
+  <div class="search"><input placeholder="⌕  Search students, teachers, classes, reports..."></div>
+  <div class="top-actions">
+   <button aria-label="Notifications">♧</button>
+   <button aria-label="Help">ⓘ</button>
+   <div class="admin"><div class="avatar">👤</div><div class="admin-name">School Administrator<small style="display:block;color:#8794a6;font-weight:400">Institutional account</small></div></div>
+  </div>
+ </header>
+
+ <div class="content">
+  <section class="hero">
+   <div class="hero-content">
+    <div class="eyebrow">LEARNLOOP INSTITUTIONAL NETWORK</div>
+    <h1>Welcome to your school workspace</h1>
+    <p>Manage your institution, empower your teachers and support every learner through one connected academic workspace.</p>
+    <div class="school-meta">
+     <div>▦ Academic Year<strong>Not configured</strong></div>
+     <div>♙ Institution<strong>School account</strong></div>
+     <div>⌖ Location<strong>Not configured</strong></div>
+     <div>● Status<strong>Account verification</strong></div>
+    </div>
+   </div>
+  </section>
+
+  <section class="metrics">
+   <div class="metric"><div class="metric-icon">♧</div><div><strong>—</strong><small>Students</small><div class="value">Live school records</div></div></div>
+   <div class="metric"><div class="metric-icon">♙</div><div><strong>—</strong><small>Teachers</small><div class="value">Registered staff</div></div></div>
+   <div class="metric"><div class="metric-icon">▱</div><div><strong>—</strong><small>Classes</small><div class="value">Active classes</div></div></div>
+   <div class="metric"><div class="metric-icon">▣</div><div><strong>—</strong><small>Learning resources</small><div class="value">Published materials</div></div></div>
+  </section>
+
+  <section class="dashboard-grid">
+   <div class="panel">
+    <div class="panel-head"><h2>▥ &nbsp; Student Enrollment Overview</h2><select><option>This Academic Year</option></select></div>
+    <div class="chart">
+     <div class="bar" style="height:35%"><span>Jan</span></div>
+     <div class="bar" style="height:48%"><span>Feb</span></div>
+     <div class="bar" style="height:42%"><span>Mar</span></div>
+     <div class="bar" style="height:57%"><span>Apr</span></div>
+     <div class="bar" style="height:65%"><span>May</span></div>
+     <div class="bar" style="height:72%"><span>Jun</span></div>
+     <div class="bar" style="height:82%"><span>Jul</span></div>
+    </div>
+    <p style="font-size:11px;color:#8996a8">Enrollment analytics will appear when school records are connected.</p>
+   </div>
+   <div class="panel">
+    <div class="panel-head"><h2>✦ &nbsp; Quick Actions</h2></div>
+    <div class="quick-grid">
+     <button class="quick" data-page="Staff & Teachers"><span>♙+</span>Register Teacher</button>
+     <button class="quick" data-page="Students"><span>♧+</span>Enroll Student</button>
+     <button class="quick" data-page="Classes & Streams"><span>▱</span>Create Class</button>
+     <button class="quick" data-page="Examinations & Assessments"><span>▤</span>Create Assessment</button>
+     <button class="quick" data-page="Learning Resources"><span>⇧</span>Upload Resource</button>
+     <button class="quick" data-page="Communication"><span>⚑</span>Send Announcement</button>
+    </div>
+   </div>
+  </section>
+
+  <section class="lower-grid">
+   <div class="panel">
+    <div class="panel-head"><h2>▤ &nbsp; Academic Management</h2></div>
+    <div class="activity"><div class="activity-icon">♙</div><div>Teacher and staff administration<small>Manage staff records and school assignments</small></div></div>
+    <div class="activity"><div class="activity-icon">♧</div><div>Student learning progress<small>Follow participation and learning completion</small></div></div>
+    <div class="activity"><div class="activity-icon">▦</div><div>Classes and subjects<small>Organize classes, streams and subjects</small></div></div>
+   </div>
+   <div class="panel">
+    <div class="panel-head"><h2>♧ &nbsp; Institutional Activity</h2></div>
+    <div class="activity"><div class="activity-icon">✓</div><div>School workspace created<small>Connect your approved school account</small></div></div>
+    <div class="activity"><div class="activity-icon">▣</div><div>Academic tools available<small>Configure classes and learning activities</small></div></div>
+    <div class="activity"><div class="activity-icon">✉</div><div>Communication centre<small>School announcements and updates</small></div></div>
+   </div>
+  </section>
+  <footer class="footer"><span>© 2026 LearnLoop School Management Portal</span><span>Quality Education · Stronger Communities · A Brighter Future</span></footer>
+ </div>
+</main>
+</div>
+<script>
+const sidebar=document.getElementById("sidebar");
+document.getElementById("menuButton").addEventListener("click",()=>sidebar.classList.toggle("open"));
+document.querySelectorAll("[data-page]").forEach(button=>{
+ button.addEventListener("click",()=>{
+  document.querySelectorAll(".nav button").forEach(item=>item.classList.remove("active"));
+  const navItem=document.querySelector('.nav button[data-page="'+button.dataset.page+'"]');
+  if(navItem)navItem.classList.add("active");
+  sidebar.classList.remove("open");
+  if(button.classList.contains("quick")){
+   alert(button.dataset.page+" workspace will open when its management module is connected.");
+  }
+ });
+});
+</script>
+</body>
+</html>
