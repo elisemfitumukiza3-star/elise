@@ -12665,3 +12665,21 @@ body.dark-mode .learning-stat {
     grid-template-columns: 1fr;
   }
 }
+/* Normal LearnLoop sidebar — light theme */
+.app-shell .sidebar {
+  background: #F3F5F2 !important;
+  color: #172B4D !important;
+  border-right: 1px solid #E1E7E2;
+}
+
+.app-shell .sidebar a,
+.app-shell .sidebar button,
+.app-shell .sidebar span {
+  color: #263A56;
+}
+
+.app-shell .sidebar a.active,
+.app-shell .sidebar button.active {
+  background: #E1EAF5;
+  color: #173B68;
+}
