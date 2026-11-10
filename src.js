@@ -10606,168 +10606,591 @@ if (state.authMode === "signup") {
     setAuthMode("signup");
     openDialog("authDialog");
   });
-// LearnLoop School and Teacher applications
+
+// ============================================================
+// LEARNLOOP PROFESSIONAL APPLICATIONS — FULL-SCREEN EDITION
+// School and Teacher applications
+// ============================================================
+
+function addProfessionalApplicationStyles() {
+  if (document.getElementById("professionalApplicationStyles")) return;
+
+  const style = document.createElement("style");
+  style.id = "professionalApplicationStyles";
+  style.textContent = `
+    .professional-application {
+      position:fixed; inset:0; z-index:100000;
+      display:grid; grid-template-columns: minmax(280px, 34%) 1fr;
+      width:100vw; height:100dvh; overflow:hidden;
+      background:#f5f7fa; color:#17263b;
+      font-family:Arial,sans-serif;
+    }
+    .professional-application.school { --app-accent:#c69a3a; --app-dark:#142b49; }
+    .professional-application.teacher { --app-accent:#15977f; --app-dark:#103d3a; }
+
+    .professional-app-aside {
+      position:relative; overflow:hidden;
+      display:flex; flex-direction:column; justify-content:space-between;
+      padding:clamp(25px,4vw,60px);
+      background:var(--app-dark); color:white;
+    }
+    .professional-app-aside:after {
+      content:""; position:absolute; width:380px; height:380px;
+      right:-180px; bottom:-170px; border:55px solid #ffffff12;
+      border-radius:50%; pointer-events:none;
+    }
+    .professional-app-brand {
+      font-size:22px; font-weight:800; letter-spacing:-1px;
+    }
+    .professional-app-brand span { color:var(--app-accent); }
+    .professional-app-aside h1 {
+      max-width:480px; margin:55px 0 18px;
+      font-size:clamp(32px,4vw,55px); line-height:1.08;
+      color:white; letter-spacing:-2px;
+    }
+    .professional-app-aside p {
+      max-width:420px; color:#d1dce8; line-height:1.8;
+      font-size:15px;
+    }
+    .professional-app-aside .app-quote {
+      border-left:3px solid var(--app-accent);
+      padding-left:17px; margin-top:35px;
+      color:#e8edf4; font-size:14px; line-height:1.7;
+    }
+    .professional-app-aside small { color:#aebdce; }
+
+    .professional-app-main {
+      min-width:0; height:100%; overflow-y:auto;
+      padding:25px clamp(20px,5vw,75px) 55px;
+    }
+    .professional-app-top {
+      display:flex; justify-content:space-between; align-items:center;
+      gap:15px; margin-bottom:35px;
+    }
+    .professional-app-top span {
+      color:#718096; font-size:12px; font-weight:800;
+      letter-spacing:1.5px; text-transform:uppercase;
+    }
+    .professional-app-close {
+      width:42px; height:42px; border-radius:50%;
+      border:1px solid #dce3eb; background:white;
+      color:#26374d; font-size:23px; cursor:pointer;
+    }
+    .professional-app-heading h2 {
+      margin:0 0 10px; font-size:clamp(26px,3vw,38px);
+      color:#172b45; letter-spacing:-1.2px;
+    }
+    .professional-app-heading p {
+      max-width:720px; color:#718096; line-height:1.7;
+    }
+    .professional-app-progress {
+      display:flex; gap:7px; margin:25px 0 30px;
+    }
+    .professional-app-progress span {
+      height:5px; flex:1; border-radius:10px; background:#dce3eb;
+    }
+    .professional-app-progress span.active { background:var(--app-accent); }
+
+    .professional-app-section {
+      margin:0 0 25px; padding:25px;
+      border:1px solid #e1e7ee; border-radius:18px;
+      background:white; box-shadow:0 8px 28px #142b4908;
+    }
+    .professional-app-section h3 {
+      margin:0 0 5px; font-size:17px; color:#1c3552;
+    }
+    .professional-app-section > p {
+      margin:0 0 22px; color:#8290a0; font-size:13px;
+    }
+    .professional-app-grid {
+      display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:17px 20px;
+    }
+    .professional-app-field { min-width:0; }
+    .professional-app-field.full { grid-column:1/-1; }
+    .professional-app-field label {
+      display:block; margin-bottom:7px;
+      color:#34465d; font-size:13px; font-weight:700;
+    }
+    .professional-app-field input,
+    .professional-app-field select,
+    .professional-app-field textarea {
+      width:100%; max-width:none; min-height:47px;
+      padding:12px 14px; border:1px solid #dce3eb;
+      border-radius:10px; background:#fbfcfe;
+      color:#1d2d42; font-size:14px;
+    }
+    .professional-app-field textarea {
+      min-height:105px; resize:vertical;
+    }
+    .professional-app-field input:focus,
+    .professional-app-field select:focus,
+    .professional-app-field textarea:focus {
+      outline:2px solid color-mix(in srgb,var(--app-accent) 25%,transparent);
+      border-color:var(--app-accent);
+    }
+    .professional-app-field small {
+      display:block; margin-top:6px; color:#8793a2; font-size:11px;
+    }
+    .professional-app-check {
+      display:flex; align-items:flex-start; gap:10px;
+      margin:18px 0; color:#46566b; font-size:13px; line-height:1.6;
+    }
+    .professional-app-check input { margin-top:4px; accent-color:var(--app-accent); }
+    .professional-app-actions {
+      display:flex; justify-content:space-between; align-items:center;
+      flex-wrap:wrap; gap:12px; margin-top:25px;
+    }
+    .professional-app-submit {
+      min-width:210px; padding:15px 22px;
+      border:0; border-radius:11px;
+      background:var(--app-dark); color:white;
+      font-weight:800; cursor:pointer;
+    }
+    .professional-app-submit:hover { background:var(--app-accent); }
+    .professional-app-cancel {
+      padding:13px 18px; border:1px solid #dce3eb;
+      border-radius:10px; background:white; color:#536276;
+      cursor:pointer;
+    }
+    .professional-app-message {
+      min-height:22px; margin-top:15px;
+      color:#a13d32; font-size:13px;
+    }
+    .professional-app-success {
+      padding:35px 20px; text-align:center;
+      border-radius:18px; background:white;
+    }
+    .professional-app-success h2 { color:#173b35; }
+    .professional-app-success p { color:#718096; line-height:1.7; }
+    @media(max-width:850px) {
+      .professional-application { grid-template-columns:1fr; }
+      .professional-app-aside { display:none; }
+      .professional-app-main { padding:20px 16px 40px; }
+      .professional-app-top { margin-bottom:25px; }
+    }
+    @media(max-width:560px) {
+      .professional-app-grid { grid-template-columns:1fr; }
+      .professional-app-field.full { grid-column:auto; }
+      .professional-app-section { padding:18px; }
+      .professional-app-submit { width:100%; }
+      .professional-app-actions { flex-direction:column-reverse; align-items:stretch; }
+    }
+  `;
+  document.head.appendChild(style);
+}
+
 function openProfessionalApplication(type) {
   if (!state.session) {
     setAuthMode("login");
     openDialog("authDialog");
-    toast("Please sign in with your LearnLoop account before applying.", "error");
+    toast("Please sign in before submitting an application.", "error");
     return;
   }
 
   const isSchool = type === "school";
   const table = isSchool ? "school_applications" : "teacher_applications";
 
-  const dialog = document.createElement("dialog");
-  dialog.className = "professional-application-dialog";
+  addProfessionalApplicationStyles();
 
-  dialog.innerHTML = `
-    <form id="professionalApplicationForm">
-      <h2>${isSchool ? "School Application" : "Teacher Application"}</h2>
+  document.querySelector(".professional-application")?.remove();
 
-      ${isSchool ? `
-        <label>School name</label>
-        <input name="school_name" required maxlength="150">
+  const app = document.createElement("div");
+  app.className = `professional-application ${type}`;
 
-        <label>Location</label>
-        <input name="location" required maxlength="200">
+  const schoolFields = `
+    <section class="professional-app-section">
+      <h3>01 — Institutional identity</h3>
+      <p>Tell us exactly which institution is applying.</p>
+      <div class="professional-app-grid">
+        <div class="professional-app-field">
+          <label>Official school name *</label>
+          <input name="school_name" required maxlength="150">
+        </div>
+        <div class="professional-app-field">
+          <label>Institution type *</label>
+          <select name="institution_type" required>
+            <option value="">Choose type</option>
+            <option>Primary school</option>
+            <option>Secondary school</option>
+            <option>TVET institution</option>
+            <option>University or college</option>
+            <option>Early childhood institution</option>
+            <option>Other educational institution</option>
+          </select>
+        </div>
+        <div class="professional-app-field">
+          <label>Registration number *</label>
+          <input name="registration_number" required maxlength="100">
+        </div>
+        <div class="professional-app-field">
+          <label>Registration authority *</label>
+          <input name="registration_authority" required maxlength="150"
+            placeholder="Authority that registered the institution">
+        </div>
+        <div class="professional-app-field">
+          <label>Year established</label>
+          <input name="year_established" type="number" min="1800"
+            max="${new Date().getFullYear()}" placeholder="e.g. 2012">
+        </div>
+        <div class="professional-app-field">
+          <label>Head of school / principal *</label>
+          <input name="head_of_school" required maxlength="150">
+        </div>
+      </div>
+    </section>
 
-        <label>School description</label>
-        <textarea name="description" required maxlength="2000"></textarea>
-      ` : `
-        <label>Full name</label>
-        <input name="full_name" required maxlength="150">
+    <section class="professional-app-section">
+      <h3>02 — Location and official contact</h3>
+      <p>Provide details through which the institution can be verified.</p>
+      <div class="professional-app-grid">
+        <div class="professional-app-field">
+          <label>Country *</label>
+          <input name="country" required value="Rwanda">
+        </div>
+        <div class="professional-app-field">
+          <label>District / city *</label>
+          <input name="district" required maxlength="120">
+        </div>
+        <div class="professional-app-field full">
+          <label>Full physical address *</label>
+          <input name="location" required maxlength="250"
+            placeholder="Sector, cell, street or identifiable location">
+        </div>
+        <div class="professional-app-field">
+          <label>Official email *</label>
+          <input name="email" type="email"
+            value="${escapeHTML(state.session.user.email || "")}" required>
+        </div>
+        <div class="professional-app-field">
+          <label>Official phone *</label>
+          <input name="official_phone" type="tel" required maxlength="40">
+        </div>
+        <div class="professional-app-field full">
+          <label>Official website (if available)</label>
+          <input name="website" type="url" placeholder="https://">
+        </div>
+      </div>
+    </section>
 
-        <label>Subject or teaching area</label>
-        <input name="subject" required maxlength="150">
+    <section class="professional-app-section">
+      <h3>03 — Academic profile and capacity</h3>
+      <p>Help us understand the educational work of your institution.</p>
+      <div class="professional-app-grid">
+        <div class="professional-app-field">
+          <label>Education levels served *</label>
+          <input name="education_levels" required
+            placeholder="e.g. Primary, lower secondary">
+        </div>
+        <div class="professional-app-field">
+          <label>Approximate student population *</label>
+          <input name="student_population" type="number" min="1"
+            max="1000000" required>
+        </div>
+        <div class="professional-app-field">
+          <label>Approximate teacher population *</label>
+          <input name="teacher_population" type="number" min="1"
+            max="100000" required>
+        </div>
+        <div class="professional-app-field">
+          <label>School facilities</label>
+          <input name="facilities"
+            placeholder="e.g. Library, laboratories, computer room">
+        </div>
+        <div class="professional-app-field full">
+          <label>Institutional mission and educational priorities *</label>
+          <textarea name="institutional_mission" required maxlength="3000"
+            placeholder="What does your institution aim to achieve for its learners?"></textarea>
+        </div>
+        <div class="professional-app-field full">
+          <label>Brief institutional description *</label>
+          <textarea name="description" required maxlength="3000"
+            placeholder="Describe your institution, programmes and community."></textarea>
+        </div>
+      </div>
+    </section>
 
-        <label>Qualifications</label>
-        <textarea name="qualifications" required maxlength="2000"></textarea>
-      `}
-
-      <label>Email address</label>
-      <input name="email" type="email"
-        value="${escapeHTML(state.session.user.email || "")}" required>
-
-      <button type="submit">Submit application</button>
-      <button type="button" id="closeProfessionalApplication">Cancel</button>
-      <p id="professionalApplicationMessage"></p>
-    </form>
+    <section class="professional-app-section">
+      <h3>04 — Verification</h3>
+      <p>Provide a link to an official registration or verification document.</p>
+      <div class="professional-app-grid">
+        <div class="professional-app-field full">
+          <label>Verification document link</label>
+          <input name="verification_document_url" type="url"
+            placeholder="https://">
+          <small>Use a link to a document you are authorized to share. Do not submit passwords or private account credentials.</small>
+        </div>
+      </div>
+    </section>
   `;
 
-  document.body.append(dialog);
-  dialog.showModal();
+  const teacherFields = `
+    <section class="professional-app-section">
+      <h3>01 — Professional identity</h3>
+      <p>Tell us about the educator submitting this application.</p>
+      <div class="professional-app-grid">
+        <div class="professional-app-field">
+          <label>Full legal name *</label>
+          <input name="full_name" required maxlength="150">
+        </div>
+        <div class="professional-app-field">
+          <label>Email address *</label>
+          <input name="email" type="email"
+            value="${escapeHTML(state.session.user.email || "")}" required>
+        </div>
+        <div class="professional-app-field">
+          <label>Phone number *</label>
+          <input name="phone" type="tel" required maxlength="40">
+        </div>
+        <div class="professional-app-field">
+          <label>Country *</label>
+          <input name="country" required value="Rwanda">
+        </div>
+        <div class="professional-app-field full">
+          <label>Current location *</label>
+          <input name="location" required maxlength="200">
+        </div>
+      </div>
+    </section>
 
-  dialog.querySelector("#closeProfessionalApplication")
-    .addEventListener("click", () => dialog.close());
+    <section class="professional-app-section">
+      <h3>02 — Academic qualifications</h3>
+      <p>Describe your education and professional preparation.</p>
+      <div class="professional-app-grid">
+        <div class="professional-app-field">
+          <label>Highest qualification *</label>
+          <select name="highest_qualification" required>
+            <option value="">Select qualification</option>
+            <option>Certificate</option>
+            <option>Diploma</option>
+            <option>Bachelor's degree</option>
+            <option>Postgraduate diploma</option>
+            <option>Master's degree</option>
+            <option>Doctorate</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="professional-app-field">
+          <label>Qualification institution *</label>
+          <input name="qualification_institution" required maxlength="180">
+        </div>
+        <div class="professional-app-field">
+          <label>Years of teaching experience *</label>
+          <input name="years_experience" type="number" min="0"
+            max="70" required>
+        </div>
+        <div class="professional-app-field">
+          <label>Primary subject / teaching area *</label>
+          <input name="subject" required maxlength="150">
+        </div>
+        <div class="professional-app-field full">
+          <label>Other subjects you can teach</label>
+          <input name="subjects_taught" maxlength="500"
+            placeholder="Separate subjects with commas">
+        </div>
+        <div class="professional-app-field full">
+          <label>Grade levels you can teach *</label>
+          <input name="grade_levels" required maxlength="250"
+            placeholder="e.g. Primary 4–6, Senior 1–3">
+        </div>
+        <div class="professional-app-field full">
+          <label>Qualifications and professional training *</label>
+          <textarea name="qualifications" required maxlength="3000"
+            placeholder="List relevant certificates, degrees and training."></textarea>
+        </div>
+      </div>
+    </section>
 
-  dialog.querySelector("form").addEventListener("submit", async event => {
-    event.preventDefault();
+    <section class="professional-app-section">
+      <h3>03 — Teaching experience and approach</h3>
+      <p>Help us understand your classroom experience and educational values.</p>
+      <div class="professional-app-grid">
+        <div class="professional-app-field full">
+          <label>Teaching experience *</label>
+          <textarea name="teaching_experience" required maxlength="3000"
+            placeholder="Describe your previous teaching roles and responsibilities."></textarea>
+        </div>
+        <div class="professional-app-field full">
+          <label>Your teaching approach *</label>
+          <textarea name="teaching_approach" required maxlength="2500"
+            placeholder="How do you support different learners, assess understanding and encourage progress?"></textarea>
+        </div>
+        <div class="professional-app-field">
+          <label>Professional reference name</label>
+          <input name="reference_name" maxlength="150">
+        </div>
+        <div class="professional-app-field">
+          <label>Professional reference contact</label>
+          <input name="reference_contact" maxlength="180"
+            placeholder="Official email or phone">
+        </div>
+      </div>
+    </section>
 
-    const formData = Object.fromEntries(new FormData(event.target));
+    <section class="professional-app-section">
+      <h3>04 — Professional verification</h3>
+      <p>Share relevant professional evidence where available.</p>
+      <div class="professional-app-grid">
+        <div class="professional-app-field full">
+          <label>Portfolio or professional profile link</label>
+          <input name="portfolio_url" type="url" placeholder="https://">
+        </div>
+        <div class="professional-app-field full">
+          <label>Qualification document link</label>
+          <input name="verification_document_url" type="url"
+            placeholder="https://">
+          <small>Only share documents you are authorized to provide.</small>
+        </div>
+      </div>
+    </section>
+  `;
 
-    const { error } = await supabase.from(table).insert({
-      ...formData,
-      applicant_id: currentUserId()
-    });
+  app.innerHTML = `
+    <aside class="professional-app-aside">
+      <div>
+        <div class="professional-app-brand">Learn<span>Loop</span></div>
+        <h1>${isSchool ? "Build a stronger learning institution." : "Bring your teaching into a wider learning community."}</h1>
+        <p>${isSchool
+          ? "Apply for a dedicated school workspace designed to support academic management, teaching teams and student progress."
+          : "Apply for a professional teaching workspace built around lessons, assessments, live learning and student development."}</p>
+        <div class="app-quote">
+          “Knowledge is better when it is served.”
+        </div>
+      </div>
+      <small>LEARN · SHARE · GROW &nbsp; | &nbsp; LEARNLOOP PROFESSIONAL NETWORK</small>
+    </aside>
 
-    if (error) {
-      dialog.querySelector("#professionalApplicationMessage").textContent =
-        error.message;
-      return;
-    }
+    <main class="professional-app-main">
+      <div class="professional-app-top">
+        <span>Professional access / ${isSchool ? "School registration" : "Teacher registration"}</span>
+        <button type="button" class="professional-app-close"
+          aria-label="Close application">×</button>
+      </div>
 
-    dialog.querySelector("#professionalApplicationMessage").textContent =
-      "Application submitted. Await committee review.";
+      <div class="professional-app-heading">
+        <h2>${isSchool ? "Institutional application" : "Educator application"}</h2>
+        <p>${isSchool
+          ? "Complete the institutional profile below. Applications are reviewed before a school workspace is activated."
+          : "Complete your professional profile. Applications are reviewed before teacher workspace access is granted."}</p>
+      </div>
 
-    toast("Your application has been submitted.");
+      <div class="professional-app-progress" aria-hidden="true">
+        <span class="active"></span><span class="active"></span>
+        <span class="active"></span><span class="active"></span>
+      </div>
+
+      <form id="professionalApplicationForm">
+        ${isSchool ? schoolFields : teacherFields}
+
+        <section class="professional-app-section">
+          <h3>05 — Applicant declaration</h3>
+          <p>Please review these statements before submitting.</p>
+          <label class="professional-app-check">
+            <input type="checkbox" name="applicant_declaration" value="true" required>
+            <span>I confirm that the information supplied is accurate and that I am authorized to submit this application.</span>
+          </label>
+          ${isSchool ? "" : `
+            <label class="professional-app-check">
+              <input type="checkbox" name="safeguarding_declaration" value="true" required>
+              <span>I understand that educators are expected to uphold learner safety, professional conduct and appropriate safeguarding standards.</span>
+            </label>
+          `}
+          <label class="professional-app-check">
+            <input type="checkbox" required>
+            <span>I understand that submission does not guarantee approval or immediate portal access.</span>
+          </label>
+        </section>
+
+        <div class="professional-app-actions">
+          <button type="button" class="professional-app-cancel">Cancel application</button>
+          <button type="submit" class="professional-app-submit">
+            Submit for professional review →
+          </button>
+        </div>
+        <p class="professional-app-message" id="professionalApplicationMessage"
+          role="status" aria-live="polite"></p>
+      </form>
+    </main>
+  `;
+
+  document.body.appendChild(app);
+
+  const closeApplication = () => app.remove();
+
+  app.querySelector(".professional-app-close")
+    .addEventListener("click", closeApplication);
+  app.querySelector(".professional-app-cancel")
+    .addEventListener("click", closeApplication);
+
+  app.addEventListener("click", event => {
+    if (event.target === app) closeApplication();
   });
-}
 
-$("#schoolApplicationButton")?.addEventListener("click", () =>
-  openProfessionalApplication("school")
-);
+  app.querySelector("#professionalApplicationForm")
+    .addEventListener("submit", async event => {
+      event.preventDefault();
 
-$("#teacherApplicationButton")?.addEventListener("click", () =>
-  openProfessionalApplication("teacher")
-);
+      const form = event.currentTarget;
+      const submitButton = form.querySelector(".professional-app-submit");
+      const message = form.querySelector("#professionalApplicationMessage");
 
-$("#schoolPortalLoginButton")?.addEventListener("click", () => {
-  setAuthMode("login");
-  openDialog("authDialog");
-});
+      if (!form.reportValidity()) return;
 
-$("#teacherPortalLoginButton")?.addEventListener("click", () => {
-  setAuthMode("login");
-  openDialog("authDialog");
-});
-  // SCHOOL AND TEACHER PORTAL BUTTONS
-function openProfessionalApplication(type) {
-  if (!state.session) {
-    setAuthMode("login");
-    openDialog("authDialog");
-    toast("Please sign in before applying.", "error");
-    return;
-  }
+      submitButton.disabled = true;
+      submitButton.textContent = "Submitting securely...";
+      message.textContent = "";
 
-  const school = type === "school";
-  const table = school ? "school_applications" : "teacher_applications";
+      try {
+        const raw = Object.fromEntries(new FormData(form).entries());
+        const values = {};
 
-  const fields = school
-    ? `
-      <label>School name</label><input name="school_name" required>
-      <label>Location</label><input name="location" required>
-      <label>Description</label><textarea name="description" required></textarea>
-    `
-    : `
-      <label>Full name</label><input name="full_name" required>
-      <label>Subject</label><input name="subject" required>
-      <label>Qualifications</label><textarea name="qualifications" required></textarea>
-    `;
+        for (const [key, value] of Object.entries(raw)) {
+          if (key === "applicant_declaration" ||
+              key === "safeguarding_declaration") {
+            values[key] = value === "true";
+          } else if ([
+            "year_established",
+            "student_population",
+            "teacher_population",
+            "years_experience"
+          ].includes(key)) {
+            values[key] = value === "" ? null : Number(value);
+          } else {
+            values[key] = typeof value === "string" ? value.trim() : value;
+          }
+        }
 
-  const dialog = document.createElement("dialog");
-  dialog.innerHTML = `
-    <form id="professionalApplicationForm">
-      <h2>${school ? "School Application" : "Teacher Application"}</h2>
-      ${fields}
-      <label>Email</label>
-      <input name="email" type="email"
-        value="${escapeHTML(state.session.user.email || "")}" required>
-      <button type="submit">Submit application</button>
-      <button type="button" id="cancelProfessionalApplication">Cancel</button>
-      <p id="professionalApplicationMessage"></p>
-    </form>
-  `;
+        values.applicant_id = currentUserId();
 
-  document.body.append(dialog);
-  dialog.showModal();
+        const { error } = await supabase
+          .from(table)
+          .insert(values);
 
-  dialog.querySelector("#cancelProfessionalApplication")
-    .onclick = () => dialog.close();
+        if (error) throw error;
 
-  dialog.querySelector("form").onsubmit = async event => {
-    event.preventDefault();
-    const button = event.submitter;
-    button.disabled = true;
+        app.querySelector(".professional-app-main").innerHTML = `
+          <div class="professional-app-success">
+            <div style="font-size:48px;margin-bottom:18px;">✓</div>
+            <h2>Application successfully submitted</h2>
+            <p>Your ${isSchool ? "school" : "teacher"} application has been received by LearnLoop.</p>
+            <p>It will undergo review. Portal access is only granted after approval and account activation.</p>
+            <button type="button" class="professional-app-submit"
+              id="finishProfessionalApplication">Return to LearnLoop</button>
+          </div>
+        `;
 
-    const values = Object.fromEntries(new FormData(event.target));
+        app.querySelector("#finishProfessionalApplication")
+          .addEventListener("click", closeApplication);
 
-    const { error } = await supabase.from(table).insert({
-      ...values,
-      applicant_id: currentUserId()
+        toast("Your professional application has been submitted.");
+      } catch (error) {
+        console.error("Professional application error:", error);
+        message.textContent =
+          error.message || "Could not submit your application. Please try again.";
+        submitButton.disabled = false;
+        submitButton.textContent = "Submit for professional review →";
+      }
     });
-
-    if (error) {
-      dialog.querySelector("#professionalApplicationMessage").textContent =
-        error.message;
-      button.disabled = false;
-      return;
-    }
-
-    dialog.querySelector("#professionalApplicationMessage").textContent =
-      "Application submitted for committee approval.";
-    toast("Application submitted successfully.");
-  };
 }
 
 $("#schoolApplicationButton")?.addEventListener("click", () =>
@@ -10779,14 +11202,13 @@ $("#teacherApplicationButton")?.addEventListener("click", () =>
 );
 
 $("#schoolPortalLoginButton")?.addEventListener("click", () => {
-  setAuthMode("login");
-  openDialog("authDialog");
+  window.location.href = "/school.html";
 });
 
 $("#teacherPortalLoginButton")?.addEventListener("click", () => {
-  setAuthMode("login");
-  openDialog("authDialog");
-}); 
+  window.location.href = "/teacher.html";
+});
+
   $("#welcomeSwitchButton")?.addEventListener("click", () => {
     setAuthMode(state.authMode === "login" ? "signup" : "login");
     updateWelcomeAuthMode();
