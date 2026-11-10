@@ -10606,7 +10606,101 @@ if (state.authMode === "signup") {
     setAuthMode("signup");
     openDialog("authDialog");
   });
+// LearnLoop School and Teacher applications
+function openProfessionalApplication(type) {
+  if (!state.session) {
+    setAuthMode("login");
+    openDialog("authDialog");
+    toast("Please sign in with your LearnLoop account before applying.", "error");
+    return;
+  }
 
+  const isSchool = type === "school";
+  const table = isSchool ? "school_applications" : "teacher_applications";
+
+  const dialog = document.createElement("dialog");
+  dialog.className = "professional-application-dialog";
+
+  dialog.innerHTML = `
+    <form id="professionalApplicationForm">
+      <h2>${isSchool ? "School Application" : "Teacher Application"}</h2>
+
+      ${isSchool ? `
+        <label>School name</label>
+        <input name="school_name" required maxlength="150">
+
+        <label>Location</label>
+        <input name="location" required maxlength="200">
+
+        <label>School description</label>
+        <textarea name="description" required maxlength="2000"></textarea>
+      ` : `
+        <label>Full name</label>
+        <input name="full_name" required maxlength="150">
+
+        <label>Subject or teaching area</label>
+        <input name="subject" required maxlength="150">
+
+        <label>Qualifications</label>
+        <textarea name="qualifications" required maxlength="2000"></textarea>
+      `}
+
+      <label>Email address</label>
+      <input name="email" type="email"
+        value="${escapeHTML(state.session.user.email || "")}" required>
+
+      <button type="submit">Submit application</button>
+      <button type="button" id="closeProfessionalApplication">Cancel</button>
+      <p id="professionalApplicationMessage"></p>
+    </form>
+  `;
+
+  document.body.append(dialog);
+  dialog.showModal();
+
+  dialog.querySelector("#closeProfessionalApplication")
+    .addEventListener("click", () => dialog.close());
+
+  dialog.querySelector("form").addEventListener("submit", async event => {
+    event.preventDefault();
+
+    const formData = Object.fromEntries(new FormData(event.target));
+
+    const { error } = await supabase.from(table).insert({
+      ...formData,
+      applicant_id: currentUserId()
+    });
+
+    if (error) {
+      dialog.querySelector("#professionalApplicationMessage").textContent =
+        error.message;
+      return;
+    }
+
+    dialog.querySelector("#professionalApplicationMessage").textContent =
+      "Application submitted. Await committee review.";
+
+    toast("Your application has been submitted.");
+  });
+}
+
+$("#schoolApplicationButton")?.addEventListener("click", () =>
+  openProfessionalApplication("school")
+);
+
+$("#teacherApplicationButton")?.addEventListener("click", () =>
+  openProfessionalApplication("teacher")
+);
+
+$("#schoolPortalLoginButton")?.addEventListener("click", () => {
+  setAuthMode("login");
+  openDialog("authDialog");
+});
+
+$("#teacherPortalLoginButton")?.addEventListener("click", () => {
+  setAuthMode("login");
+  openDialog("authDialog");
+});
   $("#welcomeSwitchButton")?.addEventListener("click", () => {
     setAuthMode(state.authMode === "login" ? "signup" : "login");
     updateWelcomeAuthMode();
