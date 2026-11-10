@@ -12593,3 +12593,75 @@ body.dark-mode .learning-stat {
   background: #94a3b8 !important;
   color: #ffffff !important;
 }
+/* LearnLoop professional portals */
+.professional-access-section {
+  max-width: 1100px;
+  margin: 55px auto;
+  padding: 35px 20px;
+  text-align: center;
+}
+
+.professional-access-heading > span {
+  color: #b58a32;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.professional-access-heading h2 {
+  color: #14274d;
+  margin: 12px 0;
+}
+
+.professional-access-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 28px;
+}
+
+.professional-access-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 30px;
+  box-shadow: 0 8px 25px rgba(20, 39, 77, .07);
+}
+
+.professional-access-icon {
+  font-size: 42px;
+}
+
+.professional-access-card h3 {
+  color: #14274d;
+}
+
+.professional-access-card p {
+  color: #64748b;
+  line-height: 1.7;
+}
+
+.professional-access-card button {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  padding: 13px;
+  border: 0;
+  border-radius: 9px;
+  background: #14274d;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.professional-access-card button:last-child {
+  background: #f1f5f9;
+  color: #14274d;
+  border: 1px solid #cbd5e1;
+}
+
+@media (max-width: 650px) {
+  .professional-access-grid {
+    grid-template-columns: 1fr;
+  }
+}
