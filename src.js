@@ -10701,6 +10701,92 @@ $("#teacherPortalLoginButton")?.addEventListener("click", () => {
   setAuthMode("login");
   openDialog("authDialog");
 });
+  // SCHOOL AND TEACHER PORTAL BUTTONS
+function openProfessionalApplication(type) {
+  if (!state.session) {
+    setAuthMode("login");
+    openDialog("authDialog");
+    toast("Please sign in before applying.", "error");
+    return;
+  }
+
+  const school = type === "school";
+  const table = school ? "school_applications" : "teacher_applications";
+
+  const fields = school
+    ? `
+      <label>School name</label><input name="school_name" required>
+      <label>Location</label><input name="location" required>
+      <label>Description</label><textarea name="description" required></textarea>
+    `
+    : `
+      <label>Full name</label><input name="full_name" required>
+      <label>Subject</label><input name="subject" required>
+      <label>Qualifications</label><textarea name="qualifications" required></textarea>
+    `;
+
+  const dialog = document.createElement("dialog");
+  dialog.innerHTML = `
+    <form id="professionalApplicationForm">
+      <h2>${school ? "School Application" : "Teacher Application"}</h2>
+      ${fields}
+      <label>Email</label>
+      <input name="email" type="email"
+        value="${escapeHTML(state.session.user.email || "")}" required>
+      <button type="submit">Submit application</button>
+      <button type="button" id="cancelProfessionalApplication">Cancel</button>
+      <p id="professionalApplicationMessage"></p>
+    </form>
+  `;
+
+  document.body.append(dialog);
+  dialog.showModal();
+
+  dialog.querySelector("#cancelProfessionalApplication")
+    .onclick = () => dialog.close();
+
+  dialog.querySelector("form").onsubmit = async event => {
+    event.preventDefault();
+    const button = event.submitter;
+    button.disabled = true;
+
+    const values = Object.fromEntries(new FormData(event.target));
+
+    const { error } = await supabase.from(table).insert({
+      ...values,
+      applicant_id: currentUserId()
+    });
+
+    if (error) {
+      dialog.querySelector("#professionalApplicationMessage").textContent =
+        error.message;
+      button.disabled = false;
+      return;
+    }
+
+    dialog.querySelector("#professionalApplicationMessage").textContent =
+      "Application submitted for committee approval.";
+    toast("Application submitted successfully.");
+  };
+}
+
+$("#schoolApplicationButton")?.addEventListener("click", () =>
+  openProfessionalApplication("school")
+);
+
+$("#teacherApplicationButton")?.addEventListener("click", () =>
+  openProfessionalApplication("teacher")
+);
+
+$("#schoolPortalLoginButton")?.addEventListener("click", () => {
+  setAuthMode("login");
+  openDialog("authDialog");
+});
+
+$("#teacherPortalLoginButton")?.addEventListener("click", () => {
+  setAuthMode("login");
+  openDialog("authDialog");
+}); 
   $("#welcomeSwitchButton")?.addEventListener("click", () => {
     setAuthMode(state.authMode === "login" ? "signup" : "login");
     updateWelcomeAuthMode();
