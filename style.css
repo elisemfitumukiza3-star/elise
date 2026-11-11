@@ -13047,10 +13047,6 @@ body.dark-mode .learning-stat {
   overflow-x: hidden;
 }
 
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
 #welcomeScreen:not(.hidden) .welcome-slideshow {
   display: none !important;
 }
