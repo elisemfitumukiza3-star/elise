@@ -144,6 +144,7 @@ gap:9px;color:var(--green);font-size:12px;font-weight:700
   <div class="profile"><div class="avatar">👩‍🏫</div><div class="profile-name">Teacher Account<small style="display:block;color:#84918e;font-weight:400">Teaching workspace</small></div></div>
  </div>
 </header>
+<div class="portal-layout" id="portalLayout"> 
 <div class="content">
 <section class="hero">
  <div class="hero-content">
@@ -194,6 +195,19 @@ gap:9px;color:var(--green);font-size:12px;font-weight:700
  </div>
 </section>
 <footer class="footer"><span>© 2026 LearnLoop Teacher Workspace</span><span>Prepare · Teach · Assess · Inspire</span></footer>
+</div>
+
+<aside class="workspace-panel" id="workspacePanel" hidden>
+  <div class="workspace-header">
+    <div>
+      <small>LEARNLOOP TEACHER CENTRE</small>
+      <h2 id="workspaceTitle">Workspace</h2>
+    </div>
+    <button type="button" id="closeWorkspace" aria-label="Close workspace">×</button>
+  </div>
+  <div class="workspace-content" id="workspaceContent"></div>
+</aside>
+
 </div>
 </main>
 </div>
