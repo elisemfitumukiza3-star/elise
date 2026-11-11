@@ -11141,32 +11141,43 @@ function openProfessionalApplication(type) {
       message.textContent = "";
 
       try {
-        const raw = Object.fromEntries(new FormData(form).entries());
-        const values = {};
+      
+const raw = Object.fromEntries(new FormData(form).entries());
+const values = {};
 
-        for (const [key, value] of Object.entries(raw)) {
-          if (key === "applicant_declaration" ||
-              key === "safeguarding_declaration") {
-            values[key] = value === "true";
-          } else if ([
-            "year_established",
-            "student_population",
-            "teacher_population",
-            "years_experience"
-          ].includes(key)) {
-            values[key] = value === "" ? null : Number(value);
-          } else {
-            values[key] = typeof value === "string" ? value.trim() : value;
-          }
-        }
+for (const [key, value] of Object.entries(raw)) {
+  if (
+    key === "applicant_declaration" ||
+    key === "safeguarding_declaration"
+  ) {
+    values[key] = value === "true";
+  } else if ([
+    "year_established",
+    "student_population",
+    "teacher_population",
+    "years_experience"
+  ].includes(key)) {
+    values[key] = value === "" ? null : Number(value);
+  } else {
+    values[key] = String(value).trim();
+  }
+}
 
-        values.applicant_id = currentUserId();
+const { data: result, error } = await supabase.functions.invoke(
+  "submit-application",
+  {
+    body: {
+      type: isSchool ? "school" : "teacher",
+      application: values
+    }
+  }
+);
 
-        const { error } = await supabase
-          .from(table)
-          .insert(values);
+if (error) throw error;
+if (!result?.success) {
+  throw new Error(result?.error || "Application submission failed.");
+}
 
-        if (error) throw error;
 
         app.querySelector(".professional-app-main").innerHTML = `
           <div class="professional-app-success">
