@@ -3709,7 +3709,8 @@ async function loadHostProfessionalApplications() {
             }
           }
         );
-
+console.log("LEARNLOOP REVIEW RESPONSE:", { data, error });
+window.alert("Review response:\n" + JSON.stringify({ data, error }, null, 2));
         if (error) throw error;
         if (!data?.success) {
           throw new Error(data?.error || "The review could not be completed.");
