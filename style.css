@@ -13637,195 +13637,164 @@ body.dark-mode .learning-stat {
   }
 }
 /* =====================================================
-   LEARNLOOP — DARK EDITORIAL WELCOME PAGE
+   LEARNLOOP — DARK BENTO WELCOME DESIGN
    ===================================================== */
 
 #welcomeScreen:not(.hidden) {
-  --welcome-gold: #e8bd68;
-  --welcome-green: #75d6ad;
-  --welcome-white: #fffaf0;
-  --welcome-muted: #c5cbd0;
-  --welcome-panel: rgba(13, 22, 29, 0.91);
+  --ll-gold: #e9bd69;
+  --ll-green: #72d6ad;
+  --ll-white: #fffaf1;
+  --ll-muted: #c3cbd1;
+  --ll-card: rgba(15, 25, 33, .94);
+  --ll-border: rgba(255,255,255,.13);
 
   background:
-    linear-gradient(
-      110deg,
-      rgba(5, 11, 17, 0.94),
-      rgba(7, 15, 22, 0.83) 55%,
-      rgba(5, 11, 17, 0.94)
-    ),
+    linear-gradient(110deg, rgba(4,10,16,.94), rgba(5,13,20,.82), rgba(4,10,16,.94)),
     url("https://img.magnific.com/premium-photo/book-reading-with-desk-lamp-study-learning-dark-background_425122-12150.jpg")
-    center center / cover fixed !important;
-
-  color: var(--welcome-white) !important;
+    center / cover fixed !important;
+  color: var(--ll-white) !important;
   min-height: 100vh;
   overflow-x: hidden;
 }
 
-/* Main page structure */
+/* Main container */
 
 #welcomeScreen .public-welcome-main {
   width: 100%;
   max-width: 1440px;
-  margin: 0 auto;
-  padding: 0 clamp(20px, 5vw, 76px);
+  margin: auto;
+  padding: 0 clamp(18px, 5vw, 76px);
 }
 
 /* Header */
 
 #welcomeScreen .public-welcome-header {
-  background: rgba(5, 12, 18, 0.88) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.13);
+  background: rgba(4,10,16,.92) !important;
+  border-bottom: 1px solid var(--ll-border);
   backdrop-filter: blur(16px);
-  padding: 16px clamp(20px, 5vw, 76px);
+  padding: 15px clamp(18px, 5vw, 76px);
 }
 
-#welcomeScreen .public-welcome-header,
 #welcomeScreen .public-welcome-header a,
 #welcomeScreen .public-welcome-header button {
-  color: var(--welcome-white);
+  color: var(--ll-white);
 }
 
 #welcomeScreen .public-welcome-header a:hover {
-  color: var(--welcome-gold);
+  color: var(--ll-gold);
 }
 
-#welcomeScreen .public-welcome-header button {
-  border-radius: 9px;
-}
-
-/* Hero — deliberately asymmetric */
+/* Compact hero */
 
 #welcomeScreen .public-hero {
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(300px, 0.95fr);
+  grid-template-columns: 1.1fr .9fr;
   align-items: center;
-  gap: clamp(28px, 5vw, 76px);
-  min-height: 570px;
-  padding: 76px 0 90px;
+  gap: clamp(25px, 5vw, 65px);
+  padding: 55px 0 65px;
+  min-height: 0;
   text-align: left;
 }
 
 #welcomeScreen .public-hero-content {
-  max-width: 690px;
+  max-width: 680px;
   text-align: left;
-  justify-self: start;
 }
 
 #welcomeScreen .public-hero-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--welcome-green) !important;
+  display: inline-block;
+  color: var(--ll-green) !important;
   font-size: 12px;
   font-weight: 800;
   letter-spacing: 3px;
+  margin-bottom: 17px;
   text-transform: uppercase;
-  margin-bottom: 25px;
 }
 
 #welcomeScreen .public-hero h1 {
-  max-width: 720px;
-  color: var(--welcome-white) !important;
-  font-size: clamp(42px, 6vw, 78px);
-  line-height: 1.04;
-  letter-spacing: -2.8px;
-  font-weight: 850;
+  color: var(--ll-white) !important;
+  font-size: clamp(38px, 5vw, 66px);
+  line-height: 1.08;
+  letter-spacing: -2px;
   text-align: left;
-  margin: 0 0 25px;
-  text-wrap: balance;
+  margin: 0 0 18px;
 }
 
 #welcomeScreen .public-hero h1 strong,
 #welcomeScreen .public-hero h1 span {
-  color: var(--welcome-gold) !important;
+  color: var(--ll-gold) !important;
 }
 
 #welcomeScreen .public-hero-content > p {
-  max-width: 570px;
-  color: var(--welcome-muted) !important;
-  font-size: clamp(16px, 1.5vw, 19px);
-  line-height: 1.85;
+  max-width: 550px;
+  color: var(--ll-muted) !important;
+  font-size: 16px;
+  line-height: 1.8;
   text-align: left;
-  margin: 0 0 30px;
 }
 
 #welcomeScreen .public-hero-actions {
   display: flex;
   justify-content: flex-start;
-  align-items: center;
   flex-wrap: wrap;
-  gap: 14px;
-  margin-top: 30px;
+  gap: 12px;
+  margin-top: 23px;
 }
 
 #welcomeScreen .public-hero-actions button,
 #welcomeScreen .public-hero-actions a {
-  min-height: 48px;
-  padding: 13px 23px;
+  padding: 13px 22px;
   border-radius: 9px;
   font-weight: 800;
 }
 
 #welcomeScreen #publicHeroRegisterButton {
-  background: var(--welcome-gold) !important;
-  color: #17202a !important;
-  border: 1px solid var(--welcome-gold) !important;
+  background: var(--ll-gold) !important;
+  color: #14202a !important;
+  border: 1px solid var(--ll-gold) !important;
 }
 
 #welcomeScreen .public-hero-note {
-  color: #aeb9c1 !important;
+  color: var(--ll-muted) !important;
   text-align: left;
-  margin-top: 22px;
   font-size: 13px;
+  margin-top: 17px;
 }
 
-/* Hero slideshow */
+/* Slideshow */
 
 #welcomeScreen .welcome-visual {
   position: relative;
   width: 100%;
-  max-width: 570px;
-  height: clamp(260px, 35vw, 410px);
-  max-height: 410px;
+  max-width: 530px;
+  height: clamp(230px, 29vw, 340px);
   justify-self: end;
   overflow: hidden;
-  border-radius: 18px;
-  border: 1px solid rgba(232, 189, 104, 0.38);
-  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.48);
+  border-radius: 16px;
+  border: 1px solid rgba(233,189,105,.4);
+  box-shadow: 0 25px 65px rgba(0,0,0,.42);
 }
 
 #welcomeScreen .welcome-visual-slide {
   position: absolute;
   inset: 0;
   opacity: 0;
-  animation: learnLoopWelcomePhotos 24s infinite;
+  animation: learnLoopBentoSlides 24s infinite;
 }
 
-#welcomeScreen .welcome-visual-slide:nth-child(1) {
-  animation-delay: 0s;
-}
-
-#welcomeScreen .welcome-visual-slide:nth-child(2) {
-  animation-delay: 6s;
-}
-
-#welcomeScreen .welcome-visual-slide:nth-child(3) {
-  animation-delay: 12s;
-}
-
-#welcomeScreen .welcome-visual-slide:nth-child(4) {
-  animation-delay: 18s;
-}
+#welcomeScreen .welcome-visual-slide:nth-child(1) { animation-delay: 0s; }
+#welcomeScreen .welcome-visual-slide:nth-child(2) { animation-delay: 6s; }
+#welcomeScreen .welcome-visual-slide:nth-child(3) { animation-delay: 12s; }
+#welcomeScreen .welcome-visual-slide:nth-child(4) { animation-delay: 18s; }
 
 #welcomeScreen .welcome-visual-slide img {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
 }
 
-@keyframes learnLoopWelcomePhotos {
+@keyframes learnLoopBentoSlides {
   0%, 23% { opacity: 1; }
   25%, 100% { opacity: 0; }
 }
@@ -13833,161 +13802,195 @@ body.dark-mode .learning-stat {
 #welcomeScreen .welcome-visual-caption {
   position: absolute;
   z-index: 5;
-  left: 18px;
-  right: 18px;
-  bottom: 18px;
-  padding: 15px 18px;
-  border-radius: 10px;
-  background: rgba(5, 12, 18, 0.83);
-  color: var(--welcome-white) !important;
-  border-left: 3px solid var(--welcome-gold);
+  left: 15px;
+  right: 15px;
+  bottom: 15px;
+  padding: 13px 16px;
+  background: rgba(4,10,16,.86);
+  color: var(--ll-white) !important;
+  border-left: 3px solid var(--ll-gold);
+  border-radius: 8px;
   backdrop-filter: blur(10px);
-}
-
-/* Shared section headings */
-
-#welcomeScreen .public-section-heading,
-#welcomeScreen .professional-access-heading {
-  max-width: 700px;
-  margin: 0 0 38px;
-  text-align: left;
-}
-
-#welcomeScreen .public-section-heading h2,
-#welcomeScreen .professional-access-heading h2 {
-  color: var(--welcome-white) !important;
-  font-size: clamp(29px, 3.5vw, 43px);
-  line-height: 1.15;
-  margin: 0 0 13px;
-  letter-spacing: -1px;
-}
-
-#welcomeScreen .public-section-heading p,
-#welcomeScreen .professional-access-heading p {
-  color: var(--welcome-muted) !important;
-  font-size: 16px;
-  line-height: 1.8;
-  margin: 0;
 }
 
 /* Learning features */
 
 #welcomeScreen .public-features-section {
-  padding: 75px 0 90px;
-  border-top: 1px solid rgba(255, 255, 255, 0.13);
+  padding: 55px 0 75px;
+  border-top: 1px solid var(--ll-border);
 }
+
+#welcomeScreen .public-section-heading {
+  max-width: 650px;
+  margin: 0 0 30px;
+  text-align: left;
+}
+
+#welcomeScreen .public-section-heading h2 {
+  color: var(--ll-white) !important;
+  font-size: clamp(29px, 3.5vw, 42px);
+  line-height: 1.15;
+  margin: 0 0 12px;
+  text-align: left;
+}
+
+#welcomeScreen .public-section-heading p {
+  color: var(--ll-muted) !important;
+  line-height: 1.8;
+  text-align: left;
+}
+
+/* Varied bento arrangement */
 
 #welcomeScreen .public-features {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-auto-rows: minmax(175px, auto);
+  gap: 16px;
 }
 
 #welcomeScreen .public-features article {
-  min-height: 190px;
-  padding: 27px 25px;
+  position: relative;
+  min-width: 0;
+  padding: 25px;
+  background: var(--ll-card) !important;
+  color: var(--ll-white) !important;
+  border: 1px solid var(--ll-border);
+  border-radius: 14px;
   text-align: left;
-  background: var(--welcome-panel) !important;
-  border: 1px solid rgba(255, 255, 255, 0.13);
-  border-radius: 13px;
-  transition: transform 0.25s ease, border-color 0.25s ease;
+  overflow: hidden;
+  transition: transform .25s ease, border-color .25s ease, background .25s ease;
+}
+
+/* Different card sizes and positions */
+
+#welcomeScreen .public-features article:nth-child(1) {
+  grid-column: span 3;
+  grid-row: span 2;
+  min-height: 270px;
+  background: linear-gradient(140deg, rgba(24,49,48,.97), rgba(13,25,32,.97)) !important;
+}
+
+#welcomeScreen .public-features article:nth-child(2) {
+  grid-column: span 3;
+  min-height: 190px;
+}
+
+#welcomeScreen .public-features article:nth-child(3) {
+  grid-column: span 2;
+}
+
+#welcomeScreen .public-features article:nth-child(4) {
+  grid-column: span 2;
+  background: linear-gradient(140deg, rgba(35,29,21,.96), rgba(15,24,31,.97)) !important;
+}
+
+#welcomeScreen .public-features article:nth-child(5) {
+  grid-column: span 2;
+  background: linear-gradient(140deg, rgba(20,39,34,.97), rgba(13,24,31,.97)) !important;
 }
 
 #welcomeScreen .public-features article:hover {
   transform: translateY(-5px);
-  border-color: var(--welcome-gold);
+  border-color: var(--ll-gold);
 }
 
 #welcomeScreen .public-features article h3 {
-  color: var(--welcome-gold) !important;
-  font-size: 19px;
+  color: var(--ll-gold) !important;
+  font-size: 20px;
   margin: 0 0 12px;
   text-align: left;
 }
 
 #welcomeScreen .public-features article p {
-  color: var(--welcome-muted) !important;
-  line-height: 1.75;
+  color: var(--ll-muted) !important;
+  font-size: 14px;
+  line-height: 1.8;
   text-align: left;
   margin: 0;
 }
 
-/* School and teacher access */
+/* School and teacher portals */
 
 #welcomeScreen .professional-access-section {
-  padding: 75px 0 90px;
-  border-top: 1px solid rgba(255, 255, 255, 0.13);
+  padding: 65px 0 75px;
+  border-top: 1px solid var(--ll-border);
 }
 
 #welcomeScreen .professional-access-heading {
-  margin-left: auto;
-  margin-right: 0;
+  max-width: 650px;
+  margin: 0 0 30px auto;
+  text-align: right;
+}
+
+#welcomeScreen .professional-access-heading h2 {
+  color: var(--ll-white) !important;
+  font-size: clamp(29px, 3.5vw, 42px);
+  margin: 0 0 12px;
+}
+
+#welcomeScreen .professional-access-heading p {
+  color: var(--ll-muted) !important;
+  line-height: 1.8;
 }
 
 #welcomeScreen .professional-access-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 22px;
+  gap: 18px;
 }
 
 #welcomeScreen .professional-access-grid > * {
-  background: rgba(14, 25, 32, 0.94) !important;
-  color: var(--welcome-white) !important;
-  border: 1px solid rgba(232, 189, 104, 0.28);
+  padding: 28px;
+  background: var(--ll-card) !important;
+  color: var(--ll-white) !important;
+  border: 1px solid rgba(233,189,105,.3);
   border-radius: 14px;
-  padding: 30px;
   text-align: left;
 }
 
 #welcomeScreen .professional-access-grid h3 {
-  color: var(--welcome-gold) !important;
-  font-size: 23px;
+  color: var(--ll-gold) !important;
+  font-size: 22px;
   text-align: left;
 }
 
 #welcomeScreen .professional-access-grid p {
-  color: var(--welcome-muted) !important;
-  line-height: 1.75;
+  color: var(--ll-muted) !important;
+  line-height: 1.8;
   text-align: left;
 }
 
-#welcomeScreen .professional-access-grid button {
-  border-radius: 8px;
-  font-weight: 750;
-  margin: 8px 8px 0 0;
-}
-
-/* About LearnLoop — offset split layout */
+/* About section */
 
 #welcomeScreen .public-welcome-about {
   display: grid;
-  grid-template-columns: 0.85fr 1.15fr;
+  grid-template-columns: .8fr 1.2fr;
   align-items: center;
-  gap: 55px;
-  padding: 80px 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.13);
+  gap: 35px;
+  padding: 70px 0;
+  border-top: 1px solid var(--ll-border);
 }
 
-#welcomeScreen .public-welcome-about > div:first-child {
+#welcomeScreen .public-welcome-about > div {
   text-align: left;
 }
 
 #welcomeScreen .public-welcome-about > div:last-child {
-  text-align: left;
-  padding: 28px;
-  background: rgba(13, 22, 29, 0.78);
-  border-left: 3px solid var(--welcome-green);
+  padding: 27px;
+  background: var(--ll-card);
+  border-left: 3px solid var(--ll-green);
   border-radius: 0 12px 12px 0;
 }
 
 #welcomeScreen .public-welcome-about h2,
 #welcomeScreen .public-welcome-about h3 {
-  color: var(--welcome-gold) !important;
+  color: var(--ll-gold) !important;
   text-align: left;
 }
 
 #welcomeScreen .public-welcome-about p {
-  color: var(--welcome-muted) !important;
+  color: var(--ll-muted) !important;
   line-height: 1.85;
   text-align: left;
 }
@@ -13996,98 +13999,141 @@ body.dark-mode .learning-stat {
 
 #welcomeScreen #certificateVerificationSection {
   max-width: 900px;
-  margin: 35px auto 85px;
-  padding: clamp(25px, 4vw, 45px);
-  background: rgba(13, 22, 29, 0.94) !important;
-  border: 1px solid rgba(232, 189, 104, 0.35);
-  border-radius: 15px;
-  color: var(--welcome-white) !important;
+  margin: 30px auto 75px;
+  padding: clamp(23px, 4vw, 40px);
+  background: var(--ll-card) !important;
+  color: var(--ll-white) !important;
+  border: 1px solid rgba(233,189,105,.35);
+  border-radius: 14px;
   text-align: left;
 }
 
 #welcomeScreen #certificateVerificationSection h2,
 #welcomeScreen #certificateVerificationSection h3 {
-  color: var(--welcome-gold) !important;
+  color: var(--ll-gold) !important;
   text-align: left;
 }
 
 #welcomeScreen #certificateVerificationSection p,
 #welcomeScreen #certificateVerificationResult {
-  color: var(--welcome-muted) !important;
+  color: var(--ll-muted) !important;
   text-align: left;
 }
 
 #welcomeScreen #certificateVerificationSection input {
-  background: #f7f8fa;
-  color: #17202a;
+  min-height: 46px;
+  background: #fff !important;
+  color: #17202a !important;
   border: 1px solid #aab5bd;
   border-radius: 8px;
-  min-height: 46px;
 }
 
 /* Footer */
 
 #welcomeScreen .public-welcome-footer {
-  padding: 35px clamp(20px, 5vw, 76px);
-  background: rgba(4, 10, 15, 0.96) !important;
-  border-top: 1px solid rgba(255, 255, 255, 0.13);
-  color: var(--welcome-muted) !important;
+  padding: 35px clamp(18px, 5vw, 76px);
+  background: rgba(3,8,13,.97) !important;
+  border-top: 1px solid var(--ll-border);
+  color: var(--ll-muted) !important;
   text-align: left;
 }
 
 #welcomeScreen .public-welcome-footer a {
-  color: var(--welcome-gold) !important;
+  color: var(--ll-gold) !important;
 }
 
 #welcomeScreen .public-welcome-footer h2,
 #welcomeScreen .public-welcome-footer h3 {
-  color: var(--welcome-white) !important;
+  color: var(--ll-white) !important;
 }
 
-/* Keep original login and registration panels readable */
+/* Preserve original authentication panels */
 
 #welcomeScreen .welcome-login-panel,
 #welcomeScreen .welcome-brand-panel {
   color: #17202a;
 }
 
-/* Mobile layout */
+/* Tablet layout */
 
-@media (max-width: 760px) {
+@media (max-width: 900px) {
+  #welcomeScreen .public-hero {
+    grid-template-columns: 1fr 0.85fr;
+    gap: 22px;
+  }
+
+  #welcomeScreen .public-features {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  #welcomeScreen .public-features article:nth-child(1) {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  #welcomeScreen .public-features article:nth-child(2) {
+    grid-column: span 2;
+  }
+
+  #welcomeScreen .public-features article:nth-child(3),
+  #welcomeScreen .public-features article:nth-child(4),
+  #welcomeScreen .public-features article:nth-child(5) {
+    grid-column: span 2;
+    grid-row: auto;
+  }
+}
+
+/* Phone layout */
+
+@media (max-width: 650px) {
   #welcomeScreen:not(.hidden) {
     background-attachment: scroll !important;
   }
 
   #welcomeScreen .public-welcome-main {
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 17px;
+    padding-right: 17px;
   }
 
   #welcomeScreen .public-hero {
     grid-template-columns: 1fr;
-    gap: 30px;
-    min-height: auto;
-    padding: 55px 0 65px;
+    padding: 42px 0 48px;
+    gap: 25px;
   }
 
   #welcomeScreen .public-hero h1 {
-    font-size: clamp(39px, 10vw, 58px);
-    letter-spacing: -1.8px;
+    font-size: clamp(36px, 10vw, 53px);
+    letter-spacing: -1.5px;
   }
 
   #welcomeScreen .welcome-visual {
-    width: 100%;
     max-width: none;
-    height: 245px;
-    justify-self: stretch;
+    width: 100%;
+    height: 220px;
   }
 
   #welcomeScreen .public-features {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: auto;
+    gap: 11px;
+  }
+
+  #welcomeScreen .public-features article,
+  #welcomeScreen .public-features article:nth-child(n) {
+    grid-column: span 1;
+    grid-row: auto;
+    min-height: 170px;
+    padding: 19px;
+  }
+
+  #welcomeScreen .public-features article:first-child {
+    grid-column: span 2;
+    min-height: 190px;
   }
 
   #welcomeScreen .professional-access-heading {
     margin-left: 0;
+    text-align: left;
   }
 
   #welcomeScreen .professional-access-grid {
@@ -14096,28 +14142,32 @@ body.dark-mode .learning-stat {
 
   #welcomeScreen .public-welcome-about {
     grid-template-columns: 1fr;
-    gap: 22px;
-    padding: 55px 0;
-  }
-
-  #welcomeScreen .public-section-heading,
-  #welcomeScreen .professional-access-heading {
-    margin-bottom: 27px;
+    gap: 20px;
+    padding: 48px 0;
   }
 }
 
-@media (max-width: 420px) {
+/* Small phones */
+
+@media (max-width: 380px) {
   #welcomeScreen .public-features {
     grid-template-columns: 1fr;
   }
 
+  #welcomeScreen .public-features article,
+  #welcomeScreen .public-features article:nth-child(n),
+  #welcomeScreen .public-features article:first-child {
+    grid-column: span 1;
+    min-height: 145px;
+  }
+
   #welcomeScreen .welcome-visual {
-    height: 215px;
+    height: 195px;
   }
 
   #welcomeScreen .public-hero-actions {
-    align-items: stretch;
     flex-direction: column;
+    align-items: stretch;
   }
 
   #welcomeScreen .public-hero-actions button,
