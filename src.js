@@ -3679,7 +3679,7 @@ async function loadHostProfessionalApplications() {
       const applicationId = button.dataset.appId;
       const type = button.dataset.appType;
 
-      if (!applicationId) return;
+      if (!applicationId || !["Teacher", "School"].includes(type)) return;
 
       let message = "";
 
@@ -3698,62 +3698,39 @@ async function loadHostProfessionalApplications() {
       button.disabled = true;
 
       try {
-        const table = type === "Teacher"
-          ? "teacher_applications"
-          : "school_applications";
-
-        const { data, error } = await supabase
-          .from(table)
-          .update({ status: decision })
-          .eq("id", applicationId)
-          .select("id, applicant_id")
-          .single();
+        const { data, error } = await supabase.functions.invoke(
+          "review-application",
+          {
+            body: {
+              applicationId,
+              type,
+              decision,
+              message: message.trim()
+            }
+          }
+        );
 
         if (error) throw error;
-
-        if (data?.applicant_id) {
-          const title = decision === "approved"
-            ? "Application approved"
-            : decision === "rejected"
-              ? "Application decision"
-              : "More information required";
-
-          const notificationMessage = decision === "needs_information"
-            ? message.trim()
-            : decision === "approved"
-              ? "Your professional application has been approved. Please follow the instructions from LearnLoop to continue."
-              : "Your professional application has been reviewed. Please contact LearnLoop if you need clarification.";
-
-          const { error: notificationError } = await supabase
-            .from("notifications")
-            .insert({
-              user_id: data.applicant_id,
-              type: "application_review",
-              title,
-              message: notificationMessage,
-              is_read: false
-            });
-
-          if (notificationError) {
-            console.error("Applicant notification error:", notificationError);
-            toast("Decision saved, but applicant notification failed.", "error");
-          } else {
-            toast("Decision saved and applicant notified.");
-          }
-        } else {
-          toast("Decision saved. No linked applicant account was found.");
+        if (!data?.success) {
+          throw new Error(data?.error || "The review could not be completed.");
         }
+
+        toast(
+          data.emailSent
+            ? "Decision saved and applicant email sent."
+            : "Decision saved, but email delivery was not confirmed."
+        );
 
         await loadHostProfessionalApplications();
 
       } catch (error) {
         console.error("Application review failed:", error);
-        toast("Could not save the decision: " + error.message, "error");
+        toast("Could not complete the review: " + error.message, "error");
         button.disabled = false;
       }
     });
   }
-}
+
 
 async function loadHostDashboard() {
   if (!isOwner()) {
