@@ -36,7 +36,12 @@ style.textContent = `
   }
   .portal-auth-message { min-height:22px; font-size:13px; }
   .portal-auth-overlay[hidden] { display:none; }
-  body.portal-locked .app { display:none !important; }
+  body.portal-locked .app,
+body.portal-locked main,
+body.portal-locked .sidebar,
+body.portal-locked .portal-layout {
+  visibility: hidden !important;
+}
 `;
 document.head.appendChild(style);
 document.body.classList.add("portal-locked");
