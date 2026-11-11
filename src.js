@@ -11179,21 +11179,32 @@ if (!result?.success) {
 }
 
 
-        app.querySelector(".professional-app-main").innerHTML = `
-          <div class="professional-app-success">
-            <div style="font-size:48px;margin-bottom:18px;">✓</div>
-            <h2>Application successfully submitted</h2>
-            <p>Your ${isSchool ? "school" : "teacher"} application has been received by LearnLoop.</p>
-            <p>It will undergo review. Portal access is only granted after approval and account activation.</p>
-            <button type="button" class="professional-app-submit"
-              id="finishProfessionalApplication">Return to LearnLoop</button>
-          </div>
-        `;
+app.querySelector(".professional-app-main").innerHTML = `
+  <div class="professional-app-success">
+    <div style="font-size:48px;margin-bottom:18px;">✓</div>
+    <h2>Application successfully submitted</h2>
+    <p>Your ${isSchool ? "school" : "teacher"} application has been received.</p>
+    <p><strong>Application reference:</strong></p>
+    <p style="font-weight:800;letter-spacing:1px;">
+      ${escapeHTML(result.reference)}
+    </p>
+    <p>
+      ${result.emailSent
+        ? "Your confirmation email has been sent."
+        : "Your application is saved. Email confirmation is pending."}
+    </p>
+    <p>Keep your reference number for future enquiries.</p>
+    <button type="button" class="professional-app-submit"
+      id="finishProfessionalApplication">Return to LearnLoop</button>
+  </div>
+`;
 
-        app.querySelector("#finishProfessionalApplication")
-          .addEventListener("click", closeApplication);
+app.querySelector("#finishProfessionalApplication")
+  .addEventListener("click", closeApplication);
 
-        toast("Your professional application has been submitted.");
+toast("Your professional application has been submitted.");
+
+      
       } catch (error) {
         console.error("Professional application error:", error);
         message.textContent =
