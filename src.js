@@ -3698,8 +3698,8 @@ async function loadHostDashboard() {
 
   openDialog("hostDashboardDialog");
 showHostDashboardView("hostOverview");
-   loadHostProfessionalApplications();
- const [posts, profiles, certificates] = await Promise.all([
+   await loadHostProfessionalApplications();
+   const [posts, profiles, certificates] = await Promise.all([
   supabase
     .from("posts")
     .select("id", { count: "exact", head: true }),
