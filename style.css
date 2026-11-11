@@ -13636,3 +13636,493 @@ body.dark-mode .learning-stat {
     max-height: 205px;
   }
 }
+/* =====================================================
+   LEARNLOOP — DARK EDITORIAL WELCOME PAGE
+   ===================================================== */
+
+#welcomeScreen:not(.hidden) {
+  --welcome-gold: #e8bd68;
+  --welcome-green: #75d6ad;
+  --welcome-white: #fffaf0;
+  --welcome-muted: #c5cbd0;
+  --welcome-panel: rgba(13, 22, 29, 0.91);
+
+  background:
+    linear-gradient(
+      110deg,
+      rgba(5, 11, 17, 0.94),
+      rgba(7, 15, 22, 0.83) 55%,
+      rgba(5, 11, 17, 0.94)
+    ),
+    url("https://img.magnific.com/premium-photo/book-reading-with-desk-lamp-study-learning-dark-background_425122-12150.jpg")
+    center center / cover fixed !important;
+
+  color: var(--welcome-white) !important;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Main page structure */
+
+#welcomeScreen .public-welcome-main {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 5vw, 76px);
+}
+
+/* Header */
+
+#welcomeScreen .public-welcome-header {
+  background: rgba(5, 12, 18, 0.88) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.13);
+  backdrop-filter: blur(16px);
+  padding: 16px clamp(20px, 5vw, 76px);
+}
+
+#welcomeScreen .public-welcome-header,
+#welcomeScreen .public-welcome-header a,
+#welcomeScreen .public-welcome-header button {
+  color: var(--welcome-white);
+}
+
+#welcomeScreen .public-welcome-header a:hover {
+  color: var(--welcome-gold);
+}
+
+#welcomeScreen .public-welcome-header button {
+  border-radius: 9px;
+}
+
+/* Hero — deliberately asymmetric */
+
+#welcomeScreen .public-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(300px, 0.95fr);
+  align-items: center;
+  gap: clamp(28px, 5vw, 76px);
+  min-height: 570px;
+  padding: 76px 0 90px;
+  text-align: left;
+}
+
+#welcomeScreen .public-hero-content {
+  max-width: 690px;
+  text-align: left;
+  justify-self: start;
+}
+
+#welcomeScreen .public-hero-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--welcome-green) !important;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 25px;
+}
+
+#welcomeScreen .public-hero h1 {
+  max-width: 720px;
+  color: var(--welcome-white) !important;
+  font-size: clamp(42px, 6vw, 78px);
+  line-height: 1.04;
+  letter-spacing: -2.8px;
+  font-weight: 850;
+  text-align: left;
+  margin: 0 0 25px;
+  text-wrap: balance;
+}
+
+#welcomeScreen .public-hero h1 strong,
+#welcomeScreen .public-hero h1 span {
+  color: var(--welcome-gold) !important;
+}
+
+#welcomeScreen .public-hero-content > p {
+  max-width: 570px;
+  color: var(--welcome-muted) !important;
+  font-size: clamp(16px, 1.5vw, 19px);
+  line-height: 1.85;
+  text-align: left;
+  margin: 0 0 30px;
+}
+
+#welcomeScreen .public-hero-actions {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 30px;
+}
+
+#welcomeScreen .public-hero-actions button,
+#welcomeScreen .public-hero-actions a {
+  min-height: 48px;
+  padding: 13px 23px;
+  border-radius: 9px;
+  font-weight: 800;
+}
+
+#welcomeScreen #publicHeroRegisterButton {
+  background: var(--welcome-gold) !important;
+  color: #17202a !important;
+  border: 1px solid var(--welcome-gold) !important;
+}
+
+#welcomeScreen .public-hero-note {
+  color: #aeb9c1 !important;
+  text-align: left;
+  margin-top: 22px;
+  font-size: 13px;
+}
+
+/* Hero slideshow */
+
+#welcomeScreen .welcome-visual {
+  position: relative;
+  width: 100%;
+  max-width: 570px;
+  height: clamp(260px, 35vw, 410px);
+  max-height: 410px;
+  justify-self: end;
+  overflow: hidden;
+  border-radius: 18px;
+  border: 1px solid rgba(232, 189, 104, 0.38);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.48);
+}
+
+#welcomeScreen .welcome-visual-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  animation: learnLoopWelcomePhotos 24s infinite;
+}
+
+#welcomeScreen .welcome-visual-slide:nth-child(1) {
+  animation-delay: 0s;
+}
+
+#welcomeScreen .welcome-visual-slide:nth-child(2) {
+  animation-delay: 6s;
+}
+
+#welcomeScreen .welcome-visual-slide:nth-child(3) {
+  animation-delay: 12s;
+}
+
+#welcomeScreen .welcome-visual-slide:nth-child(4) {
+  animation-delay: 18s;
+}
+
+#welcomeScreen .welcome-visual-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@keyframes learnLoopWelcomePhotos {
+  0%, 23% { opacity: 1; }
+  25%, 100% { opacity: 0; }
+}
+
+#welcomeScreen .welcome-visual-caption {
+  position: absolute;
+  z-index: 5;
+  left: 18px;
+  right: 18px;
+  bottom: 18px;
+  padding: 15px 18px;
+  border-radius: 10px;
+  background: rgba(5, 12, 18, 0.83);
+  color: var(--welcome-white) !important;
+  border-left: 3px solid var(--welcome-gold);
+  backdrop-filter: blur(10px);
+}
+
+/* Shared section headings */
+
+#welcomeScreen .public-section-heading,
+#welcomeScreen .professional-access-heading {
+  max-width: 700px;
+  margin: 0 0 38px;
+  text-align: left;
+}
+
+#welcomeScreen .public-section-heading h2,
+#welcomeScreen .professional-access-heading h2 {
+  color: var(--welcome-white) !important;
+  font-size: clamp(29px, 3.5vw, 43px);
+  line-height: 1.15;
+  margin: 0 0 13px;
+  letter-spacing: -1px;
+}
+
+#welcomeScreen .public-section-heading p,
+#welcomeScreen .professional-access-heading p {
+  color: var(--welcome-muted) !important;
+  font-size: 16px;
+  line-height: 1.8;
+  margin: 0;
+}
+
+/* Learning features */
+
+#welcomeScreen .public-features-section {
+  padding: 75px 0 90px;
+  border-top: 1px solid rgba(255, 255, 255, 0.13);
+}
+
+#welcomeScreen .public-features {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+#welcomeScreen .public-features article {
+  min-height: 190px;
+  padding: 27px 25px;
+  text-align: left;
+  background: var(--welcome-panel) !important;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 13px;
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+#welcomeScreen .public-features article:hover {
+  transform: translateY(-5px);
+  border-color: var(--welcome-gold);
+}
+
+#welcomeScreen .public-features article h3 {
+  color: var(--welcome-gold) !important;
+  font-size: 19px;
+  margin: 0 0 12px;
+  text-align: left;
+}
+
+#welcomeScreen .public-features article p {
+  color: var(--welcome-muted) !important;
+  line-height: 1.75;
+  text-align: left;
+  margin: 0;
+}
+
+/* School and teacher access */
+
+#welcomeScreen .professional-access-section {
+  padding: 75px 0 90px;
+  border-top: 1px solid rgba(255, 255, 255, 0.13);
+}
+
+#welcomeScreen .professional-access-heading {
+  margin-left: auto;
+  margin-right: 0;
+}
+
+#welcomeScreen .professional-access-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+
+#welcomeScreen .professional-access-grid > * {
+  background: rgba(14, 25, 32, 0.94) !important;
+  color: var(--welcome-white) !important;
+  border: 1px solid rgba(232, 189, 104, 0.28);
+  border-radius: 14px;
+  padding: 30px;
+  text-align: left;
+}
+
+#welcomeScreen .professional-access-grid h3 {
+  color: var(--welcome-gold) !important;
+  font-size: 23px;
+  text-align: left;
+}
+
+#welcomeScreen .professional-access-grid p {
+  color: var(--welcome-muted) !important;
+  line-height: 1.75;
+  text-align: left;
+}
+
+#welcomeScreen .professional-access-grid button {
+  border-radius: 8px;
+  font-weight: 750;
+  margin: 8px 8px 0 0;
+}
+
+/* About LearnLoop — offset split layout */
+
+#welcomeScreen .public-welcome-about {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  align-items: center;
+  gap: 55px;
+  padding: 80px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.13);
+}
+
+#welcomeScreen .public-welcome-about > div:first-child {
+  text-align: left;
+}
+
+#welcomeScreen .public-welcome-about > div:last-child {
+  text-align: left;
+  padding: 28px;
+  background: rgba(13, 22, 29, 0.78);
+  border-left: 3px solid var(--welcome-green);
+  border-radius: 0 12px 12px 0;
+}
+
+#welcomeScreen .public-welcome-about h2,
+#welcomeScreen .public-welcome-about h3 {
+  color: var(--welcome-gold) !important;
+  text-align: left;
+}
+
+#welcomeScreen .public-welcome-about p {
+  color: var(--welcome-muted) !important;
+  line-height: 1.85;
+  text-align: left;
+}
+
+/* Certificate verification */
+
+#welcomeScreen #certificateVerificationSection {
+  max-width: 900px;
+  margin: 35px auto 85px;
+  padding: clamp(25px, 4vw, 45px);
+  background: rgba(13, 22, 29, 0.94) !important;
+  border: 1px solid rgba(232, 189, 104, 0.35);
+  border-radius: 15px;
+  color: var(--welcome-white) !important;
+  text-align: left;
+}
+
+#welcomeScreen #certificateVerificationSection h2,
+#welcomeScreen #certificateVerificationSection h3 {
+  color: var(--welcome-gold) !important;
+  text-align: left;
+}
+
+#welcomeScreen #certificateVerificationSection p,
+#welcomeScreen #certificateVerificationResult {
+  color: var(--welcome-muted) !important;
+  text-align: left;
+}
+
+#welcomeScreen #certificateVerificationSection input {
+  background: #f7f8fa;
+  color: #17202a;
+  border: 1px solid #aab5bd;
+  border-radius: 8px;
+  min-height: 46px;
+}
+
+/* Footer */
+
+#welcomeScreen .public-welcome-footer {
+  padding: 35px clamp(20px, 5vw, 76px);
+  background: rgba(4, 10, 15, 0.96) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.13);
+  color: var(--welcome-muted) !important;
+  text-align: left;
+}
+
+#welcomeScreen .public-welcome-footer a {
+  color: var(--welcome-gold) !important;
+}
+
+#welcomeScreen .public-welcome-footer h2,
+#welcomeScreen .public-welcome-footer h3 {
+  color: var(--welcome-white) !important;
+}
+
+/* Keep original login and registration panels readable */
+
+#welcomeScreen .welcome-login-panel,
+#welcomeScreen .welcome-brand-panel {
+  color: #17202a;
+}
+
+/* Mobile layout */
+
+@media (max-width: 760px) {
+  #welcomeScreen:not(.hidden) {
+    background-attachment: scroll !important;
+  }
+
+  #welcomeScreen .public-welcome-main {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  #welcomeScreen .public-hero {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    min-height: auto;
+    padding: 55px 0 65px;
+  }
+
+  #welcomeScreen .public-hero h1 {
+    font-size: clamp(39px, 10vw, 58px);
+    letter-spacing: -1.8px;
+  }
+
+  #welcomeScreen .welcome-visual {
+    width: 100%;
+    max-width: none;
+    height: 245px;
+    justify-self: stretch;
+  }
+
+  #welcomeScreen .public-features {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  #welcomeScreen .professional-access-heading {
+    margin-left: 0;
+  }
+
+  #welcomeScreen .professional-access-grid {
+    grid-template-columns: 1fr;
+  }
+
+  #welcomeScreen .public-welcome-about {
+    grid-template-columns: 1fr;
+    gap: 22px;
+    padding: 55px 0;
+  }
+
+  #welcomeScreen .public-section-heading,
+  #welcomeScreen .professional-access-heading {
+    margin-bottom: 27px;
+  }
+}
+
+@media (max-width: 420px) {
+  #welcomeScreen .public-features {
+    grid-template-columns: 1fr;
+  }
+
+  #welcomeScreen .welcome-visual {
+    height: 215px;
+  }
+
+  #welcomeScreen .public-hero-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  #welcomeScreen .public-hero-actions button,
+  #welcomeScreen .public-hero-actions a {
+    width: 100%;
+    text-align: center;
+  }
+}
