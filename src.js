@@ -10786,13 +10786,6 @@ function addProfessionalApplicationStyles() {
 }
 
 function openProfessionalApplication(type) {
-  if (!state.session) {
-    setAuthMode("login");
-    openDialog("authDialog");
-    toast("Please sign in before submitting an application.", "error");
-    return;
-  }
-
   const isSchool = type === "school";
   const table = isSchool ? "school_applications" : "teacher_applications";
 
@@ -10865,7 +10858,7 @@ function openProfessionalApplication(type) {
         <div class="professional-app-field">
           <label>Official email *</label>
           <input name="email" type="email"
-            value="${escapeHTML(state.session.user.email || "")}" required>
+          value="" required>
         </div>
         <div class="professional-app-field">
           <label>Official phone *</label>
