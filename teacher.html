@@ -12,6 +12,9 @@
 --muted:#81918f;--line:#e5ece9
 }
 *{box-sizing:border-box}
+ html:not([data-portal-authorized="true"]) .app {
+  visibility: hidden !important;
+}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,"Segoe UI",Arial,sans-serif}
 button,input{font:inherit}
 button{cursor:pointer}
