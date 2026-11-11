@@ -161,10 +161,11 @@ form.addEventListener("submit", async (event) => {
   await authorize(data.user);
 });
 
-(async () => {
+// Always require credentials when entering a school or teacher portal.
+document.body.classList.add("portal-locked");
 overlay.hidden = false;
-document.body.classList.add("portal-locked"); 
-})();
+
+// Never grant portal access automatically from an existing session.
 supabase.auth.onAuthStateChange((_event, session) => {
   if (!session) {
     document.body.classList.add("portal-locked");
