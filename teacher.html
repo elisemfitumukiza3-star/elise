@@ -111,30 +111,37 @@ gap:9px;color:var(--green);font-size:12px;font-weight:700
 .footer{flex-direction:column}
 }
 @media(max-width:390px){.metrics{grid-template-columns:1fr}}
- /* RIGHT-SIDE TEACHER WORKSPACE */
+
+/* ==========================================
+   LEARNLOOP PREMIUM TEACHER WORKSPACE
+========================================== */
+
 .portal-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(350px, 42%);
-  gap: 18px;
+  grid-template-columns: minmax(0, 1.08fr) minmax(370px, .92fr);
+  gap: 22px;
   align-items: start;
-  padding: 24px;
+  padding: 25px;
+  max-width: 1900px;
+  margin: 0 auto;
 }
 
 .portal-layout > .content {
+  min-width: 0;
   max-width: none;
   margin: 0;
   padding: 0;
-  min-width: 0;
 }
 
 .workspace-panel {
   min-width: 0;
-  min-height: 650px;
+  min-height: calc(100vh - 125px);
   background: #fff;
-  border: 1px solid #e5ece9;
-  border-radius: 16px;
-  box-shadow: 0 5px 20px #173b350b;
+  border: 1px solid #e3ebe7;
+  border-radius: 20px;
+  box-shadow: 0 12px 38px rgba(16,61,54,.08);
   overflow: hidden;
+  animation: workspaceEnter .28s ease;
 }
 
 .workspace-panel[hidden] {
@@ -142,83 +149,158 @@ gap:9px;color:var(--green);font-size:12px;font-weight:700
 }
 
 .workspace-header {
+  min-height: 105px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 22px;
-  border-bottom: 1px solid #e5ece9;
-  background: #f8fbfa;
+  gap: 15px;
+  padding: 25px;
+  background: linear-gradient(125deg,#103d36,#176b58);
+  color: white;
 }
 
 .workspace-header small {
-  color: #238a70;
+  color: #e5c477;
   font-size: 10px;
   font-weight: 800;
-  letter-spacing: 1.5px;
+  letter-spacing: 2px;
 }
 
 .workspace-header h2 {
-  margin: 7px 0 0;
-  font-size: 21px;
+  margin: 9px 0 0;
+  font-size: 25px;
+  font-weight: 800;
+  letter-spacing: -.5px;
 }
 
 .workspace-header button {
-  border: 0;
-  border-radius: 9px;
-  width: 38px;
-  height: 38px;
-  background: #eaf3ef;
-  color: #176b58;
-  font-size: 25px;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  border: 1px solid #ffffff35;
+  border-radius: 12px;
+  background: #ffffff18;
+  color: white;
+  font-size: 26px;
+  transition: .2s ease;
+}
+
+.workspace-header button:hover {
+  background: #e5c477;
+  color: #103d36;
+  transform: rotate(90deg);
 }
 
 .workspace-content {
-  padding: 24px;
+  padding: 26px;
   min-height: 550px;
+  background: linear-gradient(180deg,#fff,#fbfdfc);
 }
 
 .workspace-welcome {
-  padding: 24px;
-  border-radius: 13px;
-  background: linear-gradient(120deg,#103d36,#238a70);
+  position: relative;
+  overflow: hidden;
+  padding: 27px;
+  margin-bottom: 22px;
+  border-radius: 17px;
+  background: linear-gradient(120deg,#103d36,#176b58 70%,#238a70);
   color: white;
-  margin-bottom: 20px;
+  box-shadow: 0 10px 25px #103d3620;
+}
+
+.workspace-welcome:after {
+  content: "✦";
+  position: absolute;
+  right: 22px;
+  top: 5px;
+  font-size: 95px;
+  color: #ffffff12;
 }
 
 .workspace-welcome h3 {
-  margin-top: 0;
+  position: relative;
+  z-index: 1;
+  margin: 0 0 12px;
+  font-size: 21px;
 }
 
 .workspace-welcome p {
-  line-height: 1.7;
-  color: #e0eee8;
+  position: relative;
+  z-index: 1;
+  max-width: 520px;
+  margin: 0;
+  color: #e2eee9;
   font-size: 13px;
+  line-height: 1.8;
 }
 
 .workspace-placeholder {
-  padding: 22px;
-  border: 1px dashed #cbdcd4;
-  border-radius: 12px;
+  padding: 24px;
+  border: 1px solid #e5ece9;
+  border-radius: 15px;
+  background: #fff;
   color: #71827c;
-  line-height: 1.7;
+  line-height: 1.8;
   font-size: 13px;
 }
 
-@media(max-width:1050px) {
+@keyframes workspaceEnter {
+  from {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.portal-layout .metric,
+.portal-layout .panel {
+  transition: box-shadow .2s ease, transform .2s ease;
+}
+
+.portal-layout .metric:hover,
+.portal-layout .panel:hover {
+  box-shadow: 0 12px 30px rgba(16,61,54,.09);
+}
+
+@media(max-width:1250px) {
+  .portal-layout {
+    grid-template-columns: minmax(0,1fr) minmax(330px,.85fr);
+    gap: 15px;
+    padding: 17px;
+  }
+}
+
+@media(max-width:900px) {
   .portal-layout {
     grid-template-columns: 1fr;
   }
 
   .workspace-panel {
-    min-height: 400px;
+    min-height: 450px;
   }
 }
 
 @media(max-width:760px) {
   .portal-layout {
-    padding: 14px;
+    padding: 12px;
+  }
+
+  .workspace-header {
+    padding: 20px;
+  }
+
+  .workspace-header h2 {
+    font-size: 21px;
+  }
+
+  .workspace-content {
+    padding: 17px;
   }
 }
+
 </style>
 </head>
 <body>
