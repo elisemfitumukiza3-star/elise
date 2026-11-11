@@ -3552,6 +3552,144 @@ function renderHostCertificateSearch(query = "") {
     }</p>`;
 }
 
+async function loadHostProfessionalApplications() {
+  if (!isOwner()) return;
+
+  const teacherList = $("#hostTeacherApplicationsList");
+  const schoolList = $("#hostSchoolApplicationsList");
+
+  if (!teacherList || !schoolList) return;
+
+  teacherList.innerHTML = "<p>Loading teacher applications...</p>";
+  schoolList.innerHTML = "<p>Loading school applications...</p>";
+
+  const [teachers, schools] = await Promise.all([
+    supabase.from("teacher_applications").select("*"),
+    supabase.from("school_applications").select("*")
+  ]);
+
+  function renderApplications(result, container, type) {
+    if (result.error) {
+      console.error(`${type} applications error:`, result.error);
+      container.innerHTML =
+        `<p class="muted">Could not load applications: ${
+          escapeHTML(result.error.message)
+        }</p>`;
+      return;
+    }
+
+    const applications = result.data || [];
+
+    applications.sort((a, b) =>
+      new Date(b.created_at || b.submitted_at || 0) -
+      new Date(a.created_at || a.submitted_at || 0)
+    );
+
+    if (!applications.length) {
+      container.innerHTML =
+        `<p class="muted">No ${type.toLowerCase()} applications received yet.</p>`;
+      return;
+    }
+
+    container.innerHTML = applications.map(app => {
+      const name = type === "Teacher"
+        ? app.full_name
+        : app.school_name;
+
+      const status = String(app.status || "pending").toLowerCase();
+
+      const statusLabel = {
+        pending: "PENDING REVIEW",
+        submitted: "SUBMITTED",
+        under_review: "UNDER REVIEW",
+        approved: "APPROVED",
+        rejected: "REJECTED",
+        needs_information: "ACTION REQUIRED"
+      }[status] || status.replaceAll("_", " ").toUpperCase();
+
+      const statusColor = status === "approved"
+        ? "#16834a"
+        : status === "rejected"
+          ? "#b42318"
+          : status === "needs_information"
+            ? "#a15c00"
+            : "#956b13";
+
+      const excluded = [
+        "id", "applicant_id", "applicant_declaration",
+        "safeguarding_declaration", "created_at", "updated_at"
+      ];
+
+      const details = Object.entries(app)
+        .filter(([key, value]) =>
+          !excluded.includes(key) &&
+          value !== null &&
+          value !== ""
+        )
+        .map(([key, value]) => {
+          const label = key.replaceAll("_", " ");
+          const displayValue = Array.isArray(value)
+            ? value.join(", ")
+            : typeof value === "object"
+              ? JSON.stringify(value)
+              : String(value);
+
+          if (key.endsWith("_url")) {
+            const url = safeUrl(displayValue);
+            return url
+              ? `<p><strong>${escapeHTML(label)}:</strong>
+                   <a href="${escapeHTML(url)}"
+                      target="_blank" rel="noopener noreferrer">
+                     View document
+                   </a></p>`
+              : "";
+          }
+
+          return `<p><strong>${escapeHTML(label)}:</strong>
+            ${escapeHTML(displayValue)}</p>`;
+        }).join("");
+
+      return `
+        <article class="card" style="margin:12px 0;padding:18px;">
+          <div style="display:flex;justify-content:space-between;
+                      align-items:flex-start;gap:12px;flex-wrap:wrap;">
+            <div>
+              <h3>${escapeHTML(name || "Unnamed applicant")}</h3>
+              <p class="muted small">
+                ${escapeHTML(app.email || "No email")}
+              </p>
+            </div>
+
+            <span style="display:inline-block;padding:7px 12px;
+              border-radius:30px;background:${statusColor}18;
+              color:${statusColor};font-size:11px;font-weight:800;
+              letter-spacing:.5px;">
+              ${escapeHTML(statusLabel)}
+            </span>
+          </div>
+
+          <p class="small">
+            <strong>Reference:</strong>
+            ${escapeHTML(app.application_reference || "Not assigned")}
+          </p>
+
+          <details style="margin-top:12px;">
+            <summary style="cursor:pointer;font-weight:700;">
+              View complete application
+            </summary>
+            <div style="padding:12px 0;overflow-wrap:anywhere;">
+              ${details}
+            </div>
+          </details>
+        </article>
+      `;
+    }).join("");
+  }
+
+  renderApplications(teachers, teacherList, "Teacher");
+  renderApplications(schools, schoolList, "School");
+}
+
 async function loadHostDashboard() {
   if (!isOwner()) {
     toast("This dashboard is restricted to the platform owner.", "error");
@@ -3560,6 +3698,7 @@ async function loadHostDashboard() {
 
   openDialog("hostDashboardDialog");
 showHostDashboardView("hostOverview");
+   loadHostProfessionalApplications();
  const [posts, profiles, certificates] = await Promise.all([
   supabase
     .from("posts")
