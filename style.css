@@ -13037,10 +13037,16 @@ body.dark-mode .learning-stat {
 /* =========================================
    LEARNLOOP INTERNATIONAL WELCOME REDESIGN
    ========================================= */
-
 #welcomeScreen:not(.hidden) {
-  background: #f7f8f5 !important;
-  color: #172b28 !important;
+  background:
+    linear-gradient(rgba(8, 15, 22, 0.84), rgba(8, 15, 22, 0.91)),
+    url("https://img.magnific.com/premium-photo/book-reading-with-desk-lamp-study-learning-dark-background_425122-12150.jpg")
+    center center / cover fixed !important;
+  color: #f5f0e6 !important;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
   min-height: 100vh;
   overflow-x: hidden;
 }
