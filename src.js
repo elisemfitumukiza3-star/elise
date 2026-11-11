@@ -3710,7 +3710,18 @@ async function loadHostProfessionalApplications() {
           }
         );
 console.log("LEARNLOOP REVIEW RESPONSE:", { data, error });
-window.alert("Review response:\n" + JSON.stringify({ data, error }, null, 2));
+
+if (error) {
+  const details = await error.context?.text?.().catch(() => "");
+  window.alert(
+    "FUNCTION ERROR:\n" +
+    error.name + "\n" +
+    error.message + "\n" +
+    details
+  );
+} else {
+  window.alert("FUNCTION RESPONSE:\n" + JSON.stringify(data, null, 2));
+}
         if (error) throw error;
         if (!data?.success) {
           throw new Error(data?.error || "The review could not be completed.");
