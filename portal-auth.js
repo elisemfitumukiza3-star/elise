@@ -162,13 +162,8 @@ form.addEventListener("submit", async (event) => {
 });
 
 (async () => {
-  const { data: sessionData } = await supabase.auth.getSession();
-
-  if (sessionData.session) {
-    await authorize(sessionData.session.user);
-  } else {
-    overlay.hidden = false;
-  }
+overlay.hidden = false;
+document.body.classList.add("portal-locked"); 
 })();
 supabase.auth.onAuthStateChange((_event, session) => {
   if (!session) {
