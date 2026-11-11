@@ -10961,7 +10961,7 @@ function openProfessionalApplication(type) {
         <div class="professional-app-field">
           <label>Email address *</label>
           <input name="email" type="email"
-            value="${escapeHTML(state.session.user.email || "")}" required>
+            value="${escapeHTML(state.session?.user?.email || "")}" required>
         </div>
         <div class="professional-app-field">
           <label>Phone number *</label>
