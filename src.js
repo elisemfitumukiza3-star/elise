@@ -11230,13 +11230,7 @@ toast("Your professional application has been submitted.");
     });
 }
 
-$("#schoolApplicationButton")?.addEventListener("click", () =>
-  openProfessionalApplication("school")
-);
 
-$("#teacherApplicationButton")?.addEventListener("click", () =>
-  openProfessionalApplication("teacher")
-);
 
 $("#schoolPortalLoginButton")?.addEventListener("click", () => {
   window.location.href = "/school.html";
@@ -11735,7 +11729,22 @@ $("#honoraryCertificateRequestList")?.addEventListener("click", async event => {
   }
 }); 
 }
+// Reliable public school and teacher application buttons
+document.addEventListener("click", event => {
+  const button = event.target.closest(
+    "#schoolApplicationButton, #teacherApplicationButton"
+  );
 
+  if (!button) return;
+
+  event.preventDefault();
+
+  if (button.id === "schoolApplicationButton") {
+    openProfessionalApplication("school");
+  } else {
+    openProfessionalApplication("teacher");
+  }
+});
 /* ---------- Start application ---------- */
 
 async function init() {
