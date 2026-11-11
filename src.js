@@ -10776,6 +10776,11 @@ function addProfessionalApplicationStyles() {
       .professional-app-submit { width:100%; }
       .professional-app-actions { flex-direction:column-reverse; align-items:stretch; }
     }
+    .required-mark {
+  color: #d13e42;
+  font-weight: 900;
+  margin-left: 3px;
+}
   `;
   document.head.appendChild(style);
 }
