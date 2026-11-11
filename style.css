@@ -14806,4 +14806,7 @@ body.dark-mode .learning-stat {
     padding: 24px 20px;
   }
 }
-
+/* Hide numbering on welcome feature cards */
+#welcomeScreen .feature-index {
+  display: none !important;
+}
