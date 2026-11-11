@@ -14604,3 +14604,101 @@ body.dark-mode .learning-stat {
     transform: none;
   }
 }
+
+/* =====================================================
+   LEARNLOOP — FULL-WIDTH DESKTOP EDITORIAL LAYOUT
+   Keep the phone and tablet layouts unchanged
+   ===================================================== */
+
+@media (min-width: 901px) {
+
+  /* Use the available PC screen width */
+  #welcomeScreen:not(.hidden) .public-welcome-main {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding-left: clamp(28px, 3vw, 65px);
+    padding-right: clamp(28px, 3vw, 65px);
+  }
+
+  /* Spread the hero across the desktop */
+  #welcomeScreen:not(.hidden) .public-hero {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
+    gap: clamp(35px, 5vw, 90px);
+    width: 100%;
+  }
+
+  #welcomeScreen:not(.hidden) .public-hero-content {
+    max-width: 850px;
+  }
+
+  #welcomeScreen:not(.hidden) .public-hero-content > p {
+    max-width: 760px;
+  }
+
+  #welcomeScreen:not(.hidden) .welcome-visual {
+    width: 100%;
+    max-width: 760px;
+    height: clamp(300px, 27vw, 440px);
+  }
+
+  /* Full-width scattered feature arrangement */
+  #welcomeScreen:not(.hidden) .public-features {
+    display: grid !important;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    grid-auto-rows: minmax(190px, auto);
+    gap: 22px;
+    width: 100%;
+  }
+
+  #welcomeScreen:not(.hidden) .public-features article,
+  #welcomeScreen:not(.hidden) .public-features article:nth-child(n) {
+    min-width: 0;
+    width: auto;
+    margin: 0;
+  }
+
+  #welcomeScreen:not(.hidden) .public-features article:nth-child(1) {
+    grid-column: span 7;
+    min-height: 255px;
+  }
+
+  #welcomeScreen:not(.hidden) .public-features article:nth-child(2) {
+    grid-column: span 5;
+    min-height: 220px;
+    margin-top: 35px;
+  }
+
+  #welcomeScreen:not(.hidden) .public-features article:nth-child(3) {
+    grid-column: span 4;
+    min-height: 205px;
+    margin-top: 8px;
+  }
+
+  #welcomeScreen:not(.hidden) .public-features article:nth-child(4) {
+    grid-column: span 5;
+    min-height: 235px;
+    margin-top: 38px;
+  }
+
+  #welcomeScreen:not(.hidden) .public-features article:nth-child(5) {
+    grid-column: span 3;
+    min-height: 205px;
+    margin-top: 15px;
+  }
+
+  /* Give professional cards the full available width */
+  #welcomeScreen:not(.hidden) .professional-access-grid {
+    width: 100%;
+  }
+
+  #welcomeScreen:not(.hidden) .professional-access-card {
+    flex: 1 1 calc(50% - 22px);
+  }
+
+  /* Widen certificate verification on desktop */
+  #welcomeScreen:not(.hidden) #certificateVerificationSection {
+    width: min(1100px, 100%);
+    max-width: none;
+  }
+}
