@@ -10618,16 +10618,43 @@ function addProfessionalApplicationStyles() {
   const style = document.createElement("style");
   style.id = "professionalApplicationStyles";
   style.textContent = `
-    .professional-application {
-      position:fixed; inset:0; z-index:100000;
-      display:grid; grid-template-columns: minmax(280px, 34%) 1fr;
-      width:100vw; height:100dvh; overflow:hidden;
-      background:#f5f7fa; color:#17263b;
-      font-family:Arial,sans-serif;
-    }
-    .professional-application.school { --app-accent:#c69a3a; --app-dark:#142b49; }
-    .professional-application.teacher { --app-accent:#15977f; --app-dark:#103d3a; }
+   .professional-application {
+  position:fixed;
+  inset:0;
+  z-index:100000;
+  display:grid;
+  grid-template-columns:minmax(280px, 34%) 1fr;
+  width:100vw;
+  height:100dvh;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 85% 12%, #dce8f4 0, transparent 30%),
+    linear-gradient(135deg, #f7f9fc, #eaf0f7);
+  color:#17263b;
+  font-family:Arial,sans-serif;
+}
 
+.professional-application.school {
+  --app-accent:#d5ad54;
+  --app-dark:#102642;
+}
+
+.professional-application.teacher {
+  --app-accent:#35b99e;
+  --app-dark:#103b38;
+}
+
+.professional-app-aside {
+  background:
+    radial-gradient(circle at 15% 85%, #ffffff18 0, transparent 35%),
+    linear-gradient(145deg, var(--app-dark), #071522);
+}
+
+.professional-app-main {
+  background:
+    radial-gradient(circle at 90% 5%, #ffffffb8 0, transparent 32%),
+    linear-gradient(145deg, #f8fafc, #edf2f8);
+}
     .professional-app-aside {
       position:relative; overflow:hidden;
       display:flex; flex-direction:column; justify-content:space-between;
