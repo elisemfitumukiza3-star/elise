@@ -13040,7 +13040,7 @@ body.dark-mode .learning-stat {
 #welcomeScreen:not(.hidden) {
   background:
     linear-gradient(rgba(8, 15, 22, 0.84), rgba(8, 15, 22, 0.91)),
-    url("https://img.magnific.com/premium-photo/book-reading-with-desk-lamp-study-learning-dark-background_425122-12150.jpg")
+    url("https://images.unsplash.com/photo-1747515203898-2df8f083f417?auto=format&fit=crop&fm=jpg&q=85&w=2400")
     center center / cover fixed !important;
   color: #f5f0e6 !important;
   min-height: 100vh;
@@ -13655,7 +13655,7 @@ body.dark-mode .learning-stat {
   color: var(--ll-white) !important;
   background:
     linear-gradient(115deg, rgba(3, 10, 16, .96), rgba(5, 16, 22, .87) 55%, rgba(3, 10, 16, .95)),
-    url("https://img.magnific.com/premium-photo/book-reading-with-desk-lamp-study-learning-dark-background_425122-12150.jpg")
+    url("https://images.unsplash.com/photo-1747515203898-2df8f083f417?auto=format&fit=crop&fm=jpg&q=85&w=2400")
     center / cover fixed !important;
 }
 
