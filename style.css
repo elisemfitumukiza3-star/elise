@@ -14712,3 +14712,98 @@ body.dark-mode .learning-stat {
     padding: 20px;
   }
 }
+
+/* LEARNLOOP INTRODUCTION CARD */
+#welcomeScreen .learnloop-intro-card {
+  position: relative;
+  width: 100%;
+  margin: 0 0 32px;
+  padding: clamp(25px, 4vw, 46px);
+  overflow: hidden;
+  background: linear-gradient(115deg, #102a2d, #17212b 75%);
+  border: 1px solid rgba(255,255,255,.18);
+  border-left: 5px solid #c9a96e;
+  border-radius: 8px;
+  box-shadow: 0 16px 38px rgba(0,0,0,.2);
+  text-align: left;
+}
+
+#welcomeScreen .learnloop-intro-label {
+  display: block;
+  margin-bottom: 14px;
+  color: #8ed9bd;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 3px;
+}
+
+#welcomeScreen .learnloop-intro-card h3 {
+  max-width: 850px;
+  margin: 0 0 16px;
+  color: #e8c982 !important;
+  font-size: clamp(24px, 3vw, 36px);
+  line-height: 1.2;
+}
+
+#welcomeScreen .learnloop-intro-card p {
+  max-width: 1050px;
+  margin: 0;
+  color: #f0f4f5 !important;
+  font-size: clamp(14px, 1.3vw, 17px);
+  line-height: 1.85;
+}
+
+@media (max-width: 700px) {
+  #welcomeScreen .learnloop-intro-card {
+    margin-bottom: 24px;
+    padding: 24px 20px;
+  }
+}
+
+/* LEARNLOOP INTRODUCTION CARD */
+#welcomeScreen .learnloop-intro-card {
+  position: relative;
+  width: 100%;
+  margin: 0 0 32px;
+  padding: clamp(25px, 4vw, 46px);
+  overflow: hidden;
+  background: linear-gradient(115deg, #102a2d, #17212b 75%);
+  border: 1px solid rgba(255,255,255,.18);
+  border-left: 5px solid #c9a96e;
+  border-radius: 8px;
+  box-shadow: 0 16px 38px rgba(0,0,0,.2);
+  text-align: left;
+}
+
+#welcomeScreen .learnloop-intro-label {
+  display: block;
+  margin-bottom: 14px;
+  color: #8ed9bd;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 3px;
+}
+
+#welcomeScreen .learnloop-intro-card h3 {
+  max-width: 850px;
+  margin: 0 0 16px;
+  color: #e8c982 !important;
+  font-size: clamp(24px, 3vw, 36px);
+  line-height: 1.2;
+}
+
+#welcomeScreen .learnloop-intro-card p {
+  max-width: 1050px;
+  margin: 0;
+  color: #f0f4f5 !important;
+  font-size: clamp(14px, 1.3vw, 17px);
+  line-height: 1.85;
+}
+
+@media (max-width: 700px) {
+  #welcomeScreen .learnloop-intro-card {
+    margin-bottom: 24px;
+    padding: 24px 20px;
+  }
+}
+
