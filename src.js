@@ -3731,7 +3731,7 @@ window.alert("Review response:\n" + JSON.stringify({ data, error }, null, 2));
       }
     });
   }
-
+}
 
 async function loadHostDashboard() {
   if (!isOwner()) {
