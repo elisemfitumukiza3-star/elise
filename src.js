@@ -11115,6 +11115,23 @@ function openProfessionalApplication(type) {
 
   document.body.appendChild(app);
 
+// Visibly mark every mandatory form field
+app.querySelectorAll(
+  ".professional-app-field input[required], " +
+  ".professional-app-field select[required], " +
+  ".professional-app-field textarea[required]"
+).forEach(field => {
+  const label = field.closest(".professional-app-field")
+    ?.querySelector("label");
+
+  if (label && !label.querySelector(".required-mark")) {
+    label.insertAdjacentHTML(
+      "beforeend",
+      ' <span class="required-mark">*</span>'
+    );
+  }
+});
+
   const closeApplication = () => app.remove();
 
   app.querySelector(".professional-app-close")
