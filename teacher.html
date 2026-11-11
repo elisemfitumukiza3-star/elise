@@ -300,7 +300,82 @@ gap:9px;color:var(--green);font-size:12px;font-weight:700
     padding: 17px;
   }
 }
+/* WORKSPACE OPEN/CLOSED STATES */
+.portal-layout:not(.workspace-open) {
+  grid-template-columns: minmax(0, 1fr);
+}
 
+.portal-layout.workspace-open {
+  grid-template-columns: minmax(0, 1.05fr) minmax(380px, .95fr);
+}
+
+.workspace-description {
+  margin: 9px 0 0;
+  color: #d8e9e2;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.workspace-section-label {
+  margin: 24px 0 12px;
+  color: #176b58;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.workspace-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 13px;
+}
+
+.workspace-feature {
+  padding: 19px;
+  border: 1px solid #e5ece9;
+  border-radius: 14px;
+  background: white;
+}
+
+.workspace-feature strong {
+  display: block;
+  color: #18334d;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.workspace-feature p {
+  margin: 0;
+  color: #71827c;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+@media(max-width:1100px) {
+  .portal-layout.workspace-open {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media(max-width:480px) {
+  .workspace-feature-grid {
+    grid-template-columns: 1fr;
+  }
+}
+ .portal-layout:not(.workspace-open) {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.portal-layout.workspace-open {
+  grid-template-columns: minmax(0, 1.05fr) minmax(370px, .95fr);
+}
+
+.workspace-description {
+  margin: 9px 0 0;
+  color: #d8e9e2;
+  font-size: 12px;
+  line-height: 1.6;
+}
 </style>
 </head>
 <body>
@@ -335,6 +410,7 @@ gap:9px;color:var(--green);font-size:12px;font-weight:700
  </div>
 </header>
 <div class="portal-layout" id="portalLayout"> 
+ <div class="portal-layout" id="portalLayout">
 <div class="content">
 <section class="hero">
  <div class="hero-content">
@@ -402,17 +478,181 @@ gap:9px;color:var(--green);font-size:12px;font-weight:700
 </main>
 </div>
 <script>
-const sidebar=document.getElementById("sidebar");
-document.getElementById("menuButton").addEventListener("click",()=>sidebar.classList.toggle("open"));
-document.querySelectorAll("[data-page]").forEach(button=>{
- button.addEventListener("click",()=>{
-  document.querySelectorAll(".nav button").forEach(item=>item.classList.remove("active"));
-  const target=document.querySelector('.nav button[data-page="'+button.dataset.page+'"]');
-  if(target)target.classList.add("active");
+
+const sidebar = document.getElementById("sidebar");
+const portalLayout = document.getElementById("portalLayout");
+const workspacePanel = document.getElementById("workspacePanel");
+const workspaceTitle = document.getElementById("workspaceTitle");
+const workspaceDescription = document.getElementById("workspaceDescription");
+const workspaceContent = document.getElementById("workspaceContent");
+const closeWorkspace = document.getElementById("closeWorkspace");
+
+const teacherWorkspaces = {
+  "My Classes": {
+    description: "Organize your teaching groups and classroom activities.",
+    features: [
+      ["Class management", "View and organize your assigned classes."],
+      ["Class schedules", "Review teaching timetables and upcoming sessions."],
+      ["Class announcements", "Prepare updates for your learners."],
+      ["Class organization", "Manage subjects and learning groups."]
+    ]
+  },
+  "My Students": {
+    description: "A dedicated environment for learner management.",
+    features: [
+      ["Student directory", "View learners assigned to your classes."],
+      ["Student records", "Review learner information and enrollment."],
+      ["Class membership", "Organize learners by teaching group."],
+      ["Learner support", "Keep track of student learning needs."]
+    ]
+  },
+  "Lessons & Courses": {
+    description: "Prepare structured lessons and deliver quality learning.",
+    features: [
+      ["Create a lesson", "Prepare lesson titles, descriptions and objectives."],
+      ["Course organization", "Arrange lessons into structured courses."],
+      ["Lesson publishing", "Prepare learning content for your students."],
+      ["Lesson library", "Organize your teaching materials."]
+    ]
+  },
+  "Assignments": {
+    description: "Create assignments and manage learner submissions.",
+    features: [
+      ["Create assignment", "Prepare instructions and submission requirements."],
+      ["Assignment tracking", "Monitor assignment participation."],
+      ["Review submissions", "Organize submitted learner work."],
+      ["Feedback", "Prepare constructive feedback for students."]
+    ]
+  },
+  "Quizzes & Tests": {
+    description: "Build assessments and monitor learning outcomes.",
+    features: [
+      ["Create quiz", "Prepare questions and assessment instructions."],
+      ["Assessment links", "Organize external quiz and test links."],
+      ["Access codes", "Manage assessment access information."],
+      ["Results", "Review learner assessment performance."]
+    ]
+  },
+  "Examinations": {
+    description: "Manage formal examinations and assessment schedules.",
+    features: [
+      ["Examination setup", "Prepare examination information."],
+      ["Exam schedules", "Organize examination dates and sessions."],
+      ["Exam instructions", "Prepare instructions for candidates."],
+      ["Results management", "Organize examination outcomes."]
+    ]
+  },
+  "Live Classes": {
+    description: "Coordinate online teaching sessions and live learning.",
+    features: [
+      ["Schedule a session", "Prepare a live class timetable."],
+      ["Meeting links", "Organize video meeting links."],
+      ["Class access codes", "Share access information with learners."],
+      ["Session management", "Organize upcoming and completed sessions."]
+    ]
+  },
+  "Learning Materials": {
+    description: "Build an organized collection of learning resources.",
+    features: [
+      ["Upload resources", "Prepare documents and learning materials."],
+      ["Resource library", "Organize teaching resources."],
+      ["Share materials", "Prepare resources for assigned learners."],
+      ["Resource categories", "Keep materials organized by subject."]
+    ]
+  },
+  "Student Progress": {
+    description: "Follow learner participation and academic development.",
+    features: [
+      ["Learning progress", "Review lesson completion."],
+      ["Assessment performance", "Organize quiz and test outcomes."],
+      ["Participation", "Monitor student engagement."],
+      ["Progress reports", "Prepare learner progress summaries."]
+    ]
+  },
+  "Messages": {
+    description: "Manage communication with learners and your school.",
+    features: [
+      ["Inbox", "Organize your teaching conversations."],
+      ["Student communication", "Coordinate learner communication."],
+      ["School communication", "Keep in touch with your institution."],
+      ["Announcements", "Prepare important learning updates."]
+    ]
+  },
+  "My Profile": {
+    description: "Manage your professional teaching identity.",
+    features: [
+      ["Personal information", "Review your account information."],
+      ["Professional profile", "Manage your teaching profile."],
+      ["Teaching details", "Organize your subjects and qualifications."],
+      ["Account preferences", "Review your workspace preferences."]
+    ]
+  }
+};
+
+function openTeacherWorkspace(page) {
+  if (page === "Dashboard") {
+    closeTeacherWorkspace();
+    return;
+  }
+
+  const workspace = teacherWorkspaces[page];
+  if (!workspace) return;
+
+  workspaceTitle.textContent = page;
+  workspaceDescription.textContent = workspace.description;
+
+  workspaceContent.innerHTML = `
+    <div class="workspace-welcome">
+      <h3>${page}</h3>
+      <p>${workspace.description}</p>
+    </div>
+
+    <div class="workspace-section-label">
+      WORKSPACE MODULES
+    </div>
+
+    <div class="workspace-feature-grid">
+      ${workspace.features.map(([title, description]) => `
+        <article class="workspace-feature">
+          <strong>${title}</strong>
+          <p>${description}</p>
+        </article>
+      `).join("")}
+    </div>
+  `;
+
+  workspacePanel.hidden = false;
+  portalLayout.classList.add("workspace-open");
+
+  document.querySelectorAll(".nav button").forEach(item => {
+    item.classList.toggle("active", item.dataset.page === page);
+  });
+
   sidebar.classList.remove("open");
- });
+}
+
+function closeTeacherWorkspace() {
+  workspacePanel.hidden = true;
+  portalLayout.classList.remove("workspace-open");
+
+  document.querySelectorAll(".nav button").forEach(item => {
+    item.classList.toggle("active", item.dataset.page === "Dashboard");
+  });
+}
+
+document.querySelectorAll("[data-page]").forEach(button => {
+  button.addEventListener("click", event => {
+    event.preventDefault();
+    openTeacherWorkspace(button.dataset.page);
+  });
 });
-</script>
+
+closeWorkspace.addEventListener("click", closeTeacherWorkspace);
+
+document.getElementById("menuButton").addEventListener("click", () => {
+  sidebar.classList.toggle("open");
+});
+
  <script type="module" src="./portal-auth.js"></script>
 </body>
 </html>
