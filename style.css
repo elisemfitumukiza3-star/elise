@@ -12683,3 +12683,353 @@ body.dark-mode .learning-stat {
   background: #E1EAF5;
   color: #173B68;
 }
+
+/* =========================================
+   LEARNLOOP — PREMIUM PUBLIC WELCOME DESIGN
+   ========================================= */
+
+#welcomeScreen:not(.hidden) {
+  background: #f5f8f6;
+  color: #17332d;
+}
+
+#welcomeScreen .public-welcome-header {
+  min-height: 82px;
+  padding: 14px clamp(20px, 5vw, 76px);
+  background: rgba(255,255,255,.96);
+  border-bottom: 1px solid #e3ebe6;
+  box-shadow: 0 5px 22px rgba(12,45,35,.06);
+}
+
+#welcomeScreen .public-welcome-brand {
+  color: #075c43;
+  font-size: 23px;
+  letter-spacing: -.7px;
+}
+
+#welcomeScreen .public-welcome-brand img {
+  width: 46px;
+  height: 46px;
+}
+
+#welcomeScreen .public-about-link {
+  color: #36594e;
+}
+
+#welcomeScreen .public-login-button {
+  border: 1px solid #cbdcd3;
+  color: #075c43;
+  background: #fff;
+}
+
+#welcomeScreen .public-register-button {
+  background: #087f5b;
+  border-color: #087f5b;
+  color: #fff;
+  box-shadow: 0 5px 15px rgba(8,127,91,.18);
+}
+
+#welcomeScreen .public-welcome-main {
+  width: min(1320px, 92%);
+  margin: 0 auto;
+  padding-bottom: 35px;
+}
+
+/* Main hero */
+#welcomeScreen .public-hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  min-height: 450px;
+  margin-top: 30px;
+  padding: clamp(35px, 6vw, 76px);
+  overflow: hidden;
+  text-align: left;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 25px;
+  background: linear-gradient(
+    110deg,
+    #092f2b 0%,
+    #075c43 65%,
+    #123f3a 100%
+  );
+  box-shadow: 0 20px 48px rgba(7,55,42,.20);
+}
+
+#welcomeScreen .public-hero > * {
+  position: relative;
+  z-index: 2;
+  text-align: left;
+}
+
+#welcomeScreen .public-hero::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  right: 4%;
+  width: 33%;
+  height: 76%;
+  transform: translateY(-50%);
+  border: 5px solid rgba(255,255,255,.16);
+  border-radius: 20px;
+  background:
+    linear-gradient(0deg,rgba(5,35,29,.12),rgba(5,35,29,.12)),
+    url("https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1000&q=85")
+    center / cover;
+  box-shadow: 0 18px 45px rgba(0,0,0,.24);
+}
+
+#welcomeScreen .public-hero-label {
+  padding: 9px 15px;
+  border: 1px solid rgba(221,190,119,.55);
+  border-radius: 30px;
+  background: rgba(221,190,119,.12);
+  color: #e6c98e;
+  font-size: 11px;
+  letter-spacing: 2px;
+}
+
+#welcomeScreen .public-hero h1 {
+  max-width: 650px;
+  margin: 24px 0 18px;
+  color: #fff;
+  font-size: clamp(36px, 5vw, 62px);
+  line-height: 1.1;
+  letter-spacing: -2px;
+}
+
+#welcomeScreen .public-hero p {
+  max-width: 590px;
+  margin: 0;
+  color: #e2eeea;
+  font-size: 16px;
+  line-height: 1.9;
+}
+
+#welcomeScreen .public-hero-actions {
+  justify-content: flex-start;
+  margin-top: 30px;
+}
+
+#welcomeScreen .public-hero-actions button {
+  padding: 15px 25px;
+  border-radius: 11px;
+  background: #e1bd76;
+  color: #18352d;
+  font-weight: 800;
+  box-shadow: 0 7px 20px rgba(0,0,0,.14);
+}
+
+#welcomeScreen .public-hero-actions a {
+  color: #fff;
+  padding: 12px 4px;
+}
+
+/* Learning feature cards */
+#welcomeScreen .public-features {
+  grid-template-columns: repeat(4,minmax(0,1fr));
+  gap: 17px;
+  margin: 30px 0;
+}
+
+#welcomeScreen .public-features > div {
+  padding: 25px 22px;
+  text-align: left;
+  background: #fff;
+  border: 1px solid #e1ebe5;
+  border-radius: 17px;
+  box-shadow: 0 8px 24px rgba(17,57,42,.055);
+  transition: transform .22s ease, box-shadow .22s ease;
+}
+
+#welcomeScreen .public-features > div:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(17,57,42,.10);
+}
+
+#welcomeScreen .public-features span {
+  display: inline-grid;
+  place-items: center;
+  width: 49px;
+  height: 49px;
+  border-radius: 14px;
+  background: #eaf4ee;
+  font-size: 25px;
+}
+
+#welcomeScreen .public-features h3 {
+  margin-top: 17px;
+  color: #075c43;
+}
+
+#welcomeScreen .public-features p {
+  color: #61736b;
+  line-height: 1.75;
+}
+
+/* Professional portal access */
+#welcomeScreen .professional-access-section {
+  margin: 35px 0;
+  padding: clamp(24px,4vw,42px);
+  border: 1px solid #e0e9e3;
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 9px 28px rgba(17,57,42,.055);
+}
+
+#welcomeScreen .professional-access-heading {
+  text-align: left;
+  margin-bottom: 25px;
+}
+
+#welcomeScreen .professional-access-heading > span {
+  color: #a27b35;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+#welcomeScreen .professional-access-heading h2 {
+  margin: 10px 0;
+  color: #123d32;
+  font-size: clamp(25px,3vw,36px);
+}
+
+#welcomeScreen .professional-access-heading p {
+  color: #64756d;
+}
+
+#welcomeScreen .professional-access-grid {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 20px;
+}
+
+#welcomeScreen .professional-access-card {
+  padding: 26px;
+  border: 1px solid #dfe9e2;
+  border-radius: 17px;
+  background: #f8fbf9;
+}
+
+#welcomeScreen .professional-access-card h3 {
+  color: #075c43;
+}
+
+#welcomeScreen .professional-access-card p {
+  color: #63736c;
+  line-height: 1.7;
+}
+
+#welcomeScreen .professional-access-card button {
+  margin: 7px 7px 0 0;
+  padding: 11px 16px;
+  border-radius: 10px;
+  background: #087f5b;
+  color: white;
+}
+
+#welcomeScreen .professional-access-card button:last-child {
+  border: 1px solid #cbdcd3;
+  background: white;
+  color: #075c43;
+}
+
+/* About section */
+#welcomeScreen .public-welcome-about {
+  padding: 35px;
+  text-align: left;
+  border: 1px solid #e0e9e3;
+  border-radius: 18px;
+  background: #fff;
+}
+
+#welcomeScreen .public-welcome-about h2 {
+  color: #075c43;
+}
+
+#welcomeScreen .public-welcome-about p {
+  max-width: 780px;
+  margin: 12px 0 20px;
+  color: #61736b;
+  line-height: 1.8;
+}
+
+#welcomeScreen .public-welcome-footer {
+  color: #718178;
+}
+
+/* Tablet and mobile */
+@media(max-width:900px) {
+  #welcomeScreen .public-hero::after {
+    right: 3%;
+    width: 30%;
+    opacity: .65;
+  }
+
+  #welcomeScreen .public-hero h1,
+  #welcomeScreen .public-hero p {
+    max-width: 62%;
+  }
+
+  #welcomeScreen .public-features {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+  }
+}
+
+@media(max-width:650px) {
+  #welcomeScreen .public-hero {
+    min-height: 390px;
+    padding: 32px 24px;
+  }
+
+  #welcomeScreen .public-hero::after {
+    right: -20px;
+    bottom: -25px;
+    top: auto;
+    width: 48%;
+    height: 43%;
+    transform: none;
+    opacity: .24;
+  }
+
+  #welcomeScreen .public-hero h1,
+  #welcomeScreen .public-hero p {
+    max-width: 100%;
+  }
+
+  #welcomeScreen .public-hero h1 {
+    font-size: 39px;
+    letter-spacing: -1.3px;
+  }
+
+  #welcomeScreen .public-features {
+    grid-template-columns: 1fr;
+  }
+
+  #welcomeScreen .professional-access-grid {
+    grid-template-columns: 1fr;
+  }
+
+  #welcomeScreen .professional-access-section,
+  #welcomeScreen .public-welcome-about {
+    padding: 23px 19px;
+  }
+
+  #welcomeScreen .public-welcome-header {
+    gap: 12px;
+  }
+}
+
+@media(max-width:390px) {
+  #welcomeScreen .public-welcome-brand {
+    font-size: 18px;
+  }
+
+  #welcomeScreen .public-hero h1 {
+    font-size: 33px;
+  }
+}
