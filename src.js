@@ -3552,6 +3552,7 @@ function renderHostCertificateSearch(query = "") {
     }</p>`;
 }
 
+
 async function loadHostProfessionalApplications() {
   if (!isOwner()) return;
 
@@ -3560,9 +3561,6 @@ async function loadHostProfessionalApplications() {
 
   if (!teacherList || !schoolList) return;
 
-  teacherList.innerHTML = "<p>Loading teacher applications...</p>";
-  schoolList.innerHTML = "<p>Loading school applications...</p>";
-
   const [teachers, schools] = await Promise.all([
     supabase.from("teacher_applications").select("*"),
     supabase.from("school_applications").select("*")
@@ -3570,117 +3568,97 @@ async function loadHostProfessionalApplications() {
 
   function renderApplications(result, container, type) {
     if (result.error) {
-      console.error(`${type} applications error:`, result.error);
-      container.innerHTML =
-        `<p class="muted">Could not load applications: ${
-          escapeHTML(result.error.message)
-        }</p>`;
+      container.textContent = "Could not load applications: " + result.error.message;
       return;
     }
 
     const applications = result.data || [];
 
     applications.sort((a, b) =>
-      new Date(b.created_at || b.submitted_at || 0) -
-      new Date(a.created_at || a.submitted_at || 0)
+      new Date(b.created_at || 0) - new Date(a.created_at || 0)
     );
 
     if (!applications.length) {
-      container.innerHTML =
-        `<p class="muted">No ${type.toLowerCase()} applications received yet.</p>`;
+      container.innerHTML = `<p>No ${type.toLowerCase()} applications received yet.</p>`;
       return;
     }
 
     container.innerHTML = applications.map(app => {
-      const name = type === "Teacher"
-        ? app.full_name
-        : app.school_name;
-
+      const name = type === "Teacher" ? app.full_name : app.school_name;
       const status = String(app.status || "pending").toLowerCase();
-
-      const statusLabel = {
-        pending: "PENDING REVIEW",
-        submitted: "SUBMITTED",
-        under_review: "UNDER REVIEW",
-        approved: "APPROVED",
-        rejected: "REJECTED",
-        needs_information: "ACTION REQUIRED"
-      }[status] || status.replaceAll("_", " ").toUpperCase();
-
-      const statusColor = status === "approved"
-        ? "#16834a"
-        : status === "rejected"
-          ? "#b42318"
-          : status === "needs_information"
-            ? "#a15c00"
-            : "#956b13";
-
-      const excluded = [
-        "id", "applicant_id", "applicant_declaration",
-        "safeguarding_declaration", "created_at", "updated_at"
-      ];
 
       const details = Object.entries(app)
         .filter(([key, value]) =>
-          !excluded.includes(key) &&
-          value !== null &&
-          value !== ""
+          ![
+            "id", "applicant_id", "applicant_declaration",
+            "safeguarding_declaration", "created_at", "updated_at"
+          ].includes(key) && value !== null && value !== ""
         )
         .map(([key, value]) => {
           const label = key.replaceAll("_", " ");
-          const displayValue = Array.isArray(value)
-            ? value.join(", ")
-            : typeof value === "object"
-              ? JSON.stringify(value)
-              : String(value);
+          const display = typeof value === "object"
+            ? JSON.stringify(value)
+            : String(value);
 
           if (key.endsWith("_url")) {
-            const url = safeUrl(displayValue);
+            const url = safeUrl(display);
             return url
               ? `<p><strong>${escapeHTML(label)}:</strong>
-                   <a href="${escapeHTML(url)}"
-                      target="_blank" rel="noopener noreferrer">
-                     View document
-                   </a></p>`
+                   <a href="${escapeHTML(url)}" target="_blank"
+                      rel="noopener noreferrer">View document</a></p>`
               : "";
           }
 
           return `<p><strong>${escapeHTML(label)}:</strong>
-            ${escapeHTML(displayValue)}</p>`;
+            ${escapeHTML(display)}</p>`;
         }).join("");
 
+      const isFinal = ["approved", "rejected"].includes(status);
+
       return `
-        <article class="card" style="margin:12px 0;padding:18px;">
+        <article class="card" style="margin:14px 0;padding:20px;">
           <div style="display:flex;justify-content:space-between;
-                      align-items:flex-start;gap:12px;flex-wrap:wrap;">
+            gap:12px;flex-wrap:wrap;">
             <div>
               <h3>${escapeHTML(name || "Unnamed applicant")}</h3>
+              <p>${escapeHTML(app.email || "No email provided")}</p>
               <p class="muted small">
-                ${escapeHTML(app.email || "No email")}
+                Reference: ${escapeHTML(app.application_reference || "Not assigned")}
               </p>
             </div>
-
-            <span style="display:inline-block;padding:7px 12px;
-              border-radius:30px;background:${statusColor}18;
-              color:${statusColor};font-size:11px;font-weight:800;
-              letter-spacing:.5px;">
-              ${escapeHTML(statusLabel)}
-            </span>
+            <strong>${escapeHTML(status.replaceAll("_", " ").toUpperCase())}</strong>
           </div>
 
-          <p class="small">
-            <strong>Reference:</strong>
-            ${escapeHTML(app.application_reference || "Not assigned")}
-          </p>
-
-          <details style="margin-top:12px;">
-            <summary style="cursor:pointer;font-weight:700;">
-              View complete application
-            </summary>
+          <details style="margin:15px 0;">
+            <summary>View complete application</summary>
             <div style="padding:12px 0;overflow-wrap:anywhere;">
               ${details}
             </div>
           </details>
+
+          ${isFinal ? `
+            <p><strong>Decision recorded.</strong></p>
+          ` : `
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+              <button type="button" data-app-review="approved"
+                data-app-id="${escapeHTML(app.id)}"
+                data-app-type="${type}">
+                ✓ Approve
+              </button>
+
+              <button type="button" data-app-review="needs_information"
+                data-app-id="${escapeHTML(app.id)}"
+                data-app-type="${type}">
+                Request information
+              </button>
+
+              <button type="button" data-app-review="rejected"
+                data-app-id="${escapeHTML(app.id)}"
+                data-app-type="${type}">
+                Reject
+              </button>
+            </div>
+          `}
         </article>
       `;
     }).join("");
@@ -3688,6 +3666,93 @@ async function loadHostProfessionalApplications() {
 
   renderApplications(teachers, teacherList, "Teacher");
   renderApplications(schools, schoolList, "School");
+
+  for (const container of [teacherList, schoolList]) {
+    if (container.dataset.reviewHandlerBound) continue;
+    container.dataset.reviewHandlerBound = "true";
+
+    container.addEventListener("click", async event => {
+      const button = event.target.closest("[data-app-review]");
+      if (!button || !isOwner()) return;
+
+      const decision = button.dataset.appReview;
+      const applicationId = button.dataset.appId;
+      const type = button.dataset.appType;
+
+      if (!applicationId) return;
+
+      let message = "";
+
+      if (decision === "needs_information") {
+        message = window.prompt(
+          "Explain what information the applicant must provide:"
+        );
+
+        if (!message?.trim()) return;
+      } else if (!window.confirm(
+        `Confirm ${decision === "approved" ? "approval" : "rejection"} of this application?`
+      )) {
+        return;
+      }
+
+      button.disabled = true;
+
+      try {
+        const table = type === "Teacher"
+          ? "teacher_applications"
+          : "school_applications";
+
+        const { data, error } = await supabase
+          .from(table)
+          .update({ status: decision })
+          .eq("id", applicationId)
+          .select("id, applicant_id")
+          .single();
+
+        if (error) throw error;
+
+        if (data?.applicant_id) {
+          const title = decision === "approved"
+            ? "Application approved"
+            : decision === "rejected"
+              ? "Application decision"
+              : "More information required";
+
+          const notificationMessage = decision === "needs_information"
+            ? message.trim()
+            : decision === "approved"
+              ? "Your professional application has been approved. Please follow the instructions from LearnLoop to continue."
+              : "Your professional application has been reviewed. Please contact LearnLoop if you need clarification.";
+
+          const { error: notificationError } = await supabase
+            .from("notifications")
+            .insert({
+              user_id: data.applicant_id,
+              type: "application_review",
+              title,
+              message: notificationMessage,
+              is_read: false
+            });
+
+          if (notificationError) {
+            console.error("Applicant notification error:", notificationError);
+            toast("Decision saved, but applicant notification failed.", "error");
+          } else {
+            toast("Decision saved and applicant notified.");
+          }
+        } else {
+          toast("Decision saved. No linked applicant account was found.");
+        }
+
+        await loadHostProfessionalApplications();
+
+      } catch (error) {
+        console.error("Application review failed:", error);
+        toast("Could not save the decision: " + error.message, "error");
+        button.disabled = false;
+      }
+    });
+  }
 }
 
 async function loadHostDashboard() {
