@@ -296,6 +296,7 @@ async function authorize(user) {
     return;
   }
 
+   document.documentElement.dataset.portalAuthorized = "true";
   overlay.hidden = true;
   document.body.classList.remove("portal-locked");
   document.body.dataset.portalAuthorized = "true";
