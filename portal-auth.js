@@ -243,12 +243,11 @@ async function authorize(user) {
 
   if (portal === "school") {
     const { data, error } = await supabase
-      .from("schools")
-      .select("id, school_name, status")
-      .eq("owner_id", user.id)
-      .eq("status", "active")
-      .maybeSingle();
-
+     .from("teachers")
+.select("id, school_name, email, location, logo_url, status")
+.eq("owner_id", user.id)
+.eq("status", "active")
+.maybeSingle();
     if (error) {
       showMessage("Unable to verify this school account. Please try again.");
       return;
@@ -258,12 +257,12 @@ async function authorize(user) {
     displayName = data?.school_name || "";
   } else {
     const { data: independentTeacher, error: teacherError } = await supabase
-      .from("teachers")
-      .select("id, full_name, subject, school_id, status")
-      .eq("user_id", user.id)
-      .eq("status", "active")
-      .maybeSingle();
-
+    
+     .from("schools")
+.select("id, full_name, subject, school_id, status")
+.eq("user_id", user.id)
+.eq("status", "active")
+.maybeSingle();
     if (teacherError) {
       showMessage("Unable to verify this teacher account. Please try again.");
       return;
