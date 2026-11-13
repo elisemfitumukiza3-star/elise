@@ -3553,6 +3553,7 @@ function renderHostCertificateSearch(query = "") {
 }
 
 
+
 async function loadHostProfessionalApplications() {
   if (!isOwner()) return;
 
@@ -3565,6 +3566,239 @@ async function loadHostProfessionalApplications() {
     supabase.from("teacher_applications").select("*"),
     supabase.from("school_applications").select("*")
   ]);
+
+  function renderApplications(result, container, type) {
+    if (result.error) {
+      container.textContent =
+        "Could not load applications: " + result.error.message;
+      return;
+    }
+
+    const applications = result.data || [];
+
+    applications.sort((a, b) =>
+      new Date(b.created_at || 0) - new Date(a.created_at || 0)
+    );
+
+    if (!applications.length) {
+      container.innerHTML =
+        `<p>No ${type.toLowerCase()} applications received yet.</p>`;
+      return;
+    }
+
+    container.innerHTML = applications.map(app => {
+      const name = type === "Teacher" ? app.full_name : app.school_name;
+      const status = String(app.status || "pending").toLowerCase();
+      const isApproved = status === "approved";
+      const isFinal = ["approved", "rejected"].includes(status);
+
+      const details = Object.entries(app)
+        .filter(([key, value]) =>
+          ![
+            "id", "applicant_id", "applicant_declaration",
+            "safeguarding_declaration", "created_at", "updated_at"
+          ].includes(key) && value !== null && value !== ""
+        )
+        .map(([key, value]) => {
+          const label = key.replaceAll("_", " ");
+          const display = typeof value === "object"
+            ? JSON.stringify(value)
+            : String(value);
+
+          if (key.endsWith("_url")) {
+            const url = safeUrl(display);
+            return url
+              ? `<p><strong>${escapeHTML(label)}:</strong>
+                   <a href="${escapeHTML(url)}" target="_blank"
+                      rel="noopener noreferrer">View document</a></p>`
+              : "";
+          }
+
+          return `<p><strong>${escapeHTML(label)}:</strong>
+            ${escapeHTML(display)}</p>`;
+        }).join("");
+
+      return `
+        <article class="card" style="margin:14px 0;padding:20px;">
+          <div style="display:flex;justify-content:space-between;
+            gap:12px;flex-wrap:wrap;">
+            <div>
+              <h3>${escapeHTML(name || "Unnamed applicant")}</h3>
+              <p>${escapeHTML(app.email || "No email provided")}</p>
+              <p class="muted small">
+                Reference: ${escapeHTML(app.application_reference || "Not assigned")}
+              </p>
+            </div>
+            <strong>${escapeHTML(status.replaceAll("_", " ").toUpperCase())}</strong>
+          </div>
+
+          <details style="margin:15px 0;">
+            <summary>View complete application</summary>
+            <div style="padding:12px 0;overflow-wrap:anywhere;">
+              ${details}
+            </div>
+          </details>
+
+          ${isApproved ? `
+            <button type="button"
+              data-app-action="resend_activation"
+              data-app-id="${escapeHTML(app.id)}"
+              data-app-type="${type}">
+              Resend Activation Link
+            </button>
+            <p class="muted small">
+              Sends a fresh account setup link without changing approval status.
+            </p>
+          ` : isFinal ? `
+            <p><strong>Decision recorded.</strong></p>
+          ` : `
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+              <button type="button" data-app-review="approved"
+                data-app-id="${escapeHTML(app.id)}"
+                data-app-type="${type}">
+                ✓ Approve
+              </button>
+              <button type="button" data-app-review="needs_information"
+                data-app-id="${escapeHTML(app.id)}"
+                data-app-type="${type}">
+                Request information
+              </button>
+              <button type="button" data-app-review="rejected"
+                data-app-id="${escapeHTML(app.id)}"
+                data-app-type="${type}">
+                Reject
+              </button>
+            </div>
+          `}
+        </article>
+      `;
+    }).join("");
+  }
+
+  renderApplications(teachers, teacherList, "Teacher");
+  renderApplications(schools, schoolList, "School");
+
+  for (const container of [teacherList, schoolList]) {
+    if (container.dataset.reviewHandlerBound) continue;
+    container.dataset.reviewHandlerBound = "true";
+
+    container.addEventListener("click", async event => {
+      const reviewButton = event.target.closest("[data-app-review]");
+      const actionButton = event.target.closest("[data-app-action]");
+      const button = actionButton || reviewButton;
+
+      if (!button || !isOwner()) return;
+
+      const applicationId = button.dataset.appId;
+      const type = button.dataset.appType;
+
+      if (!applicationId || !["Teacher", "School"].includes(type)) return;
+
+      const isResend = Boolean(actionButton);
+      const decision = reviewButton?.dataset.appReview || "";
+
+      if (isResend) {
+        if (!window.confirm(
+          "Send a fresh activation link to this already-approved applicant?"
+        )) return;
+      } else if (decision === "needs_information") {
+        const message = window.prompt(
+          "Explain what information the applicant must provide:"
+        );
+        if (!message?.trim()) return;
+
+        button.disabled = true;
+
+        try {
+          const { data, error } = await supabase.functions.invoke(
+            "review-application",
+            {
+              body: {
+                applicationId,
+                type,
+                decision,
+                message: message.trim()
+              }
+            }
+          );
+
+          if (error) throw error;
+          if (!data?.success) {
+            throw new Error(data?.error || "Review could not be completed.");
+          }
+          if (!data.emailSent) {
+            throw new Error(data.emailError || "Email was not sent.");
+          }
+
+          toast("Information request saved and email sent.");
+          await loadHostProfessionalApplications();
+        } catch (error) {
+          console.error("Application review failed:", error);
+          toast("Could not complete review: " + error.message, "error");
+          button.disabled = false;
+        }
+        return;
+      } else {
+        if (!["approved", "rejected"].includes(decision)) return;
+
+        if (!window.confirm(
+          `Confirm ${decision === "approved" ? "approval" : "rejection"} of this application?`
+        )) return;
+      }
+
+      button.disabled = true;
+
+      try {
+        const requestBody = isResend
+          ? {
+              applicationId,
+              type,
+              action: "resend_activation"
+            }
+          : {
+              applicationId,
+              type,
+              decision
+            };
+
+        const { data, error } = await supabase.functions.invoke(
+          "review-application",
+          { body: requestBody }
+        );
+
+        if (error) {
+          const details = await error.context?.text?.().catch(() => "");
+          throw new Error(details || error.message);
+        }
+
+        if (!data?.success) {
+          throw new Error(data?.emailError || data?.error || "Request failed.");
+        }
+
+        if (!data.emailSent) {
+          throw new Error(data.emailError || "Email was not sent.");
+        }
+
+        toast(
+          isResend
+            ? "Fresh activation link sent. Approval status unchanged."
+            : "Decision saved and applicant email sent."
+        );
+
+        await loadHostProfessionalApplications();
+      } catch (error) {
+        console.error("Application action failed:", error);
+        toast(
+          (isResend ? "Could not resend activation link: " : "Could not complete review: ") +
+          error.message,
+          "error"
+        );
+        button.disabled = false;
+      }
+    });
+  }
+}
+
 
   function renderApplications(result, container, type) {
     if (result.error) {
