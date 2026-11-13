@@ -3698,6 +3698,11 @@ async function loadHostProfessionalApplications() {
       button.disabled = true;
 
       try {
+         console.log("APPLICATION REVIEW DEBUG:", {
+  applicationId,
+  type,
+  decision
+});
         const { data, error } = await supabase.functions.invoke(
           "review-application",
           {
