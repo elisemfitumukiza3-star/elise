@@ -3981,7 +3981,7 @@ if (error) {
       }
     });
   }
-}
+
 
 async function loadHostDashboard() {
   if (!isOwner()) {
