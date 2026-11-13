@@ -1,0 +1,308 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Activate Your LearnLoop Account</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: #f1f5f9;
+      font-family: Arial, sans-serif;
+      color: #203047;
+    }
+
+    .activation-card {
+      width: 100%;
+      max-width: 460px;
+      padding: 36px;
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      box-shadow: 0 12px 40px rgba(20, 40, 70, .08);
+    }
+
+    .brand {
+      color: #173d65;
+      font-size: 28px;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .tagline {
+      text-align: center;
+      color: #718096;
+      font-size: 13px;
+      margin: 7px 0 28px;
+    }
+
+    h1 {
+      font-size: 23px;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .intro {
+      color: #64748b;
+      text-align: center;
+      line-height: 1.6;
+      font-size: 14px;
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 700;
+      margin: 17px 0 8px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #1769aa;
+      box-shadow: 0 0 0 3px rgba(23, 105, 170, .12);
+    }
+
+    button {
+      width: 100%;
+      margin-top: 25px;
+      padding: 15px;
+      border: 0;
+      border-radius: 8px;
+      background: #1769aa;
+      color: white;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+    }
+
+    #status {
+      display: none;
+      padding: 13px;
+      border-radius: 8px;
+      margin-top: 18px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    #status.error {
+      display: block;
+      color: #991b1b;
+      background: #fee2e2;
+    }
+
+    #status.success {
+      display: block;
+      color: #166534;
+      background: #dcfce7;
+    }
+
+    .footer {
+      text-align: center;
+      color: #94a3b8;
+      font-size: 12px;
+      margin-top: 28px;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="activation-card">
+    <div class="brand">LearnLoop</div>
+    <div class="tagline">LEARN • SHARE • GROW</div>
+
+    <h1>Activate Your Account</h1>
+
+    <p class="intro">
+      Congratulations on your approval!
+      Create your password to activate your LearnLoop professional account.
+    </p>
+
+    <form id="activationForm">
+      <label for="password">Create password</label>
+      <input
+        id="password"
+        type="password"
+        minlength="10"
+        maxlength="72"
+        autocomplete="new-password"
+        placeholder="At least 10 characters"
+        required
+      >
+
+      <label for="confirmPassword">Confirm password</label>
+      <input
+        id="confirmPassword"
+        type="password"
+        minlength="10"
+        maxlength="72"
+        autocomplete="new-password"
+        placeholder="Enter your password again"
+        required
+      >
+
+      <button id="activateButton" type="submit">
+        Activate My Account
+      </button>
+    </form>
+
+    <div id="status" role="status" aria-live="polite"></div>
+
+    <div class="footer">
+      LearnLoop Professional Account Activation
+    </div>
+  </main>
+
+  <script>
+    // Use your public Supabase project URL and anon key.
+    // NEVER put your service-role key in this page.
+    const SUPABASE_URL =
+      "https://qjzbphvpgphavokufiha.supabase.co";
+
+    const SUPABASE_ANON_KEY =
+      "PASTE_YOUR_SUPABASE_ANON_KEY_HERE";
+
+    const params = new URLSearchParams(window.location.search);
+    const activationToken = params.get("token");
+
+    // Keep the token in memory, not in the visible browser address.
+    window.history.replaceState(
+      {},
+      document.title,
+      window.location.pathname
+    );
+
+    const form = document.getElementById("activationForm");
+    const button = document.getElementById("activateButton");
+    const statusBox = document.getElementById("status");
+
+    function showStatus(message, type) {
+      statusBox.textContent = message;
+      statusBox.className = type;
+    }
+
+    if (!activationToken) {
+      form.style.display = "none";
+      showStatus(
+        "The activation link is missing or invalid. Please request a new approval link from LearnLoop.",
+        "error"
+      );
+    }
+
+    form.addEventListener("submit", async event => {
+      event.preventDefault();
+
+      const password = document.getElementById("password").value;
+      const confirmation =
+        document.getElementById("confirmPassword").value;
+
+      if (password.length < 10 || password.length > 72) {
+        showStatus(
+          "Your password must contain between 10 and 72 characters.",
+          "error"
+        );
+        return;
+      }
+
+      if (password !== confirmation) {
+        showStatus("The passwords do not match.", "error");
+        return;
+      }
+
+      if (
+        SUPABASE_ANON_KEY ===
+        "PASTE_YOUR_SUPABASE_ANON_KEY_HERE"
+      ) {
+        showStatus(
+          "The activation page still needs your Supabase public anon key.",
+          "error"
+        );
+        return;
+      }
+
+      button.disabled = true;
+      button.textContent = "Activating account...";
+
+      try {
+        const response = await fetch(
+          `${SUPABASE_URL}/functions/v1/activate-account`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "apikey": SUPABASE_ANON_KEY,
+              "Authorization": `Bearer ${SUPABASE_ANON_KEY}`
+            },
+            body: JSON.stringify({
+              token: activationToken,
+              password: password
+            })
+          }
+        );
+
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+          throw new Error(
+            result.error || "Account activation failed."
+          );
+        }
+
+        form.style.display = "none";
+
+        showStatus(
+          "Your account has been activated successfully! Redirecting you to your portal login...",
+          "success"
+        );
+
+        const destination =
+          result.portal === "teacher.html"
+            ? "teacher.html"
+            : result.portal === "school.html"
+              ? "school.html"
+              : null;
+
+        if (!destination) {
+          throw new Error("The account portal could not be identified.");
+        }
+
+        setTimeout(() => {
+          window.location.href = destination;
+        }, 2500);
+
+      } catch (error) {
+        showStatus(
+          error.message || "Something went wrong. Please try again.",
+          "error"
+        );
+
+        button.disabled = false;
+        button.textContent = "Activate My Account";
+      }
+    });
+  </script>
+</body>
+</html>
