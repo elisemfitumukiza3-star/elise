@@ -11949,8 +11949,6 @@ $("#hostDashboardDialog")?.addEventListener("click", event => {
   $("#hostModerationList")?.addEventListener("click", moderatePost);
    $("#appointCommitteeMember")?.addEventListener("click", appointCommitteeMember);
    $("#committeeApplicationForm")?.addEventListener("submit", submitCommitteeApplication);
-   $("#hostDashboardButton")?.addEventListener("click", loadCommitteeMembers);
-$("#hostDashboardButton")?.addEventListener("click", loadCommitteeApplications);
    $("#committeeApplicationsList")?.addEventListener("click", reviewCommitteeApplication);
 $("#honoraryCertificateRequestList")?.addEventListener("click", async event => {
   const button = event.target.closest(
