@@ -10629,6 +10629,22 @@ async function leaveStudyGroup() {
 }
 
 function bindEvents() {
+   const hostDashboardButton = document.getElementById("hostDashboardButton");
+
+if (hostDashboardButton && !hostDashboardButton.dataset.hostDashboardBound) {
+  hostDashboardButton.dataset.hostDashboardBound = "true";
+
+  hostDashboardButton.addEventListener("click", async event => {
+    event.preventDefault();
+
+    try {
+      await loadHostDashboard();
+    } catch (error) {
+      console.error("Host dashboard opening error:", error);
+      toast("Could not open the Host Dashboard: " + error.message, "error");
+    }
+  });
+}
     // Toggle private message conversation options
   const chatActionsToggle = $("#chatActionsToggle");
   const chatActionsMenu = $("#chatActionsMenu");
@@ -11944,7 +11960,6 @@ $("#hostDashboardDialog")?.addEventListener("click", event => {
   link.setAttribute("aria-current", "page");
 });
 
-  $("#hostDashboardButton")?.addEventListener("click", loadHostDashboard);
   $("#revenueSettingsForm")?.addEventListener("submit", saveHostSettings);
   $("#hostModerationList")?.addEventListener("click", moderatePost);
    $("#appointCommitteeMember")?.addEventListener("click", appointCommitteeMember);
