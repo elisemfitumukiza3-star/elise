@@ -15398,3 +15398,607 @@ body.dark-mode #sidebar [aria-current="page"] {
     justify-content: flex-end;
   }
 }
+
+/* =====================================================
+   LEARNLOOP — PREMIUM EDITORIAL HOMEPAGE
+   Large imagery, varied layouts and clear visual hierarchy
+===================================================== */
+
+#welcomeScreen {
+  background: #ffffff !important;
+  color: #172b45;
+}
+
+#welcomeScreen .public-welcome-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  min-height: 82px;
+  padding: 12px clamp(22px, 6vw, 100px);
+  background: rgba(255,255,255,.97) !important;
+  border-bottom: 1px solid #e5ebf2 !important;
+  box-shadow: 0 3px 18px rgba(15,42,75,.05);
+  backdrop-filter: blur(14px);
+}
+
+#welcomeScreen .public-welcome-brand {
+  color: #142d50 !important;
+  font-size: 25px;
+  font-weight: 800;
+}
+
+#welcomeScreen .public-welcome-nav a {
+  color: #29496f !important;
+  font-weight: 600;
+}
+
+#welcomeScreen .public-welcome-nav .public-login-button {
+  padding: 12px 22px;
+  color: #0755a5 !important;
+  background: #edf4fb !important;
+  border-radius: 5px;
+}
+
+#welcomeScreen .public-welcome-nav .public-register-button {
+  padding: 13px 23px;
+  color: #fff !important;
+  background: #0755a5 !important;
+  border-radius: 5px;
+}
+
+#welcomeScreen .public-welcome-main {
+  width: 100%;
+  max-width: none;
+  padding: 0 clamp(22px, 6vw, 100px);
+}
+
+#welcomeScreen .public-hero {
+  position: relative;
+  grid-template-columns: 1.05fr .95fr;
+  gap: 55px;
+  min-height: 590px;
+  margin: 0 calc(-1 * clamp(22px, 6vw, 100px)) 0;
+  padding: 85px clamp(22px, 6vw, 100px);
+  border-radius: 0;
+  background: linear-gradient(115deg,#073e79 0%,#075ba8 60%,#087bc3 100%) !important;
+  box-shadow: none;
+}
+
+#welcomeScreen .public-hero h1 {
+  max-width: 690px;
+  font-size: clamp(44px,5.2vw,72px);
+  line-height: 1.07;
+  color: #fff !important;
+  letter-spacing: -2.5px;
+}
+
+#welcomeScreen .public-hero h1 span,
+#welcomeScreen .public-hero-content > p,
+#welcomeScreen .public-hero-note {
+  color: #fff !important;
+}
+
+#welcomeScreen .public-hero-content > p {
+  max-width: 570px;
+  font-size: 18px;
+  line-height: 1.8;
+  opacity: .9;
+}
+
+#welcomeScreen .public-hero-label {
+  color: #d9ebff !important;
+  letter-spacing: 2.5px;
+}
+
+#welcomeScreen .public-hero-actions #publicHeroRegisterButton {
+  padding: 15px 26px;
+  color: #0755a5 !important;
+  background: #fff !important;
+  border-radius: 5px;
+}
+
+#welcomeScreen .public-hero-actions a {
+  color: #fff !important;
+}
+
+#welcomeScreen .welcome-hero-gallery {
+  min-height: 440px;
+}
+
+#welcomeScreen .hero-gallery-image {
+  overflow: hidden;
+  border: 5px solid rgba(255,255,255,.95);
+  border-radius: 5px;
+}
+
+#welcomeScreen .hero-gallery-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#welcomeScreen .hero-gallery-caption {
+  background: #092f59 !important;
+  border-left: 4px solid #e9bd68 !important;
+  border-radius: 4px;
+}
+
+/* Existing introduction and learning services */
+#welcomeScreen .public-features-section {
+  padding: 100px 0;
+  background: #fff;
+}
+
+#welcomeScreen .public-section-heading {
+  max-width: 760px;
+  margin-bottom: 45px;
+}
+
+#welcomeScreen .public-section-heading > span,
+#welcomeScreen .professional-access-heading > span {
+  color: #0871bd;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+#welcomeScreen .public-section-heading h2,
+#welcomeScreen .professional-access-heading h2 {
+  color: #142d50;
+  font-size: clamp(34px,4vw,52px);
+  line-height: 1.15;
+}
+
+#welcomeScreen .learnloop-intro-card {
+  max-width: 900px;
+  margin: 0 0 45px;
+  padding: 35px 40px;
+  background: #edf4fb;
+  border-left: 5px solid #0871bd;
+  border-radius: 4px;
+}
+
+#welcomeScreen .learnloop-intro-card h3 {
+  color: #142d50;
+  font-size: 28px;
+}
+
+#welcomeScreen .learnloop-intro-card p {
+  color: #53677e;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+#welcomeScreen .public-features {
+  display: grid !important;
+  grid-template-columns: repeat(3,minmax(0,1fr)) !important;
+  gap: 20px;
+}
+
+#welcomeScreen .public-features article,
+#welcomeScreen .public-features article:nth-child(n) {
+  grid-column: auto !important;
+  height: auto;
+  min-height: 270px;
+  padding: 30px;
+  border: 1px solid #e1eaf3;
+  border-radius: 5px;
+  background: #f7faff;
+  box-shadow: none;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+#welcomeScreen .public-features article:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 15px 35px rgba(20,45,80,.09);
+}
+
+#welcomeScreen .public-features article h3 {
+  color: #142d50;
+  font-size: 23px;
+}
+
+#welcomeScreen .public-features article p {
+  color: #5b6d82;
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+#welcomeScreen .feature-icon {
+  font-size: 36px;
+}
+
+/* New editorial sections */
+#welcomeScreen .ll-editorial-section {
+  padding: 100px 0;
+  background: #f1f6fb;
+}
+
+#welcomeScreen .ll-editorial-heading {
+  max-width: 850px;
+  margin: 0 auto 65px;
+  text-align: center;
+}
+
+#welcomeScreen .ll-editorial-heading > span,
+#welcomeScreen .ll-audience-heading > span {
+  color: #0871bd;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2.2px;
+}
+
+#welcomeScreen .ll-editorial-heading h2,
+#welcomeScreen .ll-audience-heading h2 {
+  margin: 16px 0;
+  color: #142d50;
+  font-size: clamp(34px,4vw,51px);
+  line-height: 1.15;
+}
+
+#welcomeScreen .ll-editorial-heading p {
+  color: #61748a;
+  font-size: 17px;
+  line-height: 1.8;
+}
+
+#welcomeScreen .ll-editorial-row {
+  display: grid;
+  grid-template-columns: 1.05fr .95fr;
+  align-items: center;
+  gap: clamp(35px,6vw,90px);
+  margin: 0 0 85px;
+}
+
+#welcomeScreen .ll-editorial-row:last-child {
+  margin-bottom: 0;
+}
+
+#welcomeScreen .ll-editorial-reverse .ll-editorial-image {
+  order: 2;
+}
+
+#welcomeScreen .ll-editorial-image {
+  position: relative;
+  min-height: 390px;
+  overflow: hidden;
+  background: #dce8f4;
+}
+
+#welcomeScreen .ll-editorial-image img {
+  display: block;
+  width: 100%;
+  height: 430px;
+  object-fit: cover;
+  transition: transform .5s ease;
+}
+
+#welcomeScreen .ll-editorial-image:hover img {
+  transform: scale(1.035);
+}
+
+#welcomeScreen .ll-image-label {
+  position: absolute;
+  left: 22px;
+  bottom: 22px;
+  padding: 10px 16px;
+  color: #fff;
+  background: #073e79;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+#welcomeScreen .ll-editorial-copy {
+  max-width: 570px;
+}
+
+#welcomeScreen .ll-kicker {
+  color: #0871bd;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+#welcomeScreen .ll-editorial-copy h3 {
+  margin: 17px 0;
+  color: #142d50;
+  font-size: clamp(30px,3.4vw,43px);
+  line-height: 1.17;
+}
+
+#welcomeScreen .ll-editorial-copy p,
+#welcomeScreen .ll-editorial-copy li {
+  color: #5b6d82;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+#welcomeScreen .ll-editorial-copy ul {
+  padding-left: 20px;
+  margin: 22px 0;
+}
+
+#welcomeScreen .ll-editorial-copy li {
+  margin-bottom: 8px;
+}
+
+#welcomeScreen .ll-text-link {
+  display: inline-block;
+  margin-top: 10px;
+  color: #0755a5 !important;
+  font-weight: 800;
+  border-bottom: 2px solid #9fc5e8;
+  padding-bottom: 5px;
+}
+
+/* Large discovery banner */
+#welcomeScreen .ll-discovery-banner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 45px;
+  margin: 95px 0;
+  padding: 55px;
+  background: #092f59;
+  color: white;
+}
+
+#welcomeScreen .ll-discovery-copy h2 {
+  margin: 18px 0;
+  color: #fff;
+  font-size: clamp(34px,4vw,48px);
+  line-height: 1.15;
+}
+
+#welcomeScreen .ll-discovery-copy p {
+  color: #dce9f6;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+#welcomeScreen .ll-discovery-link {
+  display: inline-block;
+  margin-top: 18px;
+  padding: 14px 22px;
+  color: #092f59 !important;
+  background: #fff;
+  font-weight: 800;
+}
+
+#welcomeScreen .ll-discovery-image img {
+  display: block;
+  width: 100%;
+  height: 340px;
+  object-fit: cover;
+}
+
+/* Audience image cards */
+#welcomeScreen .ll-audience-section {
+  padding: 95px 0;
+  background: #fff;
+}
+
+#welcomeScreen .ll-audience-heading {
+  max-width: 780px;
+  margin: 0 auto 45px;
+  text-align: center;
+}
+
+#welcomeScreen .ll-audience-grid {
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: 22px;
+}
+
+#welcomeScreen .ll-audience-card {
+  overflow: hidden;
+  background: #f4f8fc;
+  border: 1px solid #e2eaf2;
+}
+
+#welcomeScreen .ll-audience-card img {
+  display: block;
+  width: 100%;
+  height: 245px;
+  object-fit: cover;
+}
+
+#welcomeScreen .ll-audience-card > div {
+  padding: 25px;
+}
+
+#welcomeScreen .ll-audience-card span {
+  color: #0871bd;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+#welcomeScreen .ll-audience-card h3 {
+  margin: 12px 0;
+  color: #142d50;
+  font-size: 23px;
+}
+
+#welcomeScreen .ll-audience-card p {
+  color: #61748a;
+  line-height: 1.8;
+}
+
+/* Mission / values feature */
+#welcomeScreen .ll-values-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: clamp(35px,6vw,85px);
+  padding: 85px 0 105px;
+}
+
+#welcomeScreen .ll-values-image img {
+  display: block;
+  width: 100%;
+  height: 430px;
+  object-fit: cover;
+}
+
+#welcomeScreen .ll-values-copy h2 {
+  margin: 18px 0;
+  color: #142d50;
+  font-size: clamp(34px,4vw,49px);
+  line-height: 1.15;
+}
+
+#welcomeScreen .ll-values-copy p {
+  color: #5b6d82;
+  font-size: 16px;
+  line-height: 1.85;
+}
+
+/* Existing professional portals */
+#welcomeScreen .professional-access-section {
+  margin: 0 calc(-1 * clamp(22px, 6vw, 100px));
+  padding: 95px clamp(22px, 6vw, 100px);
+  background: #edf4fb;
+}
+
+#welcomeScreen .professional-access-card {
+  min-height: 330px;
+  padding: 38px;
+  background: #fff;
+  border: 1px solid #dce7f1;
+  border-radius: 5px;
+  box-shadow: 0 12px 32px rgba(20,45,80,.06);
+}
+
+#welcomeScreen .professional-access-card h3 {
+  color: #142d50;
+  font-size: 28px;
+}
+
+#welcomeScreen .professional-access-card p {
+  color: #5b6d82;
+  line-height: 1.8;
+}
+
+#welcomeScreen .professional-access-card button {
+  margin: 8px 8px 0 0;
+  padding: 13px 19px;
+  color: white;
+  background: #0755a5;
+  border-radius: 4px;
+}
+
+/* Existing certificate verification */
+#welcomeScreen #certificateVerificationSection {
+  margin: 80px 0;
+  padding: 42px;
+  background: #f4f8fc;
+  border: 1px solid #dce7f1;
+  border-radius: 5px;
+}
+
+#welcomeScreen .certificate-intro h2 {
+  color: #142d50;
+  font-size: 34px;
+}
+
+/* Footer */
+#welcomeScreen .public-welcome-footer {
+  width: calc(100% + 2 * clamp(22px, 6vw, 100px));
+  margin-left: calc(-1 * clamp(22px, 6vw, 100px));
+  padding: 55px clamp(22px, 6vw, 100px);
+  background: #092f59;
+  color: #fff;
+}
+
+#welcomeScreen .public-welcome-footer strong {
+  color: #fff;
+  font-size: 27px;
+}
+
+#welcomeScreen .public-welcome-footer p,
+#welcomeScreen .public-welcome-footer span {
+  color: #dce9f6;
+}
+
+#welcomeScreen .welcome-footer-links a {
+  margin-right: 22px;
+  color: #fff !important;
+}
+
+/* Responsive layouts */
+@media(max-width: 900px) {
+  #welcomeScreen .public-hero {
+    grid-template-columns: 1fr;
+  }
+
+  #welcomeScreen .public-features {
+    grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+  }
+
+  #welcomeScreen .ll-editorial-row,
+  #welcomeScreen .ll-discovery-banner,
+  #welcomeScreen .ll-values-section {
+    grid-template-columns: 1fr;
+  }
+
+  #welcomeScreen .ll-editorial-reverse .ll-editorial-image {
+    order: 0;
+  }
+
+  #welcomeScreen .ll-audience-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media(max-width: 600px) {
+  #welcomeScreen .public-hero {
+    padding-top: 55px;
+    padding-bottom: 55px;
+  }
+
+  #welcomeScreen .public-features {
+    grid-template-columns: 1fr !important;
+  }
+
+  #welcomeScreen .ll-editorial-section,
+  #welcomeScreen .ll-audience-section {
+    padding: 65px 0;
+  }
+
+  #welcomeScreen .ll-editorial-row {
+    gap: 25px;
+    margin-bottom: 55px;
+  }
+
+  #welcomeScreen .ll-editorial-image,
+  #welcomeScreen .ll-editorial-image img {
+    min-height: 250px;
+    height: 270px;
+  }
+
+  #welcomeScreen .ll-discovery-banner {
+    margin: 55px 0;
+    padding: 28px 22px;
+  }
+
+  #welcomeScreen .ll-discovery-image img,
+  #welcomeScreen .ll-values-image img {
+    height: 260px;
+  }
+
+  #welcomeScreen .ll-audience-grid {
+    grid-template-columns: 1fr;
+  }
+
+  #welcomeScreen #certificateVerificationSection {
+    padding: 25px;
+  }
+}
+
+@media(prefers-reduced-motion: reduce) {
+  #welcomeScreen .ll-editorial-image img,
+  #welcomeScreen .public-features article {
+    transition: none !important;
+  }
+}
