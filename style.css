@@ -14810,3 +14810,11 @@ body.dark-mode .learning-stat {
 #welcomeScreen .feature-index {
   display: none !important;
 }
+#libraryLoadMore:not(.hidden) {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  margin: 24px auto;
+  min-width: 180px;
+  cursor: pointer;
+}
