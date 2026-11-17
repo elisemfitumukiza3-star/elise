@@ -14644,72 +14644,109 @@ body.dark-mode .learning-stat {
   }
 }
 
-/* LEARNLOOP — FIVE COMPACT HORIZONTAL FEATURE SQUARES */
 
+/* LEARNLOOP — EDITORIAL, ASYMMETRICAL WELCOME LAYOUT */
+
+/* Desktop: varied card sizes and positions */
 @media (min-width: 1101px) {
   #welcomeScreen .public-features {
     display: grid !important;
-    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
-    grid-auto-rows: 1fr;
+    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+    gap: 22px;
     align-items: stretch;
-    gap: 16px;
   }
 
-  #welcomeScreen .public-features article,
-  #welcomeScreen .public-features article:nth-child(n) {
-    grid-column: auto !important;
-    min-width: 0;
-    min-height: 260px;
-    height: 260px;
+  #welcomeScreen .public-features article {
+    height: auto !important;
+    min-height: 280px;
+    padding: 30px !important;
     margin: 0 !important;
-    padding: 21px 18px;
-    border-radius: 9px;
+    grid-column: span 4;
+    border-radius: 12px;
+    text-align: left;
+  }
+
+  /* Large first feature */
+  #welcomeScreen .public-features article:nth-child(1) {
+    grid-column: span 7;
+    min-height: 340px;
+  }
+
+  /* Smaller feature on the right */
+  #welcomeScreen .public-features article:nth-child(2) {
+    grid-column: span 5;
+    margin-top: 55px !important;
+  }
+
+  /* Three varied lower sections */
+  #welcomeScreen .public-features article:nth-child(3) {
+    grid-column: 1 / span 4;
+    margin-top: -15px !important;
+  }
+
+  #welcomeScreen .public-features article:nth-child(4) {
+    grid-column: 5 / span 4;
+    margin-top: 35px !important;
+  }
+
+  #welcomeScreen .public-features article:nth-child(5) {
+    grid-column: 9 / span 4;
+    margin-top: -5px !important;
   }
 
   #welcomeScreen .feature-card-top {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 12px;
-    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    gap: 15px;
+    margin-bottom: 30px;
   }
 
   #welcomeScreen .feature-icon {
-    font-size: 29px;
-  }
-
-  #welcomeScreen .feature-index {
-    font-size: 9px;
-    letter-spacing: 1px;
+    font-size: 36px;
   }
 
   #welcomeScreen .public-features article h3 {
-    font-size: 19px;
-    line-height: 1.25;
+    font-size: clamp(21px, 2vw, 29px);
+    line-height: 1.2;
   }
 
   #welcomeScreen .public-features article p {
-    font-size: 13px;
-    line-height: 1.55;
-  }
-
-  #welcomeScreen .feature-card-word {
-    font-size: 30px;
+    font-size: 15px;
+    line-height: 1.8;
+    max-width: 440px;
   }
 }
 
-/* Medium desktop and tablet: three cards per row */
+/* Tablet: two columns */
 @media (min-width: 701px) and (max-width: 1100px) {
   #welcomeScreen .public-features {
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    gap: 14px;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 18px;
   }
 
   #welcomeScreen .public-features article,
   #welcomeScreen .public-features article:nth-child(n) {
     grid-column: auto !important;
-    min-height: 245px;
+    height: auto !important;
+    min-height: 250px;
     margin: 0 !important;
-    padding: 20px;
+  }
+}
+
+/* Keep mobile simple and readable */
+@media (max-width: 700px) {
+  #welcomeScreen .public-features {
+    grid-template-columns: 1fr !important;
+  }
+
+  #welcomeScreen .public-features article,
+  #welcomeScreen .public-features article:nth-child(n) {
+    grid-column: 1 !important;
+    height: auto !important;
+    min-height: 0;
+    margin: 0 !important;
   }
 }
 
@@ -16000,5 +16037,79 @@ body.dark-mode #sidebar [aria-current="page"] {
   #welcomeScreen .ll-editorial-image img,
   #welcomeScreen .public-features article {
     transition: none !important;
+  }
+}
+
+/* WELCOME HERO — IMAGE PROPORTIONS AND ALIGNMENT */
+
+#welcomeScreen .public-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(30px, 5vw, 75px);
+  text-align: left;
+}
+
+#welcomeScreen .public-hero-content {
+  text-align: left;
+  max-width: 650px;
+}
+
+#welcomeScreen .welcome-hero-gallery {
+  position: relative;
+  width: 100%;
+  height: clamp(390px, 40vw, 540px);
+  min-width: 0;
+}
+
+#welcomeScreen .hero-gallery-image {
+  position: absolute;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+#welcomeScreen .hero-gallery-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+#welcomeScreen .hero-gallery-main {
+  left: 8%;
+  top: 7%;
+  width: 76%;
+  height: 76%;
+}
+
+#welcomeScreen .hero-gallery-library {
+  right: 0;
+  top: 0;
+  width: 38%;
+  height: 35%;
+}
+
+#welcomeScreen .hero-gallery-team {
+  left: 0;
+  bottom: 0;
+  width: 43%;
+  height: 38%;
+}
+
+#welcomeScreen .hero-gallery-caption {
+  right: 0;
+  bottom: 5%;
+  width: 53%;
+  text-align: left;
+}
+
+@media (max-width: 700px) {
+  #welcomeScreen .public-hero {
+    grid-template-columns: 1fr;
+  }
+
+  #welcomeScreen .welcome-hero-gallery {
+    height: 330px;
   }
 }
