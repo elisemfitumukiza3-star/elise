@@ -14818,3 +14818,98 @@ body.dark-mode .learning-stat {
   min-width: 180px;
   cursor: pointer;
 }
+
+/* =========================================
+   LEARNLOOP — PROFESSIONAL NAVY & ICE BLUE
+   Colour refinement only; preserve layout
+========================================= */
+
+/* Main workspace */
+:root {
+  --ll-bg: #EAF2FA;
+  --ll-surface: #FFFFFF;
+  --ll-surface-soft: #F4F8FC;
+  --ll-text: #172B45;
+  --ll-muted: #64748B;
+  --ll-border: #D8E4F0;
+  --canvas: #EAF2FA;
+  --ink: #172B45;
+  --line: #D8E4F0;
+}
+
+/* Light-mode page background */
+body:not(.dark-mode) {
+  background: #EAF2FA !important;
+  color: #172B45 !important;
+}
+
+/* Professional navy sidebar */
+body:not(.dark-mode) #sidebar,
+body:not(.dark-mode) .sidebar {
+  background: #142D50 !important;
+  border-color: #29496F !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 12px 32px rgba(20, 45, 80, 0.14);
+}
+
+/* Sidebar brand */
+body:not(.dark-mode) #sidebar .brand,
+body:not(.dark-mode) #sidebar .logo,
+body:not(.dark-mode) .sidebar .brand,
+body:not(.dark-mode) .sidebar .logo {
+  color: #FFFFFF !important;
+}
+
+/* Sidebar section labels */
+body:not(.dark-mode) #sidebar .side-label,
+body:not(.dark-mode) .sidebar .side-label {
+  color: #B9CBE0 !important;
+}
+
+/* Sidebar navigation */
+body:not(.dark-mode) #sidebar nav a,
+body:not(.dark-mode) #sidebar nav button,
+body:not(.dark-mode) #sidebar .nav-item,
+body:not(.dark-mode) #sidebar [data-view],
+body:not(.dark-mode) .sidebar nav a,
+body:not(.dark-mode) .sidebar nav button {
+  color: #E7EFF8 !important;
+  border-color: transparent;
+}
+
+/* Sidebar hover */
+body:not(.dark-mode) #sidebar nav a:hover,
+body:not(.dark-mode) #sidebar nav button:hover,
+body:not(.dark-mode) #sidebar .nav-item:hover,
+body:not(.dark-mode) #sidebar [data-view]:hover {
+  background: #29496F !important;
+  color: #FFFFFF !important;
+}
+
+/* Selected navigation item */
+body:not(.dark-mode) #sidebar .active,
+body:not(.dark-mode) #sidebar [aria-current="page"],
+body:not(.dark-mode) #sidebar [data-view].active {
+  background: #EAF2FA !important;
+  color: #142D50 !important;
+  border-color: #C5D8EC !important;
+}
+
+/* Sidebar bottom divider */
+body:not(.dark-mode) #sidebar .sidebar-bottom {
+  border-color: #395879 !important;
+}
+
+/* Keep the dark-mode sidebar coordinated */
+body.dark-mode #sidebar,
+body.dark-mode .sidebar {
+  background: #10243E !important;
+  border-color: #29496F !important;
+}
+
+/* Dark-mode selected navigation */
+body.dark-mode #sidebar .active,
+body.dark-mode #sidebar [aria-current="page"] {
+  background: #29496F !important;
+  color: #FFFFFF !important;
+}
