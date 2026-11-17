@@ -14913,3 +14913,327 @@ body.dark-mode #sidebar [aria-current="page"] {
   background: #29496F !important;
   color: #FFFFFF !important;
 }
+
+/* ============================================
+   LEARNLOOP — PROFESSIONAL PUBLIC WELCOME THEME
+   Navy + Ice Blue + White
+============================================ */
+
+#welcomeScreen:not(.hidden) {
+  background: #EAF2FA !important;
+  color: #172B45 !important;
+}
+
+/* Header */
+#welcomeScreen .public-welcome-header {
+  background: #142D50 !important;
+  border-bottom: 1px solid #29496F !important;
+  box-shadow: 0 5px 22px rgba(20, 45, 80, .14);
+}
+
+#welcomeScreen .public-welcome-brand,
+#welcomeScreen .public-welcome-nav a {
+  color: #FFFFFF !important;
+}
+
+#welcomeScreen .public-welcome-nav .public-login-button {
+  color: #FFFFFF !important;
+  background: transparent !important;
+  border-color: #AFC3DC !important;
+}
+
+#welcomeScreen .public-welcome-nav .public-register-button {
+  color: #142D50 !important;
+  background: #EAC477 !important;
+  border-color: #EAC477 !important;
+}
+
+/* Main page */
+#welcomeScreen .public-welcome-main {
+  color: #172B45 !important;
+}
+
+#welcomeScreen .public-welcome-main h1,
+#welcomeScreen .public-welcome-main h2,
+#welcomeScreen .public-welcome-main h3 {
+  color: #142D50 !important;
+}
+
+#welcomeScreen .public-welcome-main p {
+  color: #52657A !important;
+}
+
+/* Hero — retain the photo collage */
+#welcomeScreen .public-hero {
+  margin-top: 30px;
+  padding: clamp(35px, 5vw, 65px);
+  background: linear-gradient(125deg, #142D50, #234C76) !important;
+  border: 1px solid #29496F;
+  border-radius: 22px;
+  box-shadow: 0 18px 42px rgba(20, 45, 80, .16);
+}
+
+#welcomeScreen .public-hero h1 {
+  color: #FFFFFF !important;
+}
+
+#welcomeScreen .public-hero h1 span {
+  color: #EAC477 !important;
+}
+
+#welcomeScreen .public-hero-content > p {
+  color: #E3ECF6 !important;
+}
+
+#welcomeScreen .public-hero-label,
+#welcomeScreen .public-hero-note {
+  color: #BBD8EE !important;
+}
+
+#welcomeScreen .public-hero-actions button {
+  background: #EAC477 !important;
+  color: #142D50 !important;
+  border-color: #EAC477 !important;
+}
+
+#welcomeScreen .public-hero-actions a {
+  color: #FFFFFF !important;
+}
+
+/* Photo collage */
+#welcomeScreen .hero-gallery-image {
+  border-color: #FFFFFF;
+  box-shadow: 0 18px 42px rgba(0, 0, 0, .25);
+}
+
+#welcomeScreen .hero-gallery-caption {
+  background: rgba(20, 45, 80, .96) !important;
+  border-left-color: #EAC477;
+}
+
+/* Learning features */
+#welcomeScreen .public-features-section {
+  background: #EAF2FA !important;
+  border-top-color: #D8E4F0 !important;
+}
+
+#welcomeScreen .public-section-heading > span {
+  color: #285A91 !important;
+}
+
+#welcomeScreen .public-section-heading h2 {
+  color: #142D50 !important;
+}
+
+#welcomeScreen .public-section-heading p {
+  color: #52657A !important;
+}
+
+/* White feature cards */
+#welcomeScreen .public-features article,
+#welcomeScreen .public-features article:nth-child(n),
+#welcomeScreen .public-features .feature-card-academy,
+#welcomeScreen .public-features .feature-card-video,
+#welcomeScreen .public-features .feature-card-community,
+#welcomeScreen .public-features .feature-card-certificates {
+  background: #FFFFFF !important;
+  color: #172B45 !important;
+  border: 1px solid #D8E4F0 !important;
+  border-top: 3px solid #285A91 !important;
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(20, 45, 80, .07);
+}
+
+#welcomeScreen .public-features article h3 {
+  color: #142D50 !important;
+}
+
+#welcomeScreen .public-features article p {
+  color: #52657A !important;
+}
+
+#welcomeScreen .feature-index {
+  color: #285A91 !important;
+}
+
+#welcomeScreen .feature-card-word {
+  color: rgba(20, 45, 80, .05) !important;
+}
+
+#welcomeScreen .public-features article:hover {
+  border-color: #9CB9D8 !important;
+  box-shadow: 0 15px 32px rgba(20, 45, 80, .12);
+}
+
+/* Professional portals */
+#welcomeScreen .professional-access-section {
+  background: #EAF2FA !important;
+  border-top-color: #D8E4F0 !important;
+}
+
+#welcomeScreen .professional-access-heading > span {
+  color: #285A91 !important;
+}
+
+#welcomeScreen .professional-access-heading h2 {
+  color: #142D50 !important;
+}
+
+#welcomeScreen .professional-access-heading p {
+  color: #52657A !important;
+}
+
+#welcomeScreen .professional-access-card {
+  background: #FFFFFF !important;
+  color: #172B45 !important;
+  border: 1px solid #D8E4F0 !important;
+  border-top: 4px solid #285A91 !important;
+  border-radius: 15px;
+  box-shadow: 0 10px 28px rgba(20, 45, 80, .08);
+}
+
+#welcomeScreen .professional-access-card h3 {
+  color: #142D50 !important;
+}
+
+#welcomeScreen .professional-access-card p {
+  color: #52657A !important;
+}
+
+#welcomeScreen .professional-access-card button {
+  color: #FFFFFF !important;
+  background: #285A91 !important;
+  border-color: #285A91 !important;
+  border-radius: 9px;
+}
+
+#welcomeScreen .professional-access-card button:last-child {
+  color: #285A91 !important;
+  background: #FFFFFF !important;
+  border-color: #B8CBE0 !important;
+}
+
+/* About LearnLoop */
+#welcomeScreen .public-welcome-about {
+  border-top-color: #D8E4F0 !important;
+  border-bottom-color: #D8E4F0 !important;
+}
+
+#welcomeScreen .welcome-about-heading > span:first-child {
+  color: #285A91 !important;
+}
+
+#welcomeScreen .welcome-about-heading h2 {
+  color: #142D50 !important;
+}
+
+#welcomeScreen .welcome-about-decoration {
+  color: #52657A !important;
+  border-color: #285A91 !important;
+}
+
+#welcomeScreen .welcome-about-copy {
+  background: #FFFFFF !important;
+  border: 1px solid #D8E4F0 !important;
+  border-left: 4px solid #285A91 !important;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(20, 45, 80, .06);
+}
+
+#welcomeScreen .welcome-about-copy p {
+  color: #52657A !important;
+}
+
+#welcomeScreen .welcome-about-copy a {
+  color: #285A91 !important;
+}
+
+/* Certificate verification */
+#welcomeScreen #certificateVerificationSection {
+  background: #FFFFFF !important;
+  color: #172B45 !important;
+  border: 1px solid #D8E4F0 !important;
+  border-radius: 15px;
+  box-shadow: 0 10px 28px rgba(20, 45, 80, .07);
+}
+
+#welcomeScreen #certificateVerificationSection h2 {
+  color: #142D50 !important;
+}
+
+#welcomeScreen #certificateVerificationSection p,
+#welcomeScreen #certificateVerificationResult {
+  color: #52657A !important;
+}
+
+#welcomeScreen #certificateVerificationForm label {
+  color: #142D50 !important;
+}
+
+#welcomeScreen #certificateVerificationForm input {
+  background: #F4F8FC !important;
+  color: #172B45 !important;
+  border-color: #D8E4F0 !important;
+}
+
+#welcomeScreen #certificateVerificationForm button {
+  background: #285A91 !important;
+  color: #FFFFFF !important;
+  border-radius: 9px;
+}
+
+/* LearnLoop introduction */
+#welcomeScreen .learnloop-intro-card {
+  background: linear-gradient(120deg, #FFFFFF, #F4F8FC) !important;
+  border: 1px solid #D8E4F0 !important;
+  border-left: 5px solid #285A91 !important;
+  border-radius: 14px;
+  box-shadow: 0 10px 28px rgba(20, 45, 80, .07);
+}
+
+#welcomeScreen .learnloop-intro-label {
+  color: #285A91 !important;
+}
+
+#welcomeScreen .learnloop-intro-card h3 {
+  color: #142D50 !important;
+}
+
+#welcomeScreen .learnloop-intro-card p {
+  color: #52657A !important;
+}
+
+/* Footer */
+#welcomeScreen .public-welcome-footer {
+  background: #142D50 !important;
+  border-top: 1px solid #29496F !important;
+  color: #E3ECF6 !important;
+}
+
+#welcomeScreen .welcome-footer-brand strong {
+  color: #FFFFFF !important;
+}
+
+#welcomeScreen .welcome-footer-brand p {
+  color: #EAC477 !important;
+}
+
+#welcomeScreen .welcome-footer-links a {
+  color: #EAC477 !important;
+}
+
+#welcomeScreen .public-welcome-footer > span {
+  color: #DCE7F3 !important;
+}
+
+/* Preserve mobile layout */
+@media (max-width: 700px) {
+  #welcomeScreen .public-hero {
+    border-radius: 16px;
+    padding: 30px 20px;
+  }
+
+  #welcomeScreen .public-features article {
+    border-radius: 12px;
+  }
+}
