@@ -11764,6 +11764,9 @@ if (file && removeButton) {
 
   $("#sortSelect")?.addEventListener("change", renderAllFeeds);
 $("#librarySearchButton")?.addEventListener("click", searchBooks);
+   $("#libraryLoadMore")?.addEventListener("click", () => {
+  searchBooks(true);
+});
 $("#libraryEducationLevel")?.addEventListener("change", () => {
   searchBooks();
 });
