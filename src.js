@@ -2762,17 +2762,22 @@ async function handlePostAction(event) {
 }
 }
 
+/* ---------- Learning library: Open Library ---------- */
+const LIBRARY_PAGE_SIZE = 24;
+let librarySearchOffset = 0;
+let librarySearchQuery = "";
+let librarySearchRequestId = 0;
+let libraryHasMore = false;
 
-/* ---------- Learning library: Google Books ---------- */
-
-async function searchBooks() {
+async function searchBooks(loadMore = false) {
   const results = $("#googleBooksResults");
   if (!results) return;
 
-   const input = $("#librarySearch");
+  const input = $("#librarySearch");
   const typedQuery = input?.value.trim() || "";
-  const subject = state.selectedSubject || "";
-  const educationLevel = $("#libraryEducationLevel")?.value || "All";
+  const subject = state.selectedSubject || "All subjects";
+  const educationLevel =
+    $("#libraryEducationLevel")?.value || "All";
 
   const levelSearchTerms = {
     "Primary": "primary school textbooks",
@@ -2785,12 +2790,21 @@ async function searchBooks() {
     "Professors and Educators": "teaching education academic books"
   };
 
-  const searchQuery = typedQuery ||
-    (subject && subject !== "All subjects"
-      ? `subject:${subject}`
-      : levelSearchTerms[educationLevel] || "");
+  const searchTerms = [];
 
-    if (!searchQuery) {
+  if (typedQuery) searchTerms.push(typedQuery);
+
+  if (subject !== "All subjects") {
+    searchTerms.push(subject);
+  }
+
+  if (levelSearchTerms[educationLevel]) {
+    searchTerms.push(levelSearchTerms[educationLevel]);
+  }
+
+  const searchQuery = searchTerms.join(" ");
+
+  if (!searchQuery) {
     if ($("#googleBooksStatus")) {
       $("#googleBooksStatus").textContent =
         "Search for a book, author, or subject.";
@@ -2800,24 +2814,51 @@ async function searchBooks() {
       "Discover your next book",
       "Enter a title, author, or subject to search Open Library."
     );
+
+    $("#libraryLoadMore")?.classList.add("hidden");
     return;
+  }
+
+  if (!loadMore) {
+    librarySearchQuery = searchQuery;
+    librarySearchOffset = 0;
+    libraryHasMore = false;
+    librarySearchRequestId++;
+
+    results.innerHTML =
+      '<p class="muted small">Searching for books...</p>';
+  } else if (
+    searchQuery !== librarySearchQuery ||
+    !libraryHasMore
+  ) {
+    return;
+  }
+
+  const requestId = librarySearchRequestId;
+  const loadButton = $("#libraryLoadMore");
+
+  if (loadButton) {
+    loadButton.disabled = true;
+    loadButton.textContent = "Loading...";
+    loadButton.classList.toggle("hidden", !loadMore);
   }
 
   if ($("#googleBooksStatus")) {
     $("#googleBooksStatus").textContent =
-      "Searching Open Library…";
+      loadMore ? "Loading more books..." : "Searching Open Library...";
   }
-
-  results.innerHTML =
-    '<p class="muted small">Searching for books…</p>';
 
   try {
     const endpoint = new URL(
       "https://openlibrary.org/search.json"
     );
 
-      endpoint.searchParams.set("q", searchQuery);
-    endpoint.searchParams.set("limit", "12");
+    endpoint.searchParams.set("q", librarySearchQuery);
+    endpoint.searchParams.set("limit", String(LIBRARY_PAGE_SIZE));
+    endpoint.searchParams.set(
+      "offset",
+      String(librarySearchOffset)
+    );
     endpoint.searchParams.set(
       "fields",
       "key,title,author_name,cover_i,first_publish_year,subject,public_scan_b,has_fulltext"
@@ -2830,47 +2871,62 @@ async function searchBooks() {
     }
 
     const data = await response.json();
+
+    if (requestId !== librarySearchRequestId) return;
+
     const books = data.docs || [];
 
-    if ($("#googleBooksStatus")) {
-      $("#googleBooksStatus").textContent =
-        `${data.numFound || 0} books found in Open Library`;
-    }
+    if (!books.length && !loadMore) {
+      if ($("#googleBooksStatus")) {
+        $("#googleBooksStatus").textContent = "No books found.";
+      }
 
-    if (!books.length) {
       results.innerHTML = renderEmpty(
         "No books found",
         "Try another title, author, or subject."
       );
+
+      libraryHasMore = false;
       return;
     }
 
-    results.innerHTML = books.map(book => {
+    const existingKeys = new Set(
+      [...results.querySelectorAll("[data-library-book]")]
+        .map(card => card.dataset.libraryBook)
+    );
+
+    const newBooks = books.filter(book => {
+      const key = book.key || `${book.title}-${book.first_publish_year}`;
+      return !existingKeys.has(key);
+    });
+
+    const bookCards = newBooks.map(book => {
       const title = book.title || "Untitled book";
       const authors = (book.author_name || []).join(", ") ||
         "Author unavailable";
       const year = book.first_publish_year || "";
       const category = book.subject?.[0] ||
-        subject ||
-        "Learning resource";
+        (subject !== "All subjects" ? subject : "Learning resource");
 
       const cover = book.cover_i
         ? `https://covers.openlibrary.org/b/id/${Number(book.cover_i)}-M.jpg`
         : "";
 
-    
       const bookUrl = book.key &&
         /^\/works\/OL\d+W$/.test(book.key)
           ? `https://openlibrary.org${book.key}`
           : "https://openlibrary.org";
 
-
       const onlineReading = Boolean(
         book.public_scan_b || book.has_fulltext
       );
 
+      const bookKey = book.key ||
+        `${title}-${year}`;
+
       return `
-        <article class="book-card">
+        <article class="book-card"
+          data-library-book="${escapeHTML(bookKey)}">
           ${cover
             ? `<img src="${cover}"
                 alt="${escapeHTML(title)} cover"
@@ -2902,7 +2958,33 @@ async function searchBooks() {
         </article>`;
     }).join("");
 
+    if (loadMore) {
+      results.insertAdjacentHTML("beforeend", bookCards);
+    } else {
+      results.innerHTML = bookCards;
+    }
+
+    librarySearchOffset += books.length;
+    libraryHasMore =
+      librarySearchOffset < (data.numFound || 0) &&
+      books.length === LIBRARY_PAGE_SIZE;
+
+    if ($("#googleBooksStatus")) {
+      $("#googleBooksStatus").textContent =
+        `Showing ${librarySearchOffset} of ${data.numFound || 0} books found`;
+    }
+
+    if (loadButton) {
+      loadButton.classList.toggle("hidden", !libraryHasMore);
+      loadButton.disabled = false;
+      loadButton.textContent = libraryHasMore
+        ? "Load More Books"
+        : "No More Books";
+    }
+
   } catch (error) {
+    if (requestId !== librarySearchRequestId) return;
+
     console.error("Open Library search error:", error);
 
     if ($("#googleBooksStatus")) {
@@ -2910,12 +2992,23 @@ async function searchBooks() {
         "Book search unavailable";
     }
 
-    results.innerHTML = renderEmpty(
-      "Book search is temporarily unavailable",
-      "Check your internet connection and try again."
-    );
+    if (!loadMore) {
+      results.innerHTML = renderEmpty(
+        "Book search is temporarily unavailable",
+        "Check your internet connection and try again."
+      );
+    }
+
+    if (loadButton) {
+      loadButton.classList.remove("hidden");
+      loadButton.disabled = false;
+      loadButton.textContent = "Try Loading More";
+    }
   }
 }
+
+
+
 // LearnLoop Home slideshow rotation and controls
 (function initHomeSlideshow() {
   const container = document.querySelector(".home-slideshow");
