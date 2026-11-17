@@ -16113,3 +16113,338 @@ body.dark-mode #sidebar [aria-current="page"] {
     height: 330px;
   }
 }
+
+/* =====================================================
+   LEARNLOOP — FINAL HOMEPAGE VISIBILITY & LAYOUT FIX
+   ===================================================== */
+
+/* Consistent page typography and spacing */
+#welcomeScreen:not(.hidden) {
+  background: #ffffff !important;
+  color: #172b45 !important;
+}
+
+#welcomeScreen .public-welcome-main {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding-left: clamp(20px, 5vw, 85px);
+  padding-right: clamp(20px, 5vw, 85px);
+}
+
+/* HERO — restore strong blue background and readable text */
+#welcomeScreen .public-hero {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(30px, 5vw, 75px);
+  min-height: 570px;
+  padding: clamp(40px, 6vw, 80px);
+  margin: 0 calc(-1 * clamp(20px, 5vw, 85px)) 55px;
+  background: linear-gradient(115deg, #073e79, #075ba8 60%, #087bc3) !important;
+  border-radius: 0 !important;
+}
+
+#welcomeScreen .public-hero h1,
+#welcomeScreen .public-hero h1 span,
+#welcomeScreen .public-hero-content > p,
+#welcomeScreen .public-hero-note {
+  color: #ffffff !important;
+}
+
+#welcomeScreen .public-hero-label {
+  color: #d9ebff !important;
+}
+
+#welcomeScreen .public-hero-content {
+  max-width: 680px;
+  text-align: left;
+}
+
+#welcomeScreen .public-hero h1 {
+  font-size: clamp(42px, 5vw, 70px);
+  line-height: 1.1;
+}
+
+#welcomeScreen .public-hero-content > p {
+  font-size: 18px;
+  line-height: 1.85;
+}
+
+/* HERO IMAGES — balanced collage */
+#welcomeScreen .welcome-hero-gallery {
+  width: 100%;
+  height: clamp(390px, 40vw, 540px);
+}
+
+#welcomeScreen .hero-gallery-image {
+  overflow: hidden;
+  border: 5px solid #ffffff;
+  border-radius: 8px;
+}
+
+#welcomeScreen .hero-gallery-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* FEATURE CARDS — varied desktop composition */
+@media (min-width: 1001px) {
+  #welcomeScreen .public-features {
+    display: grid !important;
+    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+    gap: 22px;
+  }
+
+  #welcomeScreen .public-features article {
+    grid-column: span 4 !important;
+    min-height: 260px;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 32px !important;
+    text-align: left;
+  }
+
+  #welcomeScreen .public-features article:nth-child(1) {
+    grid-column: span 7 !important;
+    min-height: 320px;
+  }
+
+  #welcomeScreen .public-features article:nth-child(2) {
+    grid-column: span 5 !important;
+    margin-top: 45px !important;
+  }
+
+  #welcomeScreen .public-features article:nth-child(3) {
+    grid-column: span 4 !important;
+  }
+
+  #welcomeScreen .public-features article:nth-child(4) {
+    grid-column: span 4 !important;
+    margin-top: 35px !important;
+  }
+
+  #welcomeScreen .public-features article:nth-child(5) {
+    grid-column: span 4 !important;
+  }
+}
+
+/* INTRODUCTION — readable light panel */
+#welcomeScreen .learnloop-intro-card {
+  width: min(100%, 1050px);
+  margin: 0 0 50px;
+  padding: clamp(25px, 4vw, 45px);
+  background: #edf4fb !important;
+  border-left: 5px solid #0871bd !important;
+  border-radius: 5px;
+}
+
+#welcomeScreen .learnloop-intro-card h3 {
+  color: #142d50 !important;
+}
+
+#welcomeScreen .learnloop-intro-card p {
+  color: #52657a !important;
+}
+
+/* EDITORIAL SECTIONS — alternating left and right */
+#welcomeScreen .ll-editorial-section {
+  padding: 85px 0;
+  background: #f1f6fb !important;
+}
+
+#welcomeScreen .ll-editorial-heading {
+  max-width: 900px;
+  margin: 0 auto 65px;
+  text-align: center;
+}
+
+#welcomeScreen .ll-editorial-row {
+  display: grid;
+  grid-template-columns: 1.1fr .9fr;
+  align-items: center;
+  gap: clamp(30px, 6vw, 85px);
+  margin-bottom: 90px;
+}
+
+#welcomeScreen .ll-editorial-reverse .ll-editorial-image {
+  order: 2;
+}
+
+#welcomeScreen .ll-editorial-image,
+#welcomeScreen .ll-editorial-image img {
+  width: 100%;
+  height: clamp(300px, 34vw, 460px);
+  min-height: 0;
+}
+
+#welcomeScreen .ll-editorial-image img {
+  display: block;
+  object-fit: cover;
+  object-position: center;
+}
+
+#welcomeScreen .ll-editorial-copy {
+  max-width: 600px;
+}
+
+/* DISCOVERY BANNER — FIX THE INVISIBLE TEXT */
+#welcomeScreen .ll-discovery-banner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: clamp(25px, 5vw, 65px);
+  margin: 85px 0;
+  padding: clamp(30px, 5vw, 65px);
+  background: #092f59 !important;
+}
+
+#welcomeScreen .ll-discovery-copy h2 {
+  color: #ffffff !important;
+  font-size: clamp(32px, 4vw, 48px);
+  line-height: 1.2;
+}
+
+#welcomeScreen .ll-discovery-copy p {
+  color: #e5effa !important;
+  font-size: 16px;
+  line-height: 1.85;
+}
+
+#welcomeScreen .ll-discovery-copy .ll-kicker {
+  color: #a9e5d0 !important;
+}
+
+#welcomeScreen .ll-discovery-link {
+  display: inline-block;
+  padding: 14px 22px;
+  color: #092f59 !important;
+  background: #ffffff !important;
+  font-weight: 800;
+}
+
+#welcomeScreen .ll-discovery-image img {
+  display: block;
+  width: 100%;
+  height: clamp(260px, 30vw, 380px);
+  object-fit: cover;
+}
+
+/* AUDIENCE CARDS — consistent image dimensions */
+#welcomeScreen .ll-audience-section {
+  padding: 85px 0;
+  background: #ffffff !important;
+}
+
+#welcomeScreen .ll-audience-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+}
+
+#welcomeScreen .ll-audience-card {
+  overflow: hidden;
+  background: #f4f8fc !important;
+}
+
+#welcomeScreen .ll-audience-card img {
+  display: block;
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+/* MISSION SECTION */
+#welcomeScreen .ll-values-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: clamp(30px, 6vw, 80px);
+  padding: 85px 0;
+}
+
+#welcomeScreen .ll-values-image img {
+  display: block;
+  width: 100%;
+  height: clamp(300px, 35vw, 440px);
+  object-fit: cover;
+}
+
+/* TABLETS */
+@media (max-width: 1000px) {
+  #welcomeScreen .public-hero {
+    grid-template-columns: 1fr 1fr;
+    min-height: auto;
+  }
+
+  #welcomeScreen .public-features {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  #welcomeScreen .public-features article,
+  #welcomeScreen .public-features article:nth-child(n) {
+    grid-column: auto !important;
+    margin: 0 !important;
+  }
+
+  #welcomeScreen .ll-editorial-row,
+  #welcomeScreen .ll-discovery-banner,
+  #welcomeScreen .ll-values-section {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* MOBILE — no overlapping images or squeezed text */
+@media (max-width: 700px) {
+  #welcomeScreen .public-hero {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    padding: 45px 22px;
+  }
+
+  #welcomeScreen .welcome-hero-gallery {
+    height: 320px;
+  }
+
+  #welcomeScreen .public-features {
+    grid-template-columns: 1fr !important;
+  }
+
+  #welcomeScreen .public-features article,
+  #welcomeScreen .public-features article:nth-child(n) {
+    grid-column: 1 !important;
+    min-height: 0;
+    margin: 0 !important;
+  }
+
+  #welcomeScreen .ll-editorial-row,
+  #welcomeScreen .ll-discovery-banner,
+  #welcomeScreen .ll-values-section {
+    grid-template-columns: 1fr;
+  }
+
+  #welcomeScreen .ll-editorial-reverse .ll-editorial-image {
+    order: 0;
+  }
+
+  #welcomeScreen .ll-editorial-image,
+  #welcomeScreen .ll-editorial-image img {
+    height: 270px;
+  }
+
+  #welcomeScreen .ll-discovery-banner {
+    padding: 28px 20px;
+    margin: 45px 0;
+  }
+
+  #welcomeScreen .ll-audience-grid {
+    grid-template-columns: 1fr;
+  }
+
+  #welcomeScreen .ll-values-image img {
+    height: 270px;
+  }
+}
