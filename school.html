@@ -120,6 +120,31 @@ button{cursor:pointer}
  .footer{flex-direction:column}
 }
 @media(max-width:390px){.metrics{grid-template-columns:1fr}}
+  
+/* Classes workspace */
+.workspace-section{display:none}
+.workspace-section.active{display:block}
+.workspace-heading{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap;margin-bottom:20px}
+.workspace-heading h1{margin:0;color:var(--navy);font-size:25px}
+.workspace-heading p{color:var(--muted);font-size:13px}
+.primary-btn{background:var(--navy);color:white;border:0;border-radius:9px;padding:12px 18px;font-weight:700}
+.primary-btn:hover{background:var(--navy2)}
+.class-form{display:grid;grid-template-columns:1fr 1fr auto;gap:12px;align-items:end;margin-bottom:22px}
+.class-form label{display:block;font-size:12px;font-weight:700;margin-bottom:7px}
+.class-form input{width:100%;padding:12px;border:1px solid #dce5f0;border-radius:9px;outline:none}
+.class-form input:focus{border-color:var(--blue)}
+.class-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.class-card{background:white;border:1px solid #e5ebf3;border-radius:14px;padding:19px;box-shadow:0 4px 14px #18365b08}
+.class-card h3{margin:0 0 8px;color:var(--navy);font-size:18px}
+.class-card p{font-size:12px;color:var(--muted);margin:5px 0}
+.class-card .class-count{font-size:25px;font-weight:800;color:var(--blue);margin:15px 0 3px}
+.class-actions{display:flex;gap:8px;margin-top:16px}
+.class-actions button{border:1px solid #dce5f0;background:#f7f9fc;border-radius:7px;padding:8px 11px;font-size:12px}
+.class-actions button.delete{color:#b42318}
+.workspace-message{padding:15px;border-radius:10px;background:#f1f6fd;color:#36516f;font-size:13px;margin:15px 0}
+@media(max-width:900px){.class-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.class-form,.class-grid{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
