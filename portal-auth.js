@@ -231,6 +231,7 @@ function showMessage(text) {
   message.textContent = text;
 }
 
+
 async function authorize(user) {
   if (!user) {
     document.body.classList.add("portal-locked");
@@ -238,7 +239,47 @@ async function authorize(user) {
     return;
   }
 
+  // TEMPORARY LEARNLOOP OWNER TESTING ACCESS
+  // Only the verified platform owner's account bypasses approval.
+  const isLearnLoopOwner =
+    (user.email || "").trim().toLowerCase() ===
+      "elisemfitumukiza3@gmail.com" &&
+    Boolean(user.email_confirmed_at);
+
+  if (isLearnLoopOwner) {
+    const access = portal === "school"
+      ? {
+          id: "learnloop-owner-school-test",
+          school_name: "LearnLoop Owner Testing Workspace",
+          status: "active",
+          owner_access: true
+        }
+      : {
+          id: "learnloop-owner-teacher-test",
+          full_name: "LearnLoop Platform Owner",
+          subject: "Platform Testing",
+          status: "active",
+          owner_access: true
+        };
+
+    const displayName = portal === "school"
+      ? access.school_name
+      : access.full_name;
+
+    document.documentElement.dataset.portalAuthorized = "true";
+    overlay.hidden = true;
+    document.body.classList.remove("portal-locked");
+    document.body.dataset.portalAuthorized = "true";
+
+    window.dispatchEvent(new CustomEvent("portal:authorized", {
+      detail: { portal, user, access, displayName }
+    }));
+
+    return;
+  }
+
   let access = null;
+
   let displayName = "";
 
   if (portal === "school") {
