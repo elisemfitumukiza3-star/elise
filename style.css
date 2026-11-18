@@ -16448,3 +16448,80 @@ body.dark-mode #sidebar [aria-current="page"] {
     height: 270px;
   }
 }
+
+/* LEARNLOOP — CORRECT THE WINNING WELCOME PAGE STYLES */
+
+/* Full-width welcome content */
+#welcomeScreen:not(.hidden) .public-welcome-main {
+  max-width: 1600px !important;
+  padding-left: clamp(22px, 5vw, 85px) !important;
+  padding-right: clamp(22px, 5vw, 85px) !important;
+}
+
+/* Hero background and text */
+#welcomeScreen:not(.hidden) .public-hero {
+  background: linear-gradient(115deg, #073e79, #075ba8 60%, #087bc3) !important;
+  min-height: 570px !important;
+  padding: clamp(40px, 6vw, 80px) !important;
+  margin-left: calc(-1 * clamp(22px, 5vw, 85px)) !important;
+  margin-right: calc(-1 * clamp(22px, 5vw, 85px)) !important;
+}
+
+#welcomeScreen:not(.hidden) .public-hero h1,
+#welcomeScreen:not(.hidden) .public-hero h1 span {
+  color: #ffffff !important;
+}
+
+#welcomeScreen:not(.hidden) .public-hero-label {
+  color: #d9ebff !important;
+}
+
+#welcomeScreen:not(.hidden) .public-hero-content > p,
+#welcomeScreen:not(.hidden) .public-hero-note {
+  color: #edf5ff !important;
+}
+
+/* Discovery banner: readable text on navy */
+#welcomeScreen:not(.hidden) .ll-discovery-banner {
+  background: #092f59 !important;
+}
+
+#welcomeScreen:not(.hidden) .ll-discovery-copy h2 {
+  color: #ffffff !important;
+}
+
+#welcomeScreen:not(.hidden) .ll-discovery-copy p {
+  color: #e5effa !important;
+}
+
+#welcomeScreen:not(.hidden) .ll-discovery-copy .ll-kicker {
+  color: #a9e5d0 !important;
+}
+
+/* Keep editorial images properly sized */
+#welcomeScreen:not(.hidden) .ll-editorial-image img,
+#welcomeScreen:not(.hidden) .ll-discovery-image img,
+#welcomeScreen:not(.hidden) .ll-audience-card img,
+#welcomeScreen:not(.hidden) .ll-values-image img {
+  display: block;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Mobile layout */
+@media (max-width: 700px) {
+  #welcomeScreen:not(.hidden) .public-hero {
+    grid-template-columns: 1fr !important;
+    min-height: auto !important;
+    margin-left: -22px !important;
+    margin-right: -22px !important;
+    padding: 42px 22px !important;
+  }
+
+  #welcomeScreen:not(.hidden) .public-welcome-main {
+    padding-left: 22px !important;
+    padding-right: 22px !important;
+  }
+}
+
