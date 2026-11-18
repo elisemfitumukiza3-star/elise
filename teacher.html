@@ -376,6 +376,36 @@ gap:9px;color:var(--green);font-size:12px;font-weight:700
   font-size: 12px;
   line-height: 1.6;
 }
+ 
+/* FULL-WINDOW WORKSPACE: hide dashboard completely */
+#portalLayout.workspace-open {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  width: 100%;
+  max-width: 1900px;
+}
+
+#portalLayout.workspace-open > .content {
+  display: none !important;
+}
+
+#portalLayout.workspace-open > #workspacePanel {
+  display: block !important;
+  width: 100%;
+  min-height: calc(100vh - 125px);
+  grid-column: 1 / -1;
+  border-radius: 14px;
+}
+
+/* Keep dashboard visible only when no workspace is open */
+#portalLayout:not(.workspace-open) > .content {
+  display: block !important;
+}
+
+#portalLayout:not(.workspace-open) > #workspacePanel {
+  display: none !important;
+}
+
 </style>
 </head>
 <body>
