@@ -519,6 +519,246 @@ const workspaceDescription = document.getElementById("workspaceDescription");
 const workspaceContent = document.getElementById("workspaceContent");
 const closeWorkspace = document.getElementById("closeWorkspace");
 
+let teacherPortalUser = null;
+let teacherPortalAccess = null;
+
+window.addEventListener("portal:authorized", event => {
+  teacherPortalUser = event.detail.user;
+  teacherPortalAccess = event.detail.access;
+});
+
+async function renderAssignmentCentre() {
+  const supabase = window.learnLoopPortalSupabase;
+
+  if (!supabase || !teacherPortalUser) {
+    workspaceContent.innerHTML =
+      "<p>Please sign in to access assignments.</p>";
+    return;
+  }
+
+  workspaceContent.innerHTML = `
+    <section class="panel">
+      <h2>Create an assignment</h2>
+
+      <form id="assignmentForm">
+        <label>Lesson and class</label>
+        <select id="assignmentLesson" required>
+          <option value="">Loading lessons...</option>
+        </select>
+
+        <label>Assignment title</label>
+        <input id="assignmentTitle" required
+          maxlength="180" placeholder="Enter assignment title">
+
+        <label>Instructions</label>
+        <textarea id="assignmentInstructions" required
+          rows="6" placeholder="Write assignment instructions..."></textarea>
+
+        <label>Attach a document (optional)</label>
+        <input id="assignmentFile" type="file"
+          accept=".pdf,.doc,.docx,.ppt,.pptx">
+
+        <label>Submission deadline</label>
+        <input id="assignmentDueDate" type="datetime-local" required>
+
+        <label>Maximum marks</label>
+        <input id="assignmentMarks" type="number"
+          min="1" max="10000" value="100" required>
+
+        <div style="display:flex;gap:12px;margin-top:20px;flex-wrap:wrap">
+          <button type="button" id="saveAssignmentDraft">
+            Save draft
+          </button>
+          <button type="submit">
+            Publish assignment
+          </button>
+        </div>
+
+        <p id="assignmentMessage" role="status"></p>
+      </form>
+    </section>
+
+    <section class="panel" style="margin-top:20px">
+      <h2>My assignments</h2>
+      <div id="assignmentList">Loading assignments...</div>
+    </section>
+  `;
+
+  const lessonSelect = document.getElementById("assignmentLesson");
+  const message = document.getElementById("assignmentMessage");
+  const form = document.getElementById("assignmentForm");
+
+  const { data: lessons, error: lessonError } = await supabase
+    .from("school_lessons")
+    .select("id,title,class_id")
+    .not("class_id", "is", null)
+    .order("created_at", { ascending: false });
+
+  if (lessonError) {
+    lessonSelect.innerHTML =
+      '<option value="">Unable to load lessons</option>';
+    message.textContent = lessonError.message;
+    return;
+  }
+
+  if (!lessons || !lessons.length) {
+    lessonSelect.innerHTML =
+      '<option value="">Create or publish a class lesson first</option>';
+  } else {
+    lessonSelect.innerHTML =
+      '<option value="">Select a lesson</option>' +
+      lessons.map(lesson => `
+        <option value="${lesson.id}">
+          ${escapeAssignmentText(lesson.title)}
+        </option>
+      `).join("");
+  }
+
+  async function saveAssignment(status) {
+    message.textContent = "Saving assignment...";
+
+    const lessonId = lessonSelect.value;
+    const title = document.getElementById("assignmentTitle").value.trim();
+    const instructions = document.getElementById(
+      "assignmentInstructions"
+    ).value.trim();
+    const dueDate = document.getElementById("assignmentDueDate").value;
+    const marks = Number(
+      document.getElementById("assignmentMarks").value
+    );
+    const file = document.getElementById("assignmentFile").files[0];
+
+    if (!lessonId || !title || !instructions || !dueDate ||
+        !Number.isFinite(marks) || marks < 1) {
+      message.textContent = "Complete all required fields first.";
+      return;
+    }
+
+    const due = new Date(dueDate);
+
+    if (Number.isNaN(due.getTime()) || due <= new Date()) {
+      message.textContent = "Choose a future submission deadline.";
+      return;
+    }
+
+    let attachmentPath = null;
+    let attachmentName = null;
+
+    if (file) {
+      const allowed = /\.(pdf|doc|docx|ppt|pptx)$/i.test(file.name);
+
+      if (!allowed || file.size > 50 * 1024 * 1024) {
+        message.textContent =
+          "Choose a PDF, Word or PowerPoint document up to 50 MB.";
+        return;
+      }
+
+      const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+      attachmentPath =
+        `assignments/${teacherPortalUser.id}/${crypto.randomUUID()}-${safeName}`;
+
+      message.textContent = "Uploading document...";
+
+      const { error: uploadError } = await supabase.storage
+        .from("learning-files")
+        .upload(attachmentPath, file, {
+          upsert: false
+        });
+
+      if (uploadError) {
+        message.textContent =
+          "Document upload failed: " + uploadError.message;
+        return;
+      }
+
+      attachmentName = file.name;
+    }
+
+    const record = {
+      lesson_id: lessonId,
+      title,
+      instructions,
+      due_date: due.toISOString(),
+      max_marks: marks,
+      status,
+      published_at: status === "published"
+        ? new Date().toISOString()
+        : null,
+      attachment_url: attachmentPath,
+      attachment_name: attachmentName
+    };
+
+    const { error } = await supabase
+      .from("school_assignments")
+      .insert(record);
+
+    if (error) {
+      message.textContent = "Could not save assignment: " + error.message;
+      return;
+    }
+
+    form.reset();
+    document.getElementById("assignmentMarks").value = 100;
+
+    message.textContent = status === "published"
+      ? "Assignment published successfully."
+      : "Assignment saved as a draft.";
+
+    await loadAssignmentList();
+  }
+
+  document.getElementById("saveAssignmentDraft")
+    .addEventListener("click", () => saveAssignment("draft"));
+
+  form.addEventListener("submit", event => {
+    event.preventDefault();
+    saveAssignment("published");
+  });
+
+  async function loadAssignmentList() {
+    const list = document.getElementById("assignmentList");
+
+    const { data, error } = await supabase
+      .from("school_assignments")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      list.textContent = "Unable to load assignments: " + error.message;
+      return;
+    }
+
+    if (!data || !data.length) {
+      list.textContent = "No assignments have been created yet.";
+      return;
+    }
+
+    list.innerHTML = data.map(item => `
+      <article class="workspace-feature" style="margin:12px 0">
+        <strong>${escapeAssignmentText(item.title)}</strong>
+        <p>${escapeAssignmentText(item.instructions || "")}</p>
+        <p>Status: ${escapeAssignmentText(item.status || "draft")}</p>
+        <p>Maximum marks: ${Number(item.max_marks) || 0}</p>
+        <p>Due: ${item.due_date
+          ? new Date(item.due_date).toLocaleString()
+          : "Not set"}</p>
+      </article>
+    `).join("");
+  }
+
+  await loadAssignmentList();
+}
+
+function escapeAssignmentText(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+}
+
 const teacherWorkspaces = {
   "My Classes": {
     description: "Organize your teaching groups and classroom activities.",
