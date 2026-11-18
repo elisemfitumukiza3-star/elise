@@ -872,7 +872,19 @@ function openTeacherWorkspace(page) {
 
   workspaceTitle.textContent = page;
   workspaceDescription.textContent = workspace.description;
+if (page === "Assignments") {
+  workspacePanel.hidden = false;
+  portalLayout.classList.add("workspace-open");
 
+  document.querySelectorAll(".nav button").forEach(item => {
+    item.classList.toggle("active", item.dataset.page === page);
+  });
+
+  sidebar.classList.remove("open");
+
+  renderAssignmentCentre();
+  return;
+}
   workspaceContent.innerHTML = `
     <div class="workspace-welcome">
       <h3>${page}</h3>
