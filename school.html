@@ -242,25 +242,290 @@ button{cursor:pointer}
     <div class="activity"><div class="activity-icon">✉</div><div>Communication centre<small>School announcements and updates</small></div></div>
    </div>
   </section>
+   
+<section id="classesWorkspace" class="workspace-section">
+  <div class="workspace-heading">
+    <div>
+      <h1>Classes & Streams</h1>
+      <p>Create and organize academic classes for your institution.</p>
+    </div>
+    <button class="primary-btn" id="refreshClasses">↻ Refresh</button>
+  </div>
+
+  <div class="panel">
+    <h2>Create a New Class</h2>
+    <p style="font-size:12px;color:#75849a">
+      Add a class and assign it to an academic year.
+    </p>
+
+    <form id="classForm" class="class-form">
+      <div>
+        <label for="className">Class name</label>
+        <input id="className" placeholder="e.g. Senior 1" required>
+      </div>
+      <div>
+        <label for="classYear">Academic year</label>
+        <input id="classYear" placeholder="e.g. 2026">
+      </div>
+      <button class="primary-btn" type="submit">＋ Create Class</button>
+    </form>
+    <div id="classMessage" class="workspace-message" role="status">
+      Connect your approved school account to manage classes.
+    </div>
+  </div>
+
+  <div class="panel" style="margin-top:18px">
+    <div class="panel-head">
+      <h2>Registered Classes</h2>
+      <span id="classTotal">0 classes</span>
+    </div>
+    <div id="classesList" class="class-grid"></div>
+  </div>
+</section>
+
   <footer class="footer"><span>© 2026 LearnLoop School Management Portal</span><span>Quality Education · Stronger Communities · A Brighter Future</span></footer>
  </div>
 </main>
 </div>
-<script>
-const sidebar=document.getElementById("sidebar");
-document.getElementById("menuButton").addEventListener("click",()=>sidebar.classList.toggle("open"));
-document.querySelectorAll("[data-page]").forEach(button=>{
- button.addEventListener("click",()=>{
-  document.querySelectorAll(".nav button").forEach(item=>item.classList.remove("active"));
-  const navItem=document.querySelector('.nav button[data-page="'+button.dataset.page+'"]');
-  if(navItem)navItem.classList.add("active");
-  sidebar.classList.remove("open");
-  if(button.classList.contains("quick")){
-   alert(button.dataset.page+" workspace will open when its management module is connected.");
+
+const sidebar = document.getElementById("sidebar");
+const classesWorkspace = document.getElementById("classesWorkspace");
+const classForm = document.getElementById("classForm");
+const classesList = document.getElementById("classesList");
+const classMessage = document.getElementById("classMessage");
+
+let schoolPortalUser = null;
+let schoolPortalRecord = null;
+let schoolPortalSupabase = null;
+
+function setClassMessage(message) {
+  classMessage.textContent = message;
+}
+
+function escapeClassText(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+}
+
+async function loadSchoolClasses() {
+  if (!schoolPortalSupabase || !schoolPortalRecord?.id ||
+      schoolPortalRecord.owner_access) {
+    setClassMessage(
+      "This is the temporary owner testing workspace. A real approved school record is required to save classes."
+    );
+    classesList.innerHTML = "";
+    return;
   }
- });
+
+  setClassMessage("Loading your school's classes...");
+
+  const { data: classes, error } = await schoolPortalSupabase
+    .from("school_classes")
+    .select("id,class_name,academic_year,created_at")
+    .eq("school_id", schoolPortalRecord.id)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    setClassMessage("Unable to load classes: " + error.message);
+    return;
+  }
+
+  document.getElementById("classTotal").textContent =
+    `${classes.length} ${classes.length === 1 ? "class" : "classes"}`;
+
+  if (!classes.length) {
+    classesList.innerHTML =
+      '<p class="workspace-message">No classes have been created yet. Use the form above to add your first class.</p>';
+    setClassMessage("Your school account is connected.");
+    return;
+  }
+
+  const cards = await Promise.all(classes.map(async item => {
+    const { count, error: countError } = await schoolPortalSupabase
+      .from("school_enrollments")
+      .select("id", { count: "exact", head: true })
+      .eq("school_id", schoolPortalRecord.id)
+      .eq("class_id", item.id);
+
+    return {
+      ...item,
+      learnerCount: countError ? null : count
+    };
+  }));
+
+  classesList.innerHTML = cards.map(item => `
+    <article class="class-card">
+      <h3>${escapeClassText(item.class_name)}</h3>
+      <p>Academic year: ${escapeClassText(item.academic_year || "Not specified")}</p>
+      <div class="class-count">${item.learnerCount ?? "—"}</div>
+      <p>Enrolled learners</p>
+      <div class="class-actions">
+        <button data-edit-class="${item.id}">Edit</button>
+        <button class="delete" data-delete-class="${item.id}">Delete</button>
+      </div>
+    </article>
+  `).join("");
+
+  setClassMessage("Classes and learner counts loaded successfully.");
+}
+
+classForm.addEventListener("submit", async event => {
+  event.preventDefault();
+
+  if (!schoolPortalSupabase || !schoolPortalRecord?.id ||
+      schoolPortalRecord.owner_access) {
+    setClassMessage(
+      "A real approved school account is required before classes can be saved."
+    );
+    return;
+  }
+
+  const className = document.getElementById("className").value.trim();
+  const academicYear = document.getElementById("classYear").value.trim();
+
+  if (!className) {
+    setClassMessage("Please enter a class name.");
+    return;
+  }
+
+  const submitButton = classForm.querySelector("button[type='submit']");
+  submitButton.disabled = true;
+  submitButton.textContent = "Saving...";
+
+  const { error } = await schoolPortalSupabase
+    .from("school_classes")
+    .insert({
+      school_id: schoolPortalRecord.id,
+      class_name: className,
+      academic_year: academicYear || null
+    });
+
+  submitButton.disabled = false;
+  submitButton.textContent = "＋ Create Class";
+
+  if (error) {
+    setClassMessage("Could not create class: " + error.message);
+    return;
+  }
+
+  classForm.reset();
+  setClassMessage("Class created successfully.");
+  await loadSchoolClasses();
 });
-</script>
+
+classesList.addEventListener("click", async event => {
+  const editButton = event.target.closest("[data-edit-class]");
+  const deleteButton = event.target.closest("[data-delete-class]");
+
+  if (editButton) {
+    const classId = editButton.dataset.editClass;
+    const card = editButton.closest(".class-card");
+    const oldName = card.querySelector("h3").textContent;
+    const oldYear = card.querySelector("p").textContent
+      .replace("Academic year: ", "");
+
+    const newName = prompt("Enter the class name:", oldName);
+    if (newName === null || !newName.trim()) return;
+
+    const newYear = prompt("Enter the academic year:", oldYear);
+    if (newYear === null) return;
+
+    const { error } = await schoolPortalSupabase
+      .from("school_classes")
+      .update({
+        class_name: newName.trim(),
+        academic_year: newYear.trim() || null
+      })
+      .eq("id", classId)
+      .eq("school_id", schoolPortalRecord.id);
+
+    if (error) {
+      setClassMessage("Could not update class: " + error.message);
+    } else {
+      setClassMessage("Class updated successfully.");
+      await loadSchoolClasses();
+    }
+  }
+
+  if (deleteButton) {
+    const classId = deleteButton.dataset.deleteClass;
+
+    if (!confirm(
+      "Delete this class? Only classes without dependent records can be deleted."
+    )) return;
+
+    const { error } = await schoolPortalSupabase
+      .from("school_classes")
+      .delete()
+      .eq("id", classId)
+      .eq("school_id", schoolPortalRecord.id);
+
+    if (error) {
+      setClassMessage(
+        "Could not delete this class. Check whether it still has learners, lessons or other linked records. " +
+        error.message
+      );
+    } else {
+      setClassMessage("Class deleted successfully.");
+      await loadSchoolClasses();
+    }
+  }
+});
+
+document.getElementById("refreshClasses")
+  .addEventListener("click", loadSchoolClasses);
+
+document.getElementById("menuButton").addEventListener("click", () => {
+  sidebar.classList.toggle("open");
+});
+
+document.querySelectorAll("[data-page]").forEach(button => {
+  button.addEventListener("click", () => {
+    document.querySelectorAll(".nav button").forEach(item =>
+      item.classList.remove("active")
+    );
+
+    const navItem = document.querySelector(
+      `.nav button[data-page="${button.dataset.page}"]`
+    );
+
+    if (navItem) navItem.classList.add("active");
+    sidebar.classList.remove("open");
+
+    const isClasses = button.dataset.page === "Classes & Streams";
+    classesWorkspace.classList.toggle("active", isClasses);
+
+    document.querySelectorAll(".content > section").forEach(section => {
+      if (section !== classesWorkspace) {
+        section.style.display = isClasses ? "none" : "";
+      }
+    });
+
+    document.querySelector(".footer").style.display =
+      isClasses ? "none" : "";
+
+    if (isClasses) loadSchoolClasses();
+  });
+});
+
+window.addEventListener("portal:authorized", event => {
+  if (event.detail?.portal !== "school") return;
+
+  schoolPortalUser = event.detail.user;
+  schoolPortalRecord = event.detail.access;
+  schoolPortalSupabase = window.learnLoopPortalSupabase;
+
+  if (schoolPortalRecord?.school_name) {
+    document.querySelector(".hero h1").textContent =
+      "Welcome to " + schoolPortalRecord.school_name;
+  }
+});
+
   <script type="module" src="./portal-auth.js"></script>
 </body>
 </html>
