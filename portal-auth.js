@@ -3,7 +3,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from "./src/config.js";
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
+window.learnLoopPortalSupabase = supabase;
 const portal = location.pathname.endsWith("school.html")
   ? "school"
   : "teacher";
