@@ -297,11 +297,10 @@ if (portal === "school") {
 
   access = data;
   displayName = data?.school_name || "";
-
 } else {
-  const { data: independentTeacher, error: teacherError } = await supabase
+  const { data: registeredTeacher, error: teacherError } = await supabase
     .from("teachers")
-    .select("id, user_id, school_id, full_name, subject, status")
+    .select("id, user_id, full_name, subject, school_id, status")
     .eq("user_id", user.id)
     .eq("status", "active")
     .maybeSingle();
@@ -311,9 +310,9 @@ if (portal === "school") {
     return;
   }
 
-  if (independentTeacher) {
-    access = independentTeacher;
-    displayName = independentTeacher.full_name || "";
+  if (registeredTeacher) {
+    access = registeredTeacher;
+    displayName = registeredTeacher.full_name || "";
   } else {
     const { data: schoolTeacher, error: staffError } = await supabase
       .from("school_staff")
@@ -332,6 +331,7 @@ if (portal === "school") {
     displayName = schoolTeacher?.full_name || "";
   }
 }
+
 
 
   if (!access) {
