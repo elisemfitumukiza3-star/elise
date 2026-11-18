@@ -278,58 +278,61 @@ async function authorize(user) {
     return;
   }
 
-  let access = null;
+ 
+let access = null;
+let displayName = "";
 
-  let displayName = "";
+if (portal === "school") {
+  const { data, error } = await supabase
+    .from("schools")
+    .select("id, school_name, email, location, logo_url, status")
+    .eq("owner_id", user.id)
+    .eq("status", "active")
+    .maybeSingle();
 
-  if (portal === "school") {
-    const { data, error } = await supabase
-     .from("teachers")
-.select("id, school_name, email, location, logo_url, status")
-.eq("owner_id", user.id)
-.eq("status", "active")
-.maybeSingle();
-    if (error) {
-      showMessage("Unable to verify this school account. Please try again.");
-      return;
-    }
+  if (error) {
+    showMessage("Unable to verify this school account. Please try again.");
+    return;
+  }
 
-    access = data;
-    displayName = data?.school_name || "";
+  access = data;
+  displayName = data?.school_name || "";
+
+} else {
+  const { data: independentTeacher, error: teacherError } = await supabase
+    .from("teachers")
+    .select("id, user_id, school_id, full_name, subject, status")
+    .eq("user_id", user.id)
+    .eq("status", "active")
+    .maybeSingle();
+
+  if (teacherError) {
+    showMessage("Unable to verify this teacher account. Please try again.");
+    return;
+  }
+
+  if (independentTeacher) {
+    access = independentTeacher;
+    displayName = independentTeacher.full_name || "";
   } else {
-    const { data: independentTeacher, error: teacherError } = await supabase
-    
-     .from("schools")
-.select("id, full_name, subject, school_id, status")
-.eq("user_id", user.id)
-.eq("status", "active")
-.maybeSingle();
-    if (teacherError) {
+    const { data: schoolTeacher, error: staffError } = await supabase
+      .from("school_staff")
+      .select("id, school_id, full_name, position, account_status, status")
+      .eq("user_id", user.id)
+      .eq("account_status", "active")
+      .eq("status", "active")
+      .maybeSingle();
+
+    if (staffError) {
       showMessage("Unable to verify this teacher account. Please try again.");
       return;
     }
 
-    if (independentTeacher) {
-      access = independentTeacher;
-      displayName = independentTeacher.full_name || "";
-    } else {
-      const { data: schoolTeacher, error: staffError } = await supabase
-        .from("school_staff")
-        .select("id, school_id, full_name, position, account_status, status")
-        .eq("user_id", user.id)
-        .eq("account_status", "active")
-        .eq("status", "active")
-        .maybeSingle();
-
-      if (staffError) {
-        showMessage("Unable to verify this teacher account. Please try again.");
-        return;
-      }
-
-      access = schoolTeacher;
-      displayName = schoolTeacher?.full_name || "";
-    }
+    access = schoolTeacher;
+    displayName = schoolTeacher?.full_name || "";
   }
+}
+
 
   if (!access) {
     showMessage("This account is not approved for this portal. Contact the relevant school or administrator.");
