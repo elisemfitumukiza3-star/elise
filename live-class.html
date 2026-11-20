@@ -1,0 +1,627 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#102b26">
+  <meta name="description" content="Join a LearnLoop live learning session.">
+  <title>LearnLoop Live Classroom</title>
+
+  <link rel="icon" href="/favicon.ico">
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, Arial, sans-serif;
+      background: #f3f6f5;
+      color: #18352e;
+    }
+
+    header {
+      background: #102b26;
+      color: white;
+      padding: 17px 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .brand {
+      font-size: 23px;
+      font-weight: 800;
+      letter-spacing: -.7px;
+    }
+
+    .brand span { color: #69d5a4; }
+
+    .header-tag {
+      font-size: 12px;
+      color: #c4ded3;
+    }
+
+    main {
+      width: min(1050px, 94%);
+      margin: 35px auto;
+    }
+
+    .hero {
+      background: linear-gradient(130deg,#123c32,#176a53);
+      color: white;
+      padding: 35px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 {
+      font-size: clamp(25px,4vw,38px);
+      margin: 10px 0;
+    }
+
+    .hero p {
+      color: #d6eae1;
+      line-height: 1.7;
+    }
+
+    .status {
+      display: inline-block;
+      background: rgba(255,255,255,.15);
+      padding: 7px 12px;
+      border-radius: 30px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .panel {
+      background: white;
+      padding: 28px;
+      border-radius: 17px;
+      margin-bottom: 20px;
+      box-shadow: 0 5px 24px rgba(20,50,40,.06);
+    }
+
+    .panel h2 { margin-top: 0; }
+
+    .countdown {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 12px;
+      margin: 25px 0;
+    }
+
+    .time-box {
+      text-align: center;
+      padding: 20px 8px;
+      border-radius: 12px;
+      background: #edf6f1;
+    }
+
+    .time-box strong {
+      display: block;
+      font-size: clamp(24px,5vw,36px);
+      color: #176b50;
+    }
+
+    .time-box span {
+      font-size: 11px;
+      color: #60776d;
+      text-transform: uppercase;
+    }
+
+    .button {
+      border: 0;
+      border-radius: 10px;
+      padding: 13px 20px;
+      background: #176b50;
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .button:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+
+    .button.secondary {
+      background: #eaf2ee;
+      color: #176b50;
+    }
+
+    .button.danger { background: #a63838; }
+
+    .message {
+      padding: 14px;
+      border-radius: 10px;
+      background: #edf6f1;
+      color: #176b50;
+      line-height: 1.6;
+      margin: 15px 0;
+    }
+
+    .message.error {
+      background: #fff0ef;
+      color: #a63838;
+    }
+
+    .message.warning {
+      background: #fff7e6;
+      color: #805b12;
+    }
+
+    .field {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #dce6e0;
+      border-radius: 9px;
+      margin: 8px 0 16px;
+      font: inherit;
+    }
+
+    .field:focus {
+      outline: 2px solid #8bcbb0;
+      border-color: #176b50;
+    }
+
+    .small {
+      font-size: 12px;
+      color: #73857d;
+      line-height: 1.6;
+    }
+
+    .video-area {
+      background: #101b18;
+      min-height: 300px;
+      border-radius: 14px;
+      color: white;
+      display: grid;
+      place-items: center;
+      padding: 25px;
+      text-align: center;
+      margin: 18px 0;
+    }
+
+    .video-area a { color: #8be3b6; }
+
+    .hidden { display: none !important; }
+
+    footer {
+      text-align: center;
+      color: #82938b;
+      font-size: 12px;
+      padding: 25px;
+    }
+
+    @media(max-width:600px) {
+      main { margin: 18px auto; }
+      .hero,.panel { padding: 21px; }
+      .countdown { gap: 6px; }
+      .time-box { padding: 15px 4px; }
+      .header-tag { display: none; }
+    }
+  </style>
+</head>
+
+<body>
+<header>
+  <div class="brand">Learn<span>Loop</span></div>
+  <div class="header-tag">GLOBAL LIVE LEARNING CLASSROOM</div>
+</header>
+
+<main>
+  <section class="hero">
+    <span class="status" id="classStatus">CONNECTING</span>
+    <h1 id="classTitle">LearnLoop Live Classroom</h1>
+    <p id="classDescription">
+      Connecting to your learning session...
+    </p>
+  </section>
+
+  <section class="panel" id="loadingPanel">
+    <h2>Preparing your classroom</h2>
+    <p id="loadingMessage">Checking your invitation and account...</p>
+  </section>
+
+  <section class="panel hidden" id="signInPanel">
+    <h2>Sign in to continue</h2>
+    <p>This classroom requires a LearnLoop account.</p>
+    <div id="signInMessage" class="message warning">
+      Sign in to check your class membership or request guest access.
+    </div>
+    <button class="button" id="signInButton">
+      Sign in to LearnLoop
+    </button>
+  </section>
+
+  <section class="panel hidden" id="countdownPanel">
+    <h2>Your class has not started yet</h2>
+    <p>We will update this page when the scheduled time arrives.</p>
+
+    <div class="countdown">
+      <div class="time-box">
+        <strong id="days">00</strong><span>Days</span>
+      </div>
+      <div class="time-box">
+        <strong id="hours">00</strong><span>Hours</span>
+      </div>
+      <div class="time-box">
+        <strong id="minutes">00</strong><span>Minutes</span>
+      </div>
+      <div class="time-box">
+        <strong id="seconds">00</strong><span>Seconds</span>
+      </div>
+    </div>
+
+    <div class="message" id="countdownMessage">
+      Your classroom will be available at the scheduled time.
+    </div>
+  </section>
+
+  <section class="panel hidden" id="requestPanel">
+    <h2>Request permission to join</h2>
+    <p>
+      You are not currently enrolled in this teacher's class.
+      You can request permission to attend this lesson.
+    </p>
+
+    <div class="message warning">
+      Your request will be sent to the teacher for approval.
+    </div>
+
+    <button class="button" id="requestButton">
+      Request access
+    </button>
+
+    <p id="requestMessage" class="small"></p>
+  </section>
+
+  <section class="panel hidden" id="waitingPanel">
+    <h2>Waiting for teacher approval</h2>
+    <div class="message warning">
+      Your request has been submitted. The teacher will decide whether
+      to allow you into this classroom.
+    </div>
+    <p id="waitingStatus">Request pending...</p>
+    <button class="button secondary" id="checkRequestButton">
+      Check request status
+    </button>
+  </section>
+
+  <section class="panel hidden" id="rejectedPanel">
+    <h2>Access not approved</h2>
+    <div class="message error">
+      The teacher has not approved your request to attend this class.
+    </div>
+  </section>
+
+  <section class="panel hidden" id="endedPanel">
+    <h2>Classroom session ended</h2>
+    <p>This live class is no longer accepting participants.</p>
+  </section>
+
+  <section class="panel hidden" id="classroomPanel">
+    <h2>Welcome to your classroom</h2>
+    <div class="message" id="entryMessage">
+      Your access has been verified.
+    </div>
+
+    <div class="video-area" id="videoArea">
+      <div>
+        <h2>Live learning session</h2>
+        <p id="videoMessage">
+          Preparing the classroom...
+        </p>
+      </div>
+    </div>
+
+    <button class="button secondary" id="refreshClassButton">
+      Refresh classroom
+    </button>
+  </section>
+</main>
+
+<footer>
+  LearnLoop · Learn · Share · Grow
+</footer>
+
+<script type="module">
+  import { createClient } from
+    "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+  const SUPABASE_URL = "https://qjzb...supabase.co";
+  const SUPABASE_ANON_KEY = "PASTE_YOUR_SUPABASE_ANON_KEY";
+
+  const supabase = createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+  );
+
+  const params = new URLSearchParams(location.search);
+  const token = params.get("token");
+
+  let sessionInfo = null;
+  let countdownTimer = null;
+
+  const $ = id => document.getElementById(id);
+
+  function show(id) {
+    [
+      "loadingPanel",
+      "signInPanel",
+      "countdownPanel",
+      "requestPanel",
+      "waitingPanel",
+      "rejectedPanel",
+      "endedPanel",
+      "classroomPanel"
+    ].forEach(panel => $(panel).classList.add("hidden"));
+
+    $(id).classList.remove("hidden");
+  }
+
+  function setMessage(id, text, error = false) {
+    $(id).textContent = text;
+    if (error) $(id).classList.add("error");
+  }
+
+  function setStatus(text) {
+    $("classStatus").textContent = text.toUpperCase();
+  }
+
+  function formatCountdown() {
+    if (!sessionInfo) return;
+
+    const start = new Date(sessionInfo.scheduled_start).getTime();
+    const difference = Math.max(0, start - Date.now());
+
+    const days = Math.floor(difference / 86400000);
+    const hours = Math.floor((difference % 86400000) / 3600000);
+    const minutes = Math.floor((difference % 3600000) / 60000);
+    const seconds = Math.floor((difference % 60000) / 1000);
+
+    $("days").textContent = String(days).padStart(2, "0");
+    $("hours").textContent = String(hours).padStart(2, "0");
+    $("minutes").textContent = String(minutes).padStart(2, "0");
+    $("seconds").textContent = String(seconds).padStart(2, "0");
+
+    if (difference <= 0) {
+      clearInterval(countdownTimer);
+      refreshAccess();
+    }
+  }
+
+  async function loadClass() {
+    if (!token) {
+      show("loadingPanel");
+      $("loadingMessage").textContent =
+        "This invitation link is missing its class token.";
+      return;
+    }
+
+    const { data: authData } = await supabase.auth.getSession();
+
+    if (!authData.session) {
+      show("signInPanel");
+      return;
+    }
+
+    await refreshAccess();
+  }
+
+  async function refreshAccess() {
+    show("loadingPanel");
+    $("loadingMessage").textContent =
+      "Verifying classroom access...";
+
+    const { data, error } = await supabase.rpc(
+      "get_learnloop_live_class",
+      { p_token: token }
+    );
+
+    if (error) {
+      show("loadingPanel");
+      $("loadingMessage").textContent =
+        "Unable to verify access: " + error.message;
+      return;
+    }
+
+    if (!data?.success) {
+      show("loadingPanel");
+      $("loadingMessage").textContent =
+        data?.reason === "class_not_found"
+          ? "This classroom invitation is invalid."
+          : "Please sign in to continue.";
+      return;
+    }
+
+    sessionInfo = data;
+
+    $("classTitle").textContent = data.title;
+    $("classDescription").textContent =
+      data.description || "Join your teacher's learning session.";
+
+    if (
+      data.status === "completed" ||
+      data.status === "cancelled"
+    ) {
+      setStatus(data.status);
+      show("endedPanel");
+      return;
+    }
+
+    if (!data.can_enter) {
+      if (data.request_status === "rejected") {
+        setStatus("Access rejected");
+        show("rejectedPanel");
+        return;
+      }
+
+      if (data.request_status === "pending") {
+        setStatus("Approval pending");
+        show("waitingPanel");
+        return;
+      }
+
+      if (!data.allow_guest_requests) {
+        setStatus("Class restricted");
+        show("requestPanel");
+        $("requestButton").disabled = true;
+        $("requestMessage").textContent =
+          "The teacher has disabled guest requests.";
+        return;
+      }
+
+      setStatus("Guest access");
+      show("requestPanel");
+      $("requestButton").disabled = false;
+      return;
+    }
+
+    if (data.status !== "live") {
+      const start = new Date(data.scheduled_start).getTime();
+
+      if (Date.now() < start) {
+        setStatus("Upcoming class");
+        show("countdownPanel");
+        formatCountdown();
+
+        if (!countdownTimer) {
+          countdownTimer = setInterval(formatCountdown, 1000);
+        }
+        return;
+      }
+
+      setStatus("Waiting for teacher");
+      show("countdownPanel");
+      $("countdownMessage").textContent =
+        "Your scheduled start time has arrived. The teacher has not started the session yet.";
+      return;
+    }
+
+    setStatus("Live now");
+    show("classroomPanel");
+    await loadMeetingRoom();
+  }
+
+  async function loadMeetingRoom() {
+    if (!sessionInfo?.can_enter) return;
+
+    if (sessionInfo.meeting_url) {
+      const url = new URL(sessionInfo.meeting_url);
+
+      if (!["https:", "http:"].includes(url.protocol)) {
+        $("videoMessage").textContent =
+          "The meeting URL is invalid.";
+        return;
+      }
+
+      $("videoMessage").innerHTML = "";
+
+      const link = document.createElement("a");
+      link.href = url.href;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.textContent = "Open live meeting";
+      $("videoMessage").appendChild(link);
+
+      return;
+    }
+
+    $("videoMessage").textContent =
+      "Your teacher has started the LearnLoop classroom. The integrated video-streaming service will be connected in the next development stage.";
+  }
+
+  $("requestButton").addEventListener("click", async () => {
+    $("requestButton").disabled = true;
+    $("requestMessage").textContent =
+      "Submitting your request...";
+
+    const { data: authData } = await supabase.auth.getSession();
+
+    if (!authData.session) {
+      show("signInPanel");
+      return;
+    }
+
+    const { data: classData, error: classError } = await supabase
+      .rpc("get_learnloop_live_class", { p_token: token });
+
+    if (classError || !classData?.success) {
+      $("requestMessage").textContent =
+        "Could not verify the invitation. Refresh and try again.";
+      $("requestButton").disabled = false;
+      return;
+    }
+
+    if (classData.is_enrolled || classData.can_enter) {
+      await refreshAccess();
+      return;
+    }
+
+    const { data: tokenRows, error: lookupError } = await supabase
+      .from("private_teacher_live_classes")
+      .select("id,public_token")
+      .eq("public_token", token)
+      .limit(1);
+
+    if (lookupError || !tokenRows?.length) {
+      $("requestMessage").textContent =
+        "Could not locate the class.";
+      $("requestButton").disabled = false;
+      return;
+    }
+
+    const { error } = await supabase
+      .from("private_teacher_live_class_requests")
+      .upsert({
+        live_class_id: tokenRows[0].id,
+        requester_id: authData.session.user.id,
+        status: "pending",
+        requested_at: new Date().toISOString(),
+        reviewed_at: null
+      }, {
+        onConflict: "live_class_id,requester_id"
+      });
+
+    if (error) {
+      $("requestMessage").textContent =
+        "Request could not be submitted: " + error.message;
+      $("requestButton").disabled = false;
+      return;
+    }
+
+    $("requestMessage").textContent =
+      "Your request has been sent.";
+    await refreshAccess();
+  });
+
+  $("checkRequestButton").addEventListener(
+    "click",
+    refreshAccess
+  );
+
+  $("refreshClassButton").addEventListener(
+    "click",
+    refreshAccess
+  );
+
+  $("signInButton").addEventListener("click", () => {
+    const returnUrl = location.href;
+    location.href = "/index.html?returnTo=" +
+      encodeURIComponent(returnUrl);
+  });
+
+  supabase.auth.onAuthStateChange((event, session) => {
+    if (session) {
+      refreshAccess();
+    }
+  });
+
+  await loadClass();
+</script>
+</body>
+</html>
