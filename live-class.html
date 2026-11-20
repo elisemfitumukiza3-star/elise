@@ -328,12 +328,23 @@
   LearnLoop · Learn · Share · Grow
 </footer>
 
+
 <script type="module">
   import { createClient } from
     "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-  const SUPABASE_URL = "https://qjzbphvpgphavokufiha.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_MJlcyKCJx6_BucEI3MV1Lw_LII83qNW";
+  import {
+    Room,
+    RoomEvent,
+    Track
+  } from "https://cdn.jsdelivr.net/npm/livekit-client@2/+esm";
+
+  const SUPABASE_URL =
+    "https://qjzbphvpgphavokufiha.supabase.co";
+
+  const SUPABASE_ANON_KEY =
+    "sb_publishable_MJlcyKCJx6_BucEI3MV1Lw_LII83qNW";
+
   const supabase = createClient(
     SUPABASE_URL,
     SUPABASE_ANON_KEY
@@ -344,6 +355,9 @@ const SUPABASE_ANON_KEY = "sb_publishable_MJlcyKCJx6_BucEI3MV1Lw_LII83qNW";
 
   let sessionInfo = null;
   let countdownTimer = null;
+  let liveRoom = null;
+  let teacherCameraEnabled = true;
+  let teacherMicEnabled = true;
 
   const $ = id => document.getElementById(id);
 
@@ -360,11 +374,6 @@ const SUPABASE_ANON_KEY = "sb_publishable_MJlcyKCJx6_BucEI3MV1Lw_LII83qNW";
     ].forEach(panel => $(panel).classList.add("hidden"));
 
     $(id).classList.remove("hidden");
-  }
-
-  function setMessage(id, text, error = false) {
-    $(id).textContent = text;
-    if (error) $(id).classList.add("error");
   }
 
   function setStatus(text) {
@@ -389,6 +398,7 @@ const SUPABASE_ANON_KEY = "sb_publishable_MJlcyKCJx6_BucEI3MV1Lw_LII83qNW";
 
     if (difference <= 0) {
       clearInterval(countdownTimer);
+      countdownTimer = null;
       refreshAccess();
     }
   }
@@ -401,9 +411,9 @@ const SUPABASE_ANON_KEY = "sb_publishable_MJlcyKCJx6_BucEI3MV1Lw_LII83qNW";
       return;
     }
 
-    const { data: authData } = await supabase.auth.getSession();
+    const { data, error } = await supabase.auth.getSession();
 
-    if (!authData.session) {
+    if (error || !data.session) {
       show("signInPanel");
       return;
     }
@@ -422,18 +432,14 @@ const SUPABASE_ANON_KEY = "sb_publishable_MJlcyKCJx6_BucEI3MV1Lw_LII83qNW";
     );
 
     if (error) {
-      show("loadingPanel");
       $("loadingMessage").textContent =
         "Unable to verify access: " + error.message;
       return;
     }
 
     if (!data?.success) {
-      show("loadingPanel");
       $("loadingMessage").textContent =
-        data?.reason === "class_not_found"
-          ? "This classroom invitation is invalid."
-          : "Please sign in to continue.";
+        "This invitation could not be verified. Please sign in again.";
       return;
     }
 
@@ -465,18 +471,15 @@ const SUPABASE_ANON_KEY = "sb_publishable_MJlcyKCJx6_BucEI3MV1Lw_LII83qNW";
         return;
       }
 
-      if (!data.allow_guest_requests) {
-        setStatus("Class restricted");
-        show("requestPanel");
-        $("requestButton").disabled = true;
-        $("requestMessage").textContent =
-          "The teacher has disabled guest requests.";
-        return;
-      }
-
       setStatus("Guest access");
       show("requestPanel");
-      $("requestButton").disabled = false;
+
+      $("requestButton").disabled = !data.allow_guest_requests;
+      $("requestMessage").textContent =
+        data.allow_guest_requests
+          ? ""
+          : "The teacher has disabled guest requests.";
+
       return;
     }
 
@@ -491,110 +494,261 @@ const SUPABASE_ANON_KEY = "sb_publishable_MJlcyKCJx6_BucEI3MV1Lw_LII83qNW";
         if (!countdownTimer) {
           countdownTimer = setInterval(formatCountdown, 1000);
         }
+
         return;
       }
 
       setStatus("Waiting for teacher");
       show("countdownPanel");
+
       $("countdownMessage").textContent =
         "Your scheduled start time has arrived. The teacher has not started the session yet.";
+
       return;
+    }
+
+    if (countdownTimer) {
+      clearInterval(countdownTimer);
+      countdownTimer = null;
     }
 
     setStatus("Live now");
     show("classroomPanel");
+
     await loadMeetingRoom();
   }
 
+  function addVideo(track, participant, isLocal = false) {
+    const stage = $("liveVideoStage");
+    if (!stage) return;
+
+    const video = track.attach();
+
+    video.autoplay = true;
+    video.playsInline = true;
+    video.style.width = "100%";
+    video.style.height = "100%";
+    video.style.objectFit = "contain";
+    video.style.background = "#101b18";
+
+    stage.replaceChildren(video);
+
+    $("liveSpeakerName").textContent =
+      isLocal
+        ? "You are teaching"
+        : participant.name || "Your teacher";
+  }
+
+  function addAudio(track) {
+    const audioArea = $("liveAudioArea");
+    if (!audioArea) return;
+
+    const audio = track.attach();
+    audio.autoplay = true;
+    audioArea.appendChild(audio);
+  }
+
+  function updateParticipantCount() {
+    if (!liveRoom) return;
+
+    const count = liveRoom.remoteParticipants.size + 1;
+
+    $("liveParticipantCount").textContent =
+      count + (count === 1 ? " participant" : " participants");
+  }
+
   async function loadMeetingRoom() {
-    if (!sessionInfo?.can_enter) return;
+    if (!sessionInfo?.can_enter || liveRoom) return;
 
-    if (sessionInfo.meeting_url) {
-      const url = new URL(sessionInfo.meeting_url);
+    const message = $("videoMessage");
 
-      if (!["https:", "http:"].includes(url.protocol)) {
-        $("videoMessage").textContent =
-          "The meeting URL is invalid.";
-        return;
+    message.textContent = "Connecting to the live classroom...";
+
+    try {
+      const { data, error } = await supabase.functions.invoke(
+        "learnloop-livekit-token",
+        {
+          body: { token }
+        }
+      );
+
+      if (error) {
+        throw new Error(error.message);
       }
 
-      $("videoMessage").innerHTML = "";
+      if (!data?.token || !data?.server_url) {
+        throw new Error(data?.error || "Video access could not be prepared.");
+      }
 
-      const link = document.createElement("a");
-      link.href = url.href;
-      link.target = "_blank";
-      link.rel = "noopener noreferrer";
-      link.textContent = "Open live meeting";
-      $("videoMessage").appendChild(link);
+      const isTeacher = data.role === "teacher";
 
-      return;
+      $("videoArea").style.display = "block";
+      $("videoArea").style.padding = "15px";
+      $("videoArea").style.textAlign = "left";
+
+      $("videoArea").innerHTML = `
+        <div style="width:100%;color:white">
+          <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px">
+            <strong style="color:#8be3b6">● LIVE CLASSROOM</strong>
+            <span id="liveParticipantCount" style="font-size:13px">Connecting...</span>
+          </div>
+
+          <div id="liveVideoStage" style="width:100%;aspect-ratio:16/9;min-height:220px;background:#050b09;border-radius:12px;overflow:hidden;display:grid;place-items:center">
+            <p style="padding:20px;color:#d6eae1">Waiting for the teacher's video...</p>
+          </div>
+
+          <p id="liveSpeakerName" style="margin:12px 0;color:#d6eae1;font-weight:700">
+            Connecting...
+          </p>
+
+          <div id="liveAudioArea" style="display:none"></div>
+
+          <div id="teacherControls" style="display:none;gap:10px;flex-wrap:wrap;margin-top:15px">
+            <button id="cameraControl" class="button secondary">Turn camera off</button>
+            <button id="micControl" class="button secondary">Mute microphone</button>
+          </div>
+
+          <div style="margin-top:15px;padding:12px;background:#1a2b25;border-radius:10px;color:#c4ded3;font-size:13px">
+            ${isTeacher
+              ? "You are broadcasting this lesson. Your students can watch and listen."
+              : "You are watching the teacher's live lesson. Your camera and microphone are not being shared."}
+          </div>
+
+          <button id="leaveLiveRoom" class="button danger" style="margin-top:15px">
+            Leave classroom
+          </button>
+        </div>
+      `;
+
+      const room = new Room({
+        adaptiveStream: true,
+        dynacast: true
+      });
+
+      liveRoom = room;
+
+      room
+        .on(RoomEvent.TrackSubscribed, (track, publication, participant) => {
+          if (track.kind === Track.Kind.Video) {
+            addVideo(track, participant);
+          }
+
+          if (track.kind === Track.Kind.Audio) {
+            addAudio(track);
+          }
+        })
+        .on(RoomEvent.TrackUnsubscribed, (track) => {
+          track.detach();
+        })
+        .on(RoomEvent.ParticipantConnected, updateParticipantCount)
+        .on(RoomEvent.ParticipantDisconnected, updateParticipantCount)
+        .on(RoomEvent.Disconnected, () => {
+          liveRoom = null;
+          setStatus("Disconnected");
+        });
+
+      await room.connect(data.server_url, data.token);
+
+      updateParticipantCount();
+
+      // Display tracks already published before this user joined.
+      for (const participant of room.remoteParticipants.values()) {
+        for (const publication of participant.trackPublications.values()) {
+          if (!publication.track) continue;
+
+          if (publication.track.kind === Track.Kind.Video) {
+            addVideo(publication.track, participant);
+          }
+
+          if (publication.track.kind === Track.Kind.Audio) {
+            addAudio(publication.track);
+          }
+        }
+      }
+
+      if (isTeacher) {
+        $("teacherControls").style.display = "flex";
+
+        try {
+          await room.localParticipant.enableCameraAndMicrophone();
+
+          const cameraPublication =
+            room.localParticipant.getTrackPublication(Track.Source.Camera);
+
+          if (cameraPublication?.track) {
+            addVideo(cameraPublication.track, room.localParticipant, true);
+          }
+
+          $("cameraControl").addEventListener("click", async () => {
+            teacherCameraEnabled = !teacherCameraEnabled;
+
+            await room.localParticipant.setCameraEnabled(
+              teacherCameraEnabled
+            );
+
+            $("cameraControl").textContent =
+              teacherCameraEnabled ? "Turn camera off" : "Turn camera on";
+          });
+
+          $("micControl").addEventListener("click", async () => {
+            teacherMicEnabled = !teacherMicEnabled;
+
+            await room.localParticipant.setMicrophoneEnabled(
+              teacherMicEnabled
+            );
+
+            $("micControl").textContent =
+              teacherMicEnabled ? "Mute microphone" : "Unmute microphone";
+          });
+
+        } catch (cameraError) {
+          console.error("Teacher camera setup:", cameraError);
+
+          $("liveSpeakerName").textContent =
+            "Camera or microphone permission was not granted. Check your browser permissions and try again.";
+        }
+      }
+
+      $("leaveLiveRoom").addEventListener("click", async () => {
+        await room.disconnect();
+        liveRoom = null;
+        setStatus("Left classroom");
+        show("endedPanel");
+      });
+
+      message.textContent = "";
+
+    } catch (error) {
+      console.error("Live classroom error:", error);
+
+      liveRoom = null;
+
+      message.textContent =
+        "Could not connect to the live video: " + error.message;
     }
-
-    $("videoMessage").textContent =
-      "Your teacher has started the LearnLoop classroom. The integrated video-streaming service will be connected in the next development stage.";
   }
 
   $("requestButton").addEventListener("click", async () => {
     $("requestButton").disabled = true;
-    $("requestMessage").textContent =
-      "Submitting your request...";
+    $("requestMessage").textContent = "Submitting your request...";
 
-    const { data: authData } = await supabase.auth.getSession();
+    const { data, error } = await supabase.rpc(
+      "request_learnloop_live_class",
+      { p_token: token }
+    );
 
-    if (!authData.session) {
-      show("signInPanel");
-      return;
-    }
-
-    const { data: classData, error: classError } = await supabase
-      .rpc("get_learnloop_live_class", { p_token: token });
-
-    if (classError || !classData?.success) {
+    if (error || !data?.success) {
       $("requestMessage").textContent =
-        "Could not verify the invitation. Refresh and try again.";
-      $("requestButton").disabled = false;
-      return;
-    }
+        "Request could not be submitted: " +
+        (error?.message || data?.reason || "Please try again.");
 
-    if (classData.is_enrolled || classData.can_enter) {
-      await refreshAccess();
-      return;
-    }
-
-    const { data: tokenRows, error: lookupError } = await supabase
-      .from("private_teacher_live_classes")
-      .select("id,public_token")
-      .eq("public_token", token)
-      .limit(1);
-
-    if (lookupError || !tokenRows?.length) {
-      $("requestMessage").textContent =
-        "Could not locate the class.";
-      $("requestButton").disabled = false;
-      return;
-    }
-
-    const { error } = await supabase
-      .from("private_teacher_live_class_requests")
-      .upsert({
-        live_class_id: tokenRows[0].id,
-        requester_id: authData.session.user.id,
-        status: "pending",
-        requested_at: new Date().toISOString(),
-        reviewed_at: null
-      }, {
-        onConflict: "live_class_id,requester_id"
-      });
-
-    if (error) {
-      $("requestMessage").textContent =
-        "Request could not be submitted: " + error.message;
       $("requestButton").disabled = false;
       return;
     }
 
     $("requestMessage").textContent =
-      "Your request has been sent.";
+      "Your request has been sent to the teacher.";
+
     await refreshAccess();
   });
 
@@ -610,6 +764,7 @@ const SUPABASE_ANON_KEY = "sb_publishable_MJlcyKCJx6_BucEI3MV1Lw_LII83qNW";
 
   $("signInButton").addEventListener("click", () => {
     const returnUrl = location.href;
+
     location.href = "/index.html?returnTo=" +
       encodeURIComponent(returnUrl);
   });
@@ -622,5 +777,6 @@ const SUPABASE_ANON_KEY = "sb_publishable_MJlcyKCJx6_BucEI3MV1Lw_LII83qNW";
 
   await loadClass();
 </script>
+
 </body>
 </html>
