@@ -2855,6 +2855,582 @@ async function renderPrivateLearningMaterials() {
   await loadMaterials();
 }
 
+async function renderPrivateStudentProgress() {
+  const supabase = teacherRequireAccess();
+  if (!supabase) return;
+
+  teacherWorkspaceLayout(
+    "Student Progress & Performance",
+    "Monitor lesson completion, assignment submissions and graded performance across your private classes.",
+    `
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>Class performance overview</h2>
+            <p>Choose a class to view its learner progress.</p>
+          </div>
+          <button type="button" id="progressRefresh">↻ Refresh</button>
+        </div>
+        <label for="progressClass">Select class</label>
+        <select id="progressClass">
+          <option value="">Loading classes...</option>
+        </select>
+        <div id="progressSummary" class="workspace-feature-grid" style="margin:18px 0">
+          <article class="workspace-feature">
+            <strong>Loading...</strong>
+            <p>Class statistics</p>
+          </article>
+        </div>
+        <label for="progressSearch">Search learners</label>
+        <input id="progressSearch" type="search"
+          placeholder="Search by learner account ID...">
+        <div id="progressTable" style="overflow-x:auto;margin-top:18px">
+          Select a class to view progress.
+        </div>
+        <p id="progressMessage" role="status"></p>
+      </section>
+    `
+  );
+
+  const classSelect = document.getElementById("progressClass");
+  const summary = document.getElementById("progressSummary");
+  const table = document.getElementById("progressTable");
+  const search = document.getElementById("progressSearch");
+  const message = document.getElementById("progressMessage");
+
+  let progressRows = [];
+
+  const { data: classes, error: classError } = await supabase
+    .from("private_teacher_classes")
+    .select("id,class_name,subject")
+    .eq("teacher_id", teacherPortalUser.id)
+    .eq("is_active", true)
+    .order("class_name");
+
+  if (classError) {
+    classSelect.innerHTML = '<option value="">Unable to load classes</option>';
+    message.textContent = classError.message;
+    return;
+  }
+
+  classSelect.innerHTML =
+    '<option value="">Choose a class</option>' +
+    (classes || []).map(item => `
+      <option value="${item.id}">
+        ${teacherEscape(item.class_name)} — ${teacherEscape(item.subject)}
+      </option>
+    `).join("");
+
+  async function loadProgress() {
+    const classId = classSelect.value;
+
+    if (!classId) {
+      summary.innerHTML = "";
+      table.textContent = "Choose a class to view its learners.";
+      return;
+    }
+
+    message.textContent = "Loading class performance...";
+    table.textContent = "Loading learner records...";
+    summary.innerHTML = "";
+
+    const [
+      membersResult,
+      lessonsResult,
+      progressResult,
+      assignmentsResult
+    ] = await Promise.all([
+      supabase
+        .from("private_teacher_class_members")
+        .select("student_id,joined_at")
+        .eq("class_id", classId)
+        .order("joined_at", { ascending: true }),
+
+      supabase
+        .from("private_teacher_lessons")
+        .select("id,title,status")
+        .eq("class_id", classId)
+        .eq("teacher_id", teacherPortalUser.id),
+
+      supabase
+        .from("private_teacher_lesson_progress")
+        .select("student_id,lesson_id,completed_at")
+        .eq("class_id", classId),
+
+      supabase
+        .from("private_teacher_assignments")
+        .select("id,title,max_marks")
+        .eq("class_id", classId)
+        .eq("teacher_id", teacherPortalUser.id)
+    ]);
+
+    const firstError =
+      membersResult.error ||
+      lessonsResult.error ||
+      progressResult.error ||
+      assignmentsResult.error;
+
+    if (firstError) {
+      message.textContent = "Unable to load progress: " + firstError.message;
+      table.textContent = "Please check the class access policies.";
+      return;
+    }
+
+    const members = membersResult.data || [];
+    const lessons = (lessonsResult.data || [])
+      .filter(item => item.status === "published");
+    const progress = progressResult.data || [];
+    const assignments = assignmentsResult.data || [];
+
+    let submissions = [];
+
+    if (assignments.length) {
+      const { data, error } = await supabase
+        .from("private_teacher_submissions")
+        .select("assignment_id,student_id,score,submitted_at,graded_at")
+        .in("assignment_id", assignments.map(item => item.id));
+
+      if (error) {
+        message.textContent = "Unable to load assignment results: " + error.message;
+        return;
+      }
+
+      submissions = data || [];
+    }
+
+    const assignmentMap = new Map(
+      assignments.map(item => [item.id, item])
+    );
+
+    progressRows = members.map(member => {
+      const studentProgress = progress.filter(item =>
+        item.student_id === member.student_id &&
+        item.completed_at &&
+        lessons.some(lesson => lesson.id === item.lesson_id)
+      );
+
+      const completedLessonIds = new Set(
+        studentProgress.map(item => item.lesson_id)
+      );
+
+      const studentSubmissions = submissions.filter(item =>
+        item.student_id === member.student_id
+      );
+
+      const graded = studentSubmissions.filter(item =>
+        item.score !== null && item.score !== undefined &&
+        assignmentMap.has(item.assignment_id)
+      );
+
+      const percentages = graded.map(item => {
+        const assignment = assignmentMap.get(item.assignment_id);
+        const maximum = Number(assignment.max_marks || 0);
+        return maximum > 0
+          ? (Number(item.score) / maximum) * 100
+          : null;
+      }).filter(value => value !== null && Number.isFinite(value));
+
+      const average = percentages.length
+        ? percentages.reduce((sum, value) => sum + value, 0) / percentages.length
+        : null;
+
+      return {
+        student_id: member.student_id,
+        joined_at: member.joined_at,
+        completed: completedLessonIds.size,
+        lessonTotal: lessons.length,
+        percentage: lessons.length
+          ? Math.round((completedLessonIds.size / lessons.length) * 100)
+          : 0,
+        submissions: studentSubmissions.length,
+        graded: graded.length,
+        average
+      };
+    });
+
+    const totalCompleted = progressRows.reduce(
+      (sum, item) => sum + item.completed, 0
+    );
+
+    const possibleCompletions = members.length * lessons.length;
+
+    const classCompletion = possibleCompletions
+      ? Math.round((totalCompleted / possibleCompletions) * 100)
+      : 0;
+
+    const averageClassScore = progressRows
+      .filter(item => item.average !== null);
+
+    const classAverage = averageClassScore.length
+      ? averageClassScore.reduce((sum, item) => sum + item.average, 0) /
+        averageClassScore.length
+      : null;
+
+    summary.innerHTML = `
+      <article class="workspace-feature">
+        <strong>${members.length}</strong>
+        <p>Enrolled learners</p>
+      </article>
+      <article class="workspace-feature">
+        <strong>${lessons.length}</strong>
+        <p>Published lessons</p>
+      </article>
+      <article class="workspace-feature">
+        <strong>${classCompletion}%</strong>
+        <p>Overall lesson completion</p>
+      </article>
+      <article class="workspace-feature">
+        <strong>${classAverage === null ? "—" : classAverage.toFixed(1) + "%"}</strong>
+        <p>Average graded assignment score</p>
+      </article>
+    `;
+
+    renderProgressRows();
+    message.textContent = "Progress records loaded.";
+  }
+
+  function renderProgressRows() {
+    const query = search.value.trim().toLowerCase();
+
+    const filtered = progressRows.filter(item =>
+      item.student_id.toLowerCase().includes(query)
+    );
+
+    if (!filtered.length) {
+      table.innerHTML = `
+        <div class="workspace-feature">
+          <strong>No learner records found</strong>
+          <p>There are no matching learners in this class.</p>
+        </div>
+      `;
+      return;
+    }
+
+    table.innerHTML = `
+      <table style="width:100%;min-width:760px;border-collapse:collapse;background:white">
+        <thead>
+          <tr>
+            <th style="text-align:left;padding:13px">Learner account</th>
+            <th style="padding:13px">Lessons</th>
+            <th style="padding:13px">Completion</th>
+            <th style="padding:13px">Submissions</th>
+            <th style="padding:13px">Graded</th>
+            <th style="padding:13px">Average score</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${filtered.map(item => `
+            <tr style="border-top:1px solid #e5ece9">
+              <td style="padding:13px;font-size:11px">
+                ${teacherEscape(item.student_id)}
+              </td>
+              <td style="padding:13px;text-align:center">
+                ${item.completed}/${item.lessonTotal}
+              </td>
+              <td style="padding:13px;min-width:140px">
+                <strong>${item.percentage}%</strong>
+                <div class="track">
+                  <span style="width:${item.percentage}%"></span>
+                </div>
+              </td>
+              <td style="padding:13px;text-align:center">
+                ${item.submissions}
+              </td>
+              <td style="padding:13px;text-align:center">
+                ${item.graded}
+              </td>
+              <td style="padding:13px;text-align:center">
+                ${item.average === null
+                  ? "Not graded"
+                  : item.average.toFixed(1) + "%"}
+              </td>
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>
+      <p style="margin-top:13px">
+        Displaying ${filtered.length} of ${progressRows.length} learners.
+      </p>
+    `;
+  }
+
+  classSelect.addEventListener("change", loadProgress);
+  search.addEventListener("input", renderProgressRows);
+  document.getElementById("progressRefresh")
+    .addEventListener("click", loadProgress);
+}
+
+async function renderPrivateTeacherMessages() {
+  const supabase = teacherRequireAccess();
+  if (!supabase) return;
+
+  teacherWorkspaceLayout(
+    "Teacher Communication Centre",
+    "Communicate with learners in your private classes through class discussions and individual messages.",
+    `
+      <section class="panel">
+        <h2>Choose a conversation</h2>
+
+        <label for="tmClass">Class</label>
+        <select id="tmClass">
+          <option value="">Loading classes...</option>
+        </select>
+
+        <label for="tmRecipient">Send message to</label>
+        <select id="tmRecipient" disabled>
+          <option value="">Select a class first</option>
+        </select>
+
+        <p style="font-size:12px;color:#71827c">
+          Choose the whole class for a shared message, or select one learner for a private message.
+        </p>
+      </section>
+
+      <section class="panel" style="margin-top:20px">
+        <div class="panel-head">
+          <div>
+            <h2 id="tmConversationTitle">Class conversation</h2>
+            <p id="tmConversationDescription">Choose a class to load messages.</p>
+          </div>
+          <button type="button" id="tmRefresh">↻ Refresh</button>
+        </div>
+
+        <div id="tmMessages"
+          style="height:420px;overflow-y:auto;padding:15px;background:#f3f7f6;border-radius:13px">
+          <p>Select a class to view its messages.</p>
+        </div>
+
+        <form id="tmMessageForm" style="margin-top:18px">
+          <label for="tmMessageText">Write a message</label>
+          <textarea id="tmMessageText" rows="4" maxlength="5000"
+            required placeholder="Write an announcement, explanation or message to your learners..."></textarea>
+          <button type="submit">Send message</button>
+          <p id="tmMessageStatus" role="status"></p>
+        </form>
+      </section>
+    `
+  );
+
+  const classSelect = document.getElementById("tmClass");
+  const recipientSelect = document.getElementById("tmRecipient");
+  const messagesBox = document.getElementById("tmMessages");
+  const messageForm = document.getElementById("tmMessageForm");
+  const messageText = document.getElementById("tmMessageText");
+  const status = document.getElementById("tmMessageStatus");
+  const title = document.getElementById("tmConversationTitle");
+  const description = document.getElementById("tmConversationDescription");
+
+  let currentClassId = "";
+  let currentClassName = "";
+
+  const { data: classes, error: classError } = await supabase
+    .from("private_teacher_classes")
+    .select("id,class_name,subject")
+    .eq("teacher_id", teacherPortalUser.id)
+    .eq("is_active", true)
+    .order("class_name");
+
+  if (classError) {
+    classSelect.innerHTML = '<option value="">Unable to load classes</option>';
+    status.textContent = classError.message;
+    return;
+  }
+
+  classSelect.innerHTML =
+    '<option value="">Select a class</option>' +
+    (classes || []).map(item => `
+      <option value="${item.id}">
+        ${teacherEscape(item.class_name)} — ${teacherEscape(item.subject)}
+      </option>
+    `).join("");
+
+  async function loadRecipients() {
+    recipientSelect.disabled = true;
+    recipientSelect.innerHTML = '<option value="">Loading learners...</option>';
+
+    const { data, error } = await supabase
+      .from("private_teacher_class_members")
+      .select("student_id")
+      .eq("class_id", currentClassId)
+      .order("joined_at");
+
+    if (error) {
+      recipientSelect.innerHTML = '<option value="">Unable to load learners</option>';
+      status.textContent = "Could not load class members: " + error.message;
+      return;
+    }
+
+    recipientSelect.innerHTML =
+      '<option value="">Whole class conversation</option>' +
+      (data || []).map(item => `
+        <option value="${item.student_id}">
+          Learner — ${teacherEscape(item.student_id)}
+        </option>
+      `).join("");
+
+    recipientSelect.disabled = false;
+  }
+
+  function formatMessageTime(value) {
+    const date = new Date(value);
+    return Number.isNaN(date.getTime())
+      ? ""
+      : date.toLocaleString();
+  }
+
+  async function loadMessages() {
+    if (!currentClassId) {
+      messagesBox.innerHTML = "<p>Select a class to view messages.</p>";
+      return;
+    }
+
+    messagesBox.textContent = "Loading conversation...";
+
+    let query = supabase
+      .from("private_teacher_messages")
+      .select("id,class_id,sender_id,recipient_id,body,created_at")
+      .eq("class_id", currentClassId)
+      .order("created_at", { ascending: true })
+      .limit(100);
+
+    const recipientId = recipientSelect.value;
+
+    if (recipientId) {
+      query = query.or(
+        `and(sender_id.eq.${teacherPortalUser.id},recipient_id.eq.${recipientId}),and(sender_id.eq.${recipientId},recipient_id.eq.${teacherPortalUser.id})`
+      );
+    } else {
+      query = query.is("recipient_id", null);
+    }
+
+    const { data, error } = await query;
+
+    if (error) {
+      messagesBox.textContent = "Unable to load messages: " + error.message;
+      return;
+    }
+
+    if (!data?.length) {
+      messagesBox.innerHTML = `
+        <div style="text-align:center;padding:45px 15px;color:#71827c">
+          <strong>No messages yet</strong>
+          <p>Start the conversation with your learners.</p>
+        </div>
+      `;
+      return;
+    }
+
+    messagesBox.innerHTML = data.map(item => {
+      const isTeacher = item.sender_id === teacherPortalUser.id;
+
+      return `
+        <div style="display:flex;justify-content:${isTeacher ? "flex-end" : "flex-start"};margin:12px 0">
+          <article style="
+            max-width:82%;
+            padding:13px 16px;
+            border-radius:14px;
+            background:${isTeacher ? "#176b58" : "#ffffff"};
+            color:${isTeacher ? "#ffffff" : "#18334d"};
+            box-shadow:0 3px 10px #173b3509;
+            overflow-wrap:anywhere">
+            <strong style="font-size:11px;display:block;margin-bottom:7px">
+              ${isTeacher ? "You" : "Learner — " + teacherEscape(item.sender_id.slice(0, 8))}
+            </strong>
+            <div style="font-size:13px;line-height:1.7;white-space:pre-wrap">${teacherEscape(item.body)}</div>
+            <small style="
+              display:block;
+              margin-top:9px;
+              text-align:right;
+              opacity:.75;
+              font-size:10px">
+              ${teacherEscape(formatMessageTime(item.created_at))}
+            </small>
+          </article>
+        </div>
+      `;
+    }).join("");
+
+    messagesBox.scrollTop = messagesBox.scrollHeight;
+  }
+
+  classSelect.addEventListener("change", async () => {
+    currentClassId = classSelect.value;
+    const selected = classes?.find(item => item.id === currentClassId);
+
+    currentClassName = selected?.class_name || "";
+    title.textContent = currentClassName
+      ? currentClassName + " Conversation"
+      : "Class conversation";
+
+    description.textContent = currentClassName
+      ? "Messages for " + currentClassName
+      : "Choose a class to load messages.";
+
+    if (!currentClassId) {
+      recipientSelect.innerHTML = '<option value="">Select a class first</option>';
+      recipientSelect.disabled = true;
+      messagesBox.innerHTML = "<p>Select a class to view messages.</p>";
+      return;
+    }
+
+    await loadRecipients();
+    await loadMessages();
+  });
+
+  recipientSelect.addEventListener("change", async () => {
+    if (recipientSelect.value) {
+      title.textContent = "Private learner conversation";
+      description.textContent = "Only the selected learner and you can see this conversation.";
+    } else {
+      title.textContent = currentClassName + " Conversation";
+      description.textContent = "Shared messages for this class.";
+    }
+
+    await loadMessages();
+  });
+
+  messageForm.addEventListener("submit", async event => {
+    event.preventDefault();
+
+    const body = messageText.value.trim();
+
+    if (!currentClassId) {
+      status.textContent = "Select a class first.";
+      return;
+    }
+
+    if (!body) {
+      status.textContent = "Write a message before sending.";
+      return;
+    }
+
+    status.textContent = "Sending message...";
+
+    const recipientId = recipientSelect.value || null;
+
+    const { error } = await supabase
+      .from("private_teacher_messages")
+      .insert({
+        class_id: currentClassId,
+        sender_id: teacherPortalUser.id,
+        recipient_id: recipientId,
+        body
+      });
+
+    if (error) {
+      status.textContent = "Could not send message: " + error.message;
+      return;
+    }
+
+    messageText.value = "";
+    status.textContent = "Message sent successfully.";
+    await loadMessages();
+  });
+
+  document.getElementById("tmRefresh")
+    .addEventListener("click", loadMessages);
+}
+
 function renderTeacherModuleNotice(page) {
   const descriptions = {
     "Quizzes & Tests": "Question banks, timed quizzes, answer keys, learner attempts and results.",
@@ -2917,6 +3493,10 @@ function openTeacherWorkspace(page) {
     renderPrivateLiveClasses();
   } else if (page === "Learning Materials") {
     renderPrivateLearningMaterials();
+   } else if (page === "Student Progress") {
+    renderPrivateStudentProgress();
+  } else if (page === "Messages") {
+    renderPrivateTeacherMessages();
   } else {
     renderTeacherModuleNotice(page);
   }
