@@ -527,6 +527,160 @@ window.addEventListener("portal:authorized", event => {
   teacherPortalAccess = event.detail.access;
 });
 
+async function renderPrivateClassCentre() {
+  const supabase = window.learnLoopPortalSupabase;
+
+  if (!supabase || !teacherPortalUser) {
+    workspaceContent.innerHTML =
+      "<p>Please sign in to manage your classes.</p>";
+    return;
+  }
+
+  workspaceContent.innerHTML = `
+    <section class="panel">
+      <h2>Create an independent class</h2>
+      <p>Set up a learning group and invite students using its join code.</p>
+
+      <form id="privateClassForm">
+        <label for="privateClassName">Class name</label>
+        <input id="privateClassName" required maxlength="100"
+          placeholder="Example: Senior 3 Mathematics">
+
+        <label for="privateClassSubject">Subject</label>
+        <input id="privateClassSubject" required maxlength="100"
+          placeholder="Example: Mathematics">
+
+        <label for="privateClassDescription">Description</label>
+        <textarea id="privateClassDescription" rows="3"
+          maxlength="500"
+          placeholder="What will students learn in this class?"></textarea>
+
+        <button type="submit">＋ Create class</button>
+        <p id="privateClassMessage" role="status"></p>
+      </form>
+    </section>
+
+    <section class="panel" style="margin-top:20px">
+      <h2>My independent classes</h2>
+      <p>Share a class code with learners so they can join.</p>
+      <div id="privateClassList">Loading your classes...</div>
+    </section>
+  `;
+
+  const form = document.getElementById("privateClassForm");
+  const message = document.getElementById("privateClassMessage");
+  const list = document.getElementById("privateClassList");
+
+  async function loadClasses() {
+    list.textContent = "Loading your classes...";
+
+    const { data, error } = await supabase
+      .from("private_teacher_classes")
+      .select("id,class_name,subject,description,join_code,is_active,created_at")
+      .eq("teacher_id", teacherPortalUser.id)
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      list.textContent = "Unable to load classes: " + error.message;
+      return;
+    }
+
+    if (!data || !data.length) {
+      list.innerHTML = "<p>You have not created an independent class yet.</p>";
+      return;
+    }
+
+    list.innerHTML = data.map(item => `
+      <article style="border:1px solid #e5ece9;border-radius:12px;padding:17px;margin:12px 0">
+        <h3>${escapeAssignmentText(item.class_name)}</h3>
+        <p>${escapeAssignmentText(item.subject)}</p>
+        <p>${escapeAssignmentText(item.description || "")}</p>
+        <p><strong>Join code:</strong>
+          <strong style="letter-spacing:2px">${escapeAssignmentText(item.join_code)}</strong>
+        </p>
+        <p>${item.is_active ? "🟢 Open for students" : "🔒 Closed to new students"}</p>
+        <button type="button" data-copy-code="${escapeAssignmentText(item.join_code)}">
+          Copy join code
+        </button>
+        <button type="button"
+          data-toggle-class="${item.id}"
+          data-active="${item.is_active}">
+          ${item.is_active ? "Close class" : "Reopen class"}
+        </button>
+      </article>
+    `).join("");
+
+    list.querySelectorAll("[data-copy-code]").forEach(button => {
+      button.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(button.dataset.copyCode);
+          message.textContent = "Class code copied.";
+        } catch {
+          message.textContent = "Copy unavailable. Please copy the code manually.";
+        }
+      });
+    });
+
+    list.querySelectorAll("[data-toggle-class]").forEach(button => {
+      button.addEventListener("click", async () => {
+        const currentlyActive = button.dataset.active === "true";
+
+        const { error: updateError } = await supabase
+          .from("private_teacher_classes")
+          .update({ is_active: !currentlyActive })
+          .eq("id", button.dataset.toggleClass)
+          .eq("teacher_id", teacherPortalUser.id);
+
+        if (updateError) {
+          message.textContent = "Could not update class: " + updateError.message;
+          return;
+        }
+
+        message.textContent = currentlyActive
+          ? "Class closed to new students."
+          : "Class reopened.";
+
+        await loadClasses();
+      });
+    });
+  }
+
+  form.addEventListener("submit", async event => {
+    event.preventDefault();
+
+    const className = document.getElementById("privateClassName").value.trim();
+    const subject = document.getElementById("privateClassSubject").value.trim();
+    const description = document.getElementById("privateClassDescription").value.trim();
+
+    if (!className || !subject) {
+      message.textContent = "Enter the class name and subject.";
+      return;
+    }
+
+    message.textContent = "Creating your class...";
+
+    const { error } = await supabase
+      .from("private_teacher_classes")
+      .insert({
+        teacher_id: teacherPortalUser.id,
+        class_name: className,
+        subject,
+        description
+      });
+
+    if (error) {
+      message.textContent = "Could not create class: " + error.message;
+      return;
+    }
+
+    form.reset();
+    message.textContent = "Your independent class has been created.";
+    await loadClasses();
+  });
+
+  await loadClasses();
+}
+
 async function renderAssignmentCentre() {
   const supabase = window.learnLoopPortalSupabase;
 
@@ -872,6 +1026,18 @@ function openTeacherWorkspace(page) {
 
   workspaceTitle.textContent = page;
   workspaceDescription.textContent = workspace.description;
+ if (page === "My Classes") {
+  workspacePanel.hidden = false;
+  portalLayout.classList.add("workspace-open");
+
+  document.querySelectorAll(".nav button").forEach(item => {
+    item.classList.toggle("active", item.dataset.page === page);
+  });
+
+  sidebar.classList.remove("open");
+  renderPrivateClassCentre();
+  return;
+}
 if (page === "Assignments") {
   workspacePanel.hidden = false;
   portalLayout.classList.add("workspace-open");
