@@ -1584,7 +1584,7 @@ async function navigate(view) {
   if (!allowed.includes(view)) return;
 
  if (
-  ["people", "following", "saved", "myuploads", "notifications", "dashboard", "messages","committeeDuty"].includes(view) &&
+  ["people", "following", "saved", "myuploads", "notifications", "dashboard", "messages","committeeDuty","mySchool"].includes(view) &&
   !state.session
 ) {
     openDialog("authDialog");
@@ -1647,6 +1647,7 @@ document.querySelectorAll("#sidebar [data-view]").forEach(button => {
     dashboard: "dashboardView",
      committeeDuty: "committeeDutyView",
      people: "peopleView"
+     mySchool: "mySchoolView",
   };
 
   // Hide every page, including the Library, before showing the chosen page.
@@ -1686,6 +1687,7 @@ if (view === "youtube") {
 }
 
   if (view === "messages") loadConversations();
+if (view === "mySchool") loadMySchool();
   if (view === "notifications") loadNotifications(); 
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
