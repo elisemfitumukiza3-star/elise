@@ -2313,16 +2313,19 @@ async function renderPrivateAssessmentCentre(page) {
   await loadAssessments();
 }
 
+
 async function renderPrivateLiveClasses() {
   const supabase = teacherRequireAccess();
   if (!supabase) return;
 
   teacherWorkspaceLayout(
     "Live Teaching Studio",
-    "Schedule online lessons, organize meeting details and manage your teaching sessions.",
+    "Schedule classes, create universal invitations, manage guest access and monitor attendance requests.",
     `
       <section class="panel">
         <h2>＋ Schedule a live class</h2>
+        <p>Every scheduled class receives its own LearnLoop invitation link.</p>
+
         <form id="privateLiveForm">
           <label>Class</label>
           <select id="plClass" required>
@@ -2333,17 +2336,17 @@ async function renderPrivateLiveClasses() {
           <input id="plTitle" required maxlength="180"
             placeholder="Example: Introduction to Biology">
 
-          <label>Description and agenda</label>
+          <label>Description and lesson agenda</label>
           <textarea id="plDescription" rows="4"
             placeholder="What will learners cover during this session?"></textarea>
 
-          <label>Meeting link</label>
-          <input id="plUrl" type="url" required
-            placeholder="https://...">
+          <label>External meeting link (optional)</label>
+          <input id="plUrl" type="url"
+            placeholder="Optional external meeting URL">
 
-          <label>Access code (optional)</label>
+          <label>External meeting access code (optional)</label>
           <input id="plCode" maxlength="100"
-            placeholder="Meeting access code">
+            placeholder="External meeting access code">
 
           <label>Start date and time</label>
           <input id="plStart" type="datetime-local" required>
@@ -2351,7 +2354,13 @@ async function renderPrivateLiveClasses() {
           <label>End date and time (optional)</label>
           <input id="plEnd" type="datetime-local">
 
-          <button type="submit">＋ Schedule session</button>
+          <label style="display:flex;align-items:center;gap:10px;margin:15px 0">
+            <input id="plAllowGuests" type="checkbox" checked
+              style="width:auto;margin:0">
+            Allow non-class learners to request access
+          </label>
+
+          <button type="submit">＋ Schedule live class</button>
           <p id="plMessage" role="status"></p>
         </form>
       </section>
@@ -2379,7 +2388,8 @@ async function renderPrivateLiveClasses() {
     .order("class_name");
 
   if (classError) {
-    classSelect.innerHTML = '<option value="">Unable to load classes</option>';
+    classSelect.innerHTML =
+      '<option value="">Unable to load classes</option>';
     message.textContent = classError.message;
     return;
   }
@@ -2388,12 +2398,19 @@ async function renderPrivateLiveClasses() {
     '<option value="">Select a class</option>' +
     (classes || []).map(item => `
       <option value="${item.id}">
-        ${teacherEscape(item.class_name)} — ${teacherEscape(item.subject)}
+        ${teacherEscape(item.class_name)} —
+        ${teacherEscape(item.subject)}
       </option>
     `).join("");
 
+  function getInvitationLink(token) {
+    const url = new URL("/live-class.html", window.location.origin);
+    url.searchParams.set("token", token);
+    return url.href;
+  }
+
   async function loadSessions() {
-    list.textContent = "Loading sessions...";
+    list.textContent = "Loading your teaching schedule...";
 
     const { data, error } = await supabase
       .from("private_teacher_live_classes")
@@ -2402,18 +2419,29 @@ async function renderPrivateLiveClasses() {
       .order("scheduled_start", { ascending: true });
 
     if (error) {
-      list.textContent = "Unable to load sessions: " + error.message;
+      list.textContent =
+        "Unable to load sessions: " + error.message;
       return;
     }
 
     if (!data?.length) {
       list.innerHTML = `
         <div class="workspace-feature">
-          <strong>No sessions scheduled</strong>
-          <p>Your upcoming online teaching sessions will appear here.</p>
+          <strong>No sessions scheduled yet</strong>
+          <p>Your upcoming live classes will appear here.</p>
         </div>`;
       return;
     }
+
+    const sessionIds = data.map(item => item.id);
+
+    const { data: requests, error: requestError } = await supabase
+      .from("private_teacher_live_class_requests")
+      .select("id,live_class_id,requester_id,status,requested_at,reviewed_at")
+      .in("live_class_id", sessionIds)
+      .order("requested_at", { ascending: false });
+
+    const requestRows = requests || [];
 
     list.innerHTML = `
       <div class="workspace-feature-grid">
@@ -2421,48 +2449,157 @@ async function renderPrivateLiveClasses() {
           const className =
             classes?.find(c => c.id === item.class_id)?.class_name || "Class";
 
+          const link = item.public_token
+            ? getInvitationLink(item.public_token)
+            : "";
+
+          const sessionRequests = requestRows.filter(
+            request => request.live_class_id === item.id
+          );
+
+          const pending = sessionRequests.filter(
+            request => request.status === "pending"
+          );
+
+          const approved = sessionRequests.filter(
+            request => request.status === "approved"
+          );
+
+          const requestSection = requestError
+            ? `<p>Guest requests could not be loaded: ${teacherEscape(requestError.message)}</p>`
+            : `
+              <div style="margin-top:17px;padding-top:15px;border-top:1px solid #e5ece9">
+                <strong>Guest access management</strong>
+                <p>Pending requests: <strong>${pending.length}</strong></p>
+                <p>Approved guests: <strong>${approved.length}</strong></p>
+
+                ${pending.length ? pending.map(request => `
+                  <div style="padding:12px;margin:10px 0;background:#f4f8f6;border-radius:10px">
+                    <strong>Guest learner request</strong>
+                    <p style="font-size:11px;overflow-wrap:anywhere">
+                      Account: ${teacherEscape(request.requester_id)}
+                    </p>
+                    <p style="font-size:11px">
+                      Requested: ${new Date(request.requested_at).toLocaleString()}
+                    </p>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap">
+                      <button type="button"
+                        data-request-action="approved"
+                        data-request-id="${request.id}">
+                        Approve access
+                      </button>
+                      <button type="button"
+                        data-request-action="rejected"
+                        data-request-id="${request.id}"
+                        style="background:#9b3939">
+                        Reject
+                      </button>
+                    </div>
+                  </div>
+                `).join("") : `
+                  <p style="font-size:12px;color:#71827c">
+                    No pending guest requests.
+                  </p>
+                `}
+              </div>
+            `;
+
           return `
             <article class="workspace-feature">
               <strong>${teacherEscape(item.title)}</strong>
               <p>Class: ${teacherEscape(className)}</p>
               <p>${teacherEscape(item.description || "No agenda provided.")}</p>
+
               <p><strong>Starts:</strong>
                 ${new Date(item.scheduled_start).toLocaleString()}
               </p>
+
               <p><strong>Ends:</strong>
                 ${item.scheduled_end
                   ? new Date(item.scheduled_end).toLocaleString()
                   : "Not specified"}
               </p>
-              <p><strong>Status:</strong> ${teacherEscape(item.status)}</p>
+
+              <p><strong>Status:</strong>
+                ${teacherEscape(item.status)}
+              </p>
+
+              <p><strong>Guest requests:</strong>
+                ${item.allow_guest_requests ? "Enabled" : "Disabled"}
+              </p>
+
               ${item.access_code ? `
-                <p><strong>Access code:</strong> ${teacherEscape(item.access_code)}</p>
+                <p><strong>External meeting code:</strong>
+                  ${teacherEscape(item.access_code)}
+                </p>
               ` : ""}
-              <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
-                <a href="${teacherEscape(item.meeting_url)}"
-                   target="_blank" rel="noopener noreferrer"
-                   style="display:inline-block;padding:10px 14px;background:#176b58;color:white;border-radius:8px;text-decoration:none;font-size:12px">
-                  Open meeting
-                </a>
-                ${item.status === "scheduled" ? `
-                  <button type="button" data-live-status="${item.id}" data-status="live">
-                    Mark as live
+
+              ${link ? `
+                <div style="padding:13px;background:#edf6f1;border-radius:10px;margin:14px 0">
+                  <strong>Universal LearnLoop invitation</strong>
+                  <p style="font-size:11px;overflow-wrap:anywhere">
+                    ${teacherEscape(link)}
+                  </p>
+                  <button type="button"
+                    data-copy-live="${teacherEscape(link)}">
+                    Copy class invitation
                   </button>
-                  <button type="button" data-live-status="${item.id}" data-status="cancelled">
-                    Cancel
+                </div>
+              ` : `
+                <p style="color:#9b3939">Invitation token unavailable.</p>
+              `}
+
+              <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+                ${item.meeting_url ? `
+                  <a href="${teacherEscape(item.meeting_url)}"
+                    target="_blank" rel="noopener noreferrer"
+                    style="display:inline-block;padding:10px 14px;background:#176b58;color:white;border-radius:8px;text-decoration:none;font-size:12px">
+                    Open external meeting
+                  </a>
+                ` : ""}
+
+                ${item.status === "scheduled" ? `
+                  <button type="button"
+                    data-live-status="${item.id}"
+                    data-status="live">
+                    Start session
+                  </button>
+                  <button type="button"
+                    data-live-status="${item.id}"
+                    data-status="cancelled"
+                    style="background:#9b3939">
+                    Cancel session
                   </button>
                 ` : ""}
+
                 ${item.status === "live" ? `
-                  <button type="button" data-live-status="${item.id}" data-status="completed">
-                    Complete session
+                  <button type="button"
+                    data-live-status="${item.id}"
+                    data-status="completed">
+                    End session
                   </button>
                 ` : ""}
               </div>
+
+              ${requestSection}
             </article>
           `;
         }).join("")}
       </div>
     `;
+
+    list.querySelectorAll("[data-copy-live]").forEach(button => {
+      button.addEventListener("click", async () => {
+        const link = button.dataset.copyLive;
+
+        try {
+          await navigator.clipboard.writeText(link);
+          message.textContent = "Invitation link copied.";
+        } catch {
+          window.prompt("Copy this invitation link:", link);
+        }
+      });
+    });
 
     list.querySelectorAll("[data-live-status]").forEach(button => {
       button.addEventListener("click", async () => {
@@ -2473,11 +2610,43 @@ async function renderPrivateLiveClasses() {
           .eq("teacher_id", teacherPortalUser.id);
 
         if (updateError) {
-          message.textContent = "Could not update session: " + updateError.message;
+          message.textContent =
+            "Could not update session: " + updateError.message;
           return;
         }
 
         message.textContent = "Session status updated.";
+        await loadSessions();
+      });
+    });
+
+    list.querySelectorAll("[data-request-action]").forEach(button => {
+      button.addEventListener("click", async () => {
+        const decision = button.dataset.requestAction;
+        const requestId = button.dataset.requestId;
+
+        button.disabled = true;
+        message.textContent = "Updating guest access...";
+
+        const { error: reviewError } = await supabase
+          .from("private_teacher_live_class_requests")
+          .update({
+            status: decision,
+            reviewed_at: new Date().toISOString()
+          })
+          .eq("id", requestId);
+
+        if (reviewError) {
+          message.textContent =
+            "Could not review request: " + reviewError.message;
+          button.disabled = false;
+          return;
+        }
+
+        message.textContent = decision === "approved"
+          ? "Guest access approved."
+          : "Guest access rejected.";
+
         await loadSessions();
       });
     });
@@ -2492,20 +2661,23 @@ async function renderPrivateLiveClasses() {
     const startValue = document.getElementById("plStart").value;
     const endValue = document.getElementById("plEnd").value;
 
-    if (!classId || !title || !url || !startValue) {
-      message.textContent = "Complete all required fields.";
+    if (!classId || !title || !startValue) {
+      message.textContent =
+        "Select a class, enter a title and choose a start time.";
       return;
     }
 
-    try {
-      const parsedUrl = new URL(url);
-      if (parsedUrl.protocol !== "https:" && parsedUrl.protocol !== "http:") {
-        message.textContent = "Enter a valid meeting link.";
+    if (url) {
+      try {
+        const parsedUrl = new URL(url);
+        if (!["https:", "http:"].includes(parsedUrl.protocol)) {
+          message.textContent = "Enter a valid external meeting link.";
+          return;
+        }
+      } catch {
+        message.textContent = "Enter a valid external meeting link.";
         return;
       }
-    } catch {
-      message.textContent = "Enter a valid meeting link.";
-      return;
     }
 
     const start = new Date(startValue);
@@ -2517,11 +2689,12 @@ async function renderPrivateLiveClasses() {
     }
 
     if (end && (Number.isNaN(end.getTime()) || end <= start)) {
-      message.textContent = "The end time must be after the start time.";
+      message.textContent =
+        "The end time must be later than the start time.";
       return;
     }
 
-    message.textContent = "Scheduling session...";
+    message.textContent = "Scheduling your live class...";
 
     const { error } = await supabase
       .from("private_teacher_live_classes")
@@ -2529,25 +2702,35 @@ async function renderPrivateLiveClasses() {
         class_id: classId,
         teacher_id: teacherPortalUser.id,
         title,
-        description: document.getElementById("plDescription").value.trim(),
-        meeting_url: url,
-        access_code: document.getElementById("plCode").value.trim() || null,
+        description:
+          document.getElementById("plDescription").value.trim(),
+        meeting_url: url || null,
+        access_code:
+          document.getElementById("plCode").value.trim() || null,
         scheduled_start: start.toISOString(),
         scheduled_end: end ? end.toISOString() : null,
+        allow_guest_requests:
+          document.getElementById("plAllowGuests").checked,
         status: "scheduled"
       });
 
     if (error) {
-      message.textContent = "Could not schedule session: " + error.message;
+      message.textContent =
+        "Could not schedule session: " + error.message;
       return;
     }
 
     form.reset();
-    message.textContent = "Live class scheduled successfully.";
+    document.getElementById("plAllowGuests").checked = true;
+
+    message.textContent =
+      "Live class scheduled. Your invitation link has been generated.";
+
     await loadSessions();
   });
 
-  document.getElementById("plRefresh").addEventListener("click", loadSessions);
+  document.getElementById("plRefresh")
+    .addEventListener("click", loadSessions);
 
   await loadSessions();
 }
