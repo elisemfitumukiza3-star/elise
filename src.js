@@ -54,6 +54,10 @@ const VIEW_INFO = {
   "My Duty Dashboard",
   "Manage your committee responsibilities and assigned tasks."
 ]
+   mySchool: [
+  "My School",
+  "Your school, class and assigned learning activities."
+],
 };
 
 /* ---------- Safe HTML and small utilities ---------- */
@@ -1344,6 +1348,176 @@ async function updateCommitteeDutyNav() {
 
   button.classList.toggle("hidden", !data);
 }
+
+async function loadMySchool() {
+  const container = document.getElementById("mySchoolContent");
+  if (!container || !currentUserId()) return;
+
+  container.innerHTML = '<div class="card">Loading your school information...</div>';
+
+  const { data: enrollments, error } = await supabase
+    .from("school_enrollments")
+    .select("id,school_id,class_id,student_number,enrollment_status")
+    .eq("student_id", currentUserId());
+
+  if (error) {
+    console.error("Student enrolment error:", error);
+    container.innerHTML =
+      '<div class="card">Unable to load your school enrolment. Please try again.</div>';
+    return;
+  }
+
+  if (!enrollments?.length) {
+    container.innerHTML = `
+      <div class="card">
+        <h2>You are not enrolled in a school yet</h2>
+        <p>Your school information will appear here once your school links your account to a class.</p>
+      </div>`;
+    return;
+  }
+
+  const schoolCards = await Promise.all(enrollments.map(async enrollment => {
+    const [schoolResult, classResult] = await Promise.all([
+      supabase.from("schools")
+        .select("id,school_name,location")
+        .eq("id", enrollment.school_id)
+        .maybeSingle(),
+
+      supabase.from("school_classes")
+        .select("id,class_name,academic_year")
+        .eq("id", enrollment.class_id)
+        .maybeSingle()
+    ]);
+
+    if (schoolResult.error || classResult.error) {
+      console.error("School details error:", schoolResult.error || classResult.error);
+    }
+
+    const school = schoolResult.data;
+    const schoolClass = classResult.data;
+
+    if (!school || !schoolClass) {
+      return '<div class="card">Your school or class details could not be loaded.</div>';
+    }
+
+    const [lessonsResult, announcementsResult, assessmentsResult] =
+      await Promise.all([
+        supabase.from("school_lessons")
+          .select("id,title,description,content,video_url,created_at")
+          .eq("school_id", school.id)
+          .eq("class_id", schoolClass.id)
+          .eq("status", "published")
+          .order("created_at", { ascending: false }),
+
+        supabase.from("school_announcements")
+          .select("id,title,content,created_at")
+          .eq("school_id", school.id)
+          .eq("published", true)
+          .order("created_at", { ascending: false }),
+
+        supabase.from("school_assessments")
+          .select("id,title,instructions,assessment_type,available_until,total_marks")
+          .eq("school_id", school.id)
+          .eq("class_id", schoolClass.id)
+          .eq("status", "published")
+      ]);
+
+    const lessons = lessonsResult.data || [];
+    const announcements = announcementsResult.data || [];
+    const assessments = assessmentsResult.data || [];
+
+    let assignments = [];
+
+    if (lessons.length) {
+      const { data, error } = await supabase
+        .from("school_assignments")
+        .select("id,title,instructions,due_date,max_marks,lesson_id")
+        .in("lesson_id", lessons.map(lesson => lesson.id))
+        .eq("status", "published");
+
+      if (error) {
+        console.error("Student assignments error:", error);
+      } else {
+        assignments = data || [];
+      }
+    }
+
+    const lessonCards = lessons.length
+      ? lessons.map(lesson => `
+          <article class="card">
+            <h3>${escapeHTML(lesson.title)}</h3>
+            <p>${escapeHTML(lesson.description || lesson.content || "Open this lesson to begin learning.")}</p>
+            ${lesson.video_url && /^https:\/\//i.test(lesson.video_url)
+              ? `<p><a href="${escapeHTML(lesson.video_url)}" target="_blank" rel="noopener noreferrer">Open lesson video</a></p>`
+              : ""}
+          </article>
+        `).join("")
+      : '<p class="muted">No published lessons yet.</p>';
+
+    const assignmentCards = assignments.length
+      ? assignments.map(item => `
+          <article class="card">
+            <h3>${escapeHTML(item.title)}</h3>
+            <p>${escapeHTML(item.instructions || "No additional instructions.")}</p>
+            <p class="muted">Due: ${escapeHTML(item.due_date || "Not specified")} · Maximum marks: ${escapeHTML(item.max_marks ?? "—")}</p>
+          </article>
+        `).join("")
+      : '<p class="muted">No published assignments yet.</p>';
+
+    const announcementCards = announcements.length
+      ? announcements.map(item => `
+          <article class="card">
+            <h3>${escapeHTML(item.title)}</h3>
+            <p>${escapeHTML(item.content || "")}</p>
+          </article>
+        `).join("")
+      : '<p class="muted">No school announcements yet.</p>';
+
+    const assessmentCards = assessments.length
+      ? assessments.map(item => `
+          <article class="card">
+            <h3>${escapeHTML(item.title)}</h3>
+            <p>${escapeHTML(item.instructions || item.assessment_type || "Assessment")}</p>
+            <p class="muted">Maximum marks: ${escapeHTML(item.total_marks ?? "—")}</p>
+          </article>
+        `).join("")
+      : '<p class="muted">No published assessments yet.</p>';
+
+    return `
+      <div class="card">
+        <h2>${escapeHTML(school.school_name)}</h2>
+        <p>${escapeHTML(school.location || "Location not specified")}</p>
+        <hr>
+        <h3>${escapeHTML(schoolClass.class_name)}</h3>
+        <p>Academic year: ${escapeHTML(schoolClass.academic_year || "Not specified")}</p>
+        <p>Student number: ${escapeHTML(enrollment.student_number || "Not assigned")}</p>
+        <p>Enrolment status: ${escapeHTML(enrollment.enrollment_status || "Registered")}</p>
+      </div>
+
+      <div class="card">
+        <h2>My Lessons</h2>
+        ${lessonCards}
+      </div>
+
+      <div class="card">
+        <h2>My Assignments</h2>
+        ${assignmentCards}
+      </div>
+
+      <div class="card">
+        <h2>My Assessments</h2>
+        ${assessmentCards}
+      </div>
+
+      <div class="card">
+        <h2>School Announcements</h2>
+        ${announcementCards}
+      </div>`;
+  }));
+
+  container.innerHTML = schoolCards.join("");
+}
+
 async function afterLogin() {
   await fetchProfile();
   updateAccountUI();
