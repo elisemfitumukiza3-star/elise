@@ -53,7 +53,7 @@ const VIEW_INFO = {
    committeeDuty: [
   "My Duty Dashboard",
   "Manage your committee responsibilities and assigned tasks."
-]
+],
    mySchool: [
   "My School",
   "Your school, class and assigned learning activities."
