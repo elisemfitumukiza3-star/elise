@@ -1812,6 +1812,507 @@ async function renderPrivateLessons() {
   await loadLessons();
 }
 
+async function renderPrivateAssessmentCentre(page) {
+  const supabase = teacherRequireAccess();
+  if (!supabase) return;
+
+  const isExam = page === "Examinations";
+  const defaultType = isExam ? "exam" : "quiz";
+
+  teacherWorkspaceLayout(
+    isExam ? "Examination Centre" : "Quiz & Test Centre",
+    isExam
+      ? "Prepare examinations, build question papers, publish assessments and review results."
+      : "Create question-based assessments, manage answer keys and publish quizzes or tests.",
+    `
+      <section class="panel">
+        <h2>${isExam ? "＋ Prepare an examination" : "＋ Create a quiz or test"}</h2>
+        <p>Create an assessment for one of your independent classes.</p>
+
+        <form id="privateAssessmentForm">
+          <label>Class</label>
+          <select id="paClass" required>
+            <option value="">Loading classes...</option>
+          </select>
+
+          <label>Assessment title</label>
+          <input id="paTitle" required maxlength="180"
+            placeholder="Example: Mathematics — Algebra Assessment">
+
+          <label>Assessment type</label>
+          <select id="paType" required>
+            <option value="quiz" ${defaultType === "quiz" ? "selected" : ""}>Quiz</option>
+            <option value="test">Test</option>
+            <option value="exam" ${defaultType === "exam" ? "selected" : ""}>Examination</option>
+          </select>
+
+          <label>Instructions</label>
+          <textarea id="paInstructions" rows="4"
+            placeholder="Explain the assessment instructions..."></textarea>
+
+          <label>Duration (minutes)</label>
+          <input id="paDuration" type="number" min="1" max="600" value="30" required>
+
+          <label>Total marks</label>
+          <input id="paTotalMarks" type="number" min="1" max="10000" value="100" required>
+
+          <label>Available from (optional)</label>
+          <input id="paFrom" type="datetime-local">
+
+          <label>Available until (optional)</label>
+          <input id="paUntil" type="datetime-local">
+
+          <button type="submit">Create assessment draft</button>
+          <p id="paCreateMessage" role="status"></p>
+        </form>
+      </section>
+
+      <section class="panel" style="margin-top:20px">
+        <h2>Question paper builder</h2>
+        <p>Select an assessment draft, then add its questions and answer keys.</p>
+
+        <label>Select assessment</label>
+        <select id="paExisting">
+          <option value="">Loading assessments...</option>
+        </select>
+
+        <div id="paQuestionArea" style="margin-top:20px">
+          <p>Create or select an assessment to begin building its question paper.</p>
+        </div>
+      </section>
+
+      <section class="panel" style="margin-top:20px">
+        <div class="panel-head">
+          <h2>My assessments</h2>
+          <button type="button" id="paRefresh">↻ Refresh</button>
+        </div>
+        <div id="paAssessmentList">Loading assessments...</div>
+      </section>
+    `
+  );
+
+  const classSelect = document.getElementById("paClass");
+  const assessmentSelect = document.getElementById("paExisting");
+  const questionArea = document.getElementById("paQuestionArea");
+  const createMessage = document.getElementById("paCreateMessage");
+  const list = document.getElementById("paAssessmentList");
+
+  let currentAssessment = null;
+  let currentQuestions = [];
+
+  const { data: classes, error: classError } = await supabase
+    .from("private_teacher_classes")
+    .select("id,class_name,subject")
+    .eq("teacher_id", teacherPortalUser.id)
+    .eq("is_active", true)
+    .order("class_name");
+
+  if (classError) {
+    classSelect.innerHTML = '<option value="">Unable to load classes</option>';
+    createMessage.textContent = classError.message;
+    return;
+  }
+
+  classSelect.innerHTML =
+    '<option value="">Select a class</option>' +
+    (classes || []).map(item => `
+      <option value="${item.id}">
+        ${teacherEscape(item.class_name)} — ${teacherEscape(item.subject)}
+      </option>
+    `).join("");
+
+  async function loadAssessments(preferredId = "") {
+    list.textContent = "Loading assessments...";
+    assessmentSelect.innerHTML = '<option value="">Loading...</option>';
+
+    const { data, error } = await supabase
+      .from("private_teacher_assessments")
+      .select("id,class_id,title,assessment_type,status,duration_minutes,total_marks,created_at")
+      .eq("teacher_id", teacherPortalUser.id)
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      list.textContent = "Unable to load assessments: " + error.message;
+      assessmentSelect.innerHTML = '<option value="">Unable to load</option>';
+      return;
+    }
+
+    if (!data?.length) {
+      list.textContent = "No assessments created yet.";
+      assessmentSelect.innerHTML = '<option value="">No assessments yet</option>';
+      currentAssessment = null;
+      currentQuestions = [];
+      questionArea.innerHTML = "<p>Create your first assessment above.</p>";
+      return;
+    }
+
+    assessmentSelect.innerHTML =
+      '<option value="">Select an assessment</option>' +
+      data.map(item => `
+        <option value="${item.id}">
+          ${teacherEscape(item.title)} (${teacherEscape(item.assessment_type)})
+        </option>
+      `).join("");
+
+    list.innerHTML = `
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:13px">
+        ${data.map(item => {
+          const className = classes?.find(c => c.id === item.class_id)?.class_name || "Class";
+          return `
+            <article class="workspace-feature">
+              <strong>${teacherEscape(item.title)}</strong>
+              <p>${teacherEscape(className)}</p>
+              <p>Type: ${teacherEscape(item.assessment_type)}</p>
+              <p>Duration: ${Number(item.duration_minutes)} minutes</p>
+              <p>Total marks: ${Number(item.total_marks)}</p>
+              <p>Status: <strong>${teacherEscape(item.status)}</strong></p>
+              <button type="button" data-open-assessment="${item.id}">
+                Build / manage
+              </button>
+            </article>
+          `;
+        }).join("")}
+      </div>
+    `;
+
+    list.querySelectorAll("[data-open-assessment]").forEach(button => {
+      button.addEventListener("click", async () => {
+        assessmentSelect.value = button.dataset.openAssessment;
+        await selectAssessment(button.dataset.openAssessment);
+        questionArea.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
+
+    if (preferredId) {
+      assessmentSelect.value = preferredId;
+      await selectAssessment(preferredId);
+    }
+  }
+
+  async function selectAssessment(id) {
+    if (!id) {
+      currentAssessment = null;
+      currentQuestions = [];
+      questionArea.innerHTML = "<p>Select an assessment to manage its questions.</p>";
+      return;
+    }
+
+    const { data: assessment, error } = await supabase
+      .from("private_teacher_assessments")
+      .select("*")
+      .eq("id", id)
+      .eq("teacher_id", teacherPortalUser.id)
+      .single();
+
+    if (error || !assessment) {
+      questionArea.textContent = "Unable to open this assessment.";
+      return;
+    }
+
+    currentAssessment = assessment;
+
+    const { data: questions, error: questionError } = await supabase
+      .from("private_teacher_assessment_questions")
+      .select("id,question_text,question_type,options,marks,position")
+      .eq("assessment_id", id)
+      .order("position");
+
+    if (questionError) {
+      questionArea.textContent = questionError.message;
+      return;
+    }
+
+    currentQuestions = questions || [];
+    renderQuestionBuilder();
+  }
+
+  function renderQuestionBuilder() {
+    if (!currentAssessment) return;
+
+    const totalQuestionMarks = currentQuestions.reduce(
+      (sum, question) => sum + Number(question.marks || 0), 0
+    );
+
+    questionArea.innerHTML = `
+      <div class="workspace-feature" style="margin-bottom:16px">
+        <strong>${teacherEscape(currentAssessment.title)}</strong>
+        <p>Status: ${teacherEscape(currentAssessment.status)}</p>
+        <p>Questions: ${currentQuestions.length}</p>
+        <p>Marks assigned: ${totalQuestionMarks} / ${Number(currentAssessment.total_marks)}</p>
+      </div>
+
+      <section class="workspace-feature">
+        <h2>Add a question</h2>
+        <form id="paQuestionForm">
+          <label>Question</label>
+          <textarea id="paQuestionText" rows="4" required
+            placeholder="Write your question..."></textarea>
+
+          <label>Question type</label>
+          <select id="paQuestionType">
+            <option value="multiple_choice">Multiple choice</option>
+            <option value="true_false">True or false</option>
+            <option value="short_answer">Short answer</option>
+          </select>
+
+          <label>Answer options (one per line)</label>
+          <textarea id="paOptions" rows="4"
+            placeholder="Option A&#10;Option B&#10;Option C&#10;Option D"></textarea>
+
+          <label>Correct answer / marking answer</label>
+          <input id="paCorrectAnswer" required
+            placeholder="Enter the correct answer">
+
+          <label>Marks for this question</label>
+          <input id="paQuestionMarks" type="number" min="0.5" step="0.5" value="1" required>
+
+          <label>Explanation (optional)</label>
+          <textarea id="paExplanation" rows="2"
+            placeholder="Explain why the answer is correct..."></textarea>
+
+          <button type="submit">＋ Add question and save answer key</button>
+          <p id="paQuestionMessage" role="status"></p>
+        </form>
+      </section>
+
+      <section class="workspace-feature" style="margin-top:16px">
+        <h2>Question paper</h2>
+        <div id="paQuestionList">
+          ${currentQuestions.length ? currentQuestions.map((q, index) => `
+            <article style="padding:13px 0;border-bottom:1px solid #e5ece9">
+              <strong>Question ${index + 1}</strong>
+              <p>${teacherEscape(q.question_text)}</p>
+              <small>${teacherEscape(q.question_type)} · ${Number(q.marks)} marks</small>
+            </article>
+          `).join("") : "<p>No questions added yet.</p>"}
+        </div>
+        <button type="button" id="paPublishAssessment"
+          ${currentAssessment.status === "published" ? "disabled" : ""}>
+          ${currentAssessment.status === "published" ? "Assessment published" : "Publish assessment"}
+        </button>
+        <p id="paPublishMessage" role="status"></p>
+      </section>
+    `;
+
+    const questionForm = document.getElementById("paQuestionForm");
+    const typeSelect = document.getElementById("paQuestionType");
+    const optionsField = document.getElementById("paOptions");
+
+    function updateQuestionFields() {
+      const type = typeSelect.value;
+      optionsField.disabled = type === "short_answer";
+      if (type === "true_false") {
+        optionsField.value = "True\nFalse";
+      } else if (type === "short_answer") {
+        optionsField.value = "";
+      }
+    }
+
+    typeSelect.addEventListener("change", updateQuestionFields);
+
+    questionForm.addEventListener("submit", async event => {
+      event.preventDefault();
+
+      const message = document.getElementById("paQuestionMessage");
+      const questionText = document.getElementById("paQuestionText").value.trim();
+      const type = typeSelect.value;
+      const correctAnswer = document.getElementById("paCorrectAnswer").value.trim();
+      const marks = Number(document.getElementById("paQuestionMarks").value);
+      const explanation = document.getElementById("paExplanation").value.trim();
+
+      let options = optionsField.value.split("\n")
+        .map(item => item.trim())
+        .filter(Boolean);
+
+      if (!questionText || !correctAnswer || !Number.isFinite(marks) || marks <= 0) {
+        message.textContent = "Complete the question, answer and valid marks.";
+        return;
+      }
+
+      if (type === "multiple_choice") {
+        if (options.length < 2) {
+          message.textContent = "Add at least two answer options.";
+          return;
+        }
+        if (!options.includes(correctAnswer)) {
+          message.textContent = "The correct answer must exactly match one of the options.";
+          return;
+        }
+      }
+
+      if (type === "true_false") {
+        options = ["True", "False"];
+        if (!["true", "false"].includes(correctAnswer.toLowerCase())) {
+          message.textContent = "For true or false, enter True or False as the answer.";
+          return;
+        }
+      }
+
+      const assignedMarks = currentQuestions.reduce(
+        (sum, question) => sum + Number(question.marks || 0), 0
+      );
+
+      if (assignedMarks + marks > Number(currentAssessment.total_marks)) {
+        message.textContent = "These marks exceed the assessment's total marks.";
+        return;
+      }
+
+      message.textContent = "Saving question...";
+
+      const { data: savedQuestion, error } = await supabase
+        .from("private_teacher_assessment_questions")
+        .insert({
+          assessment_id: currentAssessment.id,
+          question_text: questionText,
+          question_type: type,
+          options,
+          marks,
+          position: currentQuestions.length + 1
+        })
+        .select("id")
+        .single();
+
+      if (error) {
+        message.textContent = "Could not save question: " + error.message;
+        return;
+      }
+
+      const { error: keyError } = await supabase
+        .from("private_teacher_assessment_answer_keys")
+        .insert({
+          question_id: savedQuestion.id,
+          correct_answer: correctAnswer,
+          explanation: explanation || null
+        });
+
+      if (keyError) {
+        message.textContent =
+          "Question saved, but its answer key could not be saved: " + keyError.message;
+        return;
+      }
+
+      await selectAssessment(currentAssessment.id);
+    });
+
+    document.getElementById("paPublishAssessment")
+      .addEventListener("click", async () => {
+        const message = document.getElementById("paPublishMessage");
+
+        if (!currentQuestions.length) {
+          message.textContent = "Add at least one question before publishing.";
+          return;
+        }
+
+        const assignedMarks = currentQuestions.reduce(
+          (sum, question) => sum + Number(question.marks || 0), 0
+        );
+
+        if (assignedMarks !== Number(currentAssessment.total_marks)) {
+          message.textContent =
+            `Question marks total ${assignedMarks}. Adjust the questions so they equal ${currentAssessment.total_marks}.`;
+          return;
+        }
+
+        message.textContent = "Publishing assessment...";
+
+        const { error } = await supabase
+          .from("private_teacher_assessments")
+          .update({
+            status: "published",
+            published_at: new Date().toISOString()
+          })
+          .eq("id", currentAssessment.id)
+          .eq("teacher_id", teacherPortalUser.id);
+
+        if (error) {
+          message.textContent = "Could not publish: " + error.message;
+          return;
+        }
+
+        await loadAssessments(currentAssessment.id);
+      });
+  }
+
+  document.getElementById("privateAssessmentForm")
+    .addEventListener("submit", async event => {
+      event.preventDefault();
+
+      const message = createMessage;
+      const classId = classSelect.value;
+      const title = document.getElementById("paTitle").value.trim();
+      const type = document.getElementById("paType").value;
+      const duration = Number(document.getElementById("paDuration").value);
+      const totalMarks = Number(document.getElementById("paTotalMarks").value);
+      const fromValue = document.getElementById("paFrom").value;
+      const untilValue = document.getElementById("paUntil").value;
+
+      if (!classId || !title || duration < 1 || duration > 600 || totalMarks <= 0) {
+        message.textContent = "Complete the required fields with valid values.";
+        return;
+      }
+
+      const availableFrom = fromValue ? new Date(fromValue) : null;
+      const availableUntil = untilValue ? new Date(untilValue) : null;
+
+      if (availableFrom && Number.isNaN(availableFrom.getTime())) {
+        message.textContent = "Check the availability start date.";
+        return;
+      }
+
+      if (availableUntil && Number.isNaN(availableUntil.getTime())) {
+        message.textContent = "Check the availability end date.";
+        return;
+      }
+
+      if (availableFrom && availableUntil && availableUntil <= availableFrom) {
+        message.textContent = "The end date must be after the start date.";
+        return;
+      }
+
+      message.textContent = "Creating assessment...";
+
+      const { data, error } = await supabase
+        .from("private_teacher_assessments")
+        .insert({
+          class_id: classId,
+          teacher_id: teacherPortalUser.id,
+          title,
+          instructions: document.getElementById("paInstructions").value.trim(),
+          assessment_type: type,
+          duration_minutes: duration,
+          total_marks: totalMarks,
+          status: "draft",
+          available_from: availableFrom?.toISOString() || null,
+          available_until: availableUntil?.toISOString() || null
+        })
+        .select("id")
+        .single();
+
+      if (error) {
+        message.textContent = "Could not create assessment: " + error.message;
+        return;
+      }
+
+      event.target.reset();
+      document.getElementById("paDuration").value = 30;
+      document.getElementById("paTotalMarks").value = 100;
+      document.getElementById("paType").value = defaultType;
+
+      message.textContent = "Assessment draft created. Now add its questions below.";
+      await loadAssessments(data.id);
+    });
+
+  assessmentSelect.addEventListener("change", () => {
+    selectAssessment(assessmentSelect.value);
+  });
+
+  document.getElementById("paRefresh").addEventListener("click", () => {
+    loadAssessments();
+  });
+
+  await loadAssessments();
+}
+
 function renderTeacherModuleNotice(page) {
   const descriptions = {
     "Quizzes & Tests": "Question banks, timed quizzes, answer keys, learner attempts and results.",
@@ -1863,8 +2364,13 @@ function openTeacherWorkspace(page) {
     renderPrivateStudents();
   } else if (page === "Lessons & Courses") {
     renderPrivateLessons();
-  } else if (page === "Assignments") {
+    } else if (page === "Assignments") {
     renderAssignmentCentre();
+  } else if (
+    page === "Quizzes & Tests" ||
+    page === "Examinations"
+  ) {
+    renderPrivateAssessmentCentre(page);
   } else {
     renderTeacherModuleNotice(page);
   }
