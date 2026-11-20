@@ -1648,7 +1648,7 @@ document.querySelectorAll("#sidebar [data-view]").forEach(button => {
     notifications: "notificationsView",
     dashboard: "dashboardView",
      committeeDuty: "committeeDutyView",
-     people: "peopleView"
+     people: "peopleView",
      mySchool: "mySchoolView",
   };
 
