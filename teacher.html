@@ -2628,9 +2628,13 @@ async function renderPrivateLiveClasses() {
         button.disabled = true;
         message.textContent = "Updating guest access...";
 
-        const { error: reviewError } = await supabase
-          .from("private_teacher_live_class_requests")
-          .update({
+       const { error: reviewError } = await supabase.rpc(
+  "review_live_class_request",
+  {
+    p_request_id: requestId,
+    p_decision: decision
+  }
+);
             status: decision,
             reviewed_at: new Date().toISOString()
           })
