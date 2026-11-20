@@ -39,26 +39,28 @@ let postMediaObserver = null;
 let hostDashboardProfiles = [];
 let hostDashboardCertificates = [];
 const fileUrlCache = new Map();
+
 const VIEW_INFO = {
   feed: ["Home feed", "Discover what the community is learning."],
-  academy: ["LearnLoop Lessons", "Read, understand, take quizzes and earn certificates."], 
+  academy: ["LearnLoop Lessons", "Read, understand, take quizzes and earn certificates."],
   library: ["Learning library", "Explore subjects, books, and learning resources."],
   youtube: ["YouTube Learning", "Search for educational videos and watch them on LearnLoop."],
-   messages: ["Private Messages", "Chat privately with other LearnLoop learners."],
-  people: ["People", "Discover learners and follow their journeys."], 
-  posts: ["Posts", "Explore all  posts shared on LearnLoop."], 
+  messages: ["Private Messages", "Chat privately with other LearnLoop learners."],
+  people: ["People", "Discover learners and follow their journeys."],
+  posts: ["Posts", "Explore all posts shared on LearnLoop."],
   myuploads: ["My uploads", "Content you have shared with the community."],
   notifications: ["Notifications", "Updates and activity from LearnLoop."],
   dashboard: ["My dashboard", "An overview of your learning activity."],
-   committeeDuty: [
-  "My Duty Dashboard",
-  "Manage your committee responsibilities and assigned tasks."
-],
-   mySchool: [
-  "My School",
-  "Your school, class and assigned learning activities."
-],
+  committeeDuty: [
+    "My Duty Dashboard",
+    "Manage your committee responsibilities and assigned tasks."
+  ],
+  mySchool: [
+    "My School",
+    "Your school, class and assigned learning activities."
+  ]
 };
+
 
 /* ---------- Safe HTML and small utilities ---------- */
 
