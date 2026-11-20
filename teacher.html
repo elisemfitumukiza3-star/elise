@@ -3431,6 +3431,167 @@ async function renderPrivateTeacherMessages() {
     .addEventListener("click", loadMessages);
 }
 
+async function renderPrivateTeacherProfile() {
+  const supabase = teacherRequireAccess();
+  if (!supabase) return;
+
+  teacherWorkspaceLayout(
+    "My Professional Teaching Profile",
+    "Build your professional identity and introduce your teaching experience to learners.",
+    `
+      <section class="panel">
+        <h2>Professional identity</h2>
+        <p>Complete your profile so learners can understand your teaching background.</p>
+
+        <form id="teacherProfileForm">
+          <label>Full professional name</label>
+          <input id="tpName" required maxlength="120"
+            placeholder="Your full name">
+
+          <label>Professional title</label>
+          <input id="tpTitle" maxlength="150"
+            placeholder="Example: Mathematics Teacher">
+
+          <label>Professional biography</label>
+          <textarea id="tpBio" rows="5" maxlength="3000"
+            placeholder="Introduce yourself and describe your teaching background..."></textarea>
+
+          <label>Teaching subjects (separate with commas)</label>
+          <input id="tpSubjects"
+            placeholder="Mathematics, Physics, Chemistry">
+
+          <label>Qualifications and education</label>
+          <textarea id="tpQualifications" rows="4"
+            placeholder="List your relevant qualifications and training..."></textarea>
+
+          <label>Years of teaching experience</label>
+          <input id="tpExperience" type="number" min="0" max="60"
+            placeholder="Example: 5">
+
+          <label>Languages you teach in (separate with commas)</label>
+          <input id="tpLanguages"
+            placeholder="English, French, Kinyarwanda">
+
+          <label>Your teaching approach</label>
+          <textarea id="tpApproach" rows="5" maxlength="2000"
+            placeholder="Explain how you help learners understand and succeed..."></textarea>
+
+          <button type="submit">Save professional profile</button>
+          <p id="tpMessage" role="status"></p>
+        </form>
+      </section>
+
+      <section class="panel" style="margin-top:20px">
+        <h2>Profile visibility</h2>
+        <p>
+          Your professional profile is available to learners enrolled
+          in your active LearnLoop classrooms.
+        </p>
+      </section>
+    `
+  );
+
+  const form = document.getElementById("teacherProfileForm");
+  const message = document.getElementById("tpMessage");
+
+  const { data: profile, error } = await supabase
+    .from("private_teacher_profiles")
+    .select("*")
+    .eq("teacher_id", teacherPortalUser.id)
+    .maybeSingle();
+
+  if (error) {
+    message.textContent = "Could not load profile: " + error.message;
+    return;
+  }
+
+  if (profile) {
+    document.getElementById("tpName").value =
+      profile.display_name || "";
+    document.getElementById("tpTitle").value =
+      profile.professional_title || "";
+    document.getElementById("tpBio").value =
+      profile.biography || "";
+    document.getElementById("tpSubjects").value =
+      (profile.subjects || []).join(", ");
+    document.getElementById("tpQualifications").value =
+      profile.qualifications || "";
+    document.getElementById("tpExperience").value =
+      profile.experience_years ?? "";
+    document.getElementById("tpLanguages").value =
+      (profile.teaching_languages || []).join(", ");
+    document.getElementById("tpApproach").value =
+      profile.teaching_approach || "";
+  } else {
+    document.getElementById("tpName").value =
+      teacherPortalUser.user_metadata?.full_name || "";
+  }
+
+  form.addEventListener("submit", async event => {
+    event.preventDefault();
+
+    const experienceValue =
+      document.getElementById("tpExperience").value;
+
+    const experience = experienceValue === ""
+      ? null
+      : Number(experienceValue);
+
+    if (
+      experience !== null &&
+      (!Number.isInteger(experience) ||
+       experience < 0 || experience > 60)
+    ) {
+      message.textContent = "Enter a valid experience value.";
+      return;
+    }
+
+    const splitList = id =>
+      document.getElementById(id).value
+        .split(",")
+        .map(item => item.trim())
+        .filter(Boolean);
+
+    const record = {
+      teacher_id: teacherPortalUser.id,
+      display_name:
+        document.getElementById("tpName").value.trim(),
+      professional_title:
+        document.getElementById("tpTitle").value.trim(),
+      biography:
+        document.getElementById("tpBio").value.trim(),
+      subjects: splitList("tpSubjects"),
+      qualifications:
+        document.getElementById("tpQualifications").value.trim(),
+      experience_years: experience,
+      teaching_languages: splitList("tpLanguages"),
+      teaching_approach:
+        document.getElementById("tpApproach").value.trim(),
+      updated_at: new Date().toISOString()
+    };
+
+    if (!record.display_name) {
+      message.textContent = "Enter your professional name.";
+      return;
+    }
+
+    message.textContent = "Saving your profile...";
+
+    const { error: saveError } = await supabase
+      .from("private_teacher_profiles")
+      .upsert(record, { onConflict: "teacher_id" });
+
+    if (saveError) {
+      message.textContent =
+        "Could not save profile: " + saveError.message;
+      return;
+    }
+
+    message.textContent =
+      "Your professional teaching profile has been saved.";
+  });
+}
+
 function renderTeacherModuleNotice(page) {
   const descriptions = {
     "Quizzes & Tests": "Question banks, timed quizzes, answer keys, learner attempts and results.",
@@ -3496,10 +3657,12 @@ function openTeacherWorkspace(page) {
    } else if (page === "Student Progress") {
     renderPrivateStudentProgress();
   } else if (page === "Messages") {
-    renderPrivateTeacherMessages();
-  } else {
-    renderTeacherModuleNotice(page);
-  }
+  renderPrivateTeacherMessages();
+} else if (page === "My Profile") {
+  renderPrivateTeacherProfile();
+} else {
+  renderTeacherModuleNotice(page);
+}
 }
 
 function closeTeacherWorkspace() {
