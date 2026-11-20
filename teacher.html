@@ -2628,18 +2628,13 @@ async function renderPrivateLiveClasses() {
         button.disabled = true;
         message.textContent = "Updating guest access...";
 
-       const { error: reviewError } = await supabase.rpc(
-  "review_live_class_request",
-  {
-    p_request_id: requestId,
-    p_decision: decision
-  }
-        };
-            status: decision,
-            reviewed_at: new Date().toISOString()
-          })
-          .eq("id", requestId);
-
+   const { error: reviewError } = await supabase
+  .from("private_teacher_live_class_requests")
+  .update({
+    status: decision,
+    reviewed_at: new Date().toISOString()
+  })
+  .eq("id", requestId);
         if (reviewError) {
           message.textContent =
             "Could not review request: " + reviewError.message;
