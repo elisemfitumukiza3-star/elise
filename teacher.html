@@ -652,6 +652,123 @@ body {
   }
 }
 
+/* FINAL TEACHER PORTAL LAYOUT */
+:root {
+  --teacher-sidebar-width: 260px;
+}
+
+.sidebar {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: var(--teacher-sidebar-width);
+  height: 100vh;
+  overflow-y: auto;
+  z-index: 100;
+  box-shadow: 5px 0 24px rgba(8,35,30,.12);
+}
+
+.main {
+  margin-left: var(--teacher-sidebar-width);
+  width: calc(100% - var(--teacher-sidebar-width));
+  min-width: 0;
+}
+
+.nav button {
+  min-height: 45px;
+  border-radius: 10px;
+  transition: .2s ease;
+}
+
+.nav button:hover {
+  transform: translateX(3px);
+}
+
+.workspace-panel {
+  width: 100%;
+}
+
+.workspace-content {
+  padding: 28px;
+}
+
+.workspace-content .panel {
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 6px 22px rgba(16,61,54,.05);
+}
+
+.workspace-content input,
+.workspace-content textarea,
+.workspace-content select {
+  display: block;
+  width: 100%;
+  padding: 13px 14px;
+  margin: 8px 0 17px;
+  border: 1px solid #dce7e1;
+  border-radius: 10px;
+  background: #fbfdfc;
+  color: #18334d;
+  font: inherit;
+  font-size: 13px;
+}
+
+.workspace-content input:focus,
+.workspace-content textarea:focus,
+.workspace-content select:focus {
+  outline: none;
+  border-color: #238a70;
+  box-shadow: 0 0 0 3px #238a7018;
+}
+
+.workspace-content label {
+  display: block;
+  color: #425c55;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.workspace-content button {
+  border: 0;
+  border-radius: 9px;
+  padding: 11px 16px;
+  background: #176b58;
+  color: white;
+  font-weight: 700;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.workspace-content button:hover {
+  background: #103d36;
+}
+
+.workspace-content table th {
+  color: #176b58;
+  font-size: 12px;
+  background: #f1f7f4;
+}
+
+@media(max-width:760px) {
+  .sidebar {
+    left: -270px;
+    width: 260px;
+    transition: left .25s ease;
+  }
+
+  .sidebar.open {
+    left: 0;
+  }
+
+  .main {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .workspace-content {
+    padding: 14px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1159,107 +1276,565 @@ function escapeAssignmentText(value) {
   })[char]);
 }
 
+
 const teacherWorkspaces = {
   "My Classes": {
-    description: "Organize your teaching groups and classroom activities.",
-    features: [
-      ["Class management", "View and organize your assigned classes."],
-      ["Class schedules", "Review teaching timetables and upcoming sessions."],
-      ["Class announcements", "Prepare updates for your learners."],
-      ["Class organization", "Manage subjects and learning groups."]
-    ]
+    description: "Create and manage your independent teaching classrooms."
   },
   "My Students": {
-    description: "A dedicated environment for learner management.",
-    features: [
-      ["Student directory", "View learners assigned to your classes."],
-      ["Student records", "Review learner information and enrollment."],
-      ["Class membership", "Organize learners by teaching group."],
-      ["Learner support", "Keep track of student learning needs."]
-    ]
+    description: "Manage learners who have joined your independent classes."
   },
   "Lessons & Courses": {
-    description: "Prepare structured lessons and deliver quality learning.",
-    features: [
-      ["Create a lesson", "Prepare lesson titles, descriptions and objectives."],
-      ["Course organization", "Arrange lessons into structured courses."],
-      ["Lesson publishing", "Prepare learning content for your students."],
-      ["Lesson library", "Organize your teaching materials."]
-    ]
+    description: "Create, organize and publish lessons for your learners."
   },
   "Assignments": {
-    description: "Create assignments and manage learner submissions.",
-    features: [
-      ["Create assignment", "Prepare instructions and submission requirements."],
-      ["Assignment tracking", "Monitor assignment participation."],
-      ["Review submissions", "Organize submitted learner work."],
-      ["Feedback", "Prepare constructive feedback for students."]
-    ]
+    description: "Create assignments and manage learner submissions."
   },
   "Quizzes & Tests": {
-    description: "Build assessments and monitor learning outcomes.",
-    features: [
-      ["Create quiz", "Prepare questions and assessment instructions."],
-      ["Assessment links", "Organize external quiz and test links."],
-      ["Access codes", "Manage assessment access information."],
-      ["Results", "Review learner assessment performance."]
-    ]
+    description: "Manage your assessment activities."
   },
   "Examinations": {
-    description: "Manage formal examinations and assessment schedules.",
-    features: [
-      ["Examination setup", "Prepare examination information."],
-      ["Exam schedules", "Organize examination dates and sessions."],
-      ["Exam instructions", "Prepare instructions for candidates."],
-      ["Results management", "Organize examination outcomes."]
-    ]
+    description: "Organize examinations and assessment records."
   },
   "Live Classes": {
-    description: "Coordinate online teaching sessions and live learning.",
-    features: [
-      ["Schedule a session", "Prepare a live class timetable."],
-      ["Meeting links", "Organize video meeting links."],
-      ["Class access codes", "Share access information with learners."],
-      ["Session management", "Organize upcoming and completed sessions."]
-    ]
+    description: "Organize online teaching sessions."
   },
   "Learning Materials": {
-    description: "Build an organized collection of learning resources.",
-    features: [
-      ["Upload resources", "Prepare documents and learning materials."],
-      ["Resource library", "Organize teaching resources."],
-      ["Share materials", "Prepare resources for assigned learners."],
-      ["Resource categories", "Keep materials organized by subject."]
-    ]
+    description: "Manage and organize teaching resources."
   },
   "Student Progress": {
-    description: "Follow learner participation and academic development.",
-    features: [
-      ["Learning progress", "Review lesson completion."],
-      ["Assessment performance", "Organize quiz and test outcomes."],
-      ["Participation", "Monitor student engagement."],
-      ["Progress reports", "Prepare learner progress summaries."]
-    ]
+    description: "Monitor learner activity and progress."
   },
   "Messages": {
-    description: "Manage communication with learners and your school.",
-    features: [
-      ["Inbox", "Organize your teaching conversations."],
-      ["Student communication", "Coordinate learner communication."],
-      ["School communication", "Keep in touch with your institution."],
-      ["Announcements", "Prepare important learning updates."]
-    ]
+    description: "Manage communication with learners."
   },
   "My Profile": {
-    description: "Manage your professional teaching identity.",
-    features: [
-      ["Personal information", "Review your account information."],
-      ["Professional profile", "Manage your teaching profile."],
-      ["Teaching details", "Organize your subjects and qualifications."],
-      ["Account preferences", "Review your workspace preferences."]
-    ]
+    description: "Manage your professional teaching identity."
   }
 };
+
+function teacherEscape(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+}
+
+function teacherRequireAccess() {
+  const supabase = window.learnLoopPortalSupabase;
+
+  if (!supabase || !teacherPortalUser) {
+    workspaceContent.innerHTML = `
+      <div class="workspace-feature">
+        <strong>Authentication required</strong>
+        <p>Please sign in through your authorized Teacher Portal account.</p>
+      </div>`;
+    return null;
+  }
+
+  return supabase;
+}
+
+function teacherWorkspaceLayout(title, subtitle, content) {
+  workspaceContent.innerHTML = `
+    <div class="workspace-welcome">
+      <h3>${teacherEscape(title)}</h3>
+      <p>${teacherEscape(subtitle)}</p>
+    </div>
+    ${content}
+  `;
+}
+
+async function renderPrivateClasses() {
+  const supabase = teacherRequireAccess();
+  if (!supabase) return;
+
+  teacherWorkspaceLayout(
+    "Your teaching classrooms",
+    "Create independent classes and invite learners with a unique class code.",
+    `
+      <section class="panel">
+        <h2>Create a classroom</h2>
+        <form id="privateClassForm">
+          <label>Class name</label>
+          <input id="privateClassName" required maxlength="100"
+            placeholder="Example: Senior 3 Mathematics">
+
+          <label>Subject</label>
+          <input id="privateClassSubject" required maxlength="100"
+            placeholder="Example: Mathematics">
+
+          <label>Class description</label>
+          <textarea id="privateClassDescription" rows="4"
+            maxlength="500"
+            placeholder="Describe what learners will study..."></textarea>
+
+          <button type="submit">＋ Create classroom</button>
+          <p id="privateClassMessage" role="status"></p>
+        </form>
+      </section>
+
+      <section class="panel" style="margin-top:20px">
+        <div class="panel-head">
+          <h2>My classrooms</h2>
+          <button type="button" id="refreshPrivateClasses">↻ Refresh</button>
+        </div>
+        <div id="privateClassList">Loading classrooms...</div>
+      </section>
+    `
+  );
+
+  const form = document.getElementById("privateClassForm");
+  const message = document.getElementById("privateClassMessage");
+  const list = document.getElementById("privateClassList");
+
+  async function loadClasses() {
+    list.textContent = "Loading classrooms...";
+
+    const { data, error } = await supabase
+      .from("private_teacher_classes")
+      .select("id,class_name,subject,description,join_code,is_active,created_at")
+      .eq("teacher_id", teacherPortalUser.id)
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      list.textContent = "Could not load classrooms: " + error.message;
+      return;
+    }
+
+    if (!data?.length) {
+      list.innerHTML = `
+        <div class="workspace-feature">
+          <strong>No classrooms yet</strong>
+          <p>Create your first independent classroom above.</p>
+        </div>`;
+      return;
+    }
+
+    const memberResults = await Promise.all(
+      data.map(item =>
+        supabase
+          .from("private_teacher_class_members")
+          .select("student_id", { count: "exact", head: true })
+          .eq("class_id", item.id)
+      )
+    );
+
+    list.innerHTML = `
+      <div class="workspace-feature-grid">
+        ${data.map((item, index) => `
+          <article class="workspace-feature">
+            <strong>${teacherEscape(item.class_name)}</strong>
+            <p>Subject: ${teacherEscape(item.subject)}</p>
+            <p>${teacherEscape(item.description || "No description provided.")}</p>
+            <p><strong>Join code: ${teacherEscape(item.join_code)}</strong></p>
+            <p>Learners: ${memberResults[index].count ?? "—"}</p>
+            <p>Status: ${item.is_active ? "Open" : "Closed"}</p>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+              <button type="button"
+                data-copy-class="${teacherEscape(item.join_code)}">
+                Copy code
+              </button>
+              <button type="button"
+                data-class-status="${item.id}"
+                data-active="${item.is_active}">
+                ${item.is_active ? "Close class" : "Reopen class"}
+              </button>
+            </div>
+          </article>
+        `).join("")}
+      </div>
+    `;
+
+    list.querySelectorAll("[data-copy-class]").forEach(button => {
+      button.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(button.dataset.copyClass);
+          message.textContent = "Class code copied.";
+        } catch {
+          message.textContent = "Please copy the displayed class code manually.";
+        }
+      });
+    });
+
+    list.querySelectorAll("[data-class-status]").forEach(button => {
+      button.addEventListener("click", async () => {
+        const active = button.dataset.active === "true";
+
+        const { error } = await supabase
+          .from("private_teacher_classes")
+          .update({ is_active: !active })
+          .eq("id", button.dataset.classStatus)
+          .eq("teacher_id", teacherPortalUser.id);
+
+        if (error) {
+          message.textContent = error.message;
+          return;
+        }
+
+        message.textContent = active
+          ? "Class closed to new learners."
+          : "Class reopened.";
+
+        await loadClasses();
+      });
+    });
+  }
+
+  form.addEventListener("submit", async event => {
+    event.preventDefault();
+
+    message.textContent = "Creating classroom...";
+
+    const record = {
+      teacher_id: teacherPortalUser.id,
+      class_name: document.getElementById("privateClassName").value.trim(),
+      subject: document.getElementById("privateClassSubject").value.trim(),
+      description: document.getElementById("privateClassDescription").value.trim()
+    };
+
+    const { error } = await supabase
+      .from("private_teacher_classes")
+      .insert(record);
+
+    if (error) {
+      message.textContent = "Could not create classroom: " + error.message;
+      return;
+    }
+
+    form.reset();
+    message.textContent = "Classroom created successfully.";
+    await loadClasses();
+  });
+
+  document.getElementById("refreshPrivateClasses")
+    .addEventListener("click", loadClasses);
+
+  await loadClasses();
+}
+
+async function renderPrivateStudents() {
+  const supabase = teacherRequireAccess();
+  if (!supabase) return;
+
+  teacherWorkspaceLayout(
+    "My learners",
+    "View the learners enrolled in your independent classrooms.",
+    `
+      <section class="panel">
+        <div class="panel-head">
+          <h2>Learner directory</h2>
+          <button id="refreshPrivateStudents" type="button">↻ Refresh</button>
+        </div>
+        <input id="studentDirectorySearch"
+          placeholder="Search by student account ID or class name..."
+          style="width:100%;padding:13px;border:1px solid #e5ece9;border-radius:10px">
+        <div id="privateStudentList">Loading learners...</div>
+      </section>
+    `
+  );
+
+  const list = document.getElementById("privateStudentList");
+  let learnerRows = [];
+
+  async function loadStudents() {
+    list.textContent = "Loading learners...";
+
+    const { data: classes, error: classError } = await supabase
+      .from("private_teacher_classes")
+      .select("id,class_name,subject")
+      .eq("teacher_id", teacherPortalUser.id);
+
+    if (classError) {
+      list.textContent = classError.message;
+      return;
+    }
+
+    if (!classes?.length) {
+      list.textContent = "Create a classroom before managing learners.";
+      return;
+    }
+
+    const results = await Promise.all(
+      classes.map(async item => {
+        const { data, error } = await supabase
+          .from("private_teacher_class_members")
+          .select("student_id,joined_at")
+          .eq("class_id", item.id);
+
+        return { classInfo: item, data, error };
+      })
+    );
+
+    const failed = results.find(item => item.error);
+
+    if (failed) {
+      list.textContent = "Unable to load learners: " + failed.error.message;
+      return;
+    }
+
+    learnerRows = results.flatMap(result =>
+      (result.data || []).map(member => ({
+        ...member,
+        class_name: result.classInfo.class_name,
+        subject: result.classInfo.subject
+      }))
+    );
+
+    renderRows();
+  }
+
+  function renderRows() {
+    const query = document.getElementById("studentDirectorySearch")
+      .value.trim().toLowerCase();
+
+    const filtered = learnerRows.filter(item =>
+      item.student_id.toLowerCase().includes(query) ||
+      item.class_name.toLowerCase().includes(query)
+    );
+
+    if (!filtered.length) {
+      list.innerHTML = "<p>No matching learners found.</p>";
+      return;
+    }
+
+    list.innerHTML = `
+      <div style="overflow-x:auto;margin-top:18px">
+        <table style="width:100%;border-collapse:collapse">
+          <thead>
+            <tr>
+              <th style="text-align:left;padding:12px">Student account</th>
+              <th style="text-align:left;padding:12px">Class</th>
+              <th style="text-align:left;padding:12px">Subject</th>
+              <th style="text-align:left;padding:12px">Joined</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${filtered.map(item => `
+              <tr style="border-top:1px solid #e5ece9">
+                <td style="padding:12px;font-size:12px">
+                  ${teacherEscape(item.student_id)}
+                </td>
+                <td style="padding:12px">${teacherEscape(item.class_name)}</td>
+                <td style="padding:12px">${teacherEscape(item.subject)}</td>
+                <td style="padding:12px;font-size:12px">
+                  ${item.joined_at
+                    ? new Date(item.joined_at).toLocaleDateString()
+                    : "—"}
+                </td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      </div>
+      <p><strong>${filtered.length}</strong> learner records displayed.</p>
+    `;
+  }
+
+  document.getElementById("studentDirectorySearch")
+    .addEventListener("input", renderRows);
+
+  document.getElementById("refreshPrivateStudents")
+    .addEventListener("click", loadStudents);
+
+  await loadStudents();
+}
+
+async function renderPrivateLessons() {
+  const supabase = teacherRequireAccess();
+  if (!supabase) return;
+
+  teacherWorkspaceLayout(
+    "Lessons & Courses",
+    "Create structured learning content and publish it to your independent classes.",
+    `
+      <section class="panel">
+        <h2>Create a lesson</h2>
+        <form id="privateLessonForm">
+          <label>Class</label>
+          <select id="privateLessonClass" required>
+            <option value="">Loading your classes...</option>
+          </select>
+
+          <label>Lesson title</label>
+          <input id="privateLessonTitle" required maxlength="180"
+            placeholder="Enter lesson title">
+
+          <label>Lesson description</label>
+          <textarea id="privateLessonDescription" rows="3"
+            placeholder="Explain the lesson objectives..."></textarea>
+
+          <label>Lesson content</label>
+          <textarea id="privateLessonContent" rows="9" required
+            placeholder="Write your teaching notes and lesson content..."></textarea>
+
+          <label>Video link (optional)</label>
+          <input id="privateLessonVideo" type="url"
+            placeholder="https://...">
+
+          <label>Resource link (optional)</label>
+          <input id="privateLessonResource" type="url"
+            placeholder="https://...">
+
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:15px">
+            <button type="button" id="privateLessonDraft">Save draft</button>
+            <button type="submit">Publish lesson</button>
+          </div>
+          <p id="privateLessonMessage" role="status"></p>
+        </form>
+      </section>
+
+      <section class="panel" style="margin-top:20px">
+        <h2>My published lessons and drafts</h2>
+        <div id="privateLessonList">Loading lessons...</div>
+      </section>
+    `
+  );
+
+  const classSelect = document.getElementById("privateLessonClass");
+  const message = document.getElementById("privateLessonMessage");
+  const form = document.getElementById("privateLessonForm");
+  const list = document.getElementById("privateLessonList");
+
+  const { data: classes, error: classError } = await supabase
+    .from("private_teacher_classes")
+    .select("id,class_name")
+    .eq("teacher_id", teacherPortalUser.id)
+    .eq("is_active", true);
+
+  if (classError) {
+    classSelect.innerHTML = '<option value="">Unable to load classes</option>';
+    message.textContent = classError.message;
+    return;
+  }
+
+  classSelect.innerHTML = '<option value="">Select a class</option>' +
+    (classes || []).map(item => `
+      <option value="${item.id}">${teacherEscape(item.class_name)}</option>
+    `).join("");
+
+  async function loadLessons() {
+    list.textContent = "Loading lessons...";
+
+    const { data, error } = await supabase
+      .from("private_teacher_lessons")
+      .select("id,class_id,title,description,status,created_at,published_at")
+      .eq("teacher_id", teacherPortalUser.id)
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      list.textContent = error.message;
+      return;
+    }
+
+    if (!data?.length) {
+      list.textContent = "No lessons created yet.";
+      return;
+    }
+
+    list.innerHTML = data.map(item => {
+      const className = classes?.find(c => c.id === item.class_id)?.class_name || "Class";
+
+      return `
+        <article class="workspace-feature" style="margin:12px 0">
+          <strong>${teacherEscape(item.title)}</strong>
+          <p>${teacherEscape(className)}</p>
+          <p>${teacherEscape(item.description || "")}</p>
+          <p>Status: <strong>${teacherEscape(item.status)}</strong></p>
+          <p>Created: ${new Date(item.created_at).toLocaleDateString()}</p>
+        </article>
+      `;
+    }).join("");
+  }
+
+  async function saveLesson(status) {
+    const classId = classSelect.value;
+    const title = document.getElementById("privateLessonTitle").value.trim();
+    const description = document.getElementById("privateLessonDescription").value.trim();
+    const content = document.getElementById("privateLessonContent").value.trim();
+    const video = document.getElementById("privateLessonVideo").value.trim();
+    const resource = document.getElementById("privateLessonResource").value.trim();
+
+    if (!classId || !title || !content) {
+      message.textContent = "Select a class and enter a title and lesson content.";
+      return;
+    }
+
+    for (const url of [video, resource]) {
+      if (url && !/^https?:\/\//i.test(url)) {
+        message.textContent = "Links must begin with http:// or https://";
+        return;
+      }
+    }
+
+    message.textContent = "Saving lesson...";
+
+    const { error } = await supabase
+      .from("private_teacher_lessons")
+      .insert({
+        class_id: classId,
+        teacher_id: teacherPortalUser.id,
+        title,
+        description,
+        content,
+        video_url: video || null,
+        resource_url: resource || null,
+        status,
+        published_at: status === "published"
+          ? new Date().toISOString()
+          : null
+      });
+
+    if (error) {
+      message.textContent = "Could not save lesson: " + error.message;
+      return;
+    }
+
+    form.reset();
+    message.textContent = status === "published"
+      ? "Lesson published successfully."
+      : "Lesson saved as a draft.";
+
+    await loadLessons();
+  }
+
+  document.getElementById("privateLessonDraft")
+    .addEventListener("click", () => saveLesson("draft"));
+
+  form.addEventListener("submit", event => {
+    event.preventDefault();
+    saveLesson("published");
+  });
+
+  await loadLessons();
+}
+
+function renderTeacherModuleNotice(page) {
+  const descriptions = {
+    "Quizzes & Tests": "Question banks, timed quizzes, answer keys, learner attempts and results.",
+    "Examinations": "Examination setup, schedules, candidate lists, grading and result reports.",
+    "Live Classes": "Session scheduling, meeting links, access details and session records.",
+    "Learning Materials": "Teaching resource uploads, categories, document organization and sharing.",
+    "Student Progress": "Lesson completion, assignment performance and learner progress reports.",
+    "Messages": "Learner conversations, class communication and announcements.",
+    "My Profile": "Teaching biography, subjects, qualifications and professional details."
+  };
+
+  teacherWorkspaceLayout(
+    page,
+    descriptions[page] || "Teacher management workspace",
+    `
+      <section class="panel">
+        <h2>${teacherEscape(page)}</h2>
+        <p>${teacherEscape(descriptions[page] || "")}</p>
+        <p>This module requires its dedicated database structure and access policies before it can safely save records.</p>
+      </section>
+    `
+  );
+}
 
 function openTeacherWorkspace(page) {
   if (page === "Dashboard") {
@@ -1272,50 +1847,6 @@ function openTeacherWorkspace(page) {
 
   workspaceTitle.textContent = page;
   workspaceDescription.textContent = workspace.description;
- if (page === "My Classes") {
-  workspacePanel.hidden = false;
-  portalLayout.classList.add("workspace-open");
-
-  document.querySelectorAll(".nav button").forEach(item => {
-    item.classList.toggle("active", item.dataset.page === page);
-  });
-
-  sidebar.classList.remove("open");
-  renderPrivateClassCentre();
-  return;
-}
-if (page === "Assignments") {
-  workspacePanel.hidden = false;
-  portalLayout.classList.add("workspace-open");
-
-  document.querySelectorAll(".nav button").forEach(item => {
-    item.classList.toggle("active", item.dataset.page === page);
-  });
-
-  sidebar.classList.remove("open");
-
-  renderAssignmentCentre();
-  return;
-}
-  workspaceContent.innerHTML = `
-    <div class="workspace-welcome">
-      <h3>${page}</h3>
-      <p>${workspace.description}</p>
-    </div>
-
-    <div class="workspace-section-label">
-      WORKSPACE MODULES
-    </div>
-
-    <div class="workspace-feature-grid">
-      ${workspace.features.map(([title, description]) => `
-        <article class="workspace-feature">
-          <strong>${title}</strong>
-          <p>${description}</p>
-        </article>
-      `).join("")}
-    </div>
-  `;
 
   workspacePanel.hidden = false;
   portalLayout.classList.add("workspace-open");
@@ -1325,6 +1856,18 @@ if (page === "Assignments") {
   });
 
   sidebar.classList.remove("open");
+
+  if (page === "My Classes") {
+    renderPrivateClasses();
+  } else if (page === "My Students") {
+    renderPrivateStudents();
+  } else if (page === "Lessons & Courses") {
+    renderPrivateLessons();
+  } else if (page === "Assignments") {
+    renderAssignmentCentre();
+  } else {
+    renderTeacherModuleNotice(page);
+  }
 }
 
 function closeTeacherWorkspace() {
@@ -1335,6 +1878,7 @@ function closeTeacherWorkspace() {
     item.classList.toggle("active", item.dataset.page === "Dashboard");
   });
 }
+
 
 document.querySelectorAll("[data-page]").forEach(button => {
   button.addEventListener("click", event => {
