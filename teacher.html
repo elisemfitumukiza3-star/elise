@@ -3675,11 +3675,15 @@ async function renderPrivateLearningMaterials() {
 
           <label>Resource type</label>
           <select id="pmType">
-            <option value="document">Document / PDF</option>
-            <option value="presentation">Presentation</option>
-            <option value="video">Video</option>
-            <option value="link">External learning link</option>
-            <option value="other">Other resource</option>
+            <option value="video">Video lesson</option>
+<option value="past_paper">Past paper</option>
+<option value="notes">Class notes</option>
+<option value="book">Book / textbook</option>
+<option value="presentation">Slides / presentation</option>
+<option value="audio">Audio lesson</option>
+<option value="document">Document / PDF</option>
+<option value="link">External learning link</option>
+<option value="other">Other resource</option>
           </select>
 
           <label>Upload a file (optional, maximum 50 MB)</label>
@@ -3758,7 +3762,40 @@ async function renderPrivateLearningMaterials() {
         ${teacherEscape(item.class_name)} — ${teacherEscape(item.subject)}
       </option>
     `).join("");
+let activeMaterialCategory = "all";
 
+const materialSearch = document.getElementById("pmSearch");
+const materialCategories = document.getElementById("pmCategories");
+
+materialCategories.querySelectorAll("[data-resource-category]")
+  .forEach(button => {
+    button.style.cssText += `
+      flex:0 0 auto;
+      min-width:105px;
+      min-height:75px;
+      border:1px solid #dce9e2;
+      border-radius:12px;
+      background:#f1f7f4;
+      color:#176b58;
+      font-weight:750;
+    `;
+
+    button.addEventListener("click", () => {
+      activeMaterialCategory = button.dataset.resourceCategory;
+
+      materialCategories.querySelectorAll("[data-resource-category]")
+        .forEach(item => {
+          item.style.background =
+            item === button ? "#176b58" : "#f1f7f4";
+          item.style.color =
+            item === button ? "#ffffff" : "#176b58";
+        });
+
+      loadMaterials();
+    });
+  });
+
+materialSearch.addEventListener("input", loadMaterials);
   async function loadMaterials() {
     list.textContent = "Loading materials...";
 
@@ -3781,8 +3818,34 @@ async function renderPrivateLearningMaterials() {
         </div>`;
       return;
     }
+const query = materialSearch.value.trim().toLowerCase();
 
-    const cards = await Promise.all(data.map(async item => {
+const filteredMaterials = data.filter(item => {
+  const categoryMatches =
+    activeMaterialCategory === "all" ||
+    item.material_type === activeMaterialCategory;
+
+  const searchableText = [
+    item.title,
+    item.description,
+    item.file_name,
+    item.material_type
+  ].join(" ").toLowerCase();
+
+  return categoryMatches && searchableText.includes(query);
+});
+
+if (!filteredMaterials.length) {
+  list.innerHTML = `
+    <div class="workspace-feature">
+      <strong>No matching materials found</strong>
+      <p>Try another category or search term, or upload a new resource.</p>
+    </div>
+  `;
+  return;
+}
+
+const cards = await Promise.all(filteredMaterials.map(async item => {
       const className =
         classes?.find(c => c.id === item.class_id)?.class_name || "Class";
 
