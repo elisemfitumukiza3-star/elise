@@ -1102,9 +1102,103 @@ const closeWorkspace = document.getElementById("closeWorkspace");
 let teacherPortalUser = null;
 let teacherPortalAccess = null;
 
+async function loadTeacherDashboardMetrics() {
+  const supabase = window.learnLoopPortalSupabase;
+
+  if (!supabase || !teacherPortalUser) return;
+
+  const metricIds = [
+    "tdMetricClasses",
+    "tdMetricLearners",
+    "tdMetricLessons",
+    "tdMetricAssessments"
+  ];
+
+  metricIds.forEach(id => {
+    const element = document.getElementById(id);
+    if (element) element.textContent = "…";
+  });
+
+  const [classesResult, lessonsResult, assessmentsResult] =
+    await Promise.all([
+      supabase
+        .from("private_teacher_classes")
+        .select("id")
+        .eq("teacher_id", teacherPortalUser.id),
+
+      supabase
+        .from("private_teacher_lessons")
+        .select("id,status")
+        .eq("teacher_id", teacherPortalUser.id),
+
+      supabase
+        .from("private_teacher_assessments")
+        .select("id,status")
+        .eq("teacher_id", teacherPortalUser.id)
+    ]);
+
+  function setMetric(id, value) {
+    const element = document.getElementById(id);
+    if (element) element.textContent = String(value);
+  }
+
+  if (classesResult.error) {
+    setMetric("tdMetricClasses", "—");
+    setMetric("tdMetricLearners", "—");
+  } else {
+    const classes = classesResult.data || [];
+    const classIds = classes.map(item => item.id);
+
+    setMetric("tdMetricClasses", classes.length);
+
+    if (!classIds.length) {
+      setMetric("tdMetricLearners", 0);
+    } else {
+      const { data: members, error: membersError } = await supabase
+        .from("private_teacher_class_members")
+        .select("student_id")
+        .in("class_id", classIds);
+
+      if (membersError) {
+        setMetric("tdMetricLearners", "—");
+      } else {
+        const uniqueLearners = new Set(
+          (members || [])
+            .map(member => member.student_id)
+            .filter(Boolean)
+        );
+
+        setMetric("tdMetricLearners", uniqueLearners.size);
+      }
+    }
+  }
+
+  if (lessonsResult.error) {
+    setMetric("tdMetricLessons", "—");
+  } else {
+    const publishedLessons = (lessonsResult.data || [])
+      .filter(item => item.status === "published");
+
+    setMetric("tdMetricLessons", publishedLessons.length);
+  }
+
+  if (assessmentsResult.error) {
+    setMetric("tdMetricAssessments", "—");
+  } else {
+    const publishedAssessments = (assessmentsResult.data || [])
+      .filter(item => item.status === "published");
+
+    setMetric("tdMetricAssessments", publishedAssessments.length);
+  }
+}
+
 window.addEventListener("portal:authorized", event => {
   teacherPortalUser = event.detail.user;
   teacherPortalAccess = event.detail.access;
+
+  loadTeacherDashboardMetrics().catch(error => {
+    console.error("Teacher dashboard metrics error:", error);
+  });
 });
 
 async function renderPrivateClassCentre() {
