@@ -923,7 +923,29 @@ body {
     display: none;
   }
 }
+.teacher-logout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  width: 100%;
+  margin-top: 18px;
+  padding: 12px 15px;
+  border: 1px solid #ffffff35;
+  border-radius: 10px;
+  background: #ffffff12;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 750;
+  text-align: left;
+  transition: .2s ease;
+}
 
+.teacher-logout:hover {
+  background: #e5c477;
+  color: #173b35;
+  border-color: #e5c477;
+}
 </style>
 </head>
 <body>
@@ -945,7 +967,14 @@ body {
   <button data-page="Messages"><span class="ico">✉</span>Messages</button>
   <button data-page="My Profile"><span class="ico">⚙</span>My Profile</button>
  </nav>
- <div class="sidebar-foot">Your Teaching Workspace<br>Prepare · Teach · Assess · Inspire</div>
+ <div class="sidebar-foot">
+  Your Teaching Workspace<br>
+  Prepare · Teach · Assess · Inspire
+
+  <button type="button" id="teacherLogoutButton" class="teacher-logout">
+    ↪ Log out
+  </button>
+</div>
 </aside>
 <main class="main">
 
@@ -4324,6 +4353,42 @@ document.querySelectorAll("[data-page]").forEach(button => {
 closeWorkspace.addEventListener("click", closeTeacherWorkspace);
 document.getElementById("menuButton").addEventListener("click", () => {
   sidebar.classList.toggle("open");
+});
+ const teacherLogoutButton =
+  document.getElementById("teacherLogoutButton");
+
+teacherLogoutButton.addEventListener("click", async () => {
+  const supabase = window.learnLoopPortalSupabase;
+
+  if (!supabase) {
+    alert("Unable to connect to LearnLoop authentication.");
+    return;
+  }
+
+  const confirmed = window.confirm(
+    "Are you sure you want to log out of your Teacher Workspace?"
+  );
+
+  if (!confirmed) return;
+
+  teacherLogoutButton.disabled = true;
+  teacherLogoutButton.textContent = "Logging out...";
+
+  const { error } = await supabase.auth.signOut();
+
+  if (error) {
+    alert("Logout failed: " + error.message);
+    teacherLogoutButton.disabled = false;
+    teacherLogoutButton.textContent = "↪ Log out";
+    return;
+  }
+
+  teacherPortalUser = null;
+  teacherPortalAccess = null;
+
+  document.body.classList.add("portal-locked");
+  document.getElementById("portalAuthMessage").textContent =
+    "You have successfully logged out.";
 });
 </script>
 
