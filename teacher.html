@@ -3651,96 +3651,116 @@ async function renderPrivateLearningMaterials() {
   const supabase = teacherRequireAccess();
   if (!supabase) return;
 
-  const bucket = "learning-files";
-
   teacherWorkspaceLayout(
-    "Learning Resource Library",
-    "Upload documents, share videos and links, and organize learning materials by class.",
+    "Education Materials Centre",
+    "Discover online videos, past papers and study notes, then share useful resources with your classes.",
     `
       <section class="panel">
-        <h2>＋ Add learning material</h2>
-        <form id="privateMaterialForm">
-          <label>Class</label>
+        <div class="panel-head">
+          <div>
+            <h2>Explore online learning resources</h2>
+            <p>Choose a resource category to begin.</p>
+          </div>
+          <button type="button" id="pmRefresh">↻ Refresh</button>
+        </div>
+
+        <div id="pmCategories" style="
+          display:flex;gap:12px;overflow-x:auto;padding:8px 2px 16px;
+        ">
+          <button type="button" data-resource-category="video">🎬 Videos</button>
+          <button type="button" data-resource-category="past_paper">📝 Past Papers</button>
+          <button type="button" data-resource-category="notes">📚 Study Notes</button>
+        </div>
+
+        <label for="pmSearch">Search by subject or topic</label>
+        <input id="pmSearch" type="search"
+          placeholder="Example: Biology, algebra, English grammar...">
+
+        <button type="button" id="pmDiscover">
+          🔎 Discover online resources
+        </button>
+
+        <p id="pmSearchMessage" role="status"></p>
+      </section>
+
+      <section class="panel" style="margin-top:18px">
+        <h2>Share an online resource with a class</h2>
+        <p>Find a resource online, copy its link, and share it with your learners.</p>
+
+        <form id="pmShareForm">
+          <label for="pmClass">Choose class</label>
           <select id="pmClass" required>
             <option value="">Loading classes...</option>
           </select>
 
-          <label>Material title</label>
+          <label for="pmTitle">Resource title</label>
           <input id="pmTitle" required maxlength="180"
-            placeholder="Example: Biology — Cell Structure Notes">
+            placeholder="Enter the resource title">
 
-          <label>Description</label>
-          <textarea id="pmDescription" rows="3"
-            placeholder="Describe what this resource teaches..."></textarea>
-
-          <label>Resource type</label>
+          <label for="pmType">Resource category</label>
           <select id="pmType">
-            <option value="video">Video lesson</option>
-<option value="past_paper">Past paper</option>
-<option value="notes">Class notes</option>
-<option value="book">Book / textbook</option>
-<option value="presentation">Slides / presentation</option>
-<option value="audio">Audio lesson</option>
-<option value="document">Document / PDF</option>
-<option value="link">External learning link</option>
-<option value="other">Other resource</option>
+            <option value="video">Video</option>
+            <option value="past_paper">Past paper</option>
+            <option value="notes">Study notes</option>
           </select>
 
-          <label>Upload a file (optional, maximum 50 MB)</label>
-          <input id="pmFile" type="file">
+          <label for="pmDescription">Short description</label>
+          <textarea id="pmDescription" rows="3"
+            placeholder="What should learners study or practise?"></textarea>
 
-          <label>External resource URL (optional)</label>
-          <input id="pmUrl" type="url"
+          <label for="pmUrl">Online resource link</label>
+          <input id="pmUrl" type="url" required
             placeholder="https://...">
 
-          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
-            <button type="button" id="pmSaveDraft">Save as draft</button>
-            <button type="submit">Publish material</button>
-          </div>
-
+          <button type="submit">Share with selected class</button>
           <p id="pmMessage" role="status"></p>
         </form>
       </section>
 
-      <section class="panel" style="margin-top:20px">
+      <section class="panel" style="margin-top:18px">
         <div class="panel-head">
-  <div>
-    <h2>Education Materials Centre</h2>
-    <p style="font-size:12px;color:#71827c">
-      Browse, organize and prepare resources for your learners.
-    </p>
-  </div>
-  <button type="button" id="pmRefresh">↻ Refresh</button>
-</div>
-
-<div id="pmCategories" style="
-  display:flex;gap:10px;overflow-x:auto;padding:5px 2px 15px;
-  margin-bottom:15px;scrollbar-width:thin">
-  <button type="button" data-resource-category="all">📚 All</button>
-  <button type="button" data-resource-category="video">🎬 Videos</button>
-  <button type="button" data-resource-category="past_paper">📝 Past Papers</button>
-  <button type="button" data-resource-category="notes">📖 Notes</button>
-  <button type="button" data-resource-category="book">📚 Books</button>
-  <button type="button" data-resource-category="presentation">📊 Slides</button>
-  <button type="button" data-resource-category="audio">🎧 Audio</button>
-  <button type="button" data-resource-category="link">🔗 Links</button>
-  <button type="button" data-resource-category="document">📄 Documents</button>
-</div>
-
-<input id="pmSearch" type="search"
-  placeholder="Search materials by title, description or file name..."
-  style="margin-bottom:15px">
-
-<div id="pmList">Loading materials...</div>
+          <h2>Resources shared by you</h2>
+        </div>
+        <div id="pmList">Loading shared resources...</div>
       </section>
     `
   );
 
-  const form = document.getElementById("privateMaterialForm");
   const classSelect = document.getElementById("pmClass");
-  const fileInput = document.getElementById("pmFile");
+  const form = document.getElementById("pmShareForm");
   const message = document.getElementById("pmMessage");
   const list = document.getElementById("pmList");
+  const search = document.getElementById("pmSearch");
+  const searchMessage = document.getElementById("pmSearchMessage");
+  const typeSelect = document.getElementById("pmType");
+  const categoryButtons = document.querySelectorAll(
+    "[data-resource-category]"
+  );
+
+  let activeCategory = "video";
+
+  categoryButtons.forEach(button => {
+    button.style.cssText += `
+      flex:0 0 125px;
+      min-height:85px;
+      border:1px solid #dce9e2;
+      border-radius:13px;
+      background:#f1f7f4;
+      color:#176b58;
+      font-weight:750;
+    `;
+
+    button.addEventListener("click", () => {
+      activeCategory = button.dataset.resourceCategory;
+      typeSelect.value = activeCategory;
+
+      categoryButtons.forEach(item => {
+        const selected = item === button;
+        item.style.background = selected ? "#176b58" : "#f1f7f4";
+        item.style.color = selected ? "white" : "#176b58";
+      });
+    });
+  });
 
   const { data: classes, error: classError } = await supabase
     .from("private_teacher_classes")
@@ -3750,7 +3770,8 @@ async function renderPrivateLearningMaterials() {
     .order("class_name");
 
   if (classError) {
-    classSelect.innerHTML = '<option value="">Unable to load classes</option>';
+    classSelect.innerHTML =
+      '<option value="">Unable to load classes</option>';
     message.textContent = classError.message;
     return;
   }
@@ -3762,232 +3783,102 @@ async function renderPrivateLearningMaterials() {
         ${teacherEscape(item.class_name)} — ${teacherEscape(item.subject)}
       </option>
     `).join("");
-let activeMaterialCategory = "all";
 
-const materialSearch = document.getElementById("pmSearch");
-const materialCategories = document.getElementById("pmCategories");
+  document.getElementById("pmDiscover").addEventListener("click", () => {
+    const query = search.value.trim();
 
-materialCategories.querySelectorAll("[data-resource-category]")
-  .forEach(button => {
-    button.style.cssText += `
-      flex:0 0 auto;
-      min-width:105px;
-      min-height:75px;
-      border:1px solid #dce9e2;
-      border-radius:12px;
-      background:#f1f7f4;
-      color:#176b58;
-      font-weight:750;
-    `;
+    if (!query) {
+      searchMessage.textContent = "Enter a subject or topic first.";
+      return;
+    }
 
-    button.addEventListener("click", () => {
-      activeMaterialCategory = button.dataset.resourceCategory;
+    const searches = {
+      video: `https://www.youtube.com/results?search_query=${encodeURIComponent(query + " educational lesson")}`,
+      past_paper: `https://www.google.com/search?q=${encodeURIComponent(query + " past papers PDF")}`,
+      notes: `https://www.google.com/search?q=${encodeURIComponent(query + " study notes")}`
+    };
 
-      materialCategories.querySelectorAll("[data-resource-category]")
-        .forEach(item => {
-          item.style.background =
-            item === button ? "#176b58" : "#f1f7f4";
-          item.style.color =
-            item === button ? "#ffffff" : "#176b58";
-        });
+    window.open(searches[activeCategory], "_blank", "noopener,noreferrer");
 
-      loadMaterials();
-    });
+    searchMessage.textContent =
+      "Online results opened in a new tab. Check the source, copy the resource link, and share it with your class below.";
   });
 
-materialSearch.addEventListener("input", loadMaterials);
   async function loadMaterials() {
-    list.textContent = "Loading materials...";
+    list.textContent = "Loading shared resources...";
 
     const { data, error } = await supabase
       .from("private_teacher_materials")
-      .select("*")
+      .select("id,class_id,title,description,material_type,external_url,status,created_at")
       .eq("teacher_id", teacherPortalUser.id)
+      .not("external_url", "is", null)
       .order("created_at", { ascending: false });
 
     if (error) {
-      list.textContent = "Unable to load materials: " + error.message;
+      list.textContent = "Unable to load resources: " + error.message;
       return;
     }
 
     if (!data?.length) {
       list.innerHTML = `
         <div class="workspace-feature">
-          <strong>Your resource library is empty</strong>
-          <p>Upload your first teaching resource above.</p>
-        </div>`;
+          <strong>No online resources shared yet</strong>
+          <p>Discover a resource and share its link with one of your classes.</p>
+        </div>
+      `;
       return;
     }
-const query = materialSearch.value.trim().toLowerCase();
-
-const filteredMaterials = data.filter(item => {
-  const categoryMatches =
-    activeMaterialCategory === "all" ||
-    item.material_type === activeMaterialCategory;
-
-  const searchableText = [
-    item.title,
-    item.description,
-    item.file_name,
-    item.material_type
-  ].join(" ").toLowerCase();
-
-  return categoryMatches && searchableText.includes(query);
-});
-
-if (!filteredMaterials.length) {
-  list.innerHTML = `
-    <div class="workspace-feature">
-      <strong>No matching materials found</strong>
-      <p>Try another category or search term, or upload a new resource.</p>
-    </div>
-  `;
-  return;
-}
-
-const cards = await Promise.all(filteredMaterials.map(async item => {
-      const className =
-        classes?.find(c => c.id === item.class_id)?.class_name || "Class";
-
-      let fileLink = "";
-
-      if (item.file_url) {
-        const { data: signedData, error: signedError } = await supabase
-          .storage
-          .from(bucket)
-          .createSignedUrl(item.file_url, 3600);
-
-        if (!signedError && signedData?.signedUrl) {
-          fileLink = `
-            <a href="${teacherEscape(signedData.signedUrl)}"
-               target="_blank" rel="noopener noreferrer"
-               style="display:inline-block;padding:9px 12px;background:#176b58;color:white;border-radius:8px;text-decoration:none;font-size:12px">
-              Open uploaded file
-            </a>`;
-        } else {
-          fileLink = `<p>File stored, but a download link could not be generated. Check Storage access policies.</p>`;
-        }
-      }
-
-      const externalLink = item.external_url
-        ? `<a href="${teacherEscape(item.external_url)}"
-              target="_blank" rel="noopener noreferrer"
-              style="display:inline-block;padding:9px 12px;background:#eaf5f0;color:#176b58;border-radius:8px;text-decoration:none;font-size:12px">
-             Open external resource
-           </a>`
-        : "";
-
-      return `
-        <article class="workspace-feature">
-          <strong>${teacherEscape(item.title)}</strong>
-          <p>Class: ${teacherEscape(className)}</p>
-          <p>${teacherEscape(item.description || "No description provided.")}</p>
-          <p>Type: ${teacherEscape(item.material_type)}</p>
-          <p>Status: <strong>${teacherEscape(item.status)}</strong></p>
-          ${item.file_name
-            ? `<p>File: ${teacherEscape(item.file_name)}</p>`
-            : ""}
-          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
-            ${fileLink}
-            ${externalLink}
-            ${item.status === "draft" ? `
-              <button type="button" data-publish-material="${item.id}">
-                Publish
-              </button>
-            ` : ""}
-          </div>
-        </article>
-      `;
-    }));
 
     list.innerHTML = `
       <div class="workspace-feature-grid">
-        ${cards.join("")}
+        ${data.map(item => {
+          const className =
+            classes?.find(c => c.id === item.class_id)?.class_name || "Class";
+
+          return `
+            <article class="workspace-feature">
+              <strong>${teacherEscape(item.title)}</strong>
+              <p>Class: ${teacherEscape(className)}</p>
+              <p>Category: ${teacherEscape(item.material_type)}</p>
+              <p>${teacherEscape(item.description || "")}</p>
+              <p>Status: ${teacherEscape(item.status)}</p>
+              <a href="${teacherEscape(item.external_url)}"
+                target="_blank" rel="noopener noreferrer">
+                Open online resource ↗
+              </a>
+            </article>
+          `;
+        }).join("")}
       </div>
     `;
-
-    list.querySelectorAll("[data-publish-material]").forEach(button => {
-      button.addEventListener("click", async () => {
-        const { error: updateError } = await supabase
-          .from("private_teacher_materials")
-          .update({
-            status: "published",
-            published_at: new Date().toISOString()
-          })
-          .eq("id", button.dataset.publishMaterial)
-          .eq("teacher_id", teacherPortalUser.id);
-
-        if (updateError) {
-          message.textContent = "Could not publish material: " + updateError.message;
-          return;
-        }
-
-        message.textContent = "Material published successfully.";
-        await loadMaterials();
-      });
-    });
   }
 
-  async function saveMaterial(status) {
+  form.addEventListener("submit", async event => {
+    event.preventDefault();
+
     const classId = classSelect.value;
     const title = document.getElementById("pmTitle").value.trim();
-    const description = document.getElementById("pmDescription").value.trim();
-    const type = document.getElementById("pmType").value;
-    const externalUrl = document.getElementById("pmUrl").value.trim();
-    const file = fileInput.files[0];
+    const description =
+      document.getElementById("pmDescription").value.trim();
+    const type = typeSelect.value;
+    const url = document.getElementById("pmUrl").value.trim();
 
-    if (!classId || !title) {
-      message.textContent = "Select a class and enter a material title.";
+    if (!classId || !title || !url) {
+      message.textContent = "Complete the class, title and resource link.";
       return;
     }
 
-    if (file && file.size > 50 * 1024 * 1024) {
-      message.textContent = "The selected file exceeds the 50 MB limit.";
-      return;
-    }
-
-    if (externalUrl) {
-      try {
-        const parsedUrl = new URL(externalUrl);
-        if (!["https:", "http:"].includes(parsedUrl.protocol)) {
-          message.textContent = "Enter a valid external resource URL.";
-          return;
-        }
-      } catch {
-        message.textContent = "Enter a valid external resource URL.";
-        return;
+    try {
+      const parsed = new URL(url);
+      if (!["https:", "http:"].includes(parsed.protocol)) {
+        throw new Error("Use a valid online resource link.");
       }
-    }
-
-    if (!file && !externalUrl) {
-      message.textContent = "Upload a file or enter an external resource URL.";
+    } catch {
+      message.textContent = "Please enter a valid online resource URL.";
       return;
     }
 
-    message.textContent = "Saving learning material...";
-
-    let storagePath = null;
-
-    if (file) {
-      const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
-      storagePath =
-        `${teacherPortalUser.id}/private-teacher/${crypto.randomUUID()}-${safeName}`;
-
-      const { error: uploadError } = await supabase
-        .storage
-        .from(bucket)
-        .upload(storagePath, file, {
-          cacheControl: "3600",
-          upsert: false
-        });
-
-      if (uploadError) {
-        message.textContent =
-          "File upload failed: " + uploadError.message +
-          ". Check the learning-files bucket policies.";
-        return;
-      }
-    }
+    message.textContent = "Sharing resource with your class...";
 
     const { error } = await supabase
       .from("private_teacher_materials")
@@ -3997,38 +3888,21 @@ const cards = await Promise.all(filteredMaterials.map(async item => {
         title,
         description,
         material_type: type,
-        file_url: storagePath,
-        file_name: file?.name || null,
-        external_url: externalUrl || null,
-        status,
-        published_at: status === "published"
-          ? new Date().toISOString()
-          : null
+        file_url: null,
+        file_name: null,
+        external_url: url,
+        status: "published",
+        published_at: new Date().toISOString()
       });
 
     if (error) {
-      message.textContent =
-        "Could not save material: " + error.message +
-        (storagePath
-          ? " The uploaded file remains in Storage and may need cleanup."
-          : "");
+      message.textContent = "Could not share resource: " + error.message;
       return;
     }
 
     form.reset();
-    message.textContent = status === "published"
-      ? "Learning material published successfully."
-      : "Learning material saved as a draft.";
-
+    message.textContent = "Online resource shared with your selected class.";
     await loadMaterials();
-  }
-
-  document.getElementById("pmSaveDraft")
-    .addEventListener("click", () => saveMaterial("draft"));
-
-  form.addEventListener("submit", event => {
-    event.preventDefault();
-    saveMaterial("published");
   });
 
   document.getElementById("pmRefresh")
