@@ -444,7 +444,19 @@
     }
 
     sessionInfo = data;
+// Check teacher and approved participant access first.
+if (data.status === "live") {
+  const { data: videoAccess, error: videoAccessError } =
+    await supabase.rpc(
+      "authorize_learnloop_live_video",
+      { p_token: token }
+    );
 
+  if (!videoAccessError && videoAccess?.success) {
+    data.can_enter = true;
+    data.is_teacher = videoAccess.role === "teacher";
+  }
+}
     $("classTitle").textContent = data.title;
     $("classDescription").textContent =
       data.description || "Join your teacher's learning session.";
