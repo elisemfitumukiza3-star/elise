@@ -774,8 +774,16 @@
       refreshAccess();
     }
   });
+loadClass().catch(error => {
+  console.error("LearnLoop classroom startup error:", error);
 
-  await loadClass();
+  const message = document.getElementById("loadingMessage");
+
+  if (message) {
+    message.textContent =
+      "Unable to start the classroom. Please refresh and try again.";
+  }
+});
 </script>
 
 </body>
