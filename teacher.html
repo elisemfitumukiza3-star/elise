@@ -3700,10 +3700,34 @@ async function renderPrivateLearningMaterials() {
 
       <section class="panel" style="margin-top:20px">
         <div class="panel-head">
-          <h2>My learning materials</h2>
-          <button type="button" id="pmRefresh">↻ Refresh</button>
-        </div>
-        <div id="pmList">Loading materials...</div>
+  <div>
+    <h2>Education Materials Centre</h2>
+    <p style="font-size:12px;color:#71827c">
+      Browse, organize and prepare resources for your learners.
+    </p>
+  </div>
+  <button type="button" id="pmRefresh">↻ Refresh</button>
+</div>
+
+<div id="pmCategories" style="
+  display:flex;gap:10px;overflow-x:auto;padding:5px 2px 15px;
+  margin-bottom:15px;scrollbar-width:thin">
+  <button type="button" data-resource-category="all">📚 All</button>
+  <button type="button" data-resource-category="video">🎬 Videos</button>
+  <button type="button" data-resource-category="past_paper">📝 Past Papers</button>
+  <button type="button" data-resource-category="notes">📖 Notes</button>
+  <button type="button" data-resource-category="book">📚 Books</button>
+  <button type="button" data-resource-category="presentation">📊 Slides</button>
+  <button type="button" data-resource-category="audio">🎧 Audio</button>
+  <button type="button" data-resource-category="link">🔗 Links</button>
+  <button type="button" data-resource-category="document">📄 Documents</button>
+</div>
+
+<input id="pmSearch" type="search"
+  placeholder="Search materials by title, description or file name..."
+  style="margin-bottom:15px">
+
+<div id="pmList">Loading materials...</div>
       </section>
     `
   );
