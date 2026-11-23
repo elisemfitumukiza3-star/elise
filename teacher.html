@@ -1102,12 +1102,22 @@ body {
     </p>
   </div>
 </div>
- <div class="panel">
-  <div class="panel-head"><h2>✉ Teaching Updates</h2></div>
-  <div class="lesson"><div class="lesson-icon">📚</div><div><strong>Learning materials</strong><small>Organize resources for your students</small></div></div>
-  <div class="lesson"><div class="lesson-icon">📝</div><div><strong>Assessment centre</strong><small>Monitor quiz and test participation</small></div></div>
-  <div class="lesson"><div class="lesson-icon">🎓</div><div><strong>Student development</strong><small>Focus on progress and learning completion</small></div></div>
- </div>
+ 
+<div class="panel">
+  <div class="panel-head">
+    <h2>✉ Teaching Updates</h2>
+    <button type="button" id="refreshTeacherDashboardUpdates">
+      ↻ Refresh
+    </button>
+  </div>
+
+  <div id="teacherDashboardUpdates">
+    <p style="font-size:12px;color:#82918d">
+      Loading your latest teaching activity...
+    </p>
+  </div>
+</div>
+
 </section>
 <footer class="footer"><span>© 2026 LearnLoop Teacher Workspace</span><span>Prepare · Teach · Assess · Inspire</span></footer>
 </div>
@@ -1573,6 +1583,174 @@ async function loadTeacherDashboardProgress() {
   `;
 }
 
+async function loadTeacherDashboardUpdates() {
+  const supabase = window.learnLoopPortalSupabase;
+  const container = document.getElementById("teacherDashboardUpdates");
+
+  if (!supabase || !teacherPortalUser || !container) return;
+
+  container.textContent = "Loading recent activity...";
+
+  const { data: classes, error: classesError } = await supabase
+    .from("private_teacher_classes")
+    .select("id,class_name")
+    .eq("teacher_id", teacherPortalUser.id);
+
+  if (classesError) {
+    container.textContent = "Unable to load teaching updates.";
+    console.error(classesError);
+    return;
+  }
+
+  const classIds = (classes || []).map(item => item.id);
+
+  if (!classIds.length) {
+    container.innerHTML = `
+      <div class="workspace-feature">
+        <strong>Your teaching activity will appear here</strong>
+        <p>Create a class and invite learners to start receiving updates.</p>
+      </div>
+    `;
+    return;
+  }
+
+  const [
+    assignmentsResult,
+    messagesResult
+  ] = await Promise.all([
+    supabase
+      .from("private_teacher_assignments")
+      .select("id,title,class_id")
+      .eq("teacher_id", teacherPortalUser.id)
+      .in("class_id", classIds),
+
+    supabase
+      .from("private_teacher_messages")
+      .select("id,class_id,sender_id,body,created_at")
+      .eq("recipient_id", teacherPortalUser.id)
+      .order("created_at", { ascending: false })
+      .limit(5)
+  ]);
+
+  if (assignmentsResult.error || messagesResult.error) {
+    container.textContent =
+      "Unable to load recent activity. Check your database access policies.";
+    console.error(
+      assignmentsResult.error || messagesResult.error
+    );
+    return;
+  }
+
+  const assignments = assignmentsResult.data || [];
+  const messages = messagesResult.data || [];
+  const assignmentIds = assignments.map(item => item.id);
+
+  let submissions = [];
+
+  if (assignmentIds.length) {
+    const { data, error } = await supabase
+      .from("private_teacher_submissions")
+      .select("assignment_id,student_id,submitted_at,graded_at")
+      .in("assignment_id", assignmentIds)
+      .order("submitted_at", { ascending: false })
+      .limit(8);
+
+    if (error) {
+      container.textContent = "Unable to load assignment updates.";
+      console.error(error);
+      return;
+    }
+
+    submissions = data || [];
+  }
+
+  const activities = [];
+
+  submissions.forEach(item => {
+    const assignment = assignments.find(
+      entry => entry.id === item.assignment_id
+    );
+
+    if (!assignment) return;
+
+    const classInfo = classes.find(
+      entry => entry.id === assignment.class_id
+    );
+
+    activities.push({
+      type: "submission",
+      time: item.submitted_at,
+      title: "Assignment submitted",
+      description:
+        `${assignment.title} · ${classInfo?.class_name || "Class"}`,
+      status: item.graded_at ? "Graded" : "Awaiting marking",
+      icon: "📝"
+    });
+  });
+
+  messages.forEach(item => {
+    const classInfo = classes.find(
+      entry => entry.id === item.class_id
+    );
+
+    activities.push({
+      type: "message",
+      time: item.created_at,
+      title: "New learner message",
+      description:
+        `${classInfo?.class_name || "Class"} · ${item.body || ""}`,
+      status: "Message",
+      icon: "✉"
+    });
+  });
+
+  activities.sort((a, b) =>
+    new Date(b.time || 0) - new Date(a.time || 0)
+  );
+
+  const latest = activities.slice(0, 6);
+
+  if (!latest.length) {
+    container.innerHTML = `
+      <div class="workspace-feature">
+        <strong>No new activity yet</strong>
+        <p>
+          Student submissions and messages will appear here
+          as learners interact with your classes.
+        </p>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = latest.map(item => {
+    const date = item.time
+      ? new Date(item.time).toLocaleString()
+      : "";
+
+    return `
+      <div class="lesson">
+        <div class="lesson-icon">${item.icon}</div>
+
+        <div style="min-width:0;flex:1">
+          <strong>${teacherEscape(item.title)}</strong>
+          <small>${teacherEscape(item.description)}</small>
+          <small>${teacherEscape(date)}</small>
+        </div>
+
+        <span class="status">${teacherEscape(item.status)}</span>
+      </div>
+    `;
+  }).join("");
+}
+
+document.getElementById("refreshTeacherDashboardUpdates")
+  ?.addEventListener("click", () => {
+    loadTeacherDashboardUpdates().catch(error => {
+      console.error("Teaching updates error:", error);
+    });
+  });
+
 window.addEventListener("portal:authorized", event => {
   teacherPortalUser = event.detail.user;
   teacherPortalAccess = event.detail.access;
@@ -1583,6 +1761,9 @@ window.addEventListener("portal:authorized", event => {
   loadTeacherDashboardProgress().catch(error => {
     console.error("Teacher dashboard progress error:", error);
   });
+ loadTeacherDashboardUpdates().catch(error => {
+  console.error("Teaching updates error:", error);
+});
   loadTeacherDashboardSchedule().catch(error => {
     console.error("Teacher dashboard schedule error:", error);
   });
