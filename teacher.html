@@ -4041,15 +4041,58 @@ async function renderPrivateLearningMaterials() {
           "",
         url: `https://www.youtube.com/watch?v=${video.id.videoId}`
       }));
+const starterDocuments = [
+  {
+    kind: "past_paper",
+    title: "P6 National Examination Past Papers",
+    description: "Browse Primary 6 examination papers and revision resources.",
+    channel: "Rwanda National Examination revision",
+    url: "https://nationalexamination.rw/"
+  },
+  {
+    kind: "past_paper",
+    title: "S3 O-Level Past Papers",
+    description: "Explore Ordinary Level examination papers and marking guides.",
+    channel: "Rwanda National Examination revision",
+    url: "https://nationalexamination.rw/"
+  },
+  {
+    kind: "past_paper",
+    title: "S6 A-Level Past Papers",
+    description: "Explore Advanced Level examination revision materials.",
+    channel: "Rwanda National Examination revision",
+    url: "https://nationalexamination.rw/"
+  },
+  {
+    kind: "notes",
+    title: "REB eLearning Study Resources",
+    description: "Explore Rwanda Education Board's online learning platform.",
+    channel: "Rwanda Education Board",
+    url: "https://elearning.reb.rw/"
+  },
+  {
+    kind: "notes",
+    title: "REB eLearning Guide",
+    description: "A guide to accessing online teaching and learning resources.",
+    channel: "Rwanda Education Board",
+    url: "https://www.nesa.gov.rw/fileadmin/user_upload/NESA/Ressources/Assessment_Standards_and_Guidelines/Lastest_version_Elearning_guide_4.pdf"
+  }
+];
 
-    const documentResources = savedMaterials
-      .filter(item => item.external_url)
-      .map(item => ({
-        kind: item.material_type,
-        title: item.title,
-        description: item.description || "",
-        url: item.external_url
-      }));
+const savedDocumentResources = savedMaterials
+  .filter(item => item.external_url)
+  .map(item => ({
+    kind: item.material_type,
+    title: item.title,
+    description: item.description || "",
+    channel: "Shared LearnLoop resource",
+    url: item.external_url
+  }));
+
+const documentResources = [
+  ...starterDocuments,
+  ...savedDocumentResources
+];
 
     let resources = [...videoResources, ...documentResources];
 
