@@ -2610,24 +2610,49 @@ ${item.status === "live" ? `
       });
     });
 
-    list.querySelectorAll("[data-live-status]").forEach(button => {
-      button.addEventListener("click", async () => {
-        const { error: updateError } = await supabase
-          .from("private_teacher_live_classes")
-          .update({ status: button.dataset.status })
-          .eq("id", button.dataset.liveStatus)
-          .eq("teacher_id", teacherPortalUser.id);
+   
+list.querySelectorAll("[data-live-status]").forEach(button => {
+  button.addEventListener("click", async () => {
+    const nextStatus = button.dataset.status;
 
-        if (updateError) {
-          message.textContent =
-            "Could not update session: " + updateError.message;
-          return;
-        }
+    button.disabled = true;
+    message.textContent = "Updating live session...";
 
-        message.textContent = "Session status updated.";
-        await loadSessions();
-      });
-    });
+    const { error: updateError } = await supabase
+      .from("private_teacher_live_classes")
+      .update({ status: nextStatus })
+      .eq("id", button.dataset.liveStatus)
+      .eq("teacher_id", teacherPortalUser.id);
+
+    if (updateError) {
+      message.textContent = "Could not update session: " + updateError.message;
+      button.disabled = false;
+      return;
+    }
+
+    if (nextStatus === "live" && button.dataset.liveToken) {
+      window.location.href = getInvitationLink(button.dataset.liveToken);
+      return;
+    }
+
+    message.textContent = "Session ended or updated.";
+    await loadSessions();
+  });
+});
+
+list.querySelectorAll("[data-open-live]").forEach(button => {
+  button.addEventListener("click", () => {
+    const token = button.dataset.openLive;
+
+    if (!token) {
+      message.textContent = "The classroom invitation token is missing.";
+      return;
+    }
+
+    window.location.href = getInvitationLink(token);
+  });
+});
+
 
     list.querySelectorAll("[data-request-action]").forEach(button => {
       button.addEventListener("click", async () => {
