@@ -1226,13 +1226,132 @@ async function loadTeacherDashboardMetrics() {
     setMetric("tdMetricAssessments", publishedAssessments.length);
   }
 }
+async function loadTeacherDashboardSchedule() {
+  const supabase = window.learnLoopPortalSupabase;
+  const container = document.getElementById(
+    "teacherDashboardSchedule"
+  );
 
+  if (!supabase || !teacherPortalUser || !container) return;
+
+  container.innerHTML =
+    '<p style="color:#82918d;font-size:13px">Loading sessions...</p>';
+
+  const [sessionsResult, classesResult] = await Promise.all([
+    supabase
+      .from("private_teacher_live_classes")
+      .select("id,title,class_id,scheduled_start,scheduled_end,status")
+      .eq("teacher_id", teacherPortalUser.id)
+      .in("status", ["scheduled", "live"])
+      .order("scheduled_start", { ascending: true }),
+
+    supabase
+      .from("private_teacher_classes")
+      .select("id,class_name")
+      .eq("teacher_id", teacherPortalUser.id)
+  ]);
+
+  if (sessionsResult.error || classesResult.error) {
+    container.innerHTML = `
+      <p style="color:#a04444;font-size:13px">
+        Your schedule could not be loaded. Please refresh the page.
+      </p>
+    `;
+    console.error(
+      "Teacher schedule error:",
+      sessionsResult.error || classesResult.error
+    );
+    return;
+  }
+
+  const now = new Date();
+
+  const sessions = (sessionsResult.data || [])
+    .filter(session =>
+      session.status === "live" ||
+      new Date(session.scheduled_start) >= now
+    )
+    .sort((a, b) => {
+      if (a.status === "live" && b.status !== "live") return -1;
+      if (b.status === "live" && a.status !== "live") return 1;
+
+      return new Date(a.scheduled_start) -
+        new Date(b.scheduled_start);
+    })
+    .slice(0, 5);
+
+  const classes = classesResult.data || [];
+
+  if (!sessions.length) {
+    container.innerHTML = `
+      <div class="workspace-feature">
+        <strong>No upcoming live sessions</strong>
+        <p>
+          Your scheduled teaching sessions will appear here.
+          You can create one from the Live Classes workspace.
+        </p>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = sessions.map(session => {
+    const className =
+      classes.find(item => item.id === session.class_id)?.class_name ||
+      "Teaching class";
+
+    const start = new Date(session.scheduled_start);
+
+    const formattedDate = start.toLocaleString(undefined, {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+      year: "numeric"
+    });
+
+    const formattedTime = start.toLocaleTimeString(undefined, {
+      hour: "numeric",
+      minute: "2-digit"
+    });
+
+    const isLive = session.status === "live";
+
+    return `
+      <div class="lesson">
+        <div class="lesson-icon">
+          ${isLive ? "🎥" : "🕒"}
+        </div>
+
+        <div style="min-width:0;flex:1">
+          <strong>${teacherEscape(session.title)}</strong>
+
+          <small>
+            ${teacherEscape(className)}
+          </small>
+
+          <small>
+            ${formattedDate} · ${formattedTime}
+          </small>
+        </div>
+
+        <span class="status"
+          style="${isLive ? "background:#e8f7ed;color:#187345" : ""}">
+          ${isLive ? "LIVE NOW" : "UPCOMING"}
+        </span>
+      </div>
+    `;
+  }).join("");
+}
 window.addEventListener("portal:authorized", event => {
   teacherPortalUser = event.detail.user;
   teacherPortalAccess = event.detail.access;
 
   loadTeacherDashboardMetrics().catch(error => {
     console.error("Teacher dashboard metrics error:", error);
+  });
+
+  loadTeacherDashboardSchedule().catch(error => {
+    console.error("Teacher dashboard schedule error:", error);
   });
 });
 
@@ -4357,9 +4476,7 @@ document.querySelectorAll("[data-page]").forEach(button => {
 });
 
 closeWorkspace.addEventListener("click", closeTeacherWorkspace);
-document.getElementById("menuButton").addEventListener("click", () => {
-  sidebar.classList.toggle("open");
-});
+
  const teacherLogoutButton =
   document.getElementById("teacherLogoutButton");
 
