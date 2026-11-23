@@ -769,6 +769,161 @@ body {
   }
 }
 
+/* LEARNLOOP TEACHER WORKSPACE - RESPONSIVE NAVIGATION */
+
+.menu {
+  display: grid !important;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  border: 1px solid #e1ebe5;
+  border-radius: 11px;
+  background: #f3f8f5;
+  color: #176b58;
+  cursor: pointer;
+}
+
+.menu:hover {
+  background: #e5c477;
+  color: #103d36;
+}
+
+.teacher-search-results {
+  position: absolute;
+  top: calc(100% + 9px);
+  left: 0;
+  right: 0;
+  z-index: 200;
+  max-height: 340px;
+  overflow-y: auto;
+  padding: 7px;
+  background: white;
+  border: 1px solid #e1ebe5;
+  border-radius: 13px;
+  box-shadow: 0 12px 32px #103d3620;
+}
+
+.teacher-search-results[hidden] {
+  display: none !important;
+}
+
+.teacher-search-results button {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  border: 0;
+  border-radius: 9px;
+  background: white;
+  color: #18334d;
+  text-align: left;
+  font-size: 13px;
+}
+
+.teacher-search-results button:hover,
+.teacher-search-results button:focus {
+  background: #edf6f1;
+  outline: none;
+}
+
+.app.sidebar-collapsed .sidebar {
+  width: 78px !important;
+  padding: 22px 9px;
+}
+
+.app.sidebar-collapsed .main {
+  width: calc(100% - 78px);
+  margin-left: 78px;
+}
+
+.app.sidebar-collapsed .brand {
+  padding: 5px 0 25px;
+  font-size: 0;
+  text-align: center;
+}
+
+.app.sidebar-collapsed .brand::before {
+  content: "LL";
+  font-size: 23px;
+  color: white;
+}
+
+.app.sidebar-collapsed .brand span,
+.app.sidebar-collapsed .brand small,
+.app.sidebar-collapsed .nav-label,
+.app.sidebar-collapsed .sidebar-foot {
+  display: none !important;
+}
+
+.app.sidebar-collapsed .nav button {
+  justify-content: center;
+  padding: 10px 0;
+  font-size: 0;
+}
+
+.app.sidebar-collapsed .nav .ico {
+  width: 34px;
+  height: 34px;
+  font-size: 18px;
+}
+
+.nav button:focus-visible,
+.topbar button:focus-visible,
+.action:focus-visible {
+  outline: 3px solid #e5c477;
+  outline-offset: 3px;
+}
+
+@media(max-width:760px) {
+  .app.sidebar-collapsed .sidebar {
+    width: 260px !important;
+    padding: 25px 17px;
+  }
+
+  .app.sidebar-collapsed .main {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .app.sidebar-collapsed .brand {
+    font-size: 24px;
+    text-align: left;
+  }
+
+  .app.sidebar-collapsed .brand::before {
+    display: none;
+  }
+
+  .app.sidebar-collapsed .brand span,
+  .app.sidebar-collapsed .brand small,
+  .app.sidebar-collapsed .nav-label,
+  .app.sidebar-collapsed .sidebar-foot {
+    display: block !important;
+  }
+
+  .app.sidebar-collapsed .nav button {
+    justify-content: flex-start;
+    font-size: 13px;
+    padding: 13px;
+  }
+
+  .topbar {
+    gap: 8px;
+  }
+
+  .top-right {
+    gap: 7px;
+  }
+
+  .top-right button {
+    font-size: 17px;
+  }
+
+  .profile-name {
+    display: none;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -793,15 +948,50 @@ body {
  <div class="sidebar-foot">Your Teaching Workspace<br>Prepare · Teach · Assess · Inspire</div>
 </aside>
 <main class="main">
+
 <header class="topbar">
- <button class="menu mobile" id="menuButton">☰</button>
- <div class="search"><input placeholder="⌕  Search classes, students, lessons..."></div>
- <div class="top-right">
-  <button aria-label="Notifications">♧</button>
-  <button aria-label="Messages">✉</button>
-  <div class="profile"><div class="avatar">👩‍🏫</div><div class="profile-name">Teacher Account<small style="display:block;color:#84918e;font-weight:400">Teaching workspace</small></div></div>
- </div>
+  <button class="menu" id="menuButton"
+    type="button"
+    aria-label="Toggle navigation"
+    aria-expanded="false"
+    title="Toggle navigation">☰</button>
+
+  <div class="search" style="position:relative">
+    <input
+      id="teacherWorkspaceSearch"
+      type="search"
+      autocomplete="off"
+      placeholder="⌕ Find a teaching workspace..."
+      aria-label="Search teacher workspace">
+    <div id="teacherSearchResults"
+      class="teacher-search-results"
+      role="listbox"
+      hidden></div>
+  </div>
+
+  <div class="top-right">
+    <button type="button"
+      data-page="Student Progress"
+      aria-label="Open student progress"
+      title="Student progress">▥</button>
+
+    <button type="button"
+      data-page="Messages"
+      aria-label="Open teacher messages"
+      title="Messages">✉</button>
+
+    <div class="profile">
+      <div class="avatar">👩‍🏫</div>
+      <div class="profile-name">
+        Teacher Account
+        <small style="display:block;color:#84918e;font-weight:400">
+          Teaching workspace
+        </small>
+      </div>
+    </div>
+  </div>
 </header>
+
 <div class="portal-layout" id="portalLayout"> 
 <div class="content">
 <section class="hero">
@@ -3847,9 +4037,17 @@ function openTeacherWorkspace(page) {
   workspacePanel.hidden = false;
   portalLayout.classList.add("workspace-open");
 
-  document.querySelectorAll(".nav button").forEach(item => {
-    item.classList.toggle("active", item.dataset.page === page);
-  });
+document.querySelectorAll(".nav button").forEach(item => {
+  const active = item.dataset.page === page;
+
+  item.classList.toggle("active", active);
+
+  if (active) {
+    item.setAttribute("aria-current", "page");
+  } else {
+    item.removeAttribute("aria-current");
+  }
+});
 
   sidebar.classList.remove("open");
 
@@ -3890,6 +4088,110 @@ function closeTeacherWorkspace() {
   });
 }
 
+
+// RESPONSIVE SIDEBAR CONTROL
+const appShell = document.querySelector(".app");
+const workspaceMenuButton = document.getElementById("menuButton");
+
+workspaceMenuButton.addEventListener("click", () => {
+  if (window.matchMedia("(max-width: 760px)").matches) {
+    sidebar.classList.toggle("open");
+    workspaceMenuButton.setAttribute(
+      "aria-expanded",
+      String(sidebar.classList.contains("open"))
+    );
+  } else {
+    appShell.classList.toggle("sidebar-collapsed");
+    workspaceMenuButton.setAttribute(
+      "aria-expanded",
+      String(!appShell.classList.contains("sidebar-collapsed"))
+    );
+  }
+});
+
+// WORKSPACE SEARCH
+const workspaceSearch =
+  document.getElementById("teacherWorkspaceSearch");
+
+const searchResults =
+  document.getElementById("teacherSearchResults");
+
+function findTeacherWorkspaces(query) {
+  const pages = [...document.querySelectorAll(".nav button[data-page]")];
+
+  return pages.filter(button =>
+    button.dataset.page !== "Dashboard" &&
+    button.textContent.trim().toLowerCase().includes(query)
+  );
+}
+
+function closeWorkspaceSearch() {
+  searchResults.hidden = true;
+  searchResults.replaceChildren();
+}
+
+workspaceSearch.addEventListener("input", () => {
+  const query = workspaceSearch.value.trim().toLowerCase();
+
+  closeWorkspaceSearch();
+
+  if (!query) return;
+
+  const matches = findTeacherWorkspaces(query);
+
+  if (!matches.length) {
+    const empty = document.createElement("div");
+    empty.textContent = "No matching workspace found.";
+    empty.style.padding = "13px";
+    empty.style.fontSize = "12px";
+    empty.style.color = "#71827c";
+
+    searchResults.appendChild(empty);
+    searchResults.hidden = false;
+    return;
+  }
+
+  matches.forEach(item => {
+    const result = document.createElement("button");
+
+    result.type = "button";
+    result.setAttribute("role", "option");
+    result.textContent = "↗  " + item.dataset.page;
+
+    result.addEventListener("click", () => {
+      workspaceSearch.value = "";
+      closeWorkspaceSearch();
+      openTeacherWorkspace(item.dataset.page);
+    });
+
+    searchResults.appendChild(result);
+  });
+
+  searchResults.hidden = false;
+});
+
+workspaceSearch.addEventListener("keydown", event => {
+  if (event.key === "Escape") {
+    workspaceSearch.value = "";
+    closeWorkspaceSearch();
+  }
+
+  if (event.key === "Enter") {
+    const firstResult =
+      searchResults.querySelector("button");
+
+    if (firstResult) firstResult.click();
+  }
+});
+
+document.addEventListener("click", event => {
+  if (
+    !workspaceSearch.contains(event.target) &&
+    !searchResults.contains(event.target)
+  ) {
+    closeWorkspaceSearch();
+  }
+});
 
 document.querySelectorAll("[data-page]").forEach(button => {
   button.addEventListener("click", event => {
