@@ -1,3 +1,4 @@
+
 import { defineConfig } from "vite";
 
 export default defineConfig({
@@ -6,7 +7,8 @@ export default defineConfig({
       input: {
         main: "index.html",
         school: "school.html",
-        teacher: "teacher.html"
+        teacher: "teacher.html",
+        liveClass: "live-class.html"
       }
     }
   }
