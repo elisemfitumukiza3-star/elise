@@ -3653,114 +3653,273 @@ async function renderPrivateLearningMaterials() {
 
   teacherWorkspaceLayout(
     "Education Materials Centre",
-    "Discover online videos, past papers and study notes, then share useful resources with your classes.",
+    "Discover video lessons, organize online documents and share resources with your learners.",
     `
+      <style>
+        .emc-tabs {
+          display:flex;gap:9px;overflow-x:auto;
+          padding:5px 0 16px;
+        }
+        .emc-tabs button {
+          flex:0 0 auto;padding:12px 17px;
+          border:1px solid #dce9e2;border-radius:11px;
+          background:#f1f7f4;color:#176b58;font-weight:750;
+        }
+        .emc-tabs button.active {
+          background:#176b58;color:white;
+        }
+        .emc-search {
+          display:flex;gap:10px;flex-wrap:wrap;margin:15px 0;
+        }
+        .emc-search input {flex:1;min-width:180px}
+        .emc-grid {
+          display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+          gap:15px;
+        }
+        .emc-card {
+          border:1px solid #e3ebe7;border-radius:14px;
+          overflow:hidden;background:white;min-width:0;
+        }
+        .emc-thumb {
+          width:100%;aspect-ratio:16/9;object-fit:cover;
+          display:block;background:#eaf2ee;
+        }
+        .emc-card-body {padding:13px}
+        .emc-card h3 {
+          font-size:13px;line-height:1.5;margin:0 0 7px;
+          color:#18334d;
+        }
+        .emc-card p {
+          font-size:11px;line-height:1.6;color:#71827c;
+          margin:5px 0;
+        }
+        .emc-card button {
+          margin-top:10px;padding:9px 12px;
+          border:0;border-radius:8px;background:#176b58;
+          color:white;font-size:11px;font-weight:750;
+        }
+        .emc-preview {
+          margin:17px 0;padding:16px;
+          border:1px solid #dce9e2;border-radius:14px;
+          background:#f7faf8;
+        }
+        .emc-preview iframe {
+          display:block;width:100%;height:440px;
+          border:0;border-radius:10px;background:#e9efec;
+        }
+        .emc-empty {
+          padding:28px;text-align:center;background:#f7faf8;
+          border:1px dashed #cbdcd3;border-radius:13px;
+          color:#71827c;font-size:13px;line-height:1.7;
+        }
+        @media(max-width:950px) {
+          .emc-grid {grid-template-columns:repeat(2,minmax(0,1fr))}
+        }
+        @media(max-width:560px) {
+          .emc-grid {grid-template-columns:1fr}
+          .emc-preview iframe {height:270px}
+        }
+      </style>
+
       <section class="panel">
         <div class="panel-head">
           <div>
-            <h2>Explore online learning resources</h2>
-            <p>Choose a resource category to begin.</p>
+            <h2>Discover learning resources</h2>
+            <p style="font-size:12px;color:#71827c">
+              Choose a resource, preview it and share it with your class.
+            </p>
           </div>
-          <button type="button" id="pmRefresh">↻ Refresh</button>
+          <button type="button" id="emcRefresh">↻ Refresh</button>
         </div>
 
-        <div id="pmCategories" style="
-          display:flex;gap:12px;overflow-x:auto;padding:8px 2px 16px;
-        ">
-          <button type="button" data-resource-category="video">🎬 Videos</button>
-          <button type="button" data-resource-category="past_paper">📝 Past Papers</button>
-          <button type="button" data-resource-category="notes">📚 Study Notes</button>
+        <div class="emc-tabs" id="emcTabs">
+          <button class="active" data-kind="all">📚 All resources</button>
+          <button data-kind="video">🎬 Videos</button>
+          <button data-kind="past_paper">📝 Past papers</button>
+          <button data-kind="notes">📖 Study notes</button>
         </div>
 
-        <label for="pmSearch">Search by subject or topic</label>
-        <input id="pmSearch" type="search"
-          placeholder="Example: Biology, algebra, English grammar...">
+        <div class="emc-search">
+          <input id="emcSearch" type="search"
+            placeholder="Search video titles or your saved resources...">
+        </div>
 
-        <button type="button" id="pmDiscover">
-          🔎 Discover online resources
+        <p id="emcStatus" role="status"
+          style="font-size:12px;color:#71827c"></p>
+        <div id="emcGrid" class="emc-grid">
+          <div class="emc-empty">Loading your learning resources...</div>
+        </div>
+      </section>
+
+      <section class="panel" style="margin-top:18px">
+        <h2>Preview and share</h2>
+        <p style="font-size:12px;color:#71827c">
+          Preview a resource here, then publish it to one of your classes.
+        </p>
+
+        <div id="emcPreview" class="emc-preview">
+          <div class="emc-empty">
+            Select a video or document card to preview it here.
+          </div>
+        </div>
+
+        <label for="emcClass">Share with class</label>
+        <select id="emcClass">
+          <option value="">Loading your classes...</option>
+        </select>
+
+        <label for="emcTitle">Resource title</label>
+        <input id="emcTitle" maxlength="180"
+          placeholder="Resource title">
+
+        <label for="emcDescription">Instructions for learners</label>
+        <textarea id="emcDescription" rows="3"
+          placeholder="Explain what learners should study or practise..."></textarea>
+
+        <button type="button" id="emcShare" style="margin-top:13px">
+          Share resource with class
         </button>
-
-        <p id="pmSearchMessage" role="status"></p>
+        <p id="emcMessage" role="status"></p>
       </section>
 
       <section class="panel" style="margin-top:18px">
-        <h2>Share an online resource with a class</h2>
-        <p>Find a resource online, copy its link, and share it with your learners.</p>
+        <h2>Add an online document</h2>
+        <p style="font-size:12px;color:#71827c">
+          Add a direct online PDF link for a past paper, revision note or study document.
+          No file upload is required.
+        </p>
 
-        <form id="pmShareForm">
-          <label for="pmClass">Choose class</label>
-          <select id="pmClass" required>
-            <option value="">Loading classes...</option>
-          </select>
+        <label for="emcDocType">Document category</label>
+        <select id="emcDocType">
+          <option value="past_paper">Past paper</option>
+          <option value="notes">Study notes</option>
+        </select>
 
-          <label for="pmTitle">Resource title</label>
-          <input id="pmTitle" required maxlength="180"
-            placeholder="Enter the resource title">
+        <label for="emcDocTitle">Document title</label>
+        <input id="emcDocTitle" maxlength="180"
+          placeholder="Example: Mathematics — Senior 4 Revision">
 
-          <label for="pmType">Resource category</label>
-          <select id="pmType">
-            <option value="video">Video</option>
-            <option value="past_paper">Past paper</option>
-            <option value="notes">Study notes</option>
-          </select>
+        <label for="emcDocUrl">Online document URL</label>
+        <input id="emcDocUrl" type="url"
+          placeholder="Paste the online PDF URL">
 
-          <label for="pmDescription">Short description</label>
-          <textarea id="pmDescription" rows="3"
-            placeholder="What should learners study or practise?"></textarea>
-
-          <label for="pmUrl">Online resource link</label>
-          <input id="pmUrl" type="url" required
-            placeholder="https://...">
-
-          <button type="submit">Share with selected class</button>
-          <p id="pmMessage" role="status"></p>
-        </form>
+        <button type="button" id="emcAddDocument" style="margin-top:13px">
+          Preview document
+        </button>
+        <p id="emcDocumentMessage" role="status"></p>
       </section>
 
       <section class="panel" style="margin-top:18px">
-        <div class="panel-head">
-          <h2>Resources shared by you</h2>
+        <h2>Resources shared by you</h2>
+        <div id="emcSaved" style="margin-top:14px">
+          Loading shared resources...
         </div>
-        <div id="pmList">Loading shared resources...</div>
       </section>
     `
   );
 
-  const classSelect = document.getElementById("pmClass");
-  const form = document.getElementById("pmShareForm");
-  const message = document.getElementById("pmMessage");
-  const list = document.getElementById("pmList");
-  const search = document.getElementById("pmSearch");
-  const searchMessage = document.getElementById("pmSearchMessage");
-  const typeSelect = document.getElementById("pmType");
-  const categoryButtons = document.querySelectorAll(
-    "[data-resource-category]"
-  );
+  const grid = document.getElementById("emcGrid");
+  const search = document.getElementById("emcSearch");
+  const status = document.getElementById("emcStatus");
+  const preview = document.getElementById("emcPreview");
+  const message = document.getElementById("emcMessage");
+  const classSelect = document.getElementById("emcClass");
+  const titleInput = document.getElementById("emcTitle");
+  const descriptionInput = document.getElementById("emcDescription");
+  const savedBox = document.getElementById("emcSaved");
 
-  let activeCategory = "video";
+  let activeKind = "all";
+  let selectedResource = null;
+  let cachedVideos = [];
+  let savedMaterials = [];
 
-  categoryButtons.forEach(button => {
-    button.style.cssText += `
-      flex:0 0 125px;
-      min-height:85px;
-      border:1px solid #dce9e2;
-      border-radius:13px;
-      background:#f1f7f4;
-      color:#176b58;
-      font-weight:750;
+  function safeResourceUrl(value) {
+    try {
+      const url = new URL(value);
+      return ["https:", "http:"].includes(url.protocol)
+        ? url.href
+        : null;
+    } catch {
+      return null;
+    }
+  }
+
+  function getYouTubeId(value) {
+    try {
+      const url = new URL(value);
+      if (url.hostname.includes("youtu.be")) {
+        return url.pathname.slice(1).split("/")[0];
+      }
+      if (url.searchParams.get("v")) {
+        return url.searchParams.get("v");
+      }
+      const match = url.pathname.match(/\/(?:embed|shorts)\/([^/?]+)/);
+      return match ? match[1] : null;
+    } catch {
+      return null;
+    }
+  }
+
+  function documentPreviewUrl(value) {
+    const safe = safeResourceUrl(value);
+    if (!safe) return null;
+
+    try {
+      const url = new URL(safe);
+      const driveMatch = url.pathname.match(/\/file\/d\/([^/]+)/);
+      if (url.hostname.includes("drive.google.com") && driveMatch) {
+        return `https://drive.google.com/file/d/${driveMatch[1]}/preview`;
+      }
+    } catch (_) {}
+
+    return safe;
+  }
+
+  function showPreview(resource) {
+    selectedResource = resource;
+    titleInput.value = resource.title || "";
+    descriptionInput.value = resource.description || "";
+
+    if (resource.kind === "video") {
+      const videoId = resource.videoId || getYouTubeId(resource.url);
+      if (!videoId) {
+        preview.innerHTML = '<div class="emc-empty">This video link could not be recognized.</div>';
+        return;
+      }
+
+      preview.innerHTML = `
+        <h3 style="font-size:15px">${teacherEscape(resource.title)}</h3>
+        <iframe
+          src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}"
+          title="${teacherEscape(resource.title)}"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen>
+        </iframe>
+        <p style="font-size:11px;color:#71827c">
+          Video preview inside LearnLoop.
+        </p>
+      `;
+      return;
+    }
+
+    const documentUrl = documentPreviewUrl(resource.url);
+    if (!documentUrl) {
+      preview.innerHTML = '<div class="emc-empty">This document URL is not valid.</div>';
+      return;
+    }
+
+    preview.innerHTML = `
+      <h3 style="font-size:15px">${teacherEscape(resource.title)}</h3>
+      <iframe
+        src="${teacherEscape(documentUrl)}"
+        title="${teacherEscape(resource.title)}"
+        loading="lazy">
+      </iframe>
+      <p style="font-size:11px;color:#71827c">
+        Some websites prevent embedded previews. Direct PDF links work best.
+      </p>
     `;
-
-    button.addEventListener("click", () => {
-      activeCategory = button.dataset.resourceCategory;
-      typeSelect.value = activeCategory;
-
-      categoryButtons.forEach(item => {
-        const selected = item === button;
-        item.style.background = selected ? "#176b58" : "#f1f7f4";
-        item.style.color = selected ? "white" : "#176b58";
-      });
-    });
-  });
+  }
 
   const { data: classes, error: classError } = await supabase
     .from("private_teacher_classes")
@@ -3770,146 +3929,306 @@ async function renderPrivateLearningMaterials() {
     .order("class_name");
 
   if (classError) {
-    classSelect.innerHTML =
-      '<option value="">Unable to load classes</option>';
+    classSelect.innerHTML = '<option value="">Unable to load classes</option>';
     message.textContent = classError.message;
     return;
   }
 
   classSelect.innerHTML =
-    '<option value="">Select a class</option>' +
+    '<option value="">Choose a class</option>' +
     (classes || []).map(item => `
       <option value="${item.id}">
         ${teacherEscape(item.class_name)} — ${teacherEscape(item.subject)}
       </option>
     `).join("");
 
-  document.getElementById("pmDiscover").addEventListener("click", () => {
-    const query = search.value.trim();
+  // Reuse the existing YouTube Learning feed cache.
+  // This avoids making another YouTube API request.
+  try {
+    const cache = JSON.parse(
+      localStorage.getItem("learnloop_youtube_education_feed_v1") || "{}"
+    );
+    cachedVideos = Array.isArray(cache.videos) ? cache.videos : [];
+  } catch (_) {
+    cachedVideos = [];
+  }
 
-    if (!query) {
-      searchMessage.textContent = "Enter a subject or topic first.";
-      return;
-    }
-
-    const searches = {
-      video: `https://www.youtube.com/results?search_query=${encodeURIComponent(query + " educational lesson")}`,
-      past_paper: `https://www.google.com/search?q=${encodeURIComponent(query + " past papers PDF")}`,
-      notes: `https://www.google.com/search?q=${encodeURIComponent(query + " study notes")}`
-    };
-
-    window.open(searches[activeCategory], "_blank", "noopener,noreferrer");
-
-    searchMessage.textContent =
-      "Online results opened in a new tab. Check the source, copy the resource link, and share it with your class below.";
-  });
-
-  async function loadMaterials() {
-    list.textContent = "Loading shared resources...";
-
+  async function loadSavedMaterials() {
     const { data, error } = await supabase
       .from("private_teacher_materials")
-      .select("id,class_id,title,description,material_type,external_url,status,created_at")
+      .select("*")
       .eq("teacher_id", teacherPortalUser.id)
-      .not("external_url", "is", null)
       .order("created_at", { ascending: false });
 
     if (error) {
-      list.textContent = "Unable to load resources: " + error.message;
+      savedBox.textContent = "Could not load resources: " + error.message;
       return;
     }
 
-    if (!data?.length) {
-      list.innerHTML = `
-        <div class="workspace-feature">
-          <strong>No online resources shared yet</strong>
-          <p>Discover a resource and share its link with one of your classes.</p>
-        </div>
-      `;
+    savedMaterials = data || [];
+    renderSavedMaterials();
+  }
+
+  function renderSavedMaterials() {
+    if (!savedMaterials.length) {
+      savedBox.innerHTML = `
+        <div class="emc-empty">
+          You have not shared any resources yet.
+        </div>`;
       return;
     }
 
-    list.innerHTML = `
-      <div class="workspace-feature-grid">
-        ${data.map(item => {
-          const className =
-            classes?.find(c => c.id === item.class_id)?.class_name || "Class";
+    savedBox.innerHTML = `
+      <div class="emc-grid">
+        ${savedMaterials.map(item => {
+          const isVideo = item.material_type === "video";
+          const url = item.external_url || "";
+          const image = isVideo && getYouTubeId(url)
+            ? `https://img.youtube.com/vi/${getYouTubeId(url)}/mqdefault.jpg`
+            : "";
 
           return `
-            <article class="workspace-feature">
-              <strong>${teacherEscape(item.title)}</strong>
-              <p>Class: ${teacherEscape(className)}</p>
-              <p>Category: ${teacherEscape(item.material_type)}</p>
-              <p>${teacherEscape(item.description || "")}</p>
-              <p>Status: ${teacherEscape(item.status)}</p>
-              <a href="${teacherEscape(item.external_url)}"
-                target="_blank" rel="noopener noreferrer">
-                Open online resource ↗
-              </a>
+            <article class="emc-card">
+              ${image
+                ? `<img class="emc-thumb" src="${image}" alt="">`
+                : `<div class="emc-thumb" style="display:grid;place-items:center;font-size:42px">📄</div>`}
+              <div class="emc-card-body">
+                <h3>${teacherEscape(item.title)}</h3>
+                <p>${teacherEscape(item.material_type)} · ${teacherEscape(item.status)}</p>
+                <button type="button" data-saved-id="${item.id}">
+                  Preview resource
+                </button>
+              </div>
             </article>
           `;
         }).join("")}
       </div>
     `;
+
+    savedBox.querySelectorAll("[data-saved-id]").forEach(button => {
+      button.addEventListener("click", () => {
+        const item = savedMaterials.find(
+          resource => String(resource.id) === button.dataset.savedId
+        );
+        if (!item?.external_url) return;
+
+        showPreview({
+          kind: item.material_type === "video" ? "video" : "document",
+          title: item.title,
+          description: item.description,
+          url: item.external_url
+        });
+
+        preview.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
   }
 
-  form.addEventListener("submit", async event => {
-    event.preventDefault();
+  function renderResources() {
+    const query = search.value.trim().toLowerCase();
 
-    const classId = classSelect.value;
-    const title = document.getElementById("pmTitle").value.trim();
-    const description =
-      document.getElementById("pmDescription").value.trim();
-    const type = typeSelect.value;
-    const url = document.getElementById("pmUrl").value.trim();
+    const videoResources = cachedVideos
+      .filter(video => video.id?.videoId && video.snippet)
+      .map(video => ({
+        kind: "video",
+        videoId: video.id.videoId,
+        title: video.snippet.title || "Educational video",
+        description: video.snippet.description || "",
+        channel: video.snippet.channelTitle || "YouTube",
+        image:
+          video.snippet.thumbnails?.medium?.url ||
+          video.snippet.thumbnails?.default?.url ||
+          "",
+        url: `https://www.youtube.com/watch?v=${video.id.videoId}`
+      }));
 
-    if (!classId || !title || !url) {
-      message.textContent = "Complete the class, title and resource link.";
+    const documentResources = savedMaterials
+      .filter(item => item.external_url)
+      .map(item => ({
+        kind: item.material_type,
+        title: item.title,
+        description: item.description || "",
+        url: item.external_url
+      }));
+
+    let resources = [...videoResources, ...documentResources];
+
+    if (activeKind !== "all") {
+      resources = resources.filter(item =>
+        activeKind === "video"
+          ? item.kind === "video"
+          : item.kind === activeKind
+      );
+    }
+
+    resources = resources.filter(item =>
+      `${item.title} ${item.description} ${item.channel || ""}`
+        .toLowerCase().includes(query)
+    );
+
+    if (!resources.length) {
+      grid.innerHTML = `
+        <div class="emc-empty" style="grid-column:1/-1">
+          ${activeKind === "video" && !cachedVideos.length
+            ? "Your YouTube Learning feed has no cached videos yet. Open YouTube Learning in LearnLoop, load educational videos, then return here."
+            : "No matching resources are available in this library yet. You can add an online PDF below."}
+        </div>`;
+      status.textContent = "No matching resources.";
       return;
     }
 
-    try {
-      const parsed = new URL(url);
-      if (!["https:", "http:"].includes(parsed.protocol)) {
-        throw new Error("Use a valid online resource link.");
+    grid.innerHTML = resources.map((item, index) => {
+      const image = item.kind === "video"
+        ? item.image
+        : "";
+
+      return `
+        <article class="emc-card">
+          ${image
+            ? `<img class="emc-thumb" src="${teacherEscape(image)}" alt="">`
+            : `<div class="emc-thumb" style="display:grid;place-items:center;font-size:43px">${item.kind === "video" ? "🎬" : "📄"}</div>`}
+          <div class="emc-card-body">
+            <h3>${teacherEscape(item.title)}</h3>
+            <p>${teacherEscape(item.channel || (item.kind === "video" ? "Video lesson" : item.kind.replace("_", " ")))}</p>
+            <p>${teacherEscape(item.description.slice(0, 130))}</p>
+            <button type="button" data-resource-index="${index}">
+              Preview and select
+            </button>
+          </div>
+        </article>
+      `;
+    }).join("");
+
+    grid.querySelectorAll("[data-resource-index]").forEach(button => {
+      button.addEventListener("click", () => {
+        const item = resources[Number(button.dataset.resourceIndex)];
+        showPreview(item);
+        preview.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
+
+    status.textContent =
+      `${resources.length} resources available in your current library.`;
+  }
+
+  document.getElementById("emcTabs")
+    .querySelectorAll("[data-kind]")
+    .forEach(button => {
+      button.addEventListener("click", () => {
+        activeKind = button.dataset.kind;
+
+        document.getElementById("emcTabs")
+          .querySelectorAll("[data-kind]")
+          .forEach(tab => tab.classList.toggle("active", tab === button));
+
+        renderResources();
+      });
+    });
+
+  search.addEventListener("input", renderResources);
+
+  document.getElementById("emcAddDocument")
+    .addEventListener("click", () => {
+      const url = safeResourceUrl(
+        document.getElementById("emcDocUrl").value.trim()
+      );
+      const title = document.getElementById("emcDocTitle").value.trim();
+      const kind = document.getElementById("emcDocType").value;
+      const docMessage = document.getElementById("emcDocumentMessage");
+
+      if (!title || !url) {
+        docMessage.textContent = "Enter a title and a valid online document URL.";
+        return;
       }
-    } catch {
-      message.textContent = "Please enter a valid online resource URL.";
-      return;
-    }
 
-    message.textContent = "Sharing resource with your class...";
+      if (getYouTubeId(url)) {
+        docMessage.textContent = "Use the Videos category for YouTube links.";
+        return;
+      }
 
-    const { error } = await supabase
-      .from("private_teacher_materials")
-      .insert({
-        class_id: classId,
-        teacher_id: teacherPortalUser.id,
+      docMessage.textContent = "Document selected. Preview it below before sharing.";
+
+      showPreview({
+        kind,
         title,
-        description,
-        material_type: type,
-        file_url: null,
-        file_name: null,
-        external_url: url,
-        status: "published",
-        published_at: new Date().toISOString()
+        description: "",
+        url
       });
 
-    if (error) {
-      message.textContent = "Could not share resource: " + error.message;
-      return;
-    }
+      preview.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
 
-    form.reset();
-    message.textContent = "Online resource shared with your selected class.";
-    await loadMaterials();
-  });
+  document.getElementById("emcShare")
+    .addEventListener("click", async () => {
+      message.textContent = "";
 
-  document.getElementById("pmRefresh")
-    .addEventListener("click", loadMaterials);
+      if (!selectedResource) {
+        message.textContent = "Select a resource to share first.";
+        return;
+      }
 
-  await loadMaterials();
+      const classId = classSelect.value;
+      const title = titleInput.value.trim();
+
+      if (!classId || !title) {
+        message.textContent = "Choose a class and enter a resource title.";
+        return;
+      }
+
+      const url = safeResourceUrl(selectedResource.url);
+      if (!url) {
+        message.textContent = "The selected resource URL is invalid.";
+        return;
+      }
+
+      message.textContent = "Sharing resource with your class...";
+
+      const { error } = await supabase
+        .from("private_teacher_materials")
+        .insert({
+          class_id: classId,
+          teacher_id: teacherPortalUser.id,
+          title,
+          description: descriptionInput.value.trim(),
+          material_type: selectedResource.kind,
+          file_url: null,
+          file_name: null,
+          external_url: url,
+          status: "published",
+          published_at: new Date().toISOString()
+        });
+
+      if (error) {
+        message.textContent = "Could not share resource: " + error.message;
+        return;
+      }
+
+      message.textContent = "Resource successfully shared with your class.";
+      await loadSavedMaterials();
+      renderResources();
+    });
+
+  document.getElementById("emcRefresh")
+    .addEventListener("click", async () => {
+      status.textContent = "Refreshing resources...";
+      await loadSavedMaterials();
+
+      try {
+        const cache = JSON.parse(
+          localStorage.getItem("learnloop_youtube_education_feed_v1") || "{}"
+        );
+        cachedVideos = Array.isArray(cache.videos) ? cache.videos : [];
+      } catch (_) {
+        cachedVideos = [];
+      }
+
+      renderResources();
+    });
+
+  await loadSavedMaterials();
+  renderResources();
 }
+
 
 async function renderPrivateStudentProgress() {
   const supabase = teacherRequireAccess();
