@@ -2558,28 +2558,37 @@ async function renderPrivateLiveClasses() {
                   </a>
                 ` : ""}
 
-                ${item.status === "scheduled" ? `
-                  <button type="button"
-                    data-live-status="${item.id}"
-                    data-status="live">
-                    Start session
-                  </button>
-                  <button type="button"
-                    data-live-status="${item.id}"
-                    data-status="cancelled"
-                    style="background:#9b3939">
-                    Cancel session
-                  </button>
-                ` : ""}
+                
+${item.status === "scheduled" ? `
+  <button type="button"
+    data-live-status="${item.id}"
+    data-status="live"
+    data-live-token="${teacherEscape(item.public_token || "")}">
+    🎥 Start session & open camera
+  </button>
 
-                ${item.status === "live" ? `
-                  <button type="button"
-                    data-live-status="${item.id}"
-                    data-status="completed">
-                    End session
-                  </button>
-                ` : ""}
-              </div>
+  <button type="button"
+    data-live-status="${item.id}"
+    data-status="cancelled"
+    style="background:#9b3939">
+    Cancel session
+  </button>
+` : ""}
+
+${item.status === "live" ? `
+  <button type="button"
+    data-open-live="${teacherEscape(item.public_token || "")}">
+    🎥 Open teaching studio
+  </button>
+
+  <button type="button"
+    data-live-status="${item.id}"
+    data-status="completed">
+    End session
+  </button>
+` : ""}
+</div>
+
 
               ${requestSection}
             </article>
