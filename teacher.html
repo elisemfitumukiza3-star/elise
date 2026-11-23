@@ -1090,13 +1090,18 @@ body {
 </div>
 </section>
 <section class="lower">
- <div class="panel">
-  <div class="panel-head"><h2>♧ Student Learning Progress</h2><a href="#" data-page="Student Progress">View details</a></div>
-  <div class="progress-row">Lesson completion overview<div class="track"><span style="width:0%"></span></div></div>
-  <div class="progress-row">Assignment participation<div class="track"><span style="width:0%"></span></div></div>
-  <div class="progress-row">Quiz participation<div class="track"><span style="width:0%"></span></div></div>
-  <p style="font-size:11px;color:#82918d">Progress indicators will use actual student activity.</p>
- </div>
+<div class="panel">
+  <div class="panel-head">
+    <h2>♧ Student Learning Progress</h2>
+    <a href="#" data-page="Student Progress">View details</a>
+  </div>
+
+  <div id="teacherDashboardProgress">
+    <p style="font-size:12px;color:#82918d">
+      Loading real learner activity...
+    </p>
+  </div>
+</div>
  <div class="panel">
   <div class="panel-head"><h2>✉ Teaching Updates</h2></div>
   <div class="lesson"><div class="lesson-icon">📚</div><div><strong>Learning materials</strong><small>Organize resources for your students</small></div></div>
@@ -1342,6 +1347,232 @@ async function loadTeacherDashboardSchedule() {
     `;
   }).join("");
 }
+ 
+async function loadTeacherDashboardProgress() {
+  const supabase = window.learnLoopPortalSupabase;
+  const container = document.getElementById("teacherDashboardProgress");
+
+  if (!supabase || !teacherPortalUser || !container) return;
+
+  container.innerHTML = `
+    <p style="font-size:12px;color:#82918d">
+      Calculating learner progress...
+    </p>
+  `;
+
+  const classesResult = await supabase
+    .from("private_teacher_classes")
+    .select("id")
+    .eq("teacher_id", teacherPortalUser.id);
+
+  if (classesResult.error) {
+    container.textContent = "Unable to load learner progress.";
+    console.error(classesResult.error);
+    return;
+  }
+
+  const classIds = (classesResult.data || []).map(item => item.id);
+
+  if (!classIds.length) {
+    container.innerHTML = `
+      <div class="workspace-feature">
+        <strong>No class activity yet</strong>
+        <p>Create a class and invite learners to begin tracking progress.</p>
+      </div>
+    `;
+    return;
+  }
+
+  const [
+    membersResult,
+    lessonsResult,
+    progressResult,
+    assignmentsResult
+  ] = await Promise.all([
+    supabase
+      .from("private_teacher_class_members")
+      .select("student_id,class_id")
+      .in("class_id", classIds),
+
+    supabase
+      .from("private_teacher_lessons")
+      .select("id,class_id,status")
+      .eq("teacher_id", teacherPortalUser.id)
+      .in("class_id", classIds),
+
+    supabase
+      .from("private_teacher_lesson_progress")
+      .select("student_id,lesson_id,class_id,completed_at")
+      .in("class_id", classIds),
+
+    supabase
+      .from("private_teacher_assignments")
+      .select("id,class_id")
+      .eq("teacher_id", teacherPortalUser.id)
+      .in("class_id", classIds)
+  ]);
+
+  const firstError =
+    membersResult.error ||
+    lessonsResult.error ||
+    progressResult.error ||
+    assignmentsResult.error;
+
+  if (firstError) {
+    container.textContent =
+      "Unable to calculate progress. Please check database access policies.";
+    console.error(firstError);
+    return;
+  }
+
+  const members = membersResult.data || [];
+  const lessons = (lessonsResult.data || [])
+    .filter(item => item.status === "published");
+
+  const progress = progressResult.data || [];
+  const assignments = assignmentsResult.data || [];
+
+  const assignmentIds = assignments.map(item => item.id);
+
+  let submissions = [];
+
+  if (assignmentIds.length) {
+    const submissionsResult = await supabase
+      .from("private_teacher_submissions")
+      .select("assignment_id,student_id,score")
+      .in("assignment_id", assignmentIds);
+
+    if (submissionsResult.error) {
+      container.textContent =
+        "Unable to load assignment submission activity.";
+      console.error(submissionsResult.error);
+      return;
+    }
+
+    submissions = submissionsResult.data || [];
+  }
+
+  // Calculate possible lesson completions across class memberships.
+  let possibleLessons = 0;
+
+  members.forEach(member => {
+    possibleLessons += lessons.filter(
+      lesson => lesson.class_id === member.class_id
+    ).length;
+  });
+
+  const completedPairs = new Set();
+
+  progress.forEach(item => {
+    if (!item.completed_at) return;
+
+    const validLesson = lessons.some(lesson =>
+      lesson.id === item.lesson_id &&
+      lesson.class_id === item.class_id
+    );
+
+    if (validLesson) {
+      completedPairs.add(
+        `${item.student_id}|${item.class_id}|${item.lesson_id}`
+      );
+    }
+  });
+
+  const lessonCompleted = Math.min(
+    completedPairs.size,
+    possibleLessons
+  );
+
+  // Calculate assignment submission participation.
+  let possibleAssignments = 0;
+
+  members.forEach(member => {
+    possibleAssignments += assignments.filter(
+      assignment => assignment.class_id === member.class_id
+    ).length;
+  });
+
+  const submittedPairs = new Set();
+
+  submissions.forEach(item => {
+    submittedPairs.add(
+      `${item.student_id}|${item.assignment_id}`
+    );
+  });
+
+  const submittedCount = Math.min(
+    submittedPairs.size,
+    possibleAssignments
+  );
+
+  // Calculate the proportion of submissions that have been graded.
+  const gradedPairs = new Set();
+
+  submissions.forEach(item => {
+    if (item.score !== null && item.score !== undefined) {
+      gradedPairs.add(
+        `${item.student_id}|${item.assignment_id}`
+      );
+    }
+  });
+
+  const gradedCount = Math.min(
+    gradedPairs.size,
+    submittedCount
+  );
+
+  function percentage(value, total) {
+    return total > 0
+      ? Math.round((value / total) * 100)
+      : null;
+  }
+
+  function progressRow(title, value, total) {
+    const percent = percentage(value, total);
+    const display = percent === null ? "—" : `${percent}%`;
+    const width = percent === null ? 0 : percent;
+
+    return `
+      <div class="progress-row">
+        <div style="display:flex;justify-content:space-between;gap:10px">
+          <span>${title}</span>
+          <strong>${display}</strong>
+        </div>
+        <div class="track">
+          <span style="width:${width}%"></span>
+        </div>
+        <small style="color:#82918d">
+          ${total ? `${value} of ${total}` : "No activity recorded yet"}
+        </small>
+      </div>
+    `;
+  }
+
+  container.innerHTML = `
+    ${progressRow(
+      "Lesson completion",
+      lessonCompleted,
+      possibleLessons
+    )}
+
+    ${progressRow(
+      "Assignment submission",
+      submittedCount,
+      possibleAssignments
+    )}
+
+    ${progressRow(
+      "Assignment grading",
+      gradedCount,
+      submittedCount
+    )}
+
+    <p style="font-size:11px;color:#82918d;margin-top:12px">
+      Based on enrolled learners and recorded classroom activity.
+    </p>
+  `;
+}
+
 window.addEventListener("portal:authorized", event => {
   teacherPortalUser = event.detail.user;
   teacherPortalAccess = event.detail.access;
@@ -1349,7 +1580,9 @@ window.addEventListener("portal:authorized", event => {
   loadTeacherDashboardMetrics().catch(error => {
     console.error("Teacher dashboard metrics error:", error);
   });
-
+  loadTeacherDashboardProgress().catch(error => {
+    console.error("Teacher dashboard progress error:", error);
+  });
   loadTeacherDashboardSchedule().catch(error => {
     console.error("Teacher dashboard schedule error:", error);
   });
