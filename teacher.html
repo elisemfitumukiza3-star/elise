@@ -1255,6 +1255,57 @@ body {
     border-radius: 9px !important;
   }
 }
+ /* LEARNLOOP STUDIO WORKSPACE TABS */
+.workspace-tabs-bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 49px;
+  padding: 7px 16px;
+  background: #111a20;
+  border-bottom: 1px solid #35444d;
+  overflow: hidden;
+}
+
+.workspace-tabs-label {
+  flex: 0 0 auto;
+  color: #81949c;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.workspace-tabs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow-x: auto;
+  min-width: 0;
+  scrollbar-width: thin;
+}
+
+.workspace-tab {
+  flex: 0 0 auto;
+  padding: 9px 13px !important;
+  border: 1px solid transparent !important;
+  border-radius: 7px 7px 0 0 !important;
+  background: #202b32 !important;
+  color: #a9bac0 !important;
+  font-size: 11px !important;
+  white-space: nowrap;
+}
+
+.workspace-tab.active {
+  background: #30443f !important;
+  color: #43d4a8 !important;
+  border-color: #35c49a !important;
+  border-bottom: 2px solid #35c49a !important;
+}
+
+.workspace-tab:hover {
+  background: #34434a !important;
+  color: white !important;
+}
 </style>
 </head>
 <body>
@@ -1442,6 +1493,10 @@ body {
     </div>
     <button type="button" id="closeWorkspace" aria-label="Close workspace">×</button>
   </div>
+ <div class="workspace-tabs-bar">
+  <div class="workspace-tabs-label">OPEN WINDOWS</div>
+  <div id="teacherWorkspaceTabs" class="workspace-tabs"></div>
+</div>
   <div class="workspace-content" id="workspaceContent"></div>
 </aside>
 
@@ -5342,7 +5397,54 @@ function renderTeacherModuleNotice(page) {
     `
   );
 }
+// LEARNLOOP STUDIO — RECENT WORKSPACE WINDOWS
+const teacherWorkspaceTabs =
+  document.getElementById("teacherWorkspaceTabs");
 
+let teacherRecentWorkspacePages = [];
+let activeTeacherWorkspacePage = "";
+
+function renderTeacherWorkspaceTabs() {
+  teacherWorkspaceTabs.replaceChildren();
+
+  teacherRecentWorkspacePages.forEach(page => {
+    const tab = document.createElement("button");
+
+    tab.type = "button";
+    tab.className = "workspace-tab";
+    tab.textContent = page;
+    tab.dataset.workspaceTab = page;
+
+    if (page === activeTeacherWorkspacePage) {
+      tab.classList.add("active");
+      tab.setAttribute("aria-current", "page");
+    }
+
+    teacherWorkspaceTabs.appendChild(tab);
+  });
+}
+
+function rememberTeacherWorkspace(page) {
+  teacherRecentWorkspacePages =
+    teacherRecentWorkspacePages.filter(item => item !== page);
+
+  teacherRecentWorkspacePages.unshift(page);
+
+  teacherRecentWorkspacePages =
+    teacherRecentWorkspacePages.slice(0, 6);
+
+  activeTeacherWorkspacePage = page;
+
+  renderTeacherWorkspaceTabs();
+}
+
+teacherWorkspaceTabs.addEventListener("click", event => {
+  const tab = event.target.closest("[data-workspace-tab]");
+
+  if (!tab) return;
+
+  openTeacherWorkspace(tab.dataset.workspaceTab);
+});
 function openTeacherWorkspace(page) {
   if (page === "Dashboard") {
     closeTeacherWorkspace();
@@ -5351,7 +5453,7 @@ function openTeacherWorkspace(page) {
 
   const workspace = teacherWorkspaces[page];
   if (!workspace) return;
-
+rememberTeacherWorkspace(page);
   workspaceTitle.textContent = page;
   workspaceDescription.textContent = workspace.description;
 
@@ -5403,7 +5505,8 @@ document.querySelectorAll(".nav button").forEach(item => {
 function closeTeacherWorkspace() {
   workspacePanel.hidden = true;
   portalLayout.classList.remove("workspace-open");
-
+activeTeacherWorkspacePage = "";
+renderTeacherWorkspaceTabs();
   document.querySelectorAll(".nav button").forEach(item => {
     item.classList.toggle("active", item.dataset.page === "Dashboard");
   });
