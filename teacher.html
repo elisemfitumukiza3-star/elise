@@ -1450,6 +1450,131 @@ body {
   border: 1px solid #35c49a !important;
   outline: none !important;
 }
+ /* =====================================
+   LEARNLOOP — UNIFIED STUDIO WINDOWS
+===================================== */
+
+#workspacePanel,
+#workspaceContent {
+  background: #171f25 !important;
+  color: #edf5f2 !important;
+}
+
+#workspaceContent {
+  padding: 20px !important;
+}
+
+/* Consistent dark content panels */
+#workspaceContent .panel,
+#workspaceContent article,
+#workspaceContent .workspace-feature,
+#workspaceContent .workspace-placeholder,
+#workspaceContent .card {
+  background: #202a31 !important;
+  color: #edf5f2 !important;
+  border: 1px solid #35444d !important;
+  border-radius: 10px !important;
+  box-shadow: none !important;
+}
+
+/* Headings and descriptions */
+#workspaceContent h2,
+#workspaceContent h3,
+#workspaceContent h4,
+#workspaceContent strong {
+  color: #f2f7f5 !important;
+}
+
+#workspaceContent p,
+#workspaceContent small,
+#workspaceContent label {
+  color: #aabac0 !important;
+}
+
+/* Dark form controls across every module */
+#workspaceContent input,
+#workspaceContent select,
+#workspaceContent textarea {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #52636b !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+#workspaceContent input:focus,
+#workspaceContent select:focus,
+#workspaceContent textarea:focus {
+  border-color: #35c49a !important;
+  outline: none !important;
+}
+
+/* Consistent green action buttons */
+#workspaceContent button:not(.workspace-module-tile) {
+  transition: .18s ease;
+}
+
+#workspaceContent button:hover {
+  border-color: #35c49a;
+}
+
+/* Tables */
+#workspaceContent table {
+  color: #edf5f2 !important;
+  border-color: #35444d !important;
+}
+
+#workspaceContent th {
+  background: #26343b !important;
+  color: #35c49a !important;
+}
+
+#workspaceContent td {
+  color: #d5e0e2 !important;
+  border-color: #35444d !important;
+}
+
+/* Horizontal square navigation */
+.workspace-module-nav {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  overflow-x: auto !important;
+  background: #111a20 !important;
+  gap: 10px !important;
+}
+
+.workspace-module-tile {
+  flex: 0 0 100px !important;
+  width: 100px !important;
+  height: 100px !important;
+  min-height: 100px !important;
+  aspect-ratio: 1 / 1 !important;
+  border-radius: 0 !important;
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #35444d !important;
+}
+
+.workspace-module-tile.active {
+  background: #244b40 !important;
+  color: #50dcb0 !important;
+  border-color: #35c49a !important;
+}
+
+/* Mobile square tiles */
+@media(max-width:760px) {
+  #workspaceContent {
+    padding: 12px !important;
+  }
+
+  .workspace-module-tile {
+    flex-basis: 76px !important;
+    width: 76px !important;
+    height: 76px !important;
+    min-height: 76px !important;
+  }
+}
 </style>
 </head>
 <body>
