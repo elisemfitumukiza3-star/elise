@@ -1402,35 +1402,46 @@ body {
     font-size: 10px !important;
   }
 }
- /* LESSON FORM — SHARP SQUARE-CORNER CONTROLS */
-#workspacePanel #workspaceContent #privateLessonForm input,
-#workspacePanel #workspaceContent #privateLessonForm select,
-#workspacePanel #workspaceContent #privateLessonForm textarea {
-  display: block !important;
-  width: 100% !important;
-  border-radius: 0 !important;
-  border: 1px solid #52636b !important;
-  background: #11191e !important;
-  color: #ffffff !important;
-  padding: 14px !important;
+/* LEARNLOOP — DIRECT LESSON FIELD SQUARE CORNERS */
+
+#privateLessonClass,
+#privateLessonTitle,
+#privateLessonDescription,
+#privateLessonContent,
+#privateLessonVideo,
+#privateLessonResource {
+  border-radius: 0px !important;
+  -webkit-border-radius: 0px !important;
   box-shadow: none !important;
+  border: 1px solid #52636b !important;
+  background-color: #11191e !important;
+  color: #ffffff !important;
 }
 
-#workspacePanel #workspaceContent #privateLessonForm input:focus,
-#workspacePanel #workspaceContent #privateLessonForm select:focus,
-#workspacePanel #workspaceContent #privateLessonForm textarea:focus {
+#privateLessonClass,
+#privateLessonTitle,
+#privateLessonVideo,
+#privateLessonResource {
+  height: 48px !important;
+}
+
+#privateLessonDescription {
+  min-height: 90px !important;
+}
+
+#privateLessonContent {
+  min-height: 170px !important;
+}
+
+#privateLessonClass:focus,
+#privateLessonTitle:focus,
+#privateLessonDescription:focus,
+#privateLessonContent:focus,
+#privateLessonVideo:focus,
+#privateLessonResource:focus {
+  border-radius: 0px !important;
   border: 1px solid #35c49a !important;
   outline: none !important;
-  box-shadow: none !important;
-}
-
-#workspacePanel #workspaceContent #privateLessonForm textarea {
-  resize: vertical;
-  min-height: 110px;
-}
-
-#workspacePanel #workspaceContent #privateLessonForm label {
-  color: #a9c3bb !important;
 }
 </style>
 </head>
