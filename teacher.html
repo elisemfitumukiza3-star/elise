@@ -1306,6 +1306,75 @@ body {
   background: #34434a !important;
   color: white !important;
 }
+ /* UNIVERSAL STUDIO MODULE NAVIGATION */
+.workspace-module-nav {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+  padding: 15px 20px;
+  background: #111a20;
+  border-bottom: 1px solid #35444d;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.workspace-module-tile {
+  flex: 0 0 100px;
+  min-height: 88px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px;
+  border: 1px solid #35444d !important;
+  border-radius: 10px !important;
+  background: #202b32 !important;
+  color: #aebfc4 !important;
+  font-size: 11px !important;
+  font-weight: 750;
+  text-align: center;
+  white-space: normal;
+}
+
+.workspace-module-tile .tile-icon {
+  font-size: 23px;
+  line-height: 1;
+}
+
+.workspace-module-tile.active {
+  background: #244b40 !important;
+  border: 1px solid #35c49a !important;
+  color: #50dcb0 !important;
+  box-shadow: inset 0 -3px #35c49a;
+}
+
+.workspace-module-tile:hover {
+  border-color: #35c49a !important;
+  background: #293b40 !important;
+}
+
+#workspaceContent {
+  min-height: 550px;
+  margin: 0;
+  border: 1px solid #35444d;
+  border-top: 0;
+  border-radius: 0 0 11px 11px;
+  scroll-behavior: smooth;
+}
+
+@media(max-width:760px) {
+  .workspace-module-nav {
+    padding: 11px;
+    gap: 8px;
+  }
+
+  .workspace-module-tile {
+    flex-basis: 83px;
+    min-height: 78px;
+    font-size: 10px !important;
+  }
+}
 </style>
 </head>
 <body>
@@ -1497,7 +1566,8 @@ body {
   <div class="workspace-tabs-label">OPEN WINDOWS</div>
   <div id="teacherWorkspaceTabs" class="workspace-tabs"></div>
 </div>
-  <div class="workspace-content" id="workspaceContent"></div>
+ <div id="workspaceModuleNav" class="workspace-module-nav"></div>
+<div class="workspace-content" id="workspaceContent"></div>
 </aside>
 
 </div>
@@ -1511,6 +1581,91 @@ const workspacePanel = document.getElementById("workspacePanel");
 const workspaceTitle = document.getElementById("workspaceTitle");
 const workspaceDescription = document.getElementById("workspaceDescription");
 const workspaceContent = document.getElementById("workspaceContent");
+ /* LEARNLOOP STUDIO — UNIVERSAL MODULE NAVIGATION */
+
+const workspaceModuleNav =
+  document.getElementById("workspaceModuleNav");
+
+const studioTileIcons = [
+  "⌂", "✚", "▤", "▦", "◉", "✉", "▣", "◈"
+];
+
+function renderTeacherModuleTiles() {
+  const sections = Array.from(workspaceContent.children)
+    .filter(element =>
+      element.matches(".panel, section, article, .workspace-feature") ||
+      element.querySelector(":scope > h2, :scope > h3")
+    );
+
+  workspaceModuleNav.replaceChildren();
+
+  const allButton = document.createElement("button");
+  allButton.type = "button";
+  allButton.className = "workspace-module-tile active";
+  allButton.innerHTML =
+    '<span class="tile-icon">⌂</span><span>Overview</span>';
+
+  allButton.addEventListener("click", () => {
+    workspaceContent.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+
+    workspaceModuleNav.querySelectorAll("button")
+      .forEach(button => button.classList.remove("active"));
+
+    allButton.classList.add("active");
+  });
+
+  workspaceModuleNav.appendChild(allButton);
+
+  sections.forEach((section, index) => {
+    const heading = section.querySelector("h2, h3, h4");
+    const label = heading?.textContent.trim() ||
+      `Section ${index + 1}`;
+
+    const sectionId = `studio-module-section-${index}`;
+    section.id = sectionId;
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "workspace-module-tile";
+
+    const icon = studioTileIcons[(index + 1) % studioTileIcons.length];
+
+    const iconElement = document.createElement("span");
+    iconElement.className = "tile-icon";
+    iconElement.textContent = icon;
+
+    const labelElement = document.createElement("span");
+    labelElement.textContent = label;
+
+    button.append(iconElement, labelElement);
+
+    button.addEventListener("click", () => {
+      section.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+
+      workspaceModuleNav.querySelectorAll("button")
+        .forEach(item => item.classList.remove("active"));
+
+      button.classList.add("active");
+    });
+
+    workspaceModuleNav.appendChild(button);
+  });
+}
+
+const teacherModuleObserver = new MutationObserver(() => {
+  renderTeacherModuleTiles();
+});
+
+teacherModuleObserver.observe(workspaceContent, {
+  childList: true,
+  subtree: true
+});
 const closeWorkspace = document.getElementById("closeWorkspace");
 
 let teacherPortalUser = null;
