@@ -1178,15 +1178,27 @@ body {
 }
 
 /* Consistent controls */
-.workspace-content input,
-.workspace-content textarea,
-.workspace-content select {
+/* SHARP SQUARE LESSON FORM FIELDS */
+#workspaceContent #privateLessonForm input,
+#workspaceContent #privateLessonForm select,
+#workspaceContent #privateLessonForm textarea {
+  display: block !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
   background: #11191e !important;
   color: #f0f5f3 !important;
-  border: 1px solid #43545d !important;
-  border-radius: 3px !important;
+  border: 1px solid #52636b !important;
+  border-radius: 0 !important;
   box-shadow: none !important;
-  width: 100%;
+}
+
+#workspaceContent #privateLessonForm input:focus,
+#workspaceContent #privateLessonForm select:focus,
+#workspaceContent #privateLessonForm textarea:focus {
+  border-color: #35c49a !important;
+  outline: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
 }
 
 .workspace-content input:focus,
