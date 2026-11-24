@@ -946,6 +946,315 @@ body {
   color: #173b35;
   border-color: #e5c477;
 }
+ /* =========================================
+   LEARNLOOP STUDIO — TEACHER WORKSPACE UI
+   FL Studio-inspired professional interface
+========================================= */
+
+:root {
+  --studio-bg: #151b20;
+  --studio-sidebar: #10171c;
+  --studio-panel: #202a31;
+  --studio-panel-2: #26333b;
+  --studio-border: #35444d;
+  --studio-text: #edf5f2;
+  --studio-muted: #a2b2b8;
+  --studio-accent: #35c49a;
+  --studio-gold: #e4bd69;
+}
+
+/* Main application background */
+body {
+  background: var(--studio-bg) !important;
+  color: var(--studio-text);
+}
+
+/* Sidebar becomes a compact studio navigation rail */
+.sidebar {
+  background: var(--studio-sidebar) !important;
+  border-right: 1px solid var(--studio-border);
+  box-shadow: 5px 0 25px #0005;
+  padding: 22px 13px;
+}
+
+.brand {
+  color: #f1f6f4;
+  font-size: 23px;
+  letter-spacing: -.7px;
+}
+
+.brand small {
+  color: var(--studio-accent);
+  letter-spacing: 2.3px;
+}
+
+.nav-label {
+  color: #81949c;
+}
+
+.nav button {
+  min-height: 43px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: #c5d1d5;
+  font-size: 12px;
+  transition: .18s ease;
+}
+
+.nav button:hover {
+  background: #26343b;
+  border-color: #3b4c54;
+  transform: translateX(2px);
+}
+
+.nav button.active {
+  color: #10241e;
+  background: var(--studio-accent);
+  border-color: var(--studio-accent);
+  box-shadow: 0 3px 13px #35c49a30;
+}
+
+.nav .ico {
+  background: #ffffff0c;
+}
+
+/* Top command bar */
+.topbar {
+  height: 65px;
+  background: #192229 !important;
+  border-bottom: 1px solid var(--studio-border);
+  box-shadow: 0 4px 18px #0003;
+  padding: 0 22px;
+}
+
+.menu {
+  background: #26343b !important;
+  border-color: #40515a !important;
+  color: var(--studio-accent) !important;
+}
+
+.search input {
+  background: #10181d !important;
+  border: 1px solid #3b4b53 !important;
+  color: white !important;
+  border-radius: 8px !important;
+}
+
+.search input:focus {
+  border-color: var(--studio-accent) !important;
+  box-shadow: 0 0 0 3px #35c49a20;
+}
+
+.top-right button {
+  color: var(--studio-accent);
+}
+
+.profile {
+  color: white;
+}
+
+.avatar {
+  background: #29443e;
+}
+
+/* Dashboard surface */
+.portal-layout {
+  background: var(--studio-bg);
+}
+
+.hero {
+  background: linear-gradient(115deg,#173c35,#176b58 70%,#218e70);
+  border: 1px solid #397e6b;
+  border-radius: 11px;
+  box-shadow: 0 8px 28px #0003;
+}
+
+.metric,
+.panel {
+  background: var(--studio-panel) !important;
+  border: 1px solid var(--studio-border) !important;
+  border-radius: 10px !important;
+  box-shadow: 0 5px 18px #0003 !important;
+  color: var(--studio-text);
+}
+
+.metric strong,
+.panel h2 {
+  color: #f0f6f3 !important;
+}
+
+.metric small,
+.panel p,
+.lesson small {
+  color: var(--studio-muted);
+}
+
+.action {
+  background: #26343b;
+  border: 1px solid #3a4b54;
+  color: var(--studio-accent);
+  border-radius: 9px;
+}
+
+.action:nth-child(3n) {
+  background: #343126;
+}
+
+.action:hover {
+  background: #30443f;
+  border-color: var(--studio-accent);
+}
+
+.lesson {
+  border-color: var(--studio-border);
+}
+
+.lesson-icon {
+  background: #29443e;
+}
+
+/* Full-window teaching workspaces */
+#workspacePanel {
+  background: #1a2228 !important;
+  border: 1px solid #3b4b53 !important;
+  border-radius: 11px !important;
+  box-shadow: 0 15px 45px #0005 !important;
+  overflow: hidden;
+}
+
+.workspace-header {
+  min-height: 82px;
+  padding: 17px 23px;
+  background: #202b32 !important;
+  border-bottom: 1px solid var(--studio-border);
+}
+
+.workspace-header small {
+  color: var(--studio-accent);
+  letter-spacing: 2px;
+}
+
+.workspace-header h2 {
+  color: #f2f7f5;
+  font-size: 22px;
+}
+
+.workspace-header button {
+  background: #303d44;
+  border-color: #52616a;
+  border-radius: 8px;
+}
+
+.workspace-content {
+  background: #171f25 !important;
+  color: var(--studio-text);
+  padding: 23px;
+}
+
+.workspace-welcome {
+  background: linear-gradient(110deg,#173d35,#205d4d);
+  border: 1px solid #397e69;
+  border-radius: 10px;
+  box-shadow: none;
+}
+
+.workspace-content .panel,
+.workspace-feature {
+  background: var(--studio-panel) !important;
+  border: 1px solid var(--studio-border) !important;
+  border-radius: 10px !important;
+  box-shadow: none !important;
+  color: var(--studio-text);
+}
+
+.workspace-content .panel h2,
+.workspace-feature strong {
+  color: #edf5f2 !important;
+}
+
+.workspace-content .panel p,
+.workspace-feature p {
+  color: var(--studio-muted);
+}
+
+/* Consistent controls */
+.workspace-content input,
+.workspace-content textarea,
+.workspace-content select {
+  background: #11191e !important;
+  color: #f0f5f3 !important;
+  border: 1px solid #3b4b53 !important;
+  border-radius: 7px !important;
+}
+
+.workspace-content input:focus,
+.workspace-content textarea:focus,
+.workspace-content select:focus {
+  border-color: var(--studio-accent) !important;
+  box-shadow: 0 0 0 3px #35c49a20 !important;
+}
+
+.workspace-content button {
+  border-radius: 7px;
+  transition: .18s ease;
+}
+
+.workspace-content button:hover {
+  filter: brightness(1.13);
+  transform: translateY(-1px);
+}
+
+.workspace-content table th {
+  background: #26343b;
+  color: var(--studio-accent);
+}
+
+.workspace-content table td {
+  border-color: var(--studio-border);
+}
+
+/* Scrollbars */
+.sidebar,
+.workspace-content {
+  scrollbar-width: thin;
+  scrollbar-color: #52666e #172127;
+}
+
+.workspace-content::-webkit-scrollbar,
+.sidebar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.workspace-content::-webkit-scrollbar-thumb,
+.sidebar::-webkit-scrollbar-thumb {
+  background: #52666e;
+  border-radius: 10px;
+}
+
+/* Mobile adaptation */
+@media(max-width:760px) {
+  .topbar {
+    height: 60px;
+    padding: 0 10px;
+  }
+
+  .workspace-content {
+    padding: 13px;
+  }
+
+  .workspace-header {
+    padding: 15px;
+  }
+
+  .workspace-header h2 {
+    font-size: 19px;
+  }
+
+  .metric,
+  .panel {
+    border-radius: 9px !important;
+  }
+}
 </style>
 </head>
 <body>
