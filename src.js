@@ -711,7 +711,7 @@ function setAuthMode(mode) {
 
 function updateWelcomeAuthMode() {
   const signup = state.authMode === "signup";
-
+  $("#welcomeForgotPasswordButton")?.classList.toggle("hidden", signup);
   if ($("#welcomeFormTitle")) {
     $("#welcomeFormTitle").textContent =
       signup ? "Create your account" : "Welcome back";
@@ -11159,7 +11159,10 @@ if (state.authMode === "signup") {
     const authMessage = $("#authMessage")?.textContent || "";
     $("#welcomeAuthMessage").textContent = authMessage;
   });
-
+  $("#welcomeForgotPasswordButton")?.addEventListener(
+    "click",
+    sendWelcomePasswordReset
+  );
   // Public welcome page authentication buttons
   $("#publicLoginButton")?.addEventListener("click", () => {
     setAuthMode("login");
