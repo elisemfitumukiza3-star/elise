@@ -238,7 +238,38 @@ const loginButton = document.getElementById("portalLoginButton");
 function showMessage(text) {
   message.textContent = text;
 }
+async function sendPortalPasswordReset() {
+  const email = document.getElementById("portalEmail").value.trim();
+  const button = document.getElementById("portalForgotPasswordButton");
 
+  if (!email) {
+    showMessage("Enter your account email address first.");
+    document.getElementById("portalEmail").focus();
+    return;
+  }
+
+  button.disabled = true;
+  button.textContent = "Sending...";
+
+  try {
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/reset-password.html`
+    });
+
+    if (error) throw error;
+
+    showMessage("If an account exists for that email, a password reset link has been sent. Check your inbox.");
+  } catch (error) {
+    showMessage(error.message || "Unable to send the password reset email.");
+  } finally {
+    button.disabled = false;
+    button.textContent = "Forgot your password?";
+  }
+}
+
+document
+  .getElementById("portalForgotPasswordButton")
+  .addEventListener("click", sendPortalPasswordReset);
 
 async function authorize(user) {
   if (!user) {
