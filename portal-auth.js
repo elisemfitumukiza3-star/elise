@@ -201,10 +201,18 @@ overlay.innerHTML = `
         placeholder="Enter your email address"
         required autocomplete="username">
 
-      <label for="portalPassword">Password</label>
+           <label for="portalPassword">Password</label>
       <input id="portalPassword" type="password"
         placeholder="Enter your password"
         required autocomplete="current-password">
+
+      <button
+        type="button"
+        id="portalForgotPasswordButton"
+        style="background:transparent;color:#168b78;padding:8px 0;margin-top:8px;text-align:right;font-size:13px"
+      >
+        Forgot your password?
+      </button>
 
       <button id="portalLoginButton" type="submit">
         Sign In
