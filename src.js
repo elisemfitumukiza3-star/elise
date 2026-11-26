@@ -751,37 +751,7 @@ function updateWelcomeAuthMode() {
     $("#welcomeAuthMessage").textContent = "";
   }
 }
-async function sendWelcomePasswordReset() {
-  const email = $("#welcomeEmail")?.value.trim();
-  const message = $("#welcomeAuthMessage");
-  const button = $("#welcomeForgotPasswordButton");
 
-  if (!email) {
-    message.textContent = "Enter your account email first.";
-    $("#welcomeEmail")?.focus();
-    return;
-  }
-
-  button.disabled = true;
-  button.textContent = "Sending...";
-
-  try {
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/reset-password.html`
-    });
-
-    if (error) throw error;
-
-    message.textContent =
-      "If an account exists for that email, a reset link has been sent. Check your inbox.";
-  } catch (error) {
-    message.textContent =
-      error.message || "Could not send the reset email.";
-  } finally {
-    button.disabled = false;
-    button.textContent = "Forgot your password?";
-  }
-}
 async function sendWelcomePasswordReset() {
   const email = $("#welcomeEmail")?.value.trim();
   const message = $("#welcomeAuthMessage");
