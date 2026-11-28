@@ -613,6 +613,488 @@ body {
   }
 }
 
+/* =========================================
+   LEARNLOOP SCHOOL — PREMIUM DARK INTERFACE
+   ========================================= */
+
+:root {
+  --navy: #101d35;
+  --navy2: #192b49;
+  --blue: #35b8e8;
+  --gold: #f2bd48;
+  --bg: #101a2d;
+  --text: #edf3fc;
+  --muted: #a3b2c8;
+}
+
+body {
+  background: #101a2d;
+  color: #edf3fc;
+}
+
+.sidebar {
+  background: #101d35;
+  border-right: 1px solid #ffffff12;
+  width: 255px;
+  padding: 25px 15px;
+}
+
+.brand {
+  font-size: 23px;
+  color: #fff;
+}
+
+.brand span {
+  color: #36bce8;
+}
+
+.nav-label {
+  color: #8195b3;
+}
+
+.nav button {
+  color: #c6d3e6;
+  border-radius: 9px;
+  padding: 13px 14px;
+  margin: 4px 0;
+}
+
+.nav button:hover {
+  background: #ffffff10;
+}
+
+.nav button.active {
+  background: linear-gradient(100deg, #25aeda, #48c8ef);
+  color: #06243b;
+  box-shadow: 0 5px 18px #28b9e944;
+}
+
+.topbar {
+  background: #17243a;
+  border-bottom: 1px solid #ffffff12;
+}
+
+.topbar,
+.topbar button,
+.admin {
+  color: #e7effb;
+}
+
+.search input {
+  background: #202f48;
+  border: 1px solid #34445e;
+  color: #fff;
+}
+
+.search input::placeholder {
+  color: #9aabc3;
+}
+
+.content {
+  max-width: 1800px;
+  padding: 27px;
+}
+
+.hero {
+  background: linear-gradient(115deg, #142b4b, #17466b, #176c82);
+  border: 1px solid #ffffff12;
+  border-radius: 15px;
+  box-shadow: 0 12px 35px #0003;
+}
+
+.hero h1 {
+  font-size: 31px;
+  font-weight: 800;
+}
+
+.metrics {
+  gap: 15px;
+}
+
+.metric {
+  background: linear-gradient(145deg, #1c3450, #17263d);
+  border: 1px solid #ffffff12;
+  color: #fff;
+  border-radius: 12px;
+}
+
+.metric:nth-child(2) {
+  background: linear-gradient(145deg, #3b315b, #242943);
+}
+
+.metric:nth-child(3) {
+  background: linear-gradient(145deg, #56394c, #29283f);
+}
+
+.metric:nth-child(4) {
+  background: linear-gradient(145deg, #164c56, #193345);
+}
+
+.metric strong {
+  color: #fff;
+  font-size: 27px;
+}
+
+.metric small,
+.metric .value {
+  color: #c0cce0;
+}
+
+.metric-icon {
+  background: #20b9e5;
+  color: #fff;
+  border-radius: 12px;
+}
+
+.metric:nth-child(2) .metric-icon {
+  background: #e9b83e;
+}
+
+.metric:nth-child(3) .metric-icon {
+  background: #ec679e;
+}
+
+.metric:nth-child(4) .metric-icon {
+  background: #25c6b0;
+}
+
+.panel,
+.class-card {
+  background: #192840;
+  color: #edf3fc;
+  border: 1px solid #ffffff12;
+  border-radius: 13px;
+  box-shadow: 0 8px 24px #0002;
+}
+
+.panel h2,
+.class-card h3 {
+  color: #f3f7ff;
+}
+
+.panel p,
+.activity,
+.activity small {
+  color: #b5c4d9;
+}
+
+.activity {
+  border-bottom-color: #ffffff12;
+}
+
+.activity-icon {
+  background: #253e5d;
+  color: #5bc9ec;
+}
+
+.quick {
+  background: linear-gradient(145deg, #203b59, #192b43);
+  border: 1px solid #ffffff13;
+  color: #e9f3ff;
+  border-radius: 11px;
+}
+
+.quick:nth-child(3n) {
+  background: linear-gradient(145deg, #493b37, #292d40);
+}
+
+.quick:hover {
+  border-color: #39bce6;
+  transform: translateY(-3px);
+}
+
+/* School Profile KPI cards */
+
+.profile-overview {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin: 22px 0;
+}
+
+.profile-stat {
+  min-height: 145px;
+  padding: 22px;
+  border: 1px solid #ffffff14;
+  border-radius: 13px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 9px 25px #0002;
+  transition: transform .2s, box-shadow .2s;
+}
+
+.profile-stat:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 13px 30px #0004;
+}
+
+.profile-stat:nth-child(1) {
+  background: linear-gradient(135deg, #164d68, #176d83);
+}
+
+.profile-stat:nth-child(2) {
+  background: linear-gradient(135deg, #42336e, #624c9c);
+}
+
+.profile-stat:nth-child(3) {
+  background: linear-gradient(135deg, #70405d, #a34d79);
+}
+
+.profile-stat:nth-child(4) {
+  background: linear-gradient(135deg, #155c55, #168b79);
+}
+
+.profile-stat strong {
+  color: #fff;
+  font-size: 35px;
+  font-weight: 850;
+  letter-spacing: -1px;
+}
+
+.profile-stat small {
+  color: #e1eaf8;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+/* Institutional module cards */
+
+.profile-module-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 15px;
+}
+
+.profile-module {
+  min-width: 0;
+  min-height: 145px;
+  padding: 19px;
+  text-align: left;
+  color: #fff;
+  background: linear-gradient(145deg, #203751, #192b43);
+  border: 1px solid #ffffff14;
+  border-radius: 12px;
+  transition: .22s ease;
+}
+
+.profile-module:nth-child(4n+2) {
+  background: linear-gradient(145deg, #383459, #252c48);
+}
+
+.profile-module:nth-child(4n+3) {
+  background: linear-gradient(145deg, #50364e, #292b46);
+}
+
+.profile-module:nth-child(4n) {
+  background: linear-gradient(145deg, #174c52, #1c3448);
+}
+
+.profile-module:hover,
+.profile-module.active {
+  transform: translateY(-4px);
+  border-color: #38bce8;
+  box-shadow: 0 9px 24px #0003;
+  filter: brightness(1.15);
+}
+
+.profile-module .module-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 43px;
+  height: 43px;
+  margin-bottom: 13px;
+  border-radius: 11px;
+  background: #ffffff18;
+  font-size: 23px;
+}
+
+.profile-module strong {
+  display: block;
+  color: #fff;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.profile-module small {
+  display: block;
+  color: #c0cce0;
+  font-size: 11px;
+  line-height: 1.5;
+  margin-top: 6px;
+}
+
+/* Spacious individual module workspace */
+
+.profile-editor {
+  background: #192840;
+  border: 1px solid #ffffff16;
+  border-radius: 14px;
+  padding: 28px;
+  color: #fff;
+}
+
+.profile-editor h2 {
+  color: #fff;
+}
+
+.profile-editor p {
+  color: #b5c4d9;
+}
+
+/* All fields use the available width */
+
+.profile-fields {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 19px;
+  width: 100%;
+}
+
+.profile-fields > div {
+  width: 100%;
+  min-width: 0;
+}
+
+.profile-fields label {
+  display: block;
+  color: #dce8f8;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.profile-fields input,
+.profile-fields textarea,
+.profile-fields select,
+.class-form input {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 49px;
+  padding: 13px 15px;
+  border: 1px solid #3b506c;
+  border-radius: 9px;
+  background: #111f34;
+  color: #f2f7ff;
+  font: inherit;
+  font-size: 13px;
+  box-sizing: border-box;
+}
+
+.profile-fields textarea {
+  min-height: 135px;
+  resize: vertical;
+  line-height: 1.7;
+}
+
+.profile-fields input::placeholder,
+.profile-fields textarea::placeholder {
+  color: #8192aa;
+}
+
+.profile-fields input:focus,
+.profile-fields textarea:focus,
+.profile-fields select:focus {
+  outline: none;
+  border-color: #39bce6;
+  box-shadow: 0 0 0 3px #39bce622;
+  background: #162943;
+}
+
+.profile-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-top: 20px;
+  border-top: 1px solid #ffffff15;
+}
+
+.primary-btn {
+  background: linear-gradient(100deg, #159fca, #35bce5);
+  color: #06263c;
+  border: none;
+  border-radius: 8px;
+  padding: 13px 21px;
+  font-weight: 800;
+}
+
+.primary-btn:hover {
+  filter: brightness(1.12);
+  transform: translateY(-1px);
+}
+
+.profile-message,
+.workspace-message {
+  background: #203751;
+  color: #d8e9fa;
+  border: 1px solid #ffffff13;
+  border-radius: 9px;
+}
+
+.profile-progress,
+.profile-chart-track {
+  background: #293b54;
+}
+
+.profile-progress span,
+.profile-chart-track span {
+  background: linear-gradient(90deg, #27b9e4, #39d5ba);
+}
+
+.footer {
+  color: #8498b3;
+  border-top: 1px solid #ffffff12;
+}
+
+/* Responsive layout */
+
+@media(max-width:1050px) {
+  .profile-overview,
+  .profile-module-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media(max-width:650px) {
+  .content {
+    padding: 14px;
+  }
+
+  .profile-overview,
+  .profile-module-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .profile-stat {
+    min-height: 120px;
+    padding: 15px;
+  }
+
+  .profile-stat strong {
+    font-size: 27px;
+  }
+
+  .profile-module {
+    min-height: 130px;
+    padding: 14px;
+  }
+
+  .profile-editor {
+    padding: 16px;
+  }
+}
+
+@media(max-width:380px) {
+  .profile-overview,
+  .profile-module-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 </style>
 </head>
 <body>
