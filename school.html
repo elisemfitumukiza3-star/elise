@@ -1577,6 +1577,71 @@ body {
   }
 }
  
+.live-chart-wrap {
+  display: flex;
+  gap: 12px;
+  height: 255px;
+  padding: 12px 4px 0;
+}
+
+.live-chart-y-labels {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 8px 0 28px;
+  color: #91a2bb;
+  font-size: 10px;
+}
+
+.live-chart-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+#enrollmentGrowthChart {
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  overflow: visible;
+}
+
+.chart-grid-lines line {
+  stroke: #8494aa;
+  stroke-opacity: .22;
+  stroke-dasharray: 5 5;
+}
+
+#enrollmentLinePath,
+#enrollmentAreaPath {
+  transition: d .5s ease;
+}
+
+#enrollmentChartPoints circle {
+  fill: #35b8e8;
+  stroke: #fff;
+  stroke-width: 2;
+}
+
+.live-chart-months {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  color: #91a2bb;
+  font-size: 9px;
+  text-align: center;
+  padding-top: 10px;
+}
+
+@media(max-width:600px) {
+  .live-chart-wrap {
+    gap: 7px;
+  }
+  .live-chart-months {
+    font-size: 8px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1660,30 +1725,55 @@ body {
 </section>
 
  
+
 <div class="panel">
   <div class="panel-head">
-    <h2>✦ Institutional Performance Snapshot</h2>
-    <span id="dashboardDataStatus">Waiting for school data</span>
+    <h2>Enrollment Growth</h2>
+    <span id="enrollmentChartStatus">Waiting for records</span>
   </div>
-  <div class="quick-grid">
-    <div class="quick">
-      <span>♧</span>
-      <strong id="dashboardLearnerTile">—</strong>
-      Enrolled learners
+  <div class="live-chart-wrap">
+    <div class="live-chart-y-labels">
+      <span id="enrollmentAxisTop">0</span>
+      <span id="enrollmentAxisMiddle">0</span>
+      <span>0</span>
     </div>
-    <div class="quick">
-      <span>▦</span>
-      <strong id="dashboardClassTile">—</strong>
-      Active classes
-    </div>
-    <div class="quick">
-      <span>🏅</span>
-      <strong id="dashboardProfileTile">0%</strong>
-      Profile readiness
+    <div class="live-chart-main">
+      <svg id="enrollmentGrowthChart"
+        viewBox="0 0 600 230"
+        preserveAspectRatio="none"
+        role="img"
+        aria-label="Monthly student enrollment growth chart">
+        <defs>
+          <linearGradient id="enrollmentArea"
+            x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#35b8e8" stop-opacity=".32"/>
+            <stop offset="100%" stop-color="#35b8e8" stop-opacity=".02"/>
+          </linearGradient>
+        </defs>
+        <g class="chart-grid-lines">
+          <line x1="0" y1="20" x2="600" y2="20"/>
+          <line x1="0" y1="115" x2="600" y2="115"/>
+          <line x1="0" y1="210" x2="600" y2="210"/>
+        </g>
+        <path id="enrollmentAreaPath" d="M0 210 L600 210 Z"
+          fill="url(#enrollmentArea)"/>
+        <path id="enrollmentLinePath" d="M0 210 L600 210"
+          fill="none" stroke="#35b8e8"
+          stroke-width="4" stroke-linecap="round"
+          stroke-linejoin="round"/>
+        <g id="enrollmentChartPoints"></g>
+      </svg>
+      <div class="live-chart-months">
+        <span>Jan</span><span>Feb</span><span>Mar</span>
+        <span>Apr</span><span>May</span><span>Jun</span>
+        <span>Jul</span><span>Aug</span><span>Sep</span>
+        <span>Oct</span><span>Nov</span><span>Dec</span>
+      </div>
     </div>
   </div>
-  <p style="font-size:11px;color:#8996a8">
-    Indicators update from the school's saved records. Unavailable data is not estimated.
+  <p id="enrollmentChartMessage" class="workspace-message">
+    Your graph is ready. It will grow as actual student enrollment records
+    are added.
   </p>
 </div>
 
@@ -3050,6 +3140,83 @@ document.getElementById("upgradeRequestForm")
     renderUpgradeRequests();
   });
 
+async function loadEnrollmentGrowthChart() {
+  const status = document.getElementById("enrollmentChartStatus");
+  const message = document.getElementById("enrollmentChartMessage");
+
+  const line = document.getElementById("enrollmentLinePath");
+  const area = document.getElementById("enrollmentAreaPath");
+  const points = document.getElementById("enrollmentChartPoints");
+
+  if (!schoolPortalSupabase || !schoolPortalRecord?.id ||
+      schoolPortalRecord.owner_access) {
+    status.textContent = "Awaiting school connection";
+    message.textContent =
+      "The graph is ready. Connect an approved school account to display its records.";
+    return;
+  }
+
+  const year = new Date().getFullYear();
+  const start = `${year}-01-01T00:00:00`;
+  const end = `${year + 1}-01-01T00:00:00`;
+
+  const { data, error } = await schoolPortalSupabase
+    .from("school_enrollments")
+    .select("created_at")
+    .eq("school_id", schoolPortalRecord.id)
+    .gte("created_at", start)
+    .lt("created_at", end);
+
+  if (error) {
+    status.textContent = "Data unavailable";
+    message.textContent =
+      "Enrollment records could not be loaded: " + error.message;
+    return;
+  }
+
+  const monthly = Array(12).fill(0);
+
+  (data || []).forEach(record => {
+    if (!record.created_at) return;
+    const month = new Date(record.created_at).getMonth();
+    if (month >= 0 && month < 12) monthly[month]++;
+  });
+
+  const max = Math.max(1, ...monthly);
+  const axisMax = Math.ceil(max / 5) * 5 || 5;
+
+  const coords = monthly.map((value, index) => ({
+    x: index * (600 / 11),
+    y: 210 - (value / axisMax) * 180,
+    value
+  }));
+
+  const linePath = coords.map((point, index) =>
+    `${index ? "L" : "M"}${point.x},${point.y}`
+  ).join(" ");
+
+  line.setAttribute("d", linePath);
+  area.setAttribute("d",
+    `${linePath} L600,210 L0,210 Z`);
+
+  points.innerHTML = coords.map(point => `
+    <circle cx="${point.x}" cy="${point.y}" r="4">
+      <title>${point.value} enrollment records</title>
+    </circle>
+  `).join("");
+
+  document.getElementById("enrollmentAxisTop").textContent = axisMax;
+  document.getElementById("enrollmentAxisMiddle").textContent =
+    Math.round(axisMax / 2);
+
+  const total = monthly.reduce((sum, value) => sum + value, 0);
+
+  status.textContent = `${total} records this year`;
+  message.textContent = total
+    ? `The graph now reflects ${total} actual enrollment records for ${year}.`
+    : `No enrollment records have been added for ${year} yet. The graph will grow automatically as records are created.`;
+}
+
 async function loadSchoolClasses() {
   if (!schoolPortalSupabase || !schoolPortalRecord?.id ||
       schoolPortalRecord.owner_access) {
@@ -3110,6 +3277,7 @@ async function loadSchoolClasses() {
   `).join("");
 
   setClassMessage("Classes and learner counts loaded successfully.");
+  loadEnrollmentGrowthChart();
 }
 
 classForm.addEventListener("submit", async event => {
@@ -3295,6 +3463,7 @@ window.addEventListener("portal:authorized", ({ detail }) => {
   loadSchoolClasses();
   loadSchoolAnalytics();
 renderUpgradeRequests();
+  loadEnrollmentGrowthChart();
 });
   
 </script>
