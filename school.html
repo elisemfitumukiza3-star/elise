@@ -1694,6 +1694,69 @@ body {
     grid-template-columns:1fr;
   }
 }
+  /* School portal navigation improvements */
+.sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  min-height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: #425775 #101d35;
+  z-index: 100;
+}
+
+.sidebar .nav {
+  flex: 1;
+  min-height: 0;
+}
+
+.sidebar .nav button {
+  min-height: 45px;
+  margin: 4px 0;
+  text-align: left;
+  transition: background .2s, color .2s, transform .2s;
+}
+
+.sidebar .nav button.active {
+  background: linear-gradient(100deg,#35b8e8,#258ab9);
+  color: #071c32;
+  box-shadow: 0 5px 15px #35b8e822;
+}
+
+.sidebar .nav button:hover:not(.active) {
+  background: #ffffff15;
+  transform: translateX(3px);
+}
+
+.workspace-section {
+  display: none;
+  width: 100%;
+  min-width: 0;
+}
+
+.workspace-section.active {
+  display: block;
+}
+
+@media(max-width:760px) {
+  .sidebar {
+    position: fixed;
+    height: 100dvh;
+    min-height: 100dvh;
+    top: 0;
+    bottom: 0;
+    left: -280px;
+    overflow-y: auto;
+    transition: left .25s ease;
+  }
+
+  .sidebar.open {
+    left: 0;
+  }
+}
+  
 </style>
 </head>
 <body>
@@ -1730,6 +1793,7 @@ body {
  </header>
 
  <div class="content">
+   <section id="dashboardWorkspace" class="workspace-section active">
   <section class="hero">
    <div class="hero-content">
     <div class="eyebrow">LEARNLOOP INSTITUTIONAL NETWORK</div>
@@ -1843,7 +1907,7 @@ body {
     <div class="activity"><div class="activity-icon">✉</div><div>Communication centre<small>School announcements and updates</small></div></div>
    </div>
   </section>
-   
+   </section>
 <section id="classesWorkspace" class="workspace-section">
   <div class="workspace-heading">
     <div>
@@ -3568,66 +3632,83 @@ document.getElementById("menuButton")
     sidebar.classList.toggle("open");
   });
 
+const schoolPageTargets = {
+  "Dashboard": "dashboardWorkspace",
+  "School Profile": "schoolProfileWorkspace",
+  "Classes & Streams": "classesWorkspace",
+  "Reports & Analytics": "analyticsWorkspace",
+  "Upgrade & Services": "upgradeWorkspace"
+};
+
+function openSchoolPage(page) {
+  const buttons = document.querySelectorAll(".nav button");
+
+  buttons.forEach(button => {
+    const active = button.dataset.page === page;
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-current", active ? "page" : "false");
+  });
+
+  sidebar.classList.remove("open");
+
+  document.querySelectorAll(
+    ".content > .workspace-section"
+  ).forEach(section => {
+    section.classList.remove("active");
+    section.style.display = "none";
+  });
+
+  let targetId = schoolPageTargets[page];
+  let target = targetId
+    ? document.getElementById(targetId)
+    : null;
+
+  if (!target) {
+    target = document.getElementById("schoolPagePlaceholder");
+
+    if (!target) {
+      target = document.createElement("section");
+      target.id = "schoolPagePlaceholder";
+      target.className = "workspace-section panel";
+      document.querySelector(".content").appendChild(target);
+    }
+
+    target.innerHTML = `
+      <div class="workspace-heading">
+        <div>
+          <h1>${page}</h1>
+          <p>This workspace is being prepared for your institution.</p>
+        </div>
+      </div>
+      <div class="workspace-message">
+        Your ${page} workspace will appear here.
+      </div>
+    `;
+  }
+
+  target.style.display = "block";
+  target.classList.add("active");
+
+  if (page === "Classes & Streams") {
+    loadSchoolClasses();
+  }
+
+  if (page === "School Profile") {
+    loadSchoolProfile();
+  }
+
+  if (page === "Reports & Analytics") {
+    loadSchoolAnalytics();
+  }
+
+  if (page === "Upgrade & Services") {
+    renderUpgradeRequests();
+  }
+}
+
 document.querySelectorAll("[data-page]").forEach(button => {
   button.addEventListener("click", () => {
-    const page = button.dataset.page;
-
-    document.querySelectorAll(".nav button").forEach(item => {
-      item.classList.toggle("active", item.dataset.page === page);
-    });
-
-    sidebar.classList.remove("open");
-
-    document.querySelectorAll(".content > section").forEach(section => {
-      section.style.display = "none";
-      section.classList.remove("active");
-    });
-
-   
-const target = {
-  "Classes & Streams": document.getElementById("classesWorkspace"),
-  "School Profile": document.getElementById("schoolProfileWorkspace"),
-  "Reports & Analytics": document.getElementById("analyticsWorkspace"),
-  "Upgrade & Services": document.getElementById("upgradeWorkspace")
-}[page] || null;
-
-
-    if (target) {
-      target.style.display = "";
-      target.classList.add("active");
-
-      if (page === "Classes & Streams") loadSchoolClasses();
-      if (page === "School Profile" &&
-          typeof loadSchoolProfile === "function") {
-        loadSchoolProfile();
-      }
-      
-if (page === "Reports & Analytics") {
-  loadSchoolAnalytics();
-}
-
-if (page === "Upgrade & Services") {
-  renderUpgradeRequests();
-}
-
-    } else if (page === "Dashboard") {
-      document.querySelectorAll(".content > section").forEach(section => {
-        section.style.display = "";
-      });
-    } else {
-      const content = document.querySelector(".content");
-      let placeholder = document.getElementById("schoolPagePlaceholder");
-
-      if (!placeholder) {
-        placeholder = document.createElement("section");
-        placeholder.id = "schoolPagePlaceholder";
-        placeholder.className = "panel";
-        content.appendChild(placeholder);
-      }
-
-      placeholder.textContent = page + " workspace";
-      placeholder.style.display = "";
-    }
+    openSchoolPage(button.dataset.page);
   });
 });
 window.addEventListener("portal:authorized", ({ detail }) => {
