@@ -144,7 +144,32 @@ button{cursor:pointer}
 .workspace-message{padding:15px;border-radius:10px;background:#f1f6fd;color:#36516f;font-size:13px;margin:15px 0}
 @media(max-width:900px){.class-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.class-form,.class-grid{grid-template-columns:1fr}}
-
+/* Advanced School Profile */
+.profile-overview{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:20px 0}
+.profile-stat,.profile-module,.profile-editor{background:#fff;border:1px solid #e5ebf3;border-radius:13px;padding:18px}
+.profile-stat strong{display:block;font-size:25px;color:var(--navy)}
+.profile-stat small{color:var(--muted)}
+.profile-module-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}
+.profile-module{cursor:pointer;text-align:left;min-height:115px;color:var(--navy);transition:.2s}
+.profile-module:hover,.profile-module.active{border-color:#d5b66e;background:#fff9ed;transform:translateY(-2px)}
+.profile-module .module-icon{font-size:25px;display:block;margin-bottom:12px}
+.profile-module strong{display:block;font-size:13px}
+.profile-module small{display:block;color:var(--muted);margin-top:5px}
+.profile-editor{margin-top:18px}
+.profile-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.profile-fields label{display:block;font-size:12px;font-weight:700;margin-bottom:6px}
+.profile-fields input,.profile-fields textarea,.profile-fields select{width:100%;padding:11px;border:1px solid #dce5f0;border-radius:8px;font:inherit;font-size:13px}
+.profile-fields textarea{min-height:85px;resize:vertical}
+.profile-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.profile-progress{height:9px;background:#edf1f6;border-radius:20px;overflow:hidden;margin-top:10px}
+.profile-progress span{display:block;height:100%;background:#2878df}
+.profile-chart-row{display:grid;grid-template-columns:150px 1fr 45px;gap:10px;align-items:center;margin:13px 0;font-size:12px}
+.profile-chart-track{height:10px;background:#edf1f6;border-radius:20px;overflow:hidden}
+.profile-chart-track span{display:block;height:100%;background:#2878df}
+.profile-message{padding:12px;background:#f1f6fd;border-radius:9px;font-size:13px;margin-top:12px}
+@media(max-width:1000px){.profile-module-grid{grid-template-columns:repeat(3,1fr)}.profile-overview{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.profile-module-grid{grid-template-columns:repeat(2,1fr)}.profile-fields{grid-template-columns:1fr}.profile-chart-row{grid-template-columns:100px 1fr 35px}}
+  
 </style>
 </head>
 <body>
@@ -282,7 +307,93 @@ button{cursor:pointer}
     <div id="classesList" class="class-grid"></div>
   </div>
 </section>
+<section id="schoolProfileWorkspace" class="workspace-section">
 
+  <div class="workspace-heading">
+    <div>
+      <h1>Institutional Profile Centre</h1>
+      <p>Manage your institution's identity, governance, academics and performance.</p>
+    </div>
+    <button class="primary-btn" id="refreshSchoolProfile">↻ Refresh</button>
+  </div>
+
+  <div class="profile-overview">
+    <div class="profile-stat">
+      <strong id="profileCompletion">0%</strong>
+      <small>Profile completeness</small>
+    </div>
+    <div class="profile-stat">
+      <strong id="profileSections">0/18</strong>
+      <small>Sections completed</small>
+    </div>
+    <div class="profile-stat">
+      <strong id="profileDocuments">0</strong>
+      <small>Document records</small>
+    </div>
+    <div class="profile-stat">
+      <strong id="profileUpdates">0</strong>
+      <small>Recorded updates</small>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-head">
+      <h2>Institutional Profile Modules</h2>
+      <span>18 workspaces</span>
+    </div>
+    <div id="profileModuleGrid" class="profile-module-grid"></div>
+  </div>
+
+  <div id="profileEditor" class="profile-editor" hidden>
+    <div class="panel-head">
+      <div>
+        <h2 id="profileEditorTitle">Institutional Information</h2>
+        <p id="profileEditorDescription"></p>
+      </div>
+      <button class="primary-btn" id="closeProfileEditor">Close</button>
+    </div>
+
+    <form id="profileForm">
+      <div id="profileFields" class="profile-fields"></div>
+
+      <div class="profile-actions">
+        <button class="primary-btn" type="submit" id="saveProfileButton">
+          Save Section
+        </button>
+        <button class="primary-btn" type="button" id="cancelProfileEdit">
+          Cancel
+        </button>
+      </div>
+    </form>
+
+    <div id="profileSaveMessage" class="profile-message" role="status">
+      Select a section to begin.
+    </div>
+  </div>
+
+  <div class="panel" style="margin-top:18px">
+    <div class="panel-head">
+      <h2>Institutional Performance Overview</h2>
+      <span>Based on entered profile information</span>
+    </div>
+    <div id="profileStatistics"></div>
+    <p style="font-size:11px;color:#75849a">
+      These are profile-completion indicators, not independently verified
+      enrolment or academic performance statistics.
+    </p>
+  </div>
+
+  <div class="panel" style="margin-top:18px">
+    <div class="panel-head">
+      <h2>Profile Activity History</h2>
+    </div>
+    <div id="profileAuditHistory">
+      No profile changes recorded yet.
+    </div>
+  </div>
+
+</section>
+   
   <footer class="footer"><span>© 2026 LearnLoop School Management Portal</span><span>Quality Education · Stronger Communities · A Brighter Future</span></footer>
  </div>
 </main>
@@ -297,7 +408,352 @@ const classMessage = document.getElementById("classMessage");
 let schoolPortalUser = null;
 let schoolPortalRecord = null;
 let schoolPortalSupabase = null;
+const profileWorkspace =
+  document.getElementById("schoolProfileWorkspace");
 
+const profileGrid =
+  document.getElementById("profileModuleGrid");
+
+const profileEditor =
+  document.getElementById("profileEditor");
+
+const profileForm =
+  document.getElementById("profileForm");
+
+let schoolProfileData = {};
+let activeProfileModule = null;
+
+const profileModules = [
+  {
+    id:"identity",icon:"🏛️",title:"Institutional Identity",
+    description:"Official institution information",
+    fields:["Official institution name","Common institution name","Institution type","Ownership type","Registration number","Year established","Institution motto","Vision","Mission","Core values","Institutional history","Official website","Institutional email","Telephone number","Postal address","Country","Province","District","Sector","Cell","GPS coordinates","Official languages","Institution colours","Public profile description"]
+  },
+  {
+    id:"governance",icon:"⚖️",title:"Leadership & Governance",
+    description:"Leadership and institutional administration",
+    fields:["Chancellor","Vice-Chancellor or Rector","Principal or Headteacher","Deputy principals","Deans","Registrar","Academic director","Finance director","Human resources director","Board of governors","Governing council","Academic senate","Management committee","Organisational hierarchy","Leadership responsibilities","Governance policies","Board meeting records"]
+  },
+  {
+    id:"accreditation",icon:"🏅",title:"Accreditation & Compliance",
+    description:"Registration, licences and recognition",
+    fields:["Registration authority","Registration reference","Accreditation authority","Accreditation status","Accreditation reference","Accreditation issue date","Accreditation expiry date","Programme accreditation","Professional recognition","Inspection records","Compliance reports","Licence records","Renewal dates","Safeguarding policies","Data protection policies","Health and safety policies"]
+  },
+  {
+    id:"academics",icon:"🎓",title:"Academic Structure",
+    description:"Faculties, departments and programmes",
+    fields:["Faculties","Schools and colleges","Departments","Academic divisions","Programmes offered","Courses","Subjects","Academic levels","Qualifications awarded","Programme duration","Entry requirements","Graduation requirements","Curriculum versions","Academic credit system","Programme coordinators","Academic calendar"]
+  },
+  {
+    id:"statistics",icon:"📊",title:"Institutional Statistics",
+    description:"Institutional population and indicators",
+    fields:["Total enrolled learners","Teaching staff total","Administrative staff total","Graduates total","International learners","Domestic learners","Learners by faculty","Learners by programme","Graduation rate (%)","Retention rate (%)","Completion rate (%)","Student-to-teacher ratio","Academic year","Historical enrolment notes"]
+  },
+  {
+    id:"campuses",icon:"🏢",title:"Campuses & Infrastructure",
+    description:"Buildings, facilities and campus locations",
+    fields:["Main campus name","Main campus address","Branch campuses","Campus capacity","Lecture halls","Classrooms","Science laboratories","Computer laboratories","Libraries","Research centres","Dormitories","Cafeterias","Sports facilities","Medical facilities","Accessibility facilities","Internet facilities","Facility inventory","Maintenance records","Campus map reference"]
+  },
+  {
+    id:"staff",icon:"👥",title:"Staff & Human Resources",
+    description:"Staff qualifications and administration",
+    fields:["Staff directory","Staff identification records","Academic qualifications","Professional qualifications","Teaching specialisations","Employment categories","Department assignments","Employment dates","Professional licences","Contract records","Staff development programmes","Training history","Performance review policies","Research interests","Staff awards"]
+  },
+  {
+    id:"welfare",icon:"❤️",title:"Student Services & Welfare",
+    description:"Learner support and welfare services",
+    fields:["Student support office","Counselling services","Disability support","Health services","Accommodation support","Financial aid","Scholarships","Student clubs","Student associations","Career guidance","Internship support","Alumni services","Student complaints procedure","Student appeals procedure","Disciplinary policies","Emergency procedures"]
+  },
+  {
+    id:"research",icon:"🔬",title:"Research & Innovation",
+    description:"Research activity and innovation",
+    fields:["Research departments","Research centres","Published journals","Research publications","Academic papers","Research projects","Research funding","Innovation projects","Intellectual property","Patents","Research partnerships","Conferences","Research ethics policies","Research supervisors","Research output"]
+  },
+  {
+    id:"partnerships",icon:"🌍",title:"Partnerships & Relations",
+    description:"Institutional and international partnerships",
+    fields:["Partner universities","Government partners","NGO partners","Private-sector partners","International institutions","Memoranda of Understanding","Exchange programmes","Joint research programmes","Internship partnerships","Industry placements","Donor partnerships","Partnership contacts","Agreement dates","Agreement renewal dates"]
+  },
+  {
+    id:"quality",icon:"✓",title:"Quality Assurance",
+    description:"Academic quality and institutional standards",
+    fields:["Quality assurance office","Programme review procedures","Academic audits","External evaluations","Institutional self-assessments","Student feedback procedures","Lecturer evaluation procedures","Examination policies","Assessment regulations","Academic integrity policies","Plagiarism policies","Improvement plans","Quality assurance reports"]
+  },
+  {
+    id:"finance",icon:"💼",title:"Finance & Resources",
+    description:"Institutional financial administration",
+    fields:["Institutional budget","Funding sources","Government grants","Tuition fee structure","Scholarships and bursaries","Financial aid programmes","Departmental budgets","Procurement policies","Financial reporting","Donor contributions","Annual financial statements"]
+  },
+  {
+    id:"admissions",icon:"📝",title:"Admissions & Enrolment",
+    description:"Admission requirements and procedures",
+    fields:["Admission requirements","Application periods","Application procedures","Programmes available","Tuition fees","Registration procedures","International admission requirements","Transfer policies","Recognition of prior learning","Admission contact","Admission statistics","Institution prospectus"]
+  },
+  {
+    id:"communication",icon:"📢",title:"Digital Presence & Communication",
+    description:"Institutional communications and public information",
+    fields:["Official announcements","Institutional news","Events calendar","Academic calendar","Social media links","Media gallery references","Public notices","Downloadable prospectus links","Public documents","Contact directory","Official communication channels"]
+  },
+  {
+    id:"alumni",icon:"🎖️",title:"Alumni & Graduates",
+    description:"Graduate relations and alumni programmes",
+    fields:["Alumni directory","Graduation history","Alumni associations","Graduate employment statistics","Alumni achievements","Alumni donations","Mentorship programmes","Alumni events","Graduate tracking"]
+  },
+  {
+    id:"achievements",icon:"🏆",title:"Awards & Achievements",
+    description:"Institutional milestones and recognition",
+    fields:["National awards","International awards","Academic achievements","Research achievements","Sports achievements","Innovation awards","Institutional rankings","Recognition certificates","Media coverage","Historical milestones"]
+  },
+  {
+    id:"risk",icon:"🛡️",title:"Risk & Institutional Safety",
+    description:"Safety, risk and continuity planning",
+    fields:["Emergency response plans","Fire safety procedures","Disaster preparedness","Insurance records","Security policies","Risk register","Incident reporting procedure","Business continuity plans","Data backup policies","Cybersecurity policies","Safeguarding procedures"]
+  },
+  {
+    id:"documents",icon:"📁",title:"Institutional Documents",
+    description:"Document register and reference information",
+    fields:["Registration documents and references","Accreditation certificates and references","Institutional policies","Academic regulations","Staff handbooks","Student handbooks","Annual reports","Strategic plans","Financial reports","Research reports","Partnership agreements","Inspection reports","Meeting minutes","Official correspondence"]
+  }
+];
+
+function renderProfileModules() {
+  profileGrid.innerHTML = profileModules.map(module => `
+    <button type="button"
+      class="profile-module ${activeProfileModule === module.id ? "active" : ""}"
+      data-profile-module="${module.id}">
+      <span class="module-icon">${module.icon}</span>
+      <strong>${module.title}</strong>
+      <small>${module.description}</small>
+    </button>
+  `).join("");
+}
+
+function renderProfileStatistics() {
+  const completed = profileModules.filter(module =>
+    module.fields.some(field =>
+      String(schoolProfileData[module.id]?.[field] || "").trim()
+    )
+  ).length;
+
+  const totalFields = profileModules.reduce(
+    (sum,module) => sum + module.fields.length,0
+  );
+
+  const filledFields = profileModules.reduce((sum,module) =>
+    sum + module.fields.filter(field =>
+      String(schoolProfileData[module.id]?.[field] || "").trim()
+    ).length,0
+  );
+
+  const percentage = totalFields
+    ? Math.round(filledFields / totalFields * 100)
+    : 0;
+
+  document.getElementById("profileCompletion").textContent =
+    percentage + "%";
+
+  document.getElementById("profileSections").textContent =
+    completed + "/18";
+
+  const documents =
+    schoolProfileData.documents?._documentCount || 0;
+
+  document.getElementById("profileDocuments").textContent =
+    documents;
+
+  document.getElementById("profileUpdates").textContent =
+    (schoolProfileData._audit || []).length;
+
+  const statistics = [
+    ["Identity", "identity"],
+    ["Governance", "governance"],
+    ["Accreditation", "accreditation"],
+    ["Academic structure", "academics"],
+    ["Infrastructure", "campuses"],
+    ["Research", "research"],
+    ["Partnerships", "partnerships"],
+    ["Quality assurance", "quality"],
+    ["Student welfare", "welfare"]
+  ];
+
+  document.getElementById("profileStatistics").innerHTML =
+    statistics.map(([label,id]) => {
+      const module = profileModules.find(item => item.id === id);
+      const filled = module.fields.filter(field =>
+        String(schoolProfileData[id]?.[field] || "").trim()
+      ).length;
+      const percent = Math.round(filled / module.fields.length * 100);
+
+      return `
+        <div class="profile-chart-row">
+          <span>${label}</span>
+          <div class="profile-chart-track">
+            <span style="width:${percent}%"></span>
+          </div>
+          <strong>${percent}%</strong>
+        </div>
+      `;
+    }).join("");
+
+  const history = schoolProfileData._audit || [];
+
+  document.getElementById("profileAuditHistory").innerHTML =
+    history.length
+      ? history.slice().reverse().slice(0,10).map(item => `
+          <div class="activity">
+            <div class="activity-icon">✓</div>
+            <div>
+              ${escapeClassText(item.section)}
+              <small>${escapeClassText(item.date)}</small>
+            </div>
+          </div>
+        `).join("")
+      : "No profile changes recorded yet.";
+}
+
+function openProfileModule(moduleId) {
+  const module = profileModules.find(item => item.id === moduleId);
+  if (!module) return;
+
+  activeProfileModule = moduleId;
+  profileEditor.hidden = false;
+
+  document.getElementById("profileEditorTitle").textContent =
+    module.title;
+
+  document.getElementById("profileEditorDescription").textContent =
+    module.description;
+
+  document.getElementById("profileFields").innerHTML =
+    module.fields.map((field,index) => `
+      <div>
+        <label for="profileField${index}">
+          ${escapeClassText(field)}
+        </label>
+        <textarea
+          id="profileField${index}"
+          data-profile-field="${escapeClassText(field)}"
+          placeholder="Enter ${escapeClassText(field.toLowerCase())}..."
+        >${escapeClassText(schoolProfileData[moduleId]?.[field] || "")}</textarea>
+      </div>
+    `).join("");
+
+  renderProfileModules();
+  document.getElementById("profileSaveMessage").textContent =
+    "Changes are saved only after selecting Save Section.";
+
+  profileEditor.scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+async function loadSchoolProfile() {
+  if (!schoolPortalRecord?.id) return;
+
+  if (schoolPortalRecord.owner_access) {
+    schoolProfileData = {};
+    renderProfileModules();
+    renderProfileStatistics();
+    document.getElementById("profileSaveMessage").textContent =
+      "Owner testing preview: a real approved school record is required for permanent database saving.";
+    return;
+  }
+
+  const {data,error} = await schoolPortalSupabase
+    .from("schools")
+    .select("profile_data")
+    .eq("id",schoolPortalRecord.id)
+    .maybeSingle();
+
+  if (error) {
+    document.getElementById("profileSaveMessage").textContent =
+      "Could not load profile: " + error.message;
+    return;
+  }
+
+  schoolProfileData = data?.profile_data || {};
+  renderProfileModules();
+  renderProfileStatistics();
+}
+
+profileGrid.addEventListener("click",event => {
+  const button = event.target.closest("[data-profile-module]");
+  if (button) openProfileModule(button.dataset.profileModule);
+});
+
+profileForm.addEventListener("submit",async event => {
+  event.preventDefault();
+
+  if (!schoolPortalSupabase || !schoolPortalRecord?.id ||
+      schoolPortalRecord.owner_access) {
+    document.getElementById("profileSaveMessage").textContent =
+      "Permanent saving requires a real approved school account.";
+    return;
+  }
+
+  const module = profileModules.find(
+    item => item.id === activeProfileModule
+  );
+  if (!module) return;
+
+  const updated = {};
+  document.querySelectorAll("[data-profile-field]").forEach(field => {
+    updated[field.dataset.profileField] = field.value.trim();
+  });
+
+  const nextData = {
+    ...schoolProfileData,
+    [activeProfileModule]: updated
+  };
+
+  const audit = Array.isArray(nextData._audit) ? nextData._audit : [];
+  audit.push({
+    section:module.title,
+    date:new Date().toLocaleString()
+  });
+
+  nextData._audit = audit.slice(-100);
+
+  const saveButton = document.getElementById("saveProfileButton");
+  saveButton.disabled = true;
+  saveButton.textContent = "Saving...";
+
+  const {error} = await schoolPortalSupabase
+    .from("schools")
+    .update({profile_data:nextData})
+    .eq("id",schoolPortalRecord.id);
+
+  saveButton.disabled = false;
+  saveButton.textContent = "Save Section";
+
+  if (error) {
+    document.getElementById("profileSaveMessage").textContent =
+      "Save failed: " + error.message;
+    return;
+  }
+
+  schoolProfileData = nextData;
+  renderProfileStatistics();
+  renderProfileModules();
+
+  document.getElementById("profileSaveMessage").textContent =
+    module.title + " saved successfully.";
+
+});
+
+function closeProfileEditor() {
+  profileEditor.hidden = true;
+  activeProfileModule = null;
+  renderProfileModules();
+}
+
+document.getElementById("closeProfileEditor")
+  .addEventListener("click",closeProfileEditor);
+
+document.getElementById("cancelProfileEdit")
+  .addEventListener("click",closeProfileEditor);
+
+document.getElementById("refreshSchoolProfile")
+  .addEventListener("click",loadSchoolProfile);
+  
 function setClassMessage(message) {
   classMessage.textContent = message;
 }
@@ -486,26 +942,35 @@ document.getElementById("menuButton").addEventListener("click", () => {
 
 document.querySelectorAll("[data-page]").forEach(button => {
   button.addEventListener("click", () => {
+    const page = button.dataset.page;
+
     document.querySelectorAll(".nav button").forEach(item =>
-      item.classList.remove("active")
+      item.classList.toggle("active",item.dataset.page === page)
     );
 
-    const navItem = document.querySelector(
-      `.nav button[data-page="${button.dataset.page}"]`
-    );
-
-    if (navItem) navItem.classList.add("active");
     sidebar.classList.remove("open");
 
-    const isClasses = button.dataset.page === "Classes & Streams";
-    classesWorkspace.classList.toggle("active", isClasses);
+    const isClasses = page === "Classes & Streams";
+    const isProfile = page === "School Profile";
+
+    classesWorkspace.classList.toggle("active",isClasses);
+    profileWorkspace.classList.toggle("active",isProfile);
 
     document.querySelectorAll(".content > section").forEach(section => {
-      if (section !== classesWorkspace) {
-        section.style.display = isClasses ? "none" : "";
+      if (section !== classesWorkspace &&
+          section !== profileWorkspace) {
+        section.style.display =
+          (isClasses || isProfile) ? "none" : "";
       }
     });
 
+    document.querySelector(".footer").style.display =
+      (isClasses || isProfile) ? "none" : "";
+
+    if (isClasses) loadSchoolClasses();
+    if (isProfile) loadSchoolProfile();
+  });
+});
     document.querySelector(".footer").style.display =
       isClasses ? "none" : "";
 
