@@ -477,6 +477,142 @@ body {
   }
 }
  
+/* Individual School Profile workspaces */
+#schoolProfileWorkspace.module-open > .workspace-heading,
+#schoolProfileWorkspace.module-open > .profile-overview,
+#schoolProfileWorkspace.module-open > .panel {
+  display: none !important;
+}
+
+#schoolProfileWorkspace.module-open #profileEditor {
+  display: block;
+  margin-top: 0;
+  min-height: 70vh;
+  padding: 30px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 8px 28px #142c4c0b;
+}
+
+#profileEditorTitle {
+  font-size: 23px;
+  font-weight: 800;
+  color: #142c4c;
+}
+
+#profileEditorDescription {
+  color: #75849a;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.profile-field-group {
+  margin: 26px 0;
+  padding: 20px;
+  background: #fbfcfe;
+  border: 1px solid #e7ecf3;
+  border-radius: 10px;
+}
+
+.profile-field-group h3 {
+  margin: 0 0 18px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e7ecf3;
+  color: #1b3154;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+#profileFields {
+  display: block;
+}
+
+.profile-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.profile-field {
+  min-width: 0;
+}
+
+.profile-field label {
+  display: block;
+  margin-bottom: 7px;
+  color: #34435a;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.profile-field input,
+.profile-field textarea,
+.profile-field select {
+  width: 100%;
+  min-height: 44px;
+  padding: 12px 13px;
+  background: #fff;
+  border: 1px solid #dfe5ee;
+  border-radius: 7px;
+  font: inherit;
+  font-size: 13px;
+  color: #24334b;
+}
+
+.profile-field textarea {
+  min-height: 105px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.profile-field input:focus,
+.profile-field textarea:focus,
+.profile-field select:focus {
+  outline: none;
+  border-color: #718bb8;
+  box-shadow: 0 0 0 3px #4569a814;
+}
+
+.profile-field small {
+  display: block;
+  margin-top: 6px;
+  color: #8591a3;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.profile-workspace-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 18px 0 25px;
+}
+
+.profile-workspace-summary span {
+  padding: 10px 14px;
+  background: #f1f5fa;
+  border: 1px solid #e5ebf3;
+  border-radius: 7px;
+  color: #41536d;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+@media(max-width:650px) {
+  #schoolProfileWorkspace.module-open #profileEditor {
+    padding: 17px;
+  }
+
+  .profile-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-field-group {
+    padding: 14px;
+  }
+}
+
 </style>
 </head>
 <body>
