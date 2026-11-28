@@ -3232,10 +3232,12 @@ function renderStaffDistribution(staff) {
       : "No staff have been registered yet. The chart will fill automatically as staff records are added.";
 }
 async function loadSchoolAnalytics() {
-  const status = document.getElementById("dashboardDataStatus");
-
+const status = document.getElementById("dashboardDataStatus");
+const setStatus = message => {
+  if (status) setstatus = message;
+};
   const setStatus = message => {
-    if (status) status.textContent = message;
+    if (status) setstatus = message;
   };
   if (!schoolPortalSupabase || !schoolPortalRecord?.id ||
       schoolPortalRecord.owner_access) {
