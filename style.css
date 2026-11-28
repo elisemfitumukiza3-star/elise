@@ -16525,3 +16525,59 @@ body.dark-mode #sidebar [aria-current="page"] {
   }
 }
 
+.school-public-profile {
+  margin: 20px 0;
+  padding: 20px;
+  background: #f5f7fb;
+  border: 1px solid #e4e9f1;
+  border-radius: 12px;
+}
+
+.school-public-heading {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.school-public-heading span {
+  color: #263f67;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.school-public-heading small {
+  color: #8290a4;
+  font-size: 10px;
+}
+
+.school-public-group {
+  padding: 15px 0;
+  border-top: 1px solid #e2e8f0;
+}
+
+.school-public-group h4 {
+  color: #345b8c;
+  font-size: 13px;
+  margin: 0 0 12px;
+}
+
+.school-public-field {
+  margin: 10px 0;
+}
+
+.school-public-field strong {
+  color: #586b83;
+  font-size: 11px;
+}
+
+.school-public-field p {
+  color: #24354c;
+  font-size: 13px;
+  line-height: 1.7;
+  margin: 4px 0;
+  overflow-wrap: anywhere;
+}
+
