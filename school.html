@@ -3231,98 +3231,115 @@ function renderStaffDistribution(staff) {
       ? `Distribution calculated from ${total} actual school staff records.`
       : "No staff have been registered yet. The chart will fill automatically as staff records are added.";
 }
+
 async function loadSchoolAnalytics() {
-const status = document.getElementById("dashboardDataStatus");
-const setStatus = message => {
-  if (status) setstatus = message;
-};
+  const status = document.getElementById("dashboardDataStatus");
+
   const setStatus = message => {
-    if (status) setstatus = message;
+    if (status) status.textContent = message;
   };
+
   if (!schoolPortalSupabase || !schoolPortalRecord?.id ||
       schoolPortalRecord.owner_access) {
     setStatus("Connect an approved school account");
     return;
   }
 
-setStatus("Updating live records...");
-  const [classesResult, learnersResult] = await Promise.all([
-    schoolPortalSupabase
-      .from("school_classes")
-      .select("id", { count: "exact", head: true })
-      .eq("school_id", schoolPortalRecord.id),
+  setStatus("Updating live records...");
 
-    schoolPortalSupabase
-      .from("school_enrollments")
-      .select("id", { count: "exact", head: true })
-      .eq("school_id", schoolPortalRecord.id)
-    
-    schoolPortalSupabase
-  .from("school_staff")
-  .select("id,full_name,position,account_status,status")
-  .eq("school_id", schoolPortalRecord.id)
-  ]);
+  try {
+    const [classesResult, learnersResult, staffResult] =
+      await Promise.all([
+        schoolPortalSupabase
+          .from("school_classes")
+          .select("id", { count: "exact", head: true })
+          .eq("school_id", schoolPortalRecord.id),
 
-  const classes = classesResult.error ? null : classesResult.count;
-  const learners = learnersResult.error ? null : learnersResult.count;
+        schoolPortalSupabase
+          .from("school_enrollments")
+          .select("id", { count: "exact", head: true })
+          .eq("school_id", schoolPortalRecord.id),
 
- const staffRecords = staffResult.error
-  ? []
-  : (staffResult.data || []);
+        schoolPortalSupabase
+          .from("school_staff")
+          .select("id,position")
+          .eq("school_id", schoolPortalRecord.id)
+      ]);
 
-const teachers = staffResult.error
-  ? null
-  : staffRecords.length;
+    const classes = classesResult.error ? null : classesResult.count;
+    const learners = learnersResult.error ? null : learnersResult.count;
 
-if (!staffResult.error) {
-  renderStaffDistribution(staffRecords);
+    const staffRecords = staffResult.error
+      ? []
+      : (staffResult.data || []);
+
+    const teachers = staffResult.error
+      ? null
+      : staffRecords.length;
+
+    if (!staffResult.error) {
+      renderStaffDistribution(staffRecords);
+    }
+
+    const setText = (id, value) => {
+      const element = document.getElementById(id);
+      if (element) element.textContent = value ?? "—";
+    };
+
+    setText("dashboardStudents", learners);
+    setText("dashboardTeachers", teachers);
+    setText("dashboardClasses", classes);
+    setText("dashboardLearnerTile", learners);
+    setText("dashboardClassTile", classes);
+
+    setText("analyticsLearners", learners);
+    setText("analyticsClasses", classes);
+    setText("analyticsTeachers", teachers);
+
+    const availability =
+      document.getElementById("analyticsAvailability");
+
+    if (availability) {
+      availability.innerHTML = [
+        ["Enrollment records", learners !== null,
+          learners === null ? "Could not load records" :
+          `${learners} enrolled records`],
+        ["Class records", classes !== null,
+          classes === null ? "Could not load records" :
+          `${classes} registered classes`],
+        ["Staff records", teachers !== null,
+          teachers === null ? "Could not load records" :
+          `${teachers} registered employees`],
+        ["Attendance", false, "Not connected yet"],
+        ["Examination results", false, "Not connected yet"],
+        ["Staff activity", false, "Not connected yet"]
+      ].map(([label, connected, detail]) => `
+        <div class="analytics-status">
+          <strong>${connected ? "✓" : "○"} ${label}</strong>
+          ${detail}
+        </div>
+      `).join("");
+    }
+
+    setStatus(
+      classesResult.error || learnersResult.error || staffResult.error
+        ? "Some records could not be loaded. Check the database connection."
+        : "Live records updated successfully"
+    );
+
+    const profileValue =
+      document.getElementById("profileCompletion")?.textContent || "0%";
+
+    setText("dashboardProfile", profileValue);
+    setText("dashboardProfileTile", profileValue);
+    setText("analyticsProfile", profileValue);
+
+  } catch (error) {
+    console.error("School analytics error:", error);
+    setStatus("Analytics could not load. Please refresh and try again.");
+  }
 }
-  const setText = (id, value) => {
-    const element = document.getElementById(id);
-    if (element) element.textContent = value ?? "—";
-  };
 
-  setText("dashboardStudents", learners);
-  setText("dashboardTeachers", teachers);
-  setText("dashboardClasses", classes);
-  setText("dashboardLearnerTile", learners);
-  setText("dashboardClassTile", classes);
-
-  setText("analyticsLearners", learners);
-  setText("analyticsClasses", classes);
-  setText("analyticsTeachers", teachers);
-
-  const availability = document.getElementById("analyticsAvailability");
-
-  availability.innerHTML = [
-    ["Enrollment records", learners !== null,
-      learners === null ? "Could not load records" : `${learners} enrolled records`],
-    ["Class records", classes !== null,
-      classes === null ? "Could not load records" : `${classes} registered classes`],
-    ["Teacher information", teachers !== null,
-      teachers === null ? "Not provided in profile" : `${teachers} reported teachers`],
-    ["Attendance", false, "Attendance records are not connected yet"],
-    ["Examination results", false, "Examination records are not connected yet"],
-    ["Teacher activity", false, "Teacher activity records are not connected yet"]
-  ].map(([label, connected, detail]) => `
-    <div class="analytics-status">
-      <strong>${connected ? "✓" : "○"} ${label}</strong>
-      ${detail}
-    </div>
-  `).join("");
-
- setStatus(
-  classesResult.error || learnersResult.error
-    ? "Some records could not be loaded"
-    : "Live records updated"
-);
-  const profileValue =
-    document.getElementById("profileCompletion")?.textContent || "0%";
-
-  setText("dashboardProfile", profileValue);
-  setText("dashboardProfileTile", profileValue);
-  setText("analyticsProfile", profileValue);
-}
 
 document.getElementById("refreshSchoolAnalytics")
   ?.addEventListener("click", loadSchoolAnalytics);
