@@ -1585,36 +1585,52 @@ function renderProfileStatistics() {
   document.getElementById("profileUpdates").textContent =
     (schoolProfileData._audit || []).length;
 
-  const statistics = [
-    ["Identity", "identity"],
-    ["Governance", "governance"],
-    ["Accreditation", "accreditation"],
-    ["Academic structure", "academics"],
-    ["Infrastructure", "campuses"],
-    ["Research", "research"],
-    ["Partnerships", "partnerships"],
-    ["Quality assurance", "quality"],
-    ["Student welfare", "welfare"]
-  ];
+  
+const statistics = [
+  ["🏛️", "Institutional identity", "identity"],
+  ["⚖️", "Governance", "governance"],
+  ["🏅", "Accreditation", "accreditation"],
+  ["🎓", "Academic structure", "academics"],
+  ["🏢", "Infrastructure", "campuses"],
+  ["🔬", "Research & innovation", "research"],
+  ["🌍", "Partnerships", "partnerships"],
+  ["✓", "Quality assurance", "quality"],
+  ["❤️", "Student welfare", "welfare"]
+];
 
-  document.getElementById("profileStatistics").innerHTML =
-    statistics.map(([label,id]) => {
-      const module = profileModules.find(item => item.id === id);
-      const filled = module.fields.filter(field =>
-        String(schoolProfileData[id]?.[field] || "").trim()
-      ).length;
-      const percent = Math.round(filled / module.fields.length * 100);
+document.getElementById("profileStatistics").innerHTML =
+  statistics.map(([icon, label, id]) => {
+    const module = profileModules.find(item => item.id === id);
 
-      return `
-        <div class="profile-chart-row">
-          <span>${label}</span>
-          <div class="profile-chart-track">
-            <span style="width:${percent}%"></span>
-          </div>
-          <strong>${percent}%</strong>
+    const filled = module.fields.filter(field =>
+      String(schoolProfileData[id]?.[field] || "").trim()
+    ).length;
+
+    const total = module.fields.length;
+    const percent = total
+      ? Math.round(filled / total * 100)
+      : 0;
+
+    const status = percent === 100
+      ? "Complete"
+      : percent > 0
+        ? "In progress"
+        : "Not started";
+
+    return `
+      <article class="profile-insight-card">
+        <div class="profile-insight-top">
+          <div class="profile-insight-icon">${icon}</div>
+          <span class="profile-insight-status">${status}</span>
         </div>
-      `;
-    }).join("");
+        <h3>${label}</h3>
+        <div class="profile-insight-number">${percent}%</div>
+        <div class="profile-insight-detail">
+          ${filled} of ${total} information fields completed
+        </div>
+      </article>
+    `;
+  }).join("");
 
   const history = schoolProfileData._audit || [];
 
