@@ -3523,9 +3523,9 @@ document.getElementById("staffRoleFilter")
 document.getElementById("refreshStaffDirectory")
   ?.addEventListener("click", loadStaffWorkspace);
 
+
 async function loadSchoolAnalytics() {
   const status = document.getElementById("dashboardDataStatus");
-
   const setStatus = message => {
     if (status) status.textContent = message;
   };
@@ -3553,23 +3553,16 @@ async function loadSchoolAnalytics() {
 
         schoolPortalSupabase
           .from("school_staff")
-          .select("id,position")
+          .select("id,full_name,position,account_status,status")
           .eq("school_id", schoolPortalRecord.id)
       ]);
 
     const classes = classesResult.error ? null : classesResult.count;
     const learners = learnersResult.error ? null : learnersResult.count;
+    const staff = staffResult.error ? null : (staffResult.data || []);
 
-    const staffRecords = staffResult.error
-      ? []
-      : (staffResult.data || []);
-
-    const teachers = staffResult.error
-      ? null
-      : staffRecords.length;
-
-    if (!staffResult.error) {
-      renderStaffDistribution(staffRecords);
+    if (staff !== null) {
+      renderStaffDistribution(staff);
     }
 
     const setText = (id, value) => {
@@ -3578,58 +3571,43 @@ async function loadSchoolAnalytics() {
     };
 
     setText("dashboardStudents", learners);
-    setText("dashboardTeachers", teachers);
+    setText("dashboardTeachers", staff?.length ?? null);
     setText("dashboardClasses", classes);
-    setText("dashboardLearnerTile", learners);
-    setText("dashboardClassTile", classes);
-
     setText("analyticsLearners", learners);
     setText("analyticsClasses", classes);
-    setText("analyticsTeachers", teachers);
+    setText("analyticsTeachers", staff?.length ?? null);
 
-    const availability =
-      document.getElementById("analyticsAvailability");
-
+    const availability = document.getElementById("analyticsAvailability");
     if (availability) {
       availability.innerHTML = [
-        ["Enrollment records", learners !== null,
-          learners === null ? "Could not load records" :
-          `${learners} enrolled records`],
-        ["Class records", classes !== null,
-          classes === null ? "Could not load records" :
-          `${classes} registered classes`],
-        ["Staff records", teachers !== null,
-          teachers === null ? "Could not load records" :
-          `${teachers} registered employees`],
-        ["Attendance", false, "Not connected yet"],
-        ["Examination results", false, "Not connected yet"],
-        ["Staff activity", false, "Not connected yet"]
-      ].map(([label, connected, detail]) => `
+        ["Enrollment records", learners, "enrolled records"],
+        ["Class records", classes, "registered classes"],
+        ["Staff records", staff?.length ?? null, "registered employees"]
+      ].map(([label, count, description]) => `
         <div class="analytics-status">
-          <strong>${connected ? "✓" : "○"} ${label}</strong>
-          ${detail}
+          <strong>${count === null ? "Unavailable" : "Connected"} · ${label}</strong>
+          ${count === null ? "Could not load records" : `${count} ${description}`}
         </div>
       `).join("");
     }
-
-    setStatus(
-      classesResult.error || learnersResult.error || staffResult.error
-        ? "Some records could not be loaded. Check the database connection."
-        : "Live records updated successfully"
-    );
 
     const profileValue =
       document.getElementById("profileCompletion")?.textContent || "0%";
 
     setText("dashboardProfile", profileValue);
-    setText("dashboardProfileTile", profileValue);
     setText("analyticsProfile", profileValue);
 
+    setStatus(
+      classesResult.error || learnersResult.error || staffResult.error
+        ? "Some records could not be loaded. Check database permissions."
+        : "Live records updated successfully"
+    );
   } catch (error) {
     console.error("School analytics error:", error);
-    setStatus("Analytics could not load. Please refresh and try again.");
+    setStatus("Analytics could not load: " + error.message);
   }
 }
+
 
 
 document.getElementById("refreshSchoolAnalytics")
