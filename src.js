@@ -1384,7 +1384,115 @@ async function updateCommitteeDutyNav() {
 
   button.classList.toggle("hidden", !data);
 }
+function renderSchoolPublicProfile(school) {
+  const data = school?.profile_data || {};
 
+  const groups = [
+    {
+      title: "About the institution",
+      id: "identity",
+      fields: [
+        "Institution type",
+        "Ownership type",
+        "Institution motto",
+        "Public profile description",
+        "Vision",
+        "Mission",
+        "Official website",
+        "Institutional email",
+        "Telephone number",
+        "Country",
+        "Province",
+        "District"
+      ]
+    },
+    {
+      title: "Academic programmes",
+      id: "academics",
+      fields: [
+        "Faculties",
+        "Departments",
+        "Programmes offered",
+        "Courses",
+        "Subjects",
+        "Academic levels",
+        "Qualifications awarded"
+      ]
+    },
+    {
+      title: "Recognition",
+      id: "accreditation",
+      fields: [
+        "Accreditation status",
+        "Accreditation authority",
+        "Professional recognition"
+      ]
+    },
+    {
+      title: "Campuses and facilities",
+      id: "campuses",
+      fields: [
+        "Main campus name",
+        "Main campus address",
+        "Branch campuses",
+        "Classrooms",
+        "Science laboratories",
+        "Computer laboratories",
+        "Libraries",
+        "Sports facilities"
+      ]
+    },
+    {
+      title: "Institutional facts",
+      id: "statistics",
+      fields: [
+        "Total enrolled learners",
+        "Teaching staff total",
+        "Graduates total",
+        "Academic year"
+      ]
+    },
+    {
+      title: "Achievements",
+      id: "achievements",
+      fields: [
+        "National awards",
+        "International awards",
+        "Academic achievements",
+        "Sports achievements"
+      ]
+    }
+  ];
+
+  const output = groups.map(group => {
+    const values = group.fields
+      .filter(field => String(data[group.id]?.[field] || "").trim());
+
+    if (!values.length) return "";
+
+    return `
+      <section class="school-public-group">
+        <h4>${escapeHTML(group.title)}</h4>
+        ${values.map(field => `
+          <div class="school-public-field">
+            <strong>${escapeHTML(field)}</strong>
+            <p>${escapeHTML(data[group.id][field]).replace(/\n/g, "<br>")}</p>
+          </div>
+        `).join("")}
+      </section>
+    `;
+  }).join("");
+
+  return output
+    ? `<div class="school-public-profile">
+         <div class="school-public-heading">
+           <span>INSTITUTIONAL PROFILE</span>
+           <small>Information provided by the school</small>
+         </div>
+         ${output}
+       </div>`
+    : `<p class="muted">This school has not published its institutional profile yet.</p>`;
+}
 async function loadMySchool() {
   const container = document.getElementById("mySchoolContent");
   if (!container || !currentUserId()) return;
@@ -1521,9 +1629,12 @@ async function loadMySchool() {
 
     return `
       <div class="card">
-        <h2>${escapeHTML(school.school_name)}</h2>
-        <p>${escapeHTML(school.location || "Location not specified")}</p>
-        <hr>
+       <h2>${escapeHTML(school.school_name)}</h2>
+
+${renderSchoolPublicProfile(school)}
+
+<p>${escapeHTML(school.location || "Location not specified")}</p>
+<hr>
         <h3>${escapeHTML(schoolClass.class_name)}</h3>
         <p>Academic year: ${escapeHTML(schoolClass.academic_year || "Not specified")}</p>
         <p>Student number: ${escapeHTML(enrollment.student_number || "Not assigned")}</p>
