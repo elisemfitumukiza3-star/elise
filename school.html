@@ -1511,6 +1511,7 @@ body {
   <button data-page="Examinations & Assessments"><span class="ico">☑</span>Examinations & Assessments</button>
   <button data-page="Learning Resources"><span class="ico">▣</span>Learning Resources</button>
   <button data-page="Reports & Analytics"><span class="ico">▥</span>Reports & Analytics</button>
+   <button data-page="Upgrade & Services"><span class="ico">✦</span>Upgrade & Services</button>
   <button data-page="Communication"><span class="ico">✉</span>Communication</button>
   <button data-page="Settings"><span class="ico">⚙</span>Settings</button>
  </nav>
@@ -1543,12 +1544,37 @@ body {
    </div>
   </section>
 
-  <section class="metrics">
-   <div class="metric"><div class="metric-icon">♧</div><div><strong>—</strong><small>Students</small><div class="value">Live school records</div></div></div>
-   <div class="metric"><div class="metric-icon">♙</div><div><strong>—</strong><small>Teachers</small><div class="value">Registered staff</div></div></div>
-   <div class="metric"><div class="metric-icon">▱</div><div><strong>—</strong><small>Classes</small><div class="value">Active classes</div></div></div>
-   <div class="metric"><div class="metric-icon">▣</div><div><strong>—</strong><small>Learning resources</small><div class="value">Published materials</div></div></div>
-  </section>
+ 
+<section class="metrics" id="schoolLiveMetrics">
+  <div class="metric">
+    <div class="metric-icon">♧</div>
+    <div><strong id="dashboardStudents">—</strong>
+      <small>Enrolled learners</small>
+      <div class="value">Live enrollment records</div>
+    </div>
+  </div>
+  <div class="metric">
+    <div class="metric-icon">♙</div>
+    <div><strong id="dashboardTeachers">—</strong>
+      <small>Reported teachers</small>
+      <div class="value">School profile information</div>
+    </div>
+  </div>
+  <div class="metric">
+    <div class="metric-icon">▱</div>
+    <div><strong id="dashboardClasses">—</strong>
+      <small>Registered classes</small>
+      <div class="value">Live class records</div>
+    </div>
+  </div>
+  <div class="metric">
+    <div class="metric-icon">✓</div>
+    <div><strong id="dashboardProfile">0%</strong>
+      <small>Profile completion</small>
+      <div class="value">Institutional readiness</div>
+    </div>
+  </div>
+</section>
 
   <section class="dashboard-grid">
    <div class="panel">
