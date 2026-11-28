@@ -933,63 +933,66 @@ classesList.addEventListener("click", async event => {
   }
 });
 
-document.getElementById("refreshClasses")
-  .addEventListener("click", loadSchoolClasses);
 
-document.getElementById("menuButton").addEventListener("click", () => {
-  sidebar.classList.toggle("open");
-});
+document.getElementById("refreshClasses")
+  ?.addEventListener("click", loadSchoolClasses);
+
+document.getElementById("menuButton")
+  ?.addEventListener("click", () => {
+    sidebar.classList.toggle("open");
+  });
 
 document.querySelectorAll("[data-page]").forEach(button => {
   button.addEventListener("click", () => {
     const page = button.dataset.page;
 
-    document.querySelectorAll(".nav button").forEach(item =>
-      item.classList.toggle("active",item.dataset.page === page)
-    );
+    document.querySelectorAll(".nav button").forEach(item => {
+      item.classList.toggle("active", item.dataset.page === page);
+    });
 
     sidebar.classList.remove("open");
 
-    const isClasses = page === "Classes & Streams";
-    const isProfile = page === "School Profile";
-
-    classesWorkspace.classList.toggle("active",isClasses);
-    profileWorkspace.classList.toggle("active",isProfile);
-
     document.querySelectorAll(".content > section").forEach(section => {
-      if (section !== classesWorkspace &&
-          section !== profileWorkspace) {
-        section.style.display =
-          (isClasses || isProfile) ? "none" : "";
-      }
+      section.style.display = "none";
+      section.classList.remove("active");
     });
 
-    document.querySelector(".footer").style.display =
-      (isClasses || isProfile) ? "none" : "";
+    const target = page === "Classes & Streams"
+      ? document.getElementById("classesWorkspace")
+      : page === "School Profile"
+        ? document.getElementById("schoolProfileWorkspace")
+        : null;
 
-    if (isClasses) loadSchoolClasses();
-    if (isProfile) loadSchoolProfile();
+    if (target) {
+      target.style.display = "";
+      target.classList.add("active");
+
+      if (page === "Classes & Streams") loadSchoolClasses();
+      if (page === "School Profile" &&
+          typeof loadSchoolProfile === "function") {
+        loadSchoolProfile();
+      }
+    } else if (page === "Dashboard") {
+      document.querySelectorAll(".content > section").forEach(section => {
+        section.style.display = "";
+      });
+    } else {
+      const content = document.querySelector(".content");
+      let placeholder = document.getElementById("schoolPagePlaceholder");
+
+      if (!placeholder) {
+        placeholder = document.createElement("section");
+        placeholder.id = "schoolPagePlaceholder";
+        placeholder.className = "panel";
+        content.appendChild(placeholder);
+      }
+
+      placeholder.textContent = page + " workspace";
+      placeholder.style.display = "";
+    }
   });
 });
-    document.querySelector(".footer").style.display =
-      isClasses ? "none" : "";
 
-    if (isClasses) loadSchoolClasses();
-  });
-});
-
-window.addEventListener("portal:authorized", event => {
-  if (event.detail?.portal !== "school") return;
-
-  schoolPortalUser = event.detail.user;
-  schoolPortalRecord = event.detail.access;
-  schoolPortalSupabase = window.learnLoopPortalSupabase;
-
-  if (schoolPortalRecord?.school_name) {
-    document.querySelector(".hero h1").textContent =
-      "Welcome to " + schoolPortalRecord.school_name;
-  }
-});
 </script>
   <script type="module" src="./portal-auth.js"></script>
 </body>
