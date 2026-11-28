@@ -1791,27 +1791,25 @@ document.getElementById("profileStatistics").innerHTML =
       : "No profile changes recorded yet.";
 }
 
+
 function getProfileFieldType(field) {
-  const name = field.toLowerCase();
+  const f = field.toLowerCase();
 
-  if (name.includes("email")) return "email";
-  if (name.includes("website") || name.includes("url") ||
-      name.includes("link")) return "url";
-  if (name.includes("telephone") || name.includes("phone")) return "tel";
-  if (name.includes("date") || name.includes("expiry") ||
-      name.includes("renewal")) return "date";
+  if (/email/.test(f)) return "email";
+  if (/website|url|link/.test(f)) return "url";
+  if (/telephone|phone/.test(f)) return "tel";
+  if (/date|expiry|renewal/.test(f)) return "date";
 
-  if (name.includes("total") || name.includes("count") ||
-      name.includes("capacity") || name.includes("year established") ||
-      name.includes("rate (%)")) return "number";
+  if (/total|count|capacity|year established|rate \(%\)|budget/.test(f)) {
+    return "number";
+  }
+
+  if (/vision|mission|history|description|values|policies|procedures|records|directory|requirements|reports|plans|structure|inventory|publications|projects|programmes offered|courses|subjects|faculties|departments|partners|announcements|news|achievements|milestones|emergency|calendar|handbook|minutes|correspondence|services|facilities|research output|funding sources|social media|languages|responsibilities|feedback|evaluation|curriculum|specialisations|qualifications|support/.test(f)) {
+    return "textarea";
+  }
 
   return "text";
 }
-
-function isLongProfileField(field) {
-  return /history|description|vision|mission|values|policies|records|procedures|requirements|responsibilities|directory|notes|plans|reports|structure|inventory|calendar/i.test(field);
-}
-
 
 function profileFieldGroup(moduleId, field) {
   const f = field.toLowerCase();
@@ -1850,51 +1848,42 @@ function profileFieldGroup(moduleId, field) {
   return "General institutional information";
 }
 
-function profileFieldType(field) {
-  const f = field.toLowerCase();
-
-  if (/email/.test(f)) return "email";
-  if (/website|url|link/.test(f)) return "url";
-  if (/telephone|phone/.test(f)) return "tel";
-
-  if (/date|expiry|renewal/.test(f)) return "date";
-
-  if (/total|count|capacity|year established|rate \(%\)|budget/.test(f)) {
-    return "number";
-  }
-
-  if (/vision|mission|history|description|values|policies|procedures|records|directory|requirements|reports|plans|structure|inventory|publications|projects|programmes offered|courses|subjects|faculties|departments|partners|announcements|news|achievements|milestones|emergency|calendar|handbook|minutes|correspondence|services|facilities|research output|funding sources|social media|languages|responsibilities/.test(f)) {
-    return "textarea";
-  }
-
-  return "text";
-}
-
 function profileFieldOptions(field) {
   const f = field.toLowerCase();
 
   if (f === "institution type") {
-    return ["Primary school", "Secondary school", "TVET institution", "College", "University", "Training centre", "Other"];
+    return [
+      "Primary school", "Secondary school", "TVET institution",
+      "College", "University", "Training centre", "Other"
+    ];
   }
 
   if (f === "ownership type") {
-    return ["Public", "Private", "Faith-based", "Community", "NGO", "Other"];
+    return [
+      "Public", "Private", "Faith-based", "Community", "NGO", "Other"
+    ];
   }
 
   if (f.includes("accreditation status")) {
-    return ["Accredited", "Provisionally accredited", "Pending", "Expired", "Suspended", "Not applicable"];
+    return [
+      "Accredited", "Provisionally accredited", "Pending",
+      "Expired", "Suspended", "Not applicable"
+    ];
   }
 
   if (f.includes("employment categor")) {
-    return ["Permanent", "Contract", "Part-time", "Temporary", "Volunteer", "Other"];
+    return [
+      "Permanent", "Contract", "Part-time", "Temporary",
+      "Volunteer", "Other"
+    ];
   }
 
   return null;
 }
 
-function renderProfileField(field, value, index, moduleId) {
+function renderProfileField(field, value, index) {
   const id = "profileField" + index;
-  const type = profileFieldType(field);
+  const type = getProfileFieldType(field);
   const options = profileFieldOptions(field);
   const safeField = escapeClassText(field);
   const safeValue = escapeClassText(value);
@@ -1902,22 +1891,18 @@ function renderProfileField(field, value, index, moduleId) {
   let control = "";
 
   if (options) {
-    const optionList = options.map(option =>
-      `<option value="${escapeClassText(option)}"
-        ${value === option ? "selected" : ""}>
-        ${escapeClassText(option)}
-      </option>`
-    ).join("");
-
-    const customOption = value && !options.includes(value)
-      ? `<option value="${safeValue}" selected>${safeValue}</option>`
-      : "";
-
     control = `
       <select id="${id}" data-profile-field="${safeField}">
         <option value="">Select an option</option>
-        ${customOption}
-        ${optionList}
+        ${options.map(option => `
+          <option value="${escapeClassText(option)}"
+            ${value === option ? "selected" : ""}>
+            ${escapeClassText(option)}
+          </option>
+        `).join("")}
+        ${value && !options.includes(value)
+          ? `<option selected value="${safeValue}">${safeValue}</option>`
+          : ""}
       </select>
     `;
   } else if (type === "textarea") {
@@ -1925,112 +1910,179 @@ function renderProfileField(field, value, index, moduleId) {
       <textarea
         id="${id}"
         data-profile-field="${safeField}"
-        placeholder="Enter ${escapeClassText(field.toLowerCase())}..."
+        placeholder="Enter ${safeField.toLowerCase()}..."
       >${safeValue}</textarea>
     `;
   } else {
-    let inputType = type;
-
-    // Preserve older values that may not use ISO date or numeric formats.
-    if (type === "date" && value && !/^\d{4}-\d{2}-\d{2}$/.test(value)) {
-      inputType = "text";
-    }
-
-    if (type === "number" && value && !/^-?\d+(\.\d+)?$/.test(value)) {
-      inputType = "text";
-    }
+    const extra = type === "number"
+      ? `min="0" step="any"`
+      : "";
 
     control = `
       <input
         id="${id}"
-        type="${inputType}"
+        type="${type}"
+        ${extra}
         data-profile-field="${safeField}"
         value="${safeValue}"
-        placeholder="Enter ${escapeClassText(field.toLowerCase())}..."
-        ${type === "number" && inputType === "number" ? 'step="any"' : ""}
+        placeholder="Enter ${safeField.toLowerCase()}..."
       >
     `;
-  }
-
-  let hint = "Enter the official information for this institution.";
-
-  if (type === "textarea") {
-    hint = "You can include multiple entries or detailed information.";
-  } else if (type === "date") {
-    hint = "Use the date shown on the official institutional record.";
-  } else if (type === "number") {
-    hint = "Enter a numeric value where applicable.";
-  } else if (type === "url") {
-    hint = "Include the complete web address.";
   }
 
   return `
     <div class="profile-field">
       <label for="${id}">${safeField}</label>
       ${control}
-      <small>${hint}</small>
+      <small>
+        ${type === "textarea"
+          ? "Enter detailed information. You may use separate lines for different entries."
+          : type === "date"
+            ? "Use the date on the official record."
+            : type === "number"
+              ? "Enter a numerical value."
+              : type === "url"
+                ? "Include the complete website address."
+                : "Enter the official institutional information."}
+      </small>
     </div>
   `;
 }
 
-function openProfileModule(moduleId) {
+function profileFilledFields(module) {
+  const saved = schoolProfileData[module.id] || {};
+
+  return module.fields.filter(field =>
+    String(saved[field] || "").trim()
+  );
+}
+
+function renderProfileModuleView(moduleId) {
+  const module = profileModules.find(item => item.id === moduleId);
+  if (!module) return;
+
+  activeProfileModule = moduleId;
+
+  const saved = schoolProfileData[moduleId] || {};
+  const filled = profileFilledFields(module);
+  const complete = filled.length === module.fields.length;
+
+  profileWorkspace.classList.add("module-open");
+  document.getElementById("profileIndexView").hidden = true;
+  profileEditor.hidden = false;
+  profileForm.hidden = true;
+
+  const readView = document.getElementById("profileReadView");
+  readView.hidden = false;
+
+  document.getElementById("profileEditorTitle").textContent =
+    module.icon + "  " + module.title;
+
+  document.getElementById("profileEditorDescription").textContent =
+    module.description;
+
+  const grouped = {};
+
+  module.fields.forEach(field => {
+    const value = String(saved[field] || "").trim();
+    if (!value) return;
+
+    const group = profileFieldGroup(moduleId, field);
+
+    if (!grouped[group]) grouped[group] = [];
+    grouped[group].push({field, value});
+  });
+
+  readView.innerHTML = `
+    <div class="profile-read-header">
+      <div>
+        <span class="profile-saved-mark">✓ Section saved</span>
+        <p>
+          ${complete
+            ? "All information fields have been completed."
+            : `${filled.length} of ${module.fields.length} fields contain information.`}
+        </p>
+      </div>
+
+      <button
+        type="button"
+        class="profile-edit-icon"
+        id="editSavedProfileButton"
+        title="Edit this section"
+        aria-label="Edit this section"
+      >✎</button>
+    </div>
+
+    ${Object.entries(grouped).map(([group, fields]) => `
+      <section class="profile-read-group">
+        <h3>${escapeClassText(group)}</h3>
+        <div class="profile-read-grid">
+          ${fields.map(item => `
+            <div class="profile-read-item">
+              <small>${escapeClassText(item.field)}</small>
+              <strong>${escapeClassText(item.value).replace(/\n/g, "<br>")}</strong>
+            </div>
+          `).join("")}
+        </div>
+      </section>
+    `).join("")}
+
+    ${filled.length === 0
+      ? `<div class="profile-read-empty">
+           No information has been saved in this section yet.
+         </div>`
+      : ""}
+  `;
+
+  document.getElementById("profileSaveMessage").hidden = true;
+
+  document.getElementById("editSavedProfileButton")
+    .addEventListener("click", () => openProfileEditor(moduleId));
+}
+
+function openProfileEditor(moduleId) {
   const module = profileModules.find(item => item.id === moduleId);
   if (!module) return;
 
   activeProfileModule = moduleId;
 
   profileWorkspace.classList.add("module-open");
+  document.getElementById("profileIndexView").hidden = true;
   profileEditor.hidden = false;
 
   document.getElementById("profileEditorTitle").textContent =
     module.icon + "  " + module.title;
 
   document.getElementById("profileEditorDescription").textContent =
-    module.description +
-    " · Institutional information and management workspace";
+    module.description + " · Edit institutional information";
+
+  document.getElementById("profileReadView").hidden = true;
+  profileForm.hidden = false;
+  document.getElementById("profileSaveMessage").hidden = false;
 
   const saved = schoolProfileData[moduleId] || {};
-
-  const groupedFields = {};
+  const grouped = {};
 
   module.fields.forEach((field, index) => {
     const group = profileFieldGroup(moduleId, field);
-
-    if (!groupedFields[group]) groupedFields[group] = [];
-
-    groupedFields[group].push({field, index});
+    if (!grouped[group]) grouped[group] = [];
+    grouped[group].push({field, index});
   });
 
-  const completed = module.fields.filter(field =>
-    String(saved[field] || "").trim()
-  ).length;
-
   document.getElementById("profileFields").innerHTML =
-    `
-      <div class="profile-workspace-summary">
-        <span>${module.fields.length} information fields</span>
-        <span>${completed} completed</span>
-        <span>${module.fields.length - completed} remaining</span>
-      </div>
-    ` +
-    Object.entries(groupedFields).map(([group, fields]) => `
+    Object.entries(grouped).map(([group, fields]) => `
       <section class="profile-field-group">
         <h3>${escapeClassText(group)}</h3>
         <div class="profile-fields">
           ${fields.map(({field, index}) =>
-            renderProfileField(
-              field,
-              saved[field] || "",
-              index,
-              moduleId
-            )
+            renderProfileField(field, saved[field] || "", index)
           ).join("")}
         </div>
       </section>
     `).join("");
 
   document.getElementById("profileSaveMessage").textContent =
-    "Review the information and select Save Section when finished.";
+    "Update the information and save your changes.";
 
   profileEditor.scrollIntoView({
     behavior: "smooth",
@@ -2038,17 +2090,30 @@ function openProfileModule(moduleId) {
   });
 }
 
+function openProfileModule(moduleId) {
+  const module = profileModules.find(item => item.id === moduleId);
+  if (!module) return;
+
+  if (profileFilledFields(module).length) {
+    renderProfileModuleView(moduleId);
+  } else {
+    openProfileEditor(moduleId);
+  }
+}
+
 function closeProfileEditor() {
   profileEditor.hidden = true;
+  profileForm.hidden = false;
+  document.getElementById("profileReadView").hidden = true;
+  document.getElementById("profileIndexView").hidden = false;
+
   profileWorkspace.classList.remove("module-open");
   activeProfileModule = null;
-  renderProfileModules();
 
-  profileWorkspace.scrollIntoView({
-    behavior: "smooth",
-    block: "start"
-  });
+  renderProfileModules();
+  renderProfileStatistics();
 }
+
 async function loadSchoolProfile() {
   if (!schoolPortalRecord?.id) return;
 
@@ -2056,15 +2121,16 @@ async function loadSchoolProfile() {
     schoolProfileData = {};
     renderProfileModules();
     renderProfileStatistics();
+
     document.getElementById("profileSaveMessage").textContent =
       "Owner testing preview: a real approved school record is required for permanent database saving.";
     return;
   }
 
-  const {data,error} = await schoolPortalSupabase
+  const {data, error} = await schoolPortalSupabase
     .from("schools")
     .select("profile_data")
-    .eq("id",schoolPortalRecord.id)
+    .eq("id", schoolPortalRecord.id)
     .maybeSingle();
 
   if (error) {
@@ -2074,16 +2140,17 @@ async function loadSchoolProfile() {
   }
 
   schoolProfileData = data?.profile_data || {};
+
   renderProfileModules();
   renderProfileStatistics();
 }
 
-profileGrid.addEventListener("click",event => {
+profileGrid.addEventListener("click", event => {
   const button = event.target.closest("[data-profile-module]");
   if (button) openProfileModule(button.dataset.profileModule);
 });
 
-profileForm.addEventListener("submit",async event => {
+profileForm.addEventListener("submit", async event => {
   event.preventDefault();
 
   if (!schoolPortalSupabase || !schoolPortalRecord?.id ||
@@ -2099,7 +2166,8 @@ profileForm.addEventListener("submit",async event => {
   if (!module) return;
 
   const updated = {};
-  document.querySelectorAll("[data-profile-field]").forEach(field => {
+
+  profileForm.querySelectorAll("[data-profile-field]").forEach(field => {
     updated[field.dataset.profileField] = field.value.trim();
   });
 
@@ -2108,10 +2176,13 @@ profileForm.addEventListener("submit",async event => {
     [activeProfileModule]: updated
   };
 
-  const audit = Array.isArray(nextData._audit) ? nextData._audit : [];
+  const audit = Array.isArray(nextData._audit)
+    ? nextData._audit
+    : [];
+
   audit.push({
-    section:module.title,
-    date:new Date().toLocaleString()
+    section: module.title,
+    date: new Date().toLocaleString()
   });
 
   nextData._audit = audit.slice(-100);
@@ -2122,8 +2193,8 @@ profileForm.addEventListener("submit",async event => {
 
   const {error} = await schoolPortalSupabase
     .from("schools")
-    .update({profile_data:nextData})
-    .eq("id",schoolPortalRecord.id);
+    .update({profile_data: nextData})
+    .eq("id", schoolPortalRecord.id);
 
   saveButton.disabled = false;
   saveButton.textContent = "Save Section";
@@ -2135,29 +2206,31 @@ profileForm.addEventListener("submit",async event => {
   }
 
   schoolProfileData = nextData;
-  renderProfileStatistics();
+
   renderProfileModules();
-
-  document.getElementById("profileSaveMessage").textContent =
-    module.title + " saved successfully.";
-
+  renderProfileStatistics();
+  renderProfileModuleView(activeProfileModule);
 });
 
-function closeProfileEditor() {
-  profileEditor.hidden = true;
-  activeProfileModule = null;
-  renderProfileModules();
-}
-
 document.getElementById("closeProfileEditor")
-  .addEventListener("click",closeProfileEditor);
+  .addEventListener("click", closeProfileEditor);
 
 document.getElementById("cancelProfileEdit")
-  .addEventListener("click",closeProfileEditor);
+  .addEventListener("click", () => {
+    const module = profileModules.find(
+      item => item.id === activeProfileModule
+    );
+
+    if (module && profileFilledFields(module).length) {
+      renderProfileModuleView(module.id);
+    } else {
+      closeProfileEditor();
+    }
+  });
 
 document.getElementById("refreshSchoolProfile")
-  .addEventListener("click",loadSchoolProfile);
-  
+  .addEventListener("click", loadSchoolProfile);
+
 function setClassMessage(message) {
   classMessage.textContent = message;
 }
