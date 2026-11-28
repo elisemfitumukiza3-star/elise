@@ -1313,7 +1313,17 @@ body {
     padding: 15px;
   }
 }
-
+.profile-module-status {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 6px 9px;
+  border-radius: 20px;
+  background: #176b59;
+  color: #e6fff7;
+  font-size: 10px;
+  font-weight: 800;
+}
+  
 </style>
 </head>
 <body>
@@ -1659,17 +1669,27 @@ const profileModules = [
     fields:["Registration documents and references","Accreditation certificates and references","Institutional policies","Academic regulations","Staff handbooks","Student handbooks","Annual reports","Strategic plans","Financial reports","Research reports","Partnership agreements","Inspection reports","Meeting minutes","Official correspondence"]
   }
 ];
-
 function renderProfileModules() {
-  profileGrid.innerHTML = profileModules.map(module => `
-    <button type="button"
-      class="profile-module ${activeProfileModule === module.id ? "active" : ""}"
-      data-profile-module="${module.id}">
-      <span class="module-icon">${module.icon}</span>
-      <strong>${module.title}</strong>
-      <small>${module.description}</small>
-    </button>
-  `).join("");
+  profileGrid.innerHTML = profileModules.map(module => {
+    const filled = profileFilledFields(module);
+    const complete = filled.length === module.fields.length;
+    const saved = filled.length > 0;
+
+    return `
+      <button type="button"
+        class="profile-module ${activeProfileModule === module.id ? "active" : ""}"
+        data-profile-module="${module.id}">
+
+        <span class="module-icon">${module.icon}</span>
+        <strong>${escapeClassText(module.title)}</strong>
+        <small>${escapeClassText(module.description)}</small>
+
+        <span class="profile-module-status">
+          ${complete ? "✓ Completed" : saved ? "✓ Saved" : "○ Not started"}
+        </span>
+      </button>
+    `;
+  }).join("");
 }
 
 function renderProfileStatistics() {
