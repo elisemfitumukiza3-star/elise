@@ -1641,7 +1641,59 @@ body {
     font-size: 8px;
   }
 }
+.staff-chart-layout {
+  display:grid;
+  grid-template-columns:240px 1fr;
+  align-items:center;
+  gap:25px;
+}
 
+.staff-donut-wrap {
+  display:grid;
+  place-items:center;
+}
+
+#staffDistributionChart {
+  width:220px;
+  max-width:100%;
+}
+
+#staffDonutSegments circle {
+  fill:none;
+  stroke-width:25;
+  transition:stroke-dasharray .5s ease;
+}
+
+.staff-chart-legend {
+  display:grid;
+  gap:13px;
+}
+
+.staff-legend-item {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:#dce6f5;
+  font-size:13px;
+}
+
+.staff-legend-dot {
+  width:11px;
+  height:11px;
+  border-radius:50%;
+  flex-shrink:0;
+}
+
+.staff-legend-item strong {
+  margin-left:auto;
+  color:#fff;
+}
+
+@media(max-width:600px) {
+  .staff-chart-layout {
+    grid-template-columns:1fr;
+  }
+}
 </style>
 </head>
 <body>
@@ -1970,6 +2022,46 @@ body {
   <div class="panel">
     <div class="panel-head">
       <h2>Institutional Data Availability</h2>
+      <div class="panel" style="margin-bottom:18px">
+  <div class="panel-head">
+    <div>
+      <h2>Staff Distribution</h2>
+      <p style="color:#91a2bb;font-size:12px">
+        Workforce composition by role
+      </p>
+    </div>
+    <span id="staffChartTotal">0 employees</span>
+  </div>
+
+  <div class="staff-chart-layout">
+    <div class="staff-donut-wrap">
+      <svg id="staffDistributionChart"
+           viewBox="0 0 220 220"
+           role="img"
+           aria-label="Staff distribution pie chart">
+        <circle cx="110" cy="110" r="78"
+                fill="none" stroke="#263750"
+                stroke-width="25"/>
+        <g id="staffDonutSegments"
+           transform="rotate(-90 110 110)"></g>
+        <text x="110" y="105" text-anchor="middle"
+              fill="#ffffff" font-size="29"
+              font-weight="800" id="staffDonutNumber">0</text>
+        <text x="110" y="126" text-anchor="middle"
+              fill="#9aabc3" font-size="11">STAFF</text>
+      </svg>
+    </div>
+
+    <div id="staffDistributionLegend"
+         class="staff-chart-legend">
+      <p>No staff records available yet.</p>
+    </div>
+  </div>
+
+  <p id="staffChartMessage" class="workspace-message">
+    Staff distribution will appear as employees are registered.
+  </p>
+</div>
       <span>Live connection status</span>
     </div>
     <div id="analyticsAvailability" class="quick-grid"></div>
@@ -3001,7 +3093,75 @@ function renderUpgradeRequests() {
       `).join("")
     : '<p class="workspace-message">No upgrade requests submitted yet.</p>';
 }
+function renderStaffDistribution(staff) {
+  const colors = [
+    "#35b8e8",
+    "#a78bfa",
+    "#f2bd48",
+    "#45c49a"
+  ];
 
+  const categories = [
+    { name:"Teaching staff", match:/teacher|teaching|lecturer|tutor/ },
+    { name:"Administrative staff", match:/admin|secretary|accountant|bursar|manager/ },
+    { name:"Support staff", match:/support|cleaner|security|driver|cook|maintenance|librarian/ }
+  ];
+
+  const counts = categories.map(category => ({
+    name:category.name,
+    count:staff.filter(person =>
+      category.match.test(person.position || "")
+    ).length
+  }));
+
+  const classified = counts.reduce((sum,item) => sum + item.count,0);
+  counts.push({
+    name:"Other staff",
+    count:Math.max(0,staff.length-classified)
+  });
+
+  const total = staff.length;
+  const circumference = 2 * Math.PI * 78;
+  const segments = document.getElementById("staffDonutSegments");
+  const legend = document.getElementById("staffDistributionLegend");
+
+  document.getElementById("staffChartTotal").textContent =
+    `${total} ${total === 1 ? "employee" : "employees"}`;
+
+  document.getElementById("staffDonutNumber").textContent = total;
+
+  let offset = 0;
+
+  segments.innerHTML = counts.map((item,index) => {
+    const length = total ? circumference * item.count / total : 0;
+    const circle = `
+      <circle cx="110" cy="110" r="78"
+        stroke="${colors[index]}"
+        stroke-dasharray="${length} ${circumference-length}"
+        stroke-dashoffset="${-offset}"/>`;
+
+    offset += length;
+    return circle;
+  }).join("");
+
+  legend.innerHTML = counts.map((item,index) => `
+    <div class="staff-legend-item">
+      <span class="staff-legend-dot"
+        style="background:${colors[index]}"></span>
+      <span>${item.name}</span>
+      <strong>${item.count}
+        <small style="color:#91a2bb">
+          (${total ? Math.round(item.count/total*100) : 0}%)
+        </small>
+      </strong>
+    </div>
+  `).join("");
+
+  document.getElementById("staffChartMessage").textContent =
+    total
+      ? `Distribution calculated from ${total} actual school staff records.`
+      : "No staff have been registered yet. The chart will fill automatically as staff records are added.";
+}
 async function loadSchoolAnalytics() {
   const status = document.getElementById("dashboardDataStatus");
 
@@ -3023,18 +3183,27 @@ async function loadSchoolAnalytics() {
       .from("school_enrollments")
       .select("id", { count: "exact", head: true })
       .eq("school_id", schoolPortalRecord.id)
+    
+    schoolPortalSupabase
+  .from("school_staff")
+  .select("id,full_name,position,account_status,status")
+  .eq("school_id", schoolPortalRecord.id)
   ]);
 
   const classes = classesResult.error ? null : classesResult.count;
   const learners = learnersResult.error ? null : learnersResult.count;
 
-  const staffValue = Number(
-    schoolProfileData.statistics?.["Teaching staff total"]
-  );
-  const teachers = Number.isFinite(staffValue) && staffValue > 0
-    ? staffValue
-    : null;
+ const staffRecords = staffResult.error
+  ? []
+  : (staffResult.data || []);
 
+const teachers = staffResult.error
+  ? null
+  : staffRecords.length;
+
+if (!staffResult.error) {
+  renderStaffDistribution(staffRecords);
+}
   const setText = (id, value) => {
     const element = document.getElementById(id);
     if (element) element.textContent = value ?? "—";
