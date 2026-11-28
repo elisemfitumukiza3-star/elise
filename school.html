@@ -1075,65 +1075,241 @@ function isLongProfileField(field) {
   return /history|description|vision|mission|values|policies|records|procedures|requirements|responsibilities|directory|notes|plans|reports|structure|inventory|calendar/i.test(field);
 }
 
+
+function profileFieldGroup(moduleId, field) {
+  const f = field.toLowerCase();
+
+  if (/policy|procedure|regulation|plan|report|records|minutes|audit|inspection|compliance|licence|certificate|agreement|contract|handbook|correspondence|reference/.test(f)) {
+    return "Policies, records & compliance";
+  }
+
+  if (/date|year|period|duration|expiry|renewal/.test(f)) {
+    return "Dates & reporting";
+  }
+
+  if (/principal|director|dean|registrar|supervisor|coordinator|leadership|board|council|senate|committee|partner|university|government|ngo|industry|donor|alumni|graduate|staff|teacher/.test(f)) {
+    return "People & institutional relationships";
+  }
+
+  if (/learner|student|admission|enrol|graduat|completion|retention|rate|budget|fund|fee|tuition|grant|donation|scholarship|financial|population|capacity|count|total|ratio|percentage/.test(f)) {
+    return "Institutional indicators";
+  }
+
+  if (/programme|program|course|subject|curriculum|faculty|department|academic|qualification|research|publication|journal|project|innovation|patent|conference/.test(f)) {
+    return "Academic & programme information";
+  }
+
+  if (/campus|building|facility|classroom|laborator|library|dormitory|cafeteria|sports|medical|internet|maintenance|map/.test(f)) {
+    return "Facilities & infrastructure";
+  }
+
+  if (moduleId === "identity") return "Institutional identity";
+  if (moduleId === "governance") return "Leadership & administration";
+  if (moduleId === "accreditation") return "Registration & recognition";
+  if (moduleId === "welfare") return "Student support services";
+  if (moduleId === "risk") return "Safety & continuity";
+  if (moduleId === "documents") return "Institutional document register";
+
+  return "General institutional information";
+}
+
+function profileFieldType(field) {
+  const f = field.toLowerCase();
+
+  if (/email/.test(f)) return "email";
+  if (/website|url|link/.test(f)) return "url";
+  if (/telephone|phone/.test(f)) return "tel";
+
+  if (/date|expiry|renewal/.test(f)) return "date";
+
+  if (/total|count|capacity|year established|rate \(%\)|budget/.test(f)) {
+    return "number";
+  }
+
+  if (/vision|mission|history|description|values|policies|procedures|records|directory|requirements|reports|plans|structure|inventory|publications|projects|programmes offered|courses|subjects|faculties|departments|partners|announcements|news|achievements|milestones|emergency|calendar|handbook|minutes|correspondence|services|facilities|research output|funding sources|social media|languages|responsibilities/.test(f)) {
+    return "textarea";
+  }
+
+  return "text";
+}
+
+function profileFieldOptions(field) {
+  const f = field.toLowerCase();
+
+  if (f === "institution type") {
+    return ["Primary school", "Secondary school", "TVET institution", "College", "University", "Training centre", "Other"];
+  }
+
+  if (f === "ownership type") {
+    return ["Public", "Private", "Faith-based", "Community", "NGO", "Other"];
+  }
+
+  if (f.includes("accreditation status")) {
+    return ["Accredited", "Provisionally accredited", "Pending", "Expired", "Suspended", "Not applicable"];
+  }
+
+  if (f.includes("employment categor")) {
+    return ["Permanent", "Contract", "Part-time", "Temporary", "Volunteer", "Other"];
+  }
+
+  return null;
+}
+
+function renderProfileField(field, value, index, moduleId) {
+  const id = "profileField" + index;
+  const type = profileFieldType(field);
+  const options = profileFieldOptions(field);
+  const safeField = escapeClassText(field);
+  const safeValue = escapeClassText(value);
+
+  let control = "";
+
+  if (options) {
+    const optionList = options.map(option =>
+      `<option value="${escapeClassText(option)}"
+        ${value === option ? "selected" : ""}>
+        ${escapeClassText(option)}
+      </option>`
+    ).join("");
+
+    const customOption = value && !options.includes(value)
+      ? `<option value="${safeValue}" selected>${safeValue}</option>`
+      : "";
+
+    control = `
+      <select id="${id}" data-profile-field="${safeField}">
+        <option value="">Select an option</option>
+        ${customOption}
+        ${optionList}
+      </select>
+    `;
+  } else if (type === "textarea") {
+    control = `
+      <textarea
+        id="${id}"
+        data-profile-field="${safeField}"
+        placeholder="Enter ${escapeClassText(field.toLowerCase())}..."
+      >${safeValue}</textarea>
+    `;
+  } else {
+    let inputType = type;
+
+    // Preserve older values that may not use ISO date or numeric formats.
+    if (type === "date" && value && !/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+      inputType = "text";
+    }
+
+    if (type === "number" && value && !/^-?\d+(\.\d+)?$/.test(value)) {
+      inputType = "text";
+    }
+
+    control = `
+      <input
+        id="${id}"
+        type="${inputType}"
+        data-profile-field="${safeField}"
+        value="${safeValue}"
+        placeholder="Enter ${escapeClassText(field.toLowerCase())}..."
+        ${type === "number" && inputType === "number" ? 'step="any"' : ""}
+      >
+    `;
+  }
+
+  let hint = "Enter the official information for this institution.";
+
+  if (type === "textarea") {
+    hint = "You can include multiple entries or detailed information.";
+  } else if (type === "date") {
+    hint = "Use the date shown on the official institutional record.";
+  } else if (type === "number") {
+    hint = "Enter a numeric value where applicable.";
+  } else if (type === "url") {
+    hint = "Include the complete web address.";
+  }
+
+  return `
+    <div class="profile-field">
+      <label for="${id}">${safeField}</label>
+      ${control}
+      <small>${hint}</small>
+    </div>
+  `;
+}
+
 function openProfileModule(moduleId) {
   const module = profileModules.find(item => item.id === moduleId);
   if (!module) return;
 
   activeProfileModule = moduleId;
 
-  document.getElementById("profileIndexView").hidden = true;
+  profileWorkspace.classList.add("module-open");
   profileEditor.hidden = false;
 
   document.getElementById("profileEditorTitle").textContent =
     module.icon + "  " + module.title;
 
   document.getElementById("profileEditorDescription").textContent =
-    module.description + " · Manage and update this section.";
+    module.description +
+    " · Institutional information and management workspace";
+
+  const saved = schoolProfileData[moduleId] || {};
+
+  const groupedFields = {};
+
+  module.fields.forEach((field, index) => {
+    const group = profileFieldGroup(moduleId, field);
+
+    if (!groupedFields[group]) groupedFields[group] = [];
+
+    groupedFields[group].push({field, index});
+  });
+
+  const completed = module.fields.filter(field =>
+    String(saved[field] || "").trim()
+  ).length;
 
   document.getElementById("profileFields").innerHTML =
-    module.fields.map((field, index) => {
-      const value = schoolProfileData[moduleId]?.[field] || "";
-      const type = getProfileFieldType(field);
-      const id = "profileField" + index;
-
-      const control = isLongProfileField(field)
-        ? `<textarea
-             id="${id}"
-             data-profile-field="${escapeClassText(field)}"
-             placeholder="Enter ${escapeClassText(field.toLowerCase())}..."
-           >${escapeClassText(value)}</textarea>`
-        : `<input
-             id="${id}"
-             type="${type}"
-             ${type === "number" ? 'min="0" step="any"' : ""}
-             data-profile-field="${escapeClassText(field)}"
-             value="${escapeClassText(value)}"
-             placeholder="Enter ${escapeClassText(field.toLowerCase())}..."
-           >`;
-
-      return `
-        <div>
-          <label for="${id}">${escapeClassText(field)}</label>
-          ${control}
+    `
+      <div class="profile-workspace-summary">
+        <span>${module.fields.length} information fields</span>
+        <span>${completed} completed</span>
+        <span>${module.fields.length - completed} remaining</span>
+      </div>
+    ` +
+    Object.entries(groupedFields).map(([group, fields]) => `
+      <section class="profile-field-group">
+        <h3>${escapeClassText(group)}</h3>
+        <div class="profile-fields">
+          ${fields.map(({field, index}) =>
+            renderProfileField(
+              field,
+              saved[field] || "",
+              index,
+              moduleId
+            )
+          ).join("")}
         </div>
-      `;
-    }).join("");
+      </section>
+    `).join("");
 
   document.getElementById("profileSaveMessage").textContent =
-    "Update the information below and select Save Section.";
+    "Review the information and select Save Section when finished.";
 
-  profileEditor.scrollIntoView({behavior:"smooth",block:"start"});
+  profileEditor.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
 }
 
 function closeProfileEditor() {
   profileEditor.hidden = true;
-  document.getElementById("profileIndexView").hidden = false;
+  profileWorkspace.classList.remove("module-open");
   activeProfileModule = null;
   renderProfileModules();
 
-  document.getElementById("profileIndexView").scrollIntoView({
-    behavior:"smooth",
-    block:"start"
+  profileWorkspace.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
   });
 }
 async function loadSchoolProfile() {
