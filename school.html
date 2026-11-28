@@ -1576,32 +1576,33 @@ body {
   </div>
 </section>
 
-  <section class="dashboard-grid">
-   <div class="panel">
-    <div class="panel-head"><h2>▥ &nbsp; Student Enrollment Overview</h2><select><option>This Academic Year</option></select></div>
-    <div class="chart">
-     <div class="bar" style="height:35%"><span>Jan</span></div>
-     <div class="bar" style="height:48%"><span>Feb</span></div>
-     <div class="bar" style="height:42%"><span>Mar</span></div>
-     <div class="bar" style="height:57%"><span>Apr</span></div>
-     <div class="bar" style="height:65%"><span>May</span></div>
-     <div class="bar" style="height:72%"><span>Jun</span></div>
-     <div class="bar" style="height:82%"><span>Jul</span></div>
+ 
+<div class="panel">
+  <div class="panel-head">
+    <h2>✦ Institutional Performance Snapshot</h2>
+    <span id="dashboardDataStatus">Waiting for school data</span>
+  </div>
+  <div class="quick-grid">
+    <div class="quick">
+      <span>♧</span>
+      <strong id="dashboardLearnerTile">—</strong>
+      Enrolled learners
     </div>
-    <p style="font-size:11px;color:#8996a8">Enrollment analytics will appear when school records are connected.</p>
-   </div>
-   <div class="panel">
-    <div class="panel-head"><h2>✦ &nbsp; Quick Actions</h2></div>
-    <div class="quick-grid">
-     <button class="quick" data-page="Staff & Teachers"><span>♙+</span>Register Teacher</button>
-     <button class="quick" data-page="Students"><span>♧+</span>Enroll Student</button>
-     <button class="quick" data-page="Classes & Streams"><span>▱</span>Create Class</button>
-     <button class="quick" data-page="Examinations & Assessments"><span>▤</span>Create Assessment</button>
-     <button class="quick" data-page="Learning Resources"><span>⇧</span>Upload Resource</button>
-     <button class="quick" data-page="Communication"><span>⚑</span>Send Announcement</button>
+    <div class="quick">
+      <span>▦</span>
+      <strong id="dashboardClassTile">—</strong>
+      Active classes
     </div>
-   </div>
-  </section>
+    <div class="quick">
+      <span>🏅</span>
+      <strong id="dashboardProfileTile">0%</strong>
+      Profile readiness
+    </div>
+  </div>
+  <p style="font-size:11px;color:#8996a8">
+    Indicators update from the school's saved records. Unavailable data is not estimated.
+  </p>
+</div>
 
   <section class="lower-grid">
    <div class="panel">
