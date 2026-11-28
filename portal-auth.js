@@ -324,7 +324,7 @@ let displayName = "";
 if (portal === "school") {
   const { data, error } = await supabase
     .from("schools")
-    .select("id, school_name, email, location, logo_url, status")
+    .select("id, school_name, email, location, logo_url, status, profile_data")
     .eq("owner_id", user.id)
     .eq("status", "active")
     .maybeSingle();
