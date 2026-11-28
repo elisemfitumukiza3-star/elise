@@ -3170,14 +3170,16 @@ function renderStaffDistribution(staff) {
 async function loadSchoolAnalytics() {
   const status = document.getElementById("dashboardDataStatus");
 
+  const setStatus = message => {
+    if (status) status.textContent = message;
+  };
   if (!schoolPortalSupabase || !schoolPortalRecord?.id ||
       schoolPortalRecord.owner_access) {
-    status.textContent = "Connect an approved school account";
+    setStatus("Connect an approved school account");
     return;
   }
 
-  status.textContent = "Updating live records...";
-
+setStatus("Updating live records...");
   const [classesResult, learnersResult] = await Promise.all([
     schoolPortalSupabase
       .from("school_classes")
@@ -3243,11 +3245,11 @@ if (!staffResult.error) {
     </div>
   `).join("");
 
-  status.textContent =
-    classesResult.error || learnersResult.error
-      ? "Some records could not be loaded"
-      : "Live records updated";
-
+ setStatus(
+  classesResult.error || learnersResult.error
+    ? "Some records could not be loaded"
+    : "Live records updated"
+);
   const profileValue =
     document.getElementById("profileCompletion")?.textContent || "0%";
 
