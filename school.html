@@ -1382,6 +1382,117 @@ body {
 #schoolProfileWorkspace.module-open .profile-actions {
   border-top: 1px solid #344a66 !important;
 }
+
+/* Guided one-question-at-a-time School Profile */
+#schoolProfileWorkspace #profileFields {
+  display: block;
+}
+
+#schoolProfileWorkspace .profile-question-progress {
+  margin: 10px 0 28px;
+}
+
+#schoolProfileWorkspace .profile-question-progress-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: #b9c9df;
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+#schoolProfileWorkspace .profile-question-track {
+  height: 8px;
+  background: #263a55;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+#schoolProfileWorkspace .profile-question-track span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #35b8e8, #57d4bd);
+  border-radius: inherit;
+  transition: width .25s ease;
+}
+
+#schoolProfileWorkspace .profile-question-card {
+  min-height: 290px;
+  padding: 28px;
+  background: #172840;
+  border: 1px solid #344a66;
+  border-radius: 14px;
+}
+
+#schoolProfileWorkspace .profile-question-number {
+  color: #42c5ed;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  margin-bottom: 17px;
+}
+
+#schoolProfileWorkspace .profile-question-card h3 {
+  color: #f3f7ff;
+  font-size: 22px;
+  line-height: 1.4;
+  margin: 0 0 12px;
+}
+
+#schoolProfileWorkspace .profile-question-card .profile-field {
+  margin-top: 25px;
+}
+
+#schoolProfileWorkspace .profile-question-card .profile-field input,
+#schoolProfileWorkspace .profile-question-card .profile-field select,
+#schoolProfileWorkspace .profile-question-card .profile-field textarea {
+  width: 100%;
+  min-height: 54px;
+  background: #111f34 !important;
+  color: #f2f7ff !important;
+  border: 1px solid #405773 !important;
+  border-radius: 9px;
+  padding: 14px;
+}
+
+#schoolProfileWorkspace .profile-question-card .profile-field textarea {
+  min-height: 150px;
+}
+
+#schoolProfileWorkspace .profile-question-card .profile-field label {
+  color: #dce8f8 !important;
+  font-size: 13px;
+}
+
+#schoolProfileWorkspace .profile-question-card .profile-field small {
+  color: #9aabc3 !important;
+}
+
+#schoolProfileWorkspace .profile-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+#schoolProfileWorkspace .profile-actions button:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
+
+@media(max-width:600px) {
+  #schoolProfileWorkspace .profile-question-card {
+    padding: 19px;
+  }
+
+  #schoolProfileWorkspace .profile-question-card h3 {
+    font-size: 19px;
+  }
+
+  #schoolProfileWorkspace .profile-actions button {
+    flex: 1 1 100%;
+  }
+}
  
 </style>
 </head>
@@ -1569,14 +1680,21 @@ body {
     <form id="profileForm">
       <div id="profileFields" class="profile-fields"></div>
 
-      <div class="profile-actions">
-        <button class="primary-btn" type="submit" id="saveProfileButton">
-          Save Section
-        </button>
-        <button class="primary-btn" type="button" id="cancelProfileEdit">
-          Cancel
-        </button>
-      </div>
+     
+<div class="profile-actions">
+  <button class="primary-btn" type="button" id="profilePreviousButton">
+    ← Previous
+  </button>
+
+  <button class="primary-btn" type="submit" id="saveProfileButton">
+    Save & Continue →
+  </button>
+
+  <button class="primary-btn" type="button" id="profileSaveExitButton">
+    Save & Exit
+  </button>
+</div>
+
     </form>
 
     <div id="profileSaveMessage" class="profile-message" role="status">
@@ -2195,28 +2313,190 @@ function openProfileEditor(moduleId) {
   });
 }
 
+let profileQuestionIndex = 0;
+
+function renderProfileQuestion() {
+  const module = profileModules.find(
+    item => item.id === activeProfileModule
+  );
+  if (!module) return;
+
+  const saved = schoolProfileData[module.id] || {};
+  const total = module.fields.length;
+  const index = Math.min(profileQuestionIndex, total - 1);
+  const field = module.fields[index];
+  const completed = module.fields.filter(item =>
+    String(saved[item] || "").trim()
+  ).length;
+
+  const percent = Math.round(((index + 1) / total) * 100);
+
+  document.getElementById("profileFields").innerHTML = `
+    <div class="profile-question-progress">
+      <div class="profile-question-progress-top">
+        <span>${escapeClassText(module.title)}</span>
+        <strong>Question ${index + 1} of ${total}</strong>
+      </div>
+      <div class="profile-question-track">
+        <span style="width:${percent}%"></span>
+      </div>
+    </div>
+
+    <div class="profile-question-card">
+      <div class="profile-question-number">
+        QUESTION ${String(index + 1).padStart(2, "0")}
+      </div>
+
+      <h3>${escapeClassText(field)}</h3>
+
+      <p style="color:#aebfd5;font-size:13px;line-height:1.6">
+        Please provide the official information for your institution.
+        You can save your progress and return later.
+      </p>
+
+      ${renderProfileField(field, saved[field] || "", index, module.id)}
+    </div>
+
+    <div class="profile-workspace-summary">
+      <span>${completed} answers completed</span>
+      <span>${total - completed} answers remaining</span>
+    </div>
+  `;
+
+  document.getElementById("profilePreviousButton").disabled =
+    index === 0;
+
+  document.getElementById("saveProfileButton").textContent =
+    index === total - 1 ? "Finish Section ✓" : "Save & Continue →";
+
+  document.getElementById("profileSaveMessage").textContent =
+    "Your progress is saved as you move through the questions.";
+}
+
 function openProfileModule(moduleId) {
   const module = profileModules.find(item => item.id === moduleId);
   if (!module) return;
 
-  if (profileFilledFields(module).length) {
-    renderProfileModuleView(moduleId);
+  activeProfileModule = moduleId;
+
+  const savedProgress = schoolProfileData._profileProgress || {};
+
+  if (savedProgress.moduleId === moduleId &&
+      Number.isInteger(savedProgress.index) &&
+      savedProgress.index >= 0 &&
+      savedProgress.index < module.fields.length) {
+    profileQuestionIndex = savedProgress.index;
   } else {
-    openProfileEditor(moduleId);
+    const firstUnanswered = module.fields.findIndex(field =>
+      !String(schoolProfileData[moduleId]?.[field] || "").trim()
+    );
+
+    profileQuestionIndex =
+      firstUnanswered >= 0 ? firstUnanswered : 0;
   }
+
+  profileWorkspace.classList.add("module-open");
+  profileEditor.hidden = false;
+
+  document.getElementById("profileEditorTitle").textContent =
+    module.icon + "  " + module.title;
+
+  document.getElementById("profileEditorDescription").textContent =
+    module.description +
+    " · Complete one question at a time. Your progress can be resumed later.";
+
+  renderProfileQuestion();
+
+  profileEditor.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+}
+
+async function saveProfileStep(nextIndex) {
+  if (!schoolPortalSupabase || !schoolPortalRecord?.id ||
+      schoolPortalRecord.owner_access) {
+    document.getElementById("profileSaveMessage").textContent =
+      "Permanent saving requires a real approved school account. Owner testing preview cannot save progress.";
+    return false;
+  }
+
+  const module = profileModules.find(
+    item => item.id === activeProfileModule
+  );
+  if (!module) return false;
+
+  const currentField = module.fields[profileQuestionIndex];
+  const input = profileForm.querySelector("[data-profile-field]");
+
+  const updatedModule = {
+    ...(schoolProfileData[module.id] || {})
+  };
+
+  if (input && currentField) {
+    updatedModule[currentField] = input.value.trim();
+  }
+
+  const nextData = {
+    ...schoolProfileData,
+    [module.id]: updatedModule,
+    _profileProgress: {
+      moduleId: module.id,
+      index: Math.max(0, Math.min(nextIndex, module.fields.length)),
+      updatedAt: new Date().toISOString()
+    }
+  };
+
+  const saveButton = document.getElementById("saveProfileButton");
+  const previousButton = document.getElementById("profilePreviousButton");
+  const exitButton = document.getElementById("profileSaveExitButton");
+
+  saveButton.disabled = true;
+  previousButton.disabled = true;
+  exitButton.disabled = true;
+  saveButton.textContent = "Saving...";
+
+  const { error } = await schoolPortalSupabase
+    .from("schools")
+    .update({ profile_data: nextData })
+    .eq("id", schoolPortalRecord.id);
+
+  saveButton.disabled = false;
+  previousButton.disabled = false;
+  exitButton.disabled = false;
+
+  if (error) {
+    saveButton.textContent =
+      profileQuestionIndex === module.fields.length - 1
+        ? "Finish Section ✓"
+        : "Save & Continue →";
+
+    document.getElementById("profileSaveMessage").textContent =
+      "Could not save your progress: " + error.message;
+
+    return false;
+  }
+
+  schoolProfileData = nextData;
+  renderProfileStatistics();
+  renderProfileModules();
+
+  document.getElementById("profileSaveMessage").textContent =
+    "Answer saved successfully. Your progress is stored.";
+
+  return true;
 }
 
 function closeProfileEditor() {
   profileEditor.hidden = true;
-  profileForm.hidden = false;
-  document.getElementById("profileReadView").hidden = true;
-  document.getElementById("profileIndexView").hidden = false;
-
   profileWorkspace.classList.remove("module-open");
   activeProfileModule = null;
-
   renderProfileModules();
-  renderProfileStatistics();
+
+  profileWorkspace.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
 }
 
 async function loadSchoolProfile() {
@@ -2229,10 +2509,11 @@ async function loadSchoolProfile() {
 
     document.getElementById("profileSaveMessage").textContent =
       "Owner testing preview: a real approved school record is required for permanent database saving.";
+
     return;
   }
 
-  const {data, error} = await schoolPortalSupabase
+  const { data, error } = await schoolPortalSupabase
     .from("schools")
     .select("profile_data")
     .eq("id", schoolPortalRecord.id)
@@ -2248,6 +2529,14 @@ async function loadSchoolProfile() {
 
   renderProfileModules();
   renderProfileStatistics();
+
+  const progress = schoolProfileData._profileProgress;
+  if (progress?.moduleId &&
+      profileModules.some(item => item.id === progress.moduleId)) {
+    openProfileModule(progress.moduleId);
+    document.getElementById("profileSaveMessage").textContent =
+      "Welcome back. Your previous progress has been restored.";
+  }
 }
 
 profileGrid.addEventListener("click", event => {
@@ -2258,83 +2547,72 @@ profileGrid.addEventListener("click", event => {
 profileForm.addEventListener("submit", async event => {
   event.preventDefault();
 
-  if (!schoolPortalSupabase || !schoolPortalRecord?.id ||
-      schoolPortalRecord.owner_access) {
-    document.getElementById("profileSaveMessage").textContent =
-      "Permanent saving requires a real approved school account.";
-    return;
-  }
-
   const module = profileModules.find(
     item => item.id === activeProfileModule
   );
   if (!module) return;
 
-  const updated = {};
+  const nextIndex = profileQuestionIndex + 1;
+  const saved = await saveProfileStep(nextIndex);
 
-  profileForm.querySelectorAll("[data-profile-field]").forEach(field => {
-    updated[field.dataset.profileField] = field.value.trim();
-  });
+  if (!saved) return;
 
-  const nextData = {
-    ...schoolProfileData,
-    [activeProfileModule]: updated
-  };
-
-  const audit = Array.isArray(nextData._audit)
-    ? nextData._audit
-    : [];
-
-  audit.push({
-    section: module.title,
-    date: new Date().toLocaleString()
-  });
-
-  nextData._audit = audit.slice(-100);
-
-  const saveButton = document.getElementById("saveProfileButton");
-  saveButton.disabled = true;
-  saveButton.textContent = "Saving...";
-
-  const {error} = await schoolPortalSupabase
-    .from("schools")
-    .update({profile_data: nextData})
-    .eq("id", schoolPortalRecord.id);
-
-  saveButton.disabled = false;
-  saveButton.textContent = "Save Section";
-
-  if (error) {
+  if (nextIndex >= module.fields.length) {
     document.getElementById("profileSaveMessage").textContent =
-      "Save failed: " + error.message;
+      module.title + " completed successfully.";
+
+    closeProfileEditor();
     return;
   }
 
-  schoolProfileData = nextData;
-
-  renderProfileModules();
-  renderProfileStatistics();
-  renderProfileModuleView(activeProfileModule);
+  profileQuestionIndex = nextIndex;
+  renderProfileQuestion();
 });
 
+document.getElementById("profilePreviousButton")
+  .addEventListener("click", async () => {
+    if (profileQuestionIndex <= 0) return;
+
+    const saved = await saveProfileStep(profileQuestionIndex - 1);
+    if (!saved) return;
+
+    profileQuestionIndex--;
+    renderProfileQuestion();
+  });
+
+document.getElementById("profileSaveExitButton")
+  .addEventListener("click", async () => {
+    const input = profileForm.querySelector("[data-profile-field]");
+    const hasAnswer = input && input.value.trim();
+
+    const nextIndex = hasAnswer
+      ? profileQuestionIndex + 1
+      : profileQuestionIndex;
+
+    const saved = await saveProfileStep(nextIndex);
+    if (!saved) return;
+
+    closeProfileEditor();
+  });
+
 document.getElementById("closeProfileEditor")
-  .addEventListener("click", closeProfileEditor);
+  .addEventListener("click", async () => {
+    const input = profileForm.querySelector("[data-profile-field]");
+
+    if (input && input.value.trim()) {
+      const saved = await saveProfileStep(profileQuestionIndex + 1);
+      if (!saved) return;
+    }
+
+    closeProfileEditor();
+  });
 
 document.getElementById("cancelProfileEdit")
-  .addEventListener("click", () => {
-    const module = profileModules.find(
-      item => item.id === activeProfileModule
-    );
-
-    if (module && profileFilledFields(module).length) {
-      renderProfileModuleView(module.id);
-    } else {
-      closeProfileEditor();
-    }
-  });
+  .addEventListener("click", closeProfileEditor);
 
 document.getElementById("refreshSchoolProfile")
   .addEventListener("click", loadSchoolProfile);
+
 
 function setClassMessage(message) {
   classMessage.textContent = message;
