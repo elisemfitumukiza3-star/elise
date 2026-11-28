@@ -1415,7 +1415,7 @@ async function loadMySchool() {
   const schoolCards = await Promise.all(enrollments.map(async enrollment => {
     const [schoolResult, classResult] = await Promise.all([
       supabase.from("schools")
-        .select("id,school_name,location")
+       .select("id,school_name,location,profile_data")
         .eq("id", enrollment.school_id)
         .maybeSingle(),
 
