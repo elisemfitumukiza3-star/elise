@@ -350,7 +350,7 @@ button{cursor:pointer}
         <h2 id="profileEditorTitle">Institutional Information</h2>
         <p id="profileEditorDescription"></p>
       </div>
-      <button class="primary-btn" id="closeProfileEditor">Close</button>
+      <button class="primary-btn" id="closeProfileEditor">← Back to Profile Centre</button>
     </div>
 
     <form id="profileForm">
@@ -611,40 +611,88 @@ function renderProfileStatistics() {
       : "No profile changes recorded yet.";
 }
 
+function getProfileFieldType(field) {
+  const name = field.toLowerCase();
+
+  if (name.includes("email")) return "email";
+  if (name.includes("website") || name.includes("url") ||
+      name.includes("link")) return "url";
+  if (name.includes("telephone") || name.includes("phone")) return "tel";
+  if (name.includes("date") || name.includes("expiry") ||
+      name.includes("renewal")) return "date";
+
+  if (name.includes("total") || name.includes("count") ||
+      name.includes("capacity") || name.includes("year established") ||
+      name.includes("rate (%)")) return "number";
+
+  return "text";
+}
+
+function isLongProfileField(field) {
+  return /history|description|vision|mission|values|policies|records|procedures|requirements|responsibilities|directory|notes|plans|reports|structure|inventory|calendar/i.test(field);
+}
+
 function openProfileModule(moduleId) {
   const module = profileModules.find(item => item.id === moduleId);
   if (!module) return;
 
   activeProfileModule = moduleId;
+
+  document.getElementById("profileIndexView").hidden = true;
   profileEditor.hidden = false;
 
   document.getElementById("profileEditorTitle").textContent =
-    module.title;
+    module.icon + "  " + module.title;
 
   document.getElementById("profileEditorDescription").textContent =
-    module.description;
+    module.description + " · Manage and update this section.";
 
   document.getElementById("profileFields").innerHTML =
-    module.fields.map((field,index) => `
-      <div>
-        <label for="profileField${index}">
-          ${escapeClassText(field)}
-        </label>
-        <textarea
-          id="profileField${index}"
-          data-profile-field="${escapeClassText(field)}"
-          placeholder="Enter ${escapeClassText(field.toLowerCase())}..."
-        >${escapeClassText(schoolProfileData[moduleId]?.[field] || "")}</textarea>
-      </div>
-    `).join("");
+    module.fields.map((field, index) => {
+      const value = schoolProfileData[moduleId]?.[field] || "";
+      const type = getProfileFieldType(field);
+      const id = "profileField" + index;
 
-  renderProfileModules();
+      const control = isLongProfileField(field)
+        ? `<textarea
+             id="${id}"
+             data-profile-field="${escapeClassText(field)}"
+             placeholder="Enter ${escapeClassText(field.toLowerCase())}..."
+           >${escapeClassText(value)}</textarea>`
+        : `<input
+             id="${id}"
+             type="${type}"
+             ${type === "number" ? 'min="0" step="any"' : ""}
+             data-profile-field="${escapeClassText(field)}"
+             value="${escapeClassText(value)}"
+             placeholder="Enter ${escapeClassText(field.toLowerCase())}..."
+           >`;
+
+      return `
+        <div>
+          <label for="${id}">${escapeClassText(field)}</label>
+          ${control}
+        </div>
+      `;
+    }).join("");
+
   document.getElementById("profileSaveMessage").textContent =
-    "Changes are saved only after selecting Save Section.";
+    "Update the information below and select Save Section.";
 
   profileEditor.scrollIntoView({behavior:"smooth",block:"start"});
 }
 
+function closeProfileEditor() {
+  profileEditor.hidden = true;
+  document.getElementById("profileIndexView").hidden = false;
+  activeProfileModule = null;
+  renderProfileModules();
+
+  document.getElementById("profileIndexView").scrollIntoView({
+    behavior:"smooth",
+    block:"start"
+  });
+}
 async function loadSchoolProfile() {
   if (!schoolPortalRecord?.id) return;
 
