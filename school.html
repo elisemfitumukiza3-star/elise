@@ -1095,6 +1095,102 @@ body {
   }
 }
 
+/* Institutional readiness cards — no graphs */
+
+#profileStatistics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 15px;
+}
+
+.profile-insight-card {
+  position: relative;
+  overflow: hidden;
+  min-width: 0;
+  padding: 21px;
+  min-height: 165px;
+  border-radius: 13px;
+  border: 1px solid #ffffff16;
+  background: linear-gradient(140deg,#203c5b,#172b44);
+  color: white;
+}
+
+.profile-insight-card:nth-child(3n+2) {
+  background: linear-gradient(140deg,#42365f,#292d49);
+}
+
+.profile-insight-card:nth-child(3n) {
+  background: linear-gradient(140deg,#16544f,#193c48);
+}
+
+.profile-insight-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.profile-insight-icon {
+  width: 43px;
+  height: 43px;
+  border-radius: 11px;
+  display: grid;
+  place-items: center;
+  background: #ffffff20;
+  font-size: 21px;
+}
+
+.profile-insight-status {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 6px 9px;
+  border-radius: 20px;
+  background: #ffffff20;
+  color: #e8f5ff;
+}
+
+.profile-insight-card h3 {
+  color: #fff;
+  font-size: 13px;
+  margin: 17px 0 7px;
+}
+
+.profile-insight-number {
+  color: #fff;
+  font-size: 29px;
+  font-weight: 850;
+  letter-spacing: -1px;
+}
+
+.profile-insight-detail {
+  color: #c3d1e4;
+  font-size: 11px;
+  margin-top: 5px;
+}
+
+.profile-insight-card::after {
+  content: "";
+  position: absolute;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 17px solid #ffffff09;
+  right: -35px;
+  bottom: -40px;
+}
+
+@media(max-width:900px) {
+  #profileStatistics {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+  }
+}
+
+@media(max-width:550px) {
+  #profileStatistics {
+    grid-template-columns: 1fr;
+  }
+}
+
 </style>
 </head>
 <body>
