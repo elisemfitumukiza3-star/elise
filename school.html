@@ -1757,6 +1757,118 @@ body {
   }
 }
   
+.staff-overview {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:15px;
+  margin:20px 0;
+}
+
+.staff-stat {
+  padding:21px;
+  border:1px solid #ffffff16;
+  border-radius:13px;
+  background:linear-gradient(145deg,#203c5b,#172b44);
+}
+
+.staff-stat:nth-child(2) {
+  background:linear-gradient(145deg,#42365f,#292d49);
+}
+
+.staff-stat:nth-child(3) {
+  background:linear-gradient(145deg,#16544f,#193c48);
+}
+
+.staff-stat:nth-child(4) {
+  background:linear-gradient(145deg,#70405d,#42334e);
+}
+
+.staff-stat span,
+.staff-stat small {
+  display:block;
+  color:#c3d1e4;
+  font-size:12px;
+}
+
+.staff-stat strong {
+  display:block;
+  color:#fff;
+  font-size:30px;
+  margin:12px 0 6px;
+}
+
+.staff-directory-panel {
+  margin-top:18px;
+}
+
+.staff-directory-tools {
+  display:grid;
+  grid-template-columns:1fr 230px;
+  gap:12px;
+  margin:18px 0;
+}
+
+.staff-directory-tools input,
+.staff-directory-tools select {
+  width:100%;
+  min-width:0;
+  padding:13px 14px;
+  border:1px solid #3b506c;
+  border-radius:9px;
+  background:#111f34;
+  color:#f2f7ff;
+}
+
+.staff-record {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  padding:16px;
+  margin:10px 0;
+  background:#192840;
+  border:1px solid #344a66;
+  border-radius:11px;
+}
+
+.staff-record strong {
+  display:block;
+  color:#fff;
+  font-size:14px;
+}
+
+.staff-record small {
+  display:block;
+  margin-top:5px;
+  color:#a9bad0;
+  font-size:11px;
+}
+
+.staff-record-status {
+  padding:7px 10px;
+  border-radius:20px;
+  background:#176b59;
+  color:#e6fff7;
+  font-size:10px;
+  white-space:nowrap;
+}
+
+@media(max-width:800px) {
+  .staff-overview {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+@media(max-width:550px) {
+  .staff-directory-tools {
+    grid-template-columns:1fr;
+  }
+  .staff-record {
+    align-items:flex-start;
+    flex-direction:column;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1908,6 +2020,67 @@ body {
    </div>
   </section>
    </section>
+   
+<section id="staffWorkspace" class="workspace-section">
+  <div class="workspace-heading">
+    <div>
+      <h1>Staff & Teachers</h1>
+      <p>Manage your school's teaching and non-teaching workforce.</p>
+    </div>
+    <button class="primary-btn" id="refreshStaffDirectory">↻ Refresh</button>
+  </div>
+
+  <div class="staff-overview">
+    <div class="staff-stat">
+      <span>Total workforce</span>
+      <strong id="staffTotalCount">—</strong>
+      <small>Registered employees</small>
+    </div>
+    <div class="staff-stat">
+      <span>Teaching staff</span>
+      <strong id="staffTeacherCount">—</strong>
+      <small>Teachers and educators</small>
+    </div>
+    <div class="staff-stat">
+      <span>Administrative</span>
+      <strong id="staffAdminCount">—</strong>
+      <small>Administrative employees</small>
+    </div>
+    <div class="staff-stat">
+      <span>Support staff</span>
+      <strong id="staffSupportCount">—</strong>
+      <small>Other support roles</small>
+    </div>
+  </div>
+
+  <div class="panel staff-directory-panel">
+    <div class="panel-head">
+      <div>
+        <h2>Employee Directory</h2>
+        <p>School staff records connected to your institution.</p>
+      </div>
+      <span id="staffDirectoryCount">0 employees</span>
+    </div>
+
+    <div class="staff-directory-tools">
+      <input id="staffSearch" type="search"
+        placeholder="Search by employee name or position...">
+      <select id="staffRoleFilter">
+        <option value="all">All staff categories</option>
+        <option value="teaching">Teaching staff</option>
+        <option value="administrative">Administrative staff</option>
+        <option value="support">Support staff</option>
+        <option value="other">Other staff</option>
+      </select>
+    </div>
+
+    <div id="staffDirectoryMessage" class="workspace-message">
+      Loading staff records...
+    </div>
+    <div id="staffDirectoryList"></div>
+  </div>
+</section>
+
 <section id="classesWorkspace" class="workspace-section">
   <div class="workspace-heading">
     <div>
@@ -3231,6 +3404,124 @@ function renderStaffDistribution(staff) {
       ? `Distribution calculated from ${total} actual school staff records.`
       : "No staff have been registered yet. The chart will fill automatically as staff records are added.";
 }
+
+let schoolStaffCache = [];
+
+function staffCategory(position) {
+  const role = (position || "").toLowerCase();
+
+  if (/teacher|teaching|lecturer|tutor/.test(role))
+    return "teaching";
+
+  if (/admin|secretary|accountant|bursar|manager/.test(role))
+    return "administrative";
+
+  if (/support|cleaner|security|driver|cook|maintenance|librarian/.test(role))
+    return "support";
+
+  return "other";
+}
+
+function renderStaffDirectory() {
+  const search = (
+    document.getElementById("staffSearch")?.value || ""
+  ).trim().toLowerCase();
+
+  const category =
+    document.getElementById("staffRoleFilter")?.value || "all";
+
+  const filtered = schoolStaffCache.filter(person => {
+    const matchesSearch =
+      `${person.full_name || ""} ${person.position || ""}`
+        .toLowerCase().includes(search);
+
+    const matchesCategory =
+      category === "all" || staffCategory(person.position) === category;
+
+    return matchesSearch && matchesCategory;
+  });
+
+  const list = document.getElementById("staffDirectoryList");
+  const message = document.getElementById("staffDirectoryMessage");
+
+  document.getElementById("staffDirectoryCount").textContent =
+    `${filtered.length} employees`;
+
+  if (!filtered.length) {
+    list.innerHTML = "";
+    message.textContent = schoolStaffCache.length
+      ? "No employees match your search."
+      : "No staff records have been registered for this school yet.";
+    return;
+  }
+
+  message.textContent = "Showing registered school employees.";
+
+  list.innerHTML = filtered.map(person => `
+    <article class="staff-record">
+      <div>
+        <strong>${escapeClassText(person.full_name || "Unnamed employee")}</strong>
+        <small>${escapeClassText(person.position || "Position not specified")}</small>
+      </div>
+      <span class="staff-record-status">
+        ${escapeClassText(person.account_status || person.status || "Registered")}
+      </span>
+    </article>
+  `).join("");
+}
+
+async function loadStaffWorkspace() {
+  const message = document.getElementById("staffDirectoryMessage");
+
+  if (!schoolPortalSupabase || !schoolPortalRecord?.id ||
+      schoolPortalRecord.owner_access) {
+    message.textContent = "Connect an approved school account to view staff.";
+    return;
+  }
+
+  message.textContent = "Loading registered employees...";
+
+  const { data, error } = await schoolPortalSupabase
+    .from("school_staff")
+    .select("id,full_name,position,account_status,status")
+    .eq("school_id", schoolPortalRecord.id);
+
+  if (error) {
+    console.error("Staff directory error:", error);
+    message.textContent = "Could not load staff records. Check the school_staff table permissions.";
+    return;
+  }
+
+  schoolStaffCache = data || [];
+
+  const count = category =>
+    schoolStaffCache.filter(person =>
+      staffCategory(person.position) === category
+    ).length;
+
+  document.getElementById("staffTotalCount").textContent =
+    schoolStaffCache.length;
+
+  document.getElementById("staffTeacherCount").textContent =
+    count("teaching");
+
+  document.getElementById("staffAdminCount").textContent =
+    count("administrative");
+
+  document.getElementById("staffSupportCount").textContent =
+    count("support");
+
+  renderStaffDirectory();
+}
+
+document.getElementById("staffSearch")
+  ?.addEventListener("input", renderStaffDirectory);
+
+document.getElementById("staffRoleFilter")
+  ?.addEventListener("change", renderStaffDirectory);
+
+document.getElementById("refreshStaffDirectory")
+  ?.addEventListener("click", loadStaffWorkspace);
 
 async function loadSchoolAnalytics() {
   const status = document.getElementById("dashboardDataStatus");
