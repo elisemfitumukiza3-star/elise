@@ -992,7 +992,14 @@ document.querySelectorAll("[data-page]").forEach(button => {
     }
   });
 });
-
+window.addEventListener("portal:authorized", ({ detail }) => {
+  if (detail.portal !== "school") return;
+  schoolPortalSupabase = window.learnLoopPortalSupabase;
+  schoolPortalUser = detail.user;
+  schoolPortalRecord = detail.access;
+  loadSchoolProfile();
+  loadSchoolClasses();
+});
 </script>
   <script type="module" src="./portal-auth.js"></script>
 </body>
