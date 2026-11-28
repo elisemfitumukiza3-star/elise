@@ -4019,6 +4019,7 @@ function openSchoolPage(page) {
 const schoolWorkspaceTargets = {
   "Dashboard": "dashboardWorkspace",
   "School Profile": "schoolProfileWorkspace",
+    "Staff & Teachers": "staffWorkspace",
   "Classes & Streams": "classesWorkspace",
   "Reports & Analytics": "analyticsWorkspace",
   "Upgrade & Services": "upgradeWorkspace"
@@ -4037,7 +4038,6 @@ function openSchoolWorkspace(page) {
     .forEach(section => {
       section.classList.remove("active");
     });
-
   let target = document.getElementById(
     schoolWorkspaceTargets[page] || ""
   );
@@ -4068,6 +4068,7 @@ function openSchoolWorkspace(page) {
   if (page === "School Profile") loadSchoolProfile();
   if (page === "Reports & Analytics") loadSchoolAnalytics();
   if (page === "Upgrade & Services") renderUpgradeRequests();
+  if (page === "Staff & Teachers") loadStaffWorkspace();
 }
 
 document.querySelectorAll("[data-page]").forEach(button => {
