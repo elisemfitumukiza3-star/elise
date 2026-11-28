@@ -3708,9 +3708,63 @@ function openSchoolPage(page) {
   }
 }
 
+const schoolWorkspaceTargets = {
+  "Dashboard": "dashboardWorkspace",
+  "School Profile": "schoolProfileWorkspace",
+  "Classes & Streams": "classesWorkspace",
+  "Reports & Analytics": "analyticsWorkspace",
+  "Upgrade & Services": "upgradeWorkspace"
+};
+
+function openSchoolWorkspace(page) {
+  document.querySelectorAll(".nav button").forEach(button => {
+    const active = button.dataset.page === page;
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-current", active ? "page" : "false");
+  });
+
+  sidebar.classList.remove("open");
+
+  document.querySelectorAll(".content > .workspace-section")
+    .forEach(section => {
+      section.classList.remove("active");
+    });
+
+  let target = document.getElementById(
+    schoolWorkspaceTargets[page] || ""
+  );
+
+  if (!target) {
+    target = document.getElementById("schoolPagePlaceholder");
+
+    if (!target) {
+      target = document.createElement("section");
+      target.id = "schoolPagePlaceholder";
+      target.className = "workspace-section panel";
+      document.querySelector(".content").appendChild(target);
+    }
+
+    target.innerHTML = `
+      <div class="workspace-heading">
+        <h1>${escapeClassText(page)}</h1>
+      </div>
+      <div class="workspace-message">
+        This institutional workspace is being prepared.
+      </div>
+    `;
+  }
+
+  target.classList.add("active");
+
+  if (page === "Classes & Streams") loadSchoolClasses();
+  if (page === "School Profile") loadSchoolProfile();
+  if (page === "Reports & Analytics") loadSchoolAnalytics();
+  if (page === "Upgrade & Services") renderUpgradeRequests();
+}
+
 document.querySelectorAll("[data-page]").forEach(button => {
   button.addEventListener("click", () => {
-    openSchoolPage(button.dataset.page);
+    openSchoolWorkspace(button.dataset.page);
   });
 });
 window.addEventListener("portal:authorized", ({ detail }) => {
